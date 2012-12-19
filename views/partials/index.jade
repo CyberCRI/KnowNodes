@@ -1,0 +1,9 @@
+p There are {{users.length}} users
+div(ng-repeat='user in users')
+  h4 {{user.firstName}} {{user.lastName}}
+  div {{user.email}}
+  a(href='readPost/{{user.id}}') More
+  |  - 
+  a(href='editPost/{{user.id}}') Edit
+  |  - 
+  a(href='deletePost/{{user.id}}') Delete

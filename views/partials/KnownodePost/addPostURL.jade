@@ -1,0 +1,20 @@
+//
+   Created with JetBrains WebStorm.
+   User: Liad Magen
+   Date: 10/12/12
+   Time: 18:14
+   To change this template use File | Settings | File Templates.
+
+#addKnownodeStep1
+    h2 Add a new knownode article
+    p
+        label(for='title') Title:
+        input(ng-model='form.title', name='title')
+    p
+        label(for='url') URL:
+        input(ng-model='form.url', name='url')
+    p
+        label(for='bodyText') Abstract:
+        textarea(ng-model='form.bodyText', name='bodyText')
+    p
+        button(ng-click='submitPost()') Next >
