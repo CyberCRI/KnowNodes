@@ -1,0 +1,23 @@
+//
+   Created with JetBrains WebStorm.
+   User: Liad Magen
+   Date: 11/12/12
+   Time: 13:22
+   To change this template use File | Settings | File Templates.
+
+#addKnownodeStepEdge
+    h2 Add the connection
+    p
+        label(for='connectionType') Choose a type of a connection
+        select(ng-model='form.connectionType', name='connectionType)
+    p
+        label(for='title') Title:
+        input(ng-model='form.title', name='title')
+    p
+        label(for='url') URL:
+        input(ng-model='form.url', name='url')
+    p
+        label(for='bodyText') Abstract:
+        textarea(ng-model='form.bodyText', name='bodyText')
+    p
+        button(ng-click='submitPost()') Next >
