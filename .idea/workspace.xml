@@ -2,97 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="91669812-c64b-4f2f-8b4f-339870dae511" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/img/login/facebook-login-button.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/img/login/google-login-button.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/.npmignore" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/.travis.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/LICENSE" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/lib/passport-facebook/index.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/lib/passport-facebook/strategy.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/passport-oauth/.npmignore" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/passport-oauth/.travis.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/passport-oauth/LICENSE" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/passport-oauth/lib/passport-oauth/errors/internaloautherror.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/passport-oauth/lib/passport-oauth/index.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/passport-oauth/lib/passport-oauth/strategies/oauth.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/passport-oauth/lib/passport-oauth/strategies/oauth2.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/passport-oauth/lib/passport-oauth/strategies/utils.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/passport-oauth/node_modules/oauth/.npmignore" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/passport-oauth/node_modules/oauth/LICENSE" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/passport-oauth/node_modules/oauth/Makefile" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/passport-oauth/node_modules/oauth/Readme.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/passport-oauth/node_modules/oauth/examples/express-gdata/server.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/passport-oauth/node_modules/oauth/examples/express-gdata/views/google_calendars.ejs" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/passport-oauth/node_modules/oauth/examples/express-gdata/views/google_contacts.ejs" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/passport-oauth/node_modules/oauth/examples/express-gdata/views/layout.ejs" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/passport-oauth/node_modules/oauth/examples/term.ie.oauth-HMAC-SHA1.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/passport-oauth/node_modules/oauth/index.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/passport-oauth/node_modules/oauth/lib/_utils.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/passport-oauth/node_modules/oauth/lib/oauth.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/passport-oauth/node_modules/oauth/lib/oauth2.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/passport-oauth/node_modules/oauth/lib/sha1.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/passport-oauth/node_modules/oauth/package.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/passport-oauth/node_modules/oauth/tests/oauth.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/passport-oauth/node_modules/oauth/tests/oauth2.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/passport-oauth/node_modules/oauth/tests/sha1.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/passport-oauth/package.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/pkginfo/.npmignore" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/pkginfo/README.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/pkginfo/docs/docco.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/pkginfo/docs/pkginfo.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/pkginfo/examples/all-properties.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/pkginfo/examples/array-argument.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/pkginfo/examples/multiple-properties.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/pkginfo/examples/object-argument.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/pkginfo/examples/package.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/pkginfo/examples/single-property.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/pkginfo/lib/pkginfo.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/pkginfo/package.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/node_modules/pkginfo/test/pkginfo-test.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-facebook/package.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/.npmignore" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/.travis.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/LICENSE" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/lib/passport-google/index.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/lib/passport-google/strategy.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/passport-openid/.npmignore" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/passport-openid/.travis.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/passport-openid/LICENSE" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/passport-openid/lib/passport-openid/errors/badrequesterror.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/passport-openid/lib/passport-openid/errors/internalopeniderror.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/passport-openid/lib/passport-openid/index.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/passport-openid/lib/passport-openid/strategy.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/passport-openid/node_modules/openid/LICENSE" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/passport-openid/node_modules/openid/README.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/passport-openid/node_modules/openid/lib/base64.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/passport-openid/node_modules/openid/lib/convert.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/passport-openid/node_modules/openid/lib/xrds.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/passport-openid/node_modules/openid/openid.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/passport-openid/node_modules/openid/package.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/passport-openid/node_modules/openid/sample.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/passport-openid/node_modules/openid/test/openid_fast_tests.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/passport-openid/node_modules/openid/test/openid_integration_tests.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/passport-openid/node_modules/openid/test/xrds_tests.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/passport-openid/package.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/pkginfo/.npmignore" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/pkginfo/README.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/pkginfo/docs/docco.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/pkginfo/docs/pkginfo.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/pkginfo/examples/all-properties.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/pkginfo/examples/array-argument.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/pkginfo/examples/multiple-properties.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/pkginfo/examples/object-argument.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/pkginfo/examples/package.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/pkginfo/examples/single-property.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/pkginfo/lib/pkginfo.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/pkginfo/package.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/node_modules/pkginfo/test/pkginfo-test.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_modules/passport-google/package.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/routes/API.comment.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/routes/API.knownode.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/routes/API.user.coffee" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/routes/API.user.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Procfile" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
     </list>
     <list id="6670e662-0f3d-4bd9-97a5-1eeb725c166f" name="Rejected commit: Default" comment="DB - Users module&#10;css bootstrap added" />
     <ignored path="KnowNodes.iws" />
@@ -116,52 +28,7 @@
       <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="61" column="13" selection-start="1415" selection-end="1415" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="API.user.coffee" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/routes/API.user.coffee">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="39" selection-start="525" selection-end="525" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="API.user.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/routes/API.user.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="81" column="0" selection-start="2050" selection-end="2050" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="openid.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node_modules/passport-google/node_modules/passport-openid/node_modules/openid/openid.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="739" column="31" selection-start="18284" selection-end="18284" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="xrds.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node_modules/passport-google/node_modules/passport-openid/node_modules/openid/lib/xrds.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="78" column="12" selection-start="2529" selection-end="2529" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="oauth2.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/node_modules/passport-facebook/node_modules/passport-oauth/lib/passport-oauth/strategies/oauth2.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="58" column="24" selection-start="2347" selection-end="2347" vertical-scroll-proportion="0.33333334">
+            <state line="83" column="0" selection-start="2116" selection-end="2116" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -170,7 +37,25 @@
       <file leaf-file-name="passport.conf.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/config/passport.conf.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="46" column="23" selection-start="1912" selection-end="1912" vertical-scroll-proportion="0.0">
+            <state line="48" column="22" selection-start="1960" selection-end="1960" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="package.json" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/package.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="15" column="32" selection-start="366" selection-end="366" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Procfile" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Procfile">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="13" selection-start="13" selection-end="13" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -179,7 +64,7 @@
       <file leaf-file-name="index.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="2" selection-start="415" selection-end="415" vertical-scroll-proportion="0.0">
+            <state line="5" column="0" selection-start="81" selection-end="81" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -221,10 +106,7 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/DB/knownodeDB.js" />
-        <option value="$PROJECT_DIR$/views/login.jade" />
         <option value="$PROJECT_DIR$/routes/login.js" />
-        <option value="$PROJECT_DIR$/config/passport.conf.js" />
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/views/partials/login.jade" />
         <option value="$PROJECT_DIR$/views/index.jade" />
@@ -237,6 +119,9 @@
         <option value="$PROJECT_DIR$/routes/API.user.coffee" />
         <option value="$PROJECT_DIR$/routes/API.user.js" />
         <option value="$PROJECT_DIR$/node_modules/passport-google/node_modules/passport-openid/node_modules/openid/openid.js" />
+        <option value="$PROJECT_DIR$/config/passport.conf.js" />
+        <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/Procfile" />
       </list>
     </option>
   </component>
@@ -311,66 +196,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="KnowNodes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KnowNodes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KnowNodes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KnowNodes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KnowNodes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="partials" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KnowNodes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KnowNodes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="routes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KnowNodes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="KnowNodes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="config" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -528,7 +353,11 @@
       <created>1356024577870</created>
       <updated>1356024577870</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="- Added passport-facebook, passport-google&#10;- Added login page&#10;- updated file names inside route to be API.filename">
+      <created>1356025142290</created>
+      <updated>1356025142290</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <option name="createChangelist" value="false" />
     <servers />
   </component>
@@ -554,18 +383,18 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1680" height="1024" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32890365" sideWeight="0.49547374" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32890365" sideWeight="0.48581773" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32890365" sideWeight="0.49305975" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32890365" sideWeight="0.49305975" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32890365" sideWeight="0.49788776" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23717561" sideWeight="0.23698781" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23717561" sideWeight="0.6710963" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24916944" sideWeight="0.5479783" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23717561" sideWeight="0.7508306" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24916944" sideWeight="0.5359083" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23717561" sideWeight="0.33444077" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32890365" sideWeight="0.50271577" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32668883" sideWeight="0.45081472" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24916944" sideWeight="0.45986724" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32668883" sideWeight="0.43874472" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -639,50 +468,29 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="78" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/app.js</url>
+          <line>83</line>
+          <option name="timeStamp" value="82" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="83" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/views/partials/login.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="31" selection-start="56" selection-end="56" vertical-scroll-proportion="0.025817556">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/index.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="57" selection-start="235" selection-end="235" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/passport.conf.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="23" selection-start="1912" selection-end="1912" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/jugglingdb/lib/abstract-class.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="634" column="13" selection-start="18054" selection-end="18054" vertical-scroll-proportion="0.33333334">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="2" selection-start="415" selection-end="415" vertical-scroll-proportion="0.0">
+        <state line="5" column="0" selection-start="81" selection-end="81" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/jugglingdb/lib/adapters/neo4j.js">
+    <entry file="file://$PROJECT_DIR$/views/index.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="302" column="6" selection-start="9457" selection-end="9457" vertical-scroll-proportion="0.33333334">
+        <state line="10" column="57" selection-start="235" selection-end="235" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -694,65 +502,93 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/passport-facebook/node_modules/passport-oauth/node_modules/oauth/lib/_utils.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="2" selection-start="187" selection-end="187" vertical-scroll-proportion="0.07772021">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/API.knownode.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="68" column="46" selection-start="1631" selection-end="1631" vertical-scroll-proportion="0.54058725">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/passport-google/node_modules/passport-openid/lib/passport-openid/errors/badrequesterror.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="1" selection-start="229" selection-end="229" vertical-scroll-proportion="0.25906736">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="61" column="13" selection-start="1415" selection-end="1415" vertical-scroll-proportion="0.0">
+        <state line="83" column="0" selection-start="2116" selection-end="2116" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/API.user.coffee">
+    <entry file="file://$PROJECT_DIR$/config/passport.conf.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="39" selection-start="525" selection-end="525" vertical-scroll-proportion="0.0">
+        <state line="48" column="22" selection-start="1960" selection-end="1960" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/API.user.js">
+    <entry file="file://$PROJECT_DIR$/node_modules/express-resource/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="81" column="0" selection-start="2050" selection-end="2050" vertical-scroll-proportion="0.0">
+        <state line="1" column="27" selection-start="13" selection-end="29" vertical-scroll-proportion="0.023510972">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/passport-google/node_modules/passport-openid/node_modules/openid/openid.js">
+    <entry file="file://$PROJECT_DIR$/node_modules/express/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="739" column="31" selection-start="18284" selection-end="18284" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/passport-google/node_modules/passport-openid/node_modules/openid/lib/xrds.js">
+    <entry file="file://$PROJECT_DIR$/node_modules/jade/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="78" column="12" selection-start="2529" selection-end="2529" vertical-scroll-proportion="0.0">
+        <state line="3" column="20" selection-start="75" selection-end="81" vertical-scroll-proportion="0.07053292">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/passport-facebook/node_modules/passport-oauth/lib/passport-oauth/strategies/oauth2.js">
+    <entry file="file://$PROJECT_DIR$/node_modules/jugglingdb/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="24" selection-start="2347" selection-end="2347" vertical-scroll-proportion="0.33333334">
+        <state line="3" column="22" selection-start="131" selection-end="139" vertical-scroll-proportion="0.07053292">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/neo4j/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="20" selection-start="98" selection-end="104" vertical-scroll-proportion="0.07053292">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/passport/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="20" selection-start="38" selection-end="44" vertical-scroll-proportion="0.047021944">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/passport-facebook/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="28" selection-start="13" selection-end="30" vertical-scroll-proportion="0.023041476">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/passport-google/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="26" selection-start="13" selection-end="28" vertical-scroll-proportion="0.023041476">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/.bin/express">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-2.096774">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="32" selection-start="366" selection-end="366" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Procfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="13" selection-start="13" selection-end="13" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
