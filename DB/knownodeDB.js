@@ -10,7 +10,7 @@ var Schema = require('jugglingdb').Schema,
 
 
 //var schema = new Schema('neo4j', {url: 'http://localhost', port: 7474});
-var schema = new Schema('neo4j', DBData.getDBURL());
+var schema = new Schema('neo4j', DBData.getDBURL("neo4j"));
 
 function GUID ()
 {
@@ -115,10 +115,6 @@ kn_Comment.belongsTo(kn_User, {as: '__CreatedBy__', foreignKey: '__ID__'});
 kn_ConnectionType.belongsTo(kn_User, {as: '__CreatedBy__', foreignKey: '__ID__'});
 kn_ConnectionType.belongsTo(kn_Edge, {as: 'connectionType', foreignKey: '__ID__'});
 */
-
-kn_User.hasMany(kn_Post, {as: 'Posts', foreignKey: 'kn_User.__ID__' });
-
-
 
 //validations
 kn_User.validatesPresenceOf('email', 'firstName', 'lastName');
