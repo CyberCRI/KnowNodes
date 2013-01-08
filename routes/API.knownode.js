@@ -3,7 +3,8 @@
  */
 // GET
 var ExpRes = require('express-resource'),
-    DB = require('../DB/knownodeDB');
+    DB = require('../DB/knownodeDB'),
+    postDB = require('../DB/postDB');
 
 var callBack = function (res) {
     return function (err, result) {
@@ -49,35 +50,31 @@ exports.show = function (req, res) {
     }, callBack(res));
 };
 
-// POST
+// Add new knownode post
 exports.create = function (req, res) {
-    DB.User.findOne({
-        where: {
-            '__ID__': '10cc7ba9-c651-4e4c-9eb6-a1143397ceae'
-        }
-    }, function (err, user) {
-        if (err) {
-            res.json(err);
-        } else {
-            DB.Post.create(req.body, function (err, post) {
-                if (err) {
-                    res.json(err);
-                    return;
-                }
-                DB.Post.createRelationshipTo(user.id, post.id, 'createdBy', {
-                    creationDate: new Date().now()
-                }, function (err, something) {
-                    if (err) {
-                        res.json(err);
-                        return;
-                    }
-                    res.json(post);
-                });
-            });
-        }
-    });
+   //if(req.user)
+   {
+       postDB.SavePostFile(req, function(gs, article){
+           DB.Post.create(req.body, function (err, post) {
+               if (err) {
+                   res.json(err);
+                   return;
+               }
+
+               DB.Post.createRelationshipTo(user.id, post.id, 'createdBy', {
+                   creationDate: new Date().now()
+               }, function (err, something) {
+                   if (err) {
+                       res.json(err);
+                       return;
+                   }
+                   res.json(post);
+               });
+           });
+       });
+    }
     //create(req.body, callBack(res));
-};
+    };
 
 // PUT
 exports.update = function (req, res) {

@@ -48,9 +48,16 @@ var kn_User  = exports.User = schema.define('kn_User', {
     email:          { type: String, length: 255 },
     firstName:      { type: String, length: 255 },
     lastName:       { type: String, length: 255 },
+    password:       { type: String, length: 255},
     gender:         { type: String, length: 1 },
-    dateOfBirth:    { type: Date }
+    dateOfBirth:    { type: Date },
+
+    origin:         { type: String, length: 50 }
 });
+
+kn_User.prototype.displayName = function() {
+    return this.firstName + ' ' + this.lastName;
+};
 
 var kn_Tag = exports.Tag = schema.define('kn_Tag', {
     __ID__ :        { type: String, length: 36, default: GUID },
@@ -79,7 +86,8 @@ var kn_Post = exports.Post = schema.define('kn_Post', {
 
     title:          { type: String, length: 255 },
     url:            { type: String, length: 2000 },
-    bodyText:        { type: Schema.Text },
+    bodyText:       { type: Schema.Text },
+    fileId:         { type: Number },
     active:         { type: Boolean, default: true, index: true }
 });
 
@@ -97,7 +105,7 @@ var kn_Comment = exports.Comment = schema.define('kn_Comment', {
     __CreatedOn__:  { type: Date,    default: Date.now },
 
     title:          { type: String, length: 255 },
-    bodyText:        { type: Schema.Text },
+    bodyText:       { type: Schema.Text },
     active:         { type: Boolean, default: true, index: true }
 });
 
@@ -119,5 +127,6 @@ kn_ConnectionType.belongsTo(kn_Edge, {as: 'connectionType', foreignKey: '__ID__'
 //validations
 kn_User.validatesPresenceOf('email', 'firstName', 'lastName');
 kn_User.validatesUniquenessOf('email', {message: 'email is not unique'});
+//kn_User.validatesLengthOf('password', {min: 5, message: {min: 'Password is too short'}});
 
 kn_Post.validatesPresenceOf('title', 'bodyText');

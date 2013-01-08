@@ -2,21 +2,25 @@
  * GET: home page and general usages
  */
 
+function getParameters(req) {
+    return {
+        title: 'KnowNodes',
+        user: req.user,
+        userDisplayName: req.user?req.user.displayName:''
+    };
+}
+
 exports.index = function(req, res){
-  res.render('index', { title: 'KnowNodes', user: req.user });
+  res.render('index', getParameters(req));
 };
 
 exports.partialsDir = function(req, res) {
     var name = req.params.name;
     var dir = req.params.dir;
-    res.render('partials/' + dir + '/' + name);
+    res.render('partials/' + dir + '/' + name, getParameters(req));
 };
 
 exports.partials = function(req, res) {
     var name = req.params.name;
-    res.render('partials/' + name);
-};
-
-exports.login = function(req, res){
-    res.render('login', { title: 'KnowNodes', user: req.user });
+    res.render('partials/' + name, getParameters(req));
 };
