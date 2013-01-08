@@ -6,14 +6,17 @@
 
 h2 Add a new user
 p
+    label(for='email') eMail:
+    input(ng-model='form.email', name='email')
+p
+    label(for='password') password:
+    input(ng-model='form.password', name='password', type='password')
+p
     label(for='firstName') First Name:
     input(ng-model='form.firstName', name='firstName')
 p
     label(for='lastName') Last Name:
     input(ng-model='form.lastName', name='lastName')
-p
-    label(for='email') eMail:
-    input(ng-model='form.email', name='email')
 p
     label(for='dataOfBirth') Date Of Birth:
     input(ng-model='form.dataOfBirth', name='dataOfBirth', ui-date)

@@ -49,9 +49,6 @@ app.configure('production', function(){
 app.resource('API/users', require('./routes/API.user'));
 app.resource('API/knownodes', require('./routes/API.knownode'));
 
-// authentication routing
-app.get('/login', routes.login);
-
 app.get('/logout', function(req, res){
     req.logout();
     res.redirect('/');
@@ -71,7 +68,7 @@ app.get('/auth/facebook/callback',
     });
 
 app.get('/auth/google',
-    passport.authenticate('google'),
+    passport.authenticate('google', { failureRedirect: '/login' }),
     function(req, res){
         // The request will be redirected to Google for authentication, so
         // this function will not be called.

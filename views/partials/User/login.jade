@@ -1,0 +1,14 @@
+h2 Login
+p
+    label(for='email') eMail:
+    input(ng-model='loginForm.email', name='email')
+p
+    label(for='password') Password:
+    input(ng-model='loginForm.password', name='password', type='password')
+p
+    button(ng-click='performLogin()') Submit Post
+
+a(href="/auth/facebook", target='_self')
+    img(src="img/login/facebook-login-button.png", width="154", height="22")
+a(href="/auth/google", target='_self')
+    img(src="img/login/google-login-button.png", width="154", height="22")

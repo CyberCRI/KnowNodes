@@ -2,13 +2,14 @@ extends layout
 
 block content
     h1= title
-    p Hello, #{user}
+
+    a(href='/login', title="Sign in to knownodes") Login
+
     p Welcome to #{title}
+    p Hello  #{userDisplayName}
     ul
         li
             a(href='/', title="Go to the main page") Home
-        li
-            a(href='/Login', title="Sign in to knownodes") Login
         li
             a(href='/addUser') Add a new user
         li

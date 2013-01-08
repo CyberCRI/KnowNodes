@@ -78,4 +78,16 @@
         }, callBackRes);
     };
 
+    exports.destroy = function(req, res) {
+        var callBackRes, userId;
+        userId = req.params.user.substring(1);
+        callBackRes = callBack(res);
+        DB.User.find(userId, function(err, user) {
+            if(err){
+                return res.json(err);
+            }
+            return user.destroy(callBackRes);
+        });
+    };
+
 }).call(this);
