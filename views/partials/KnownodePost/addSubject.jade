@@ -1,0 +1,24 @@
+//
+   Created with JetBrains WebStorm.
+   User: Liad Magen
+   Date: 11/1/13
+   Time: 01:18
+
+#addKnownodeSubject
+    h2 Add a new subject
+    form(ng-submit='submitSubject(subjectForm)', ng-init="scope = { isDisabled: false }")
+        p
+            label(for='title') Title:
+            input(ng-model='subjectForm.title', name='title', style='width:500px', type='text', required)
+        p
+            label(for='bodyText') Abstract:
+            textarea(ng-model='subjectForm.bodyText', name='bodyText', required, style='width:500px; height:400px')
+        p
+            label(for='partner') Presented by:&nbsp;
+                span #{userDisplayName} and &nbsp;
+            input(ng-model='subjectForm.partner', name='partner', type='text', required, userAutoComplete)
+        p
+            label(for='presentationDate') Presentation Date:
+            input(ng-model='subjectForm.presentationDate', name='presentationDate', type='text', ui-date, required)
+        p
+            button(type='submit', class='btn btn-primary', ng-disabled="subjectForm.$invalid || {{scope.isDisabled}}") Add Subject

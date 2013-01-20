@@ -1,7 +1,6 @@
 /**
  * Module dependencies.
  */
-
 var express = require('express')
   , routes = require('./routes')
   , Resource = require('express-resource')
@@ -10,9 +9,8 @@ var express = require('express')
   , passportConfig = require('./config/passport.conf')
   , path = require('path');
 
-
+// passport: Login initialization
 passportConfig.initializePassport();
-
 
 var app = express();
 
@@ -44,14 +42,42 @@ app.configure('production', function(){
     app.use(express.errorHandler());
 });
 
-
 // routing
 app.resource('API/users', require('./routes/API.user'));
 app.resource('API/knownodes', require('./routes/API.knownode'));
+app.resource('API/knownodeFiles', require('./routes/API.knownodeFiles'));
+app.resource('API/subjects', require('./routes/API.subject'));
 
-app.get('/logout', function(req, res){
+app.post('/API/logout', function(req, res){
     req.logout();
     res.redirect('/');
+});
+
+/*app.post('/API/login',
+    passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }),
+    function(req, res) {
+        if(req.user) {
+            res.send('OK');
+        }
+        else {
+            req.send('NO');
+        }
+    });
+*/
+app.post('/API/login', function(req, res, next) {
+    passport.authenticate('local', function(err, user, info) {
+        if (err) { return next(err) }
+        if (!user) {
+            //req.flash('error', info.message);
+            //return res.redirect('/login')
+            return res.send('ERROR');
+        }
+        req.logIn(user, function(err) {
+            if (err) { return next(err); }
+            return res.send('OK');
+            //return res.redirect('/subjectList/:' + user.username);
+        });
+    })(req, res, next);
 });
 
 app.get('/auth/facebook',

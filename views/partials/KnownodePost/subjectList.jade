@@ -1,0 +1,18 @@
+//
+   Created with JetBrains WebStorm.
+   User: admin
+   Date: 16/01/13
+   Time: 00:20
+   To change this template use File | Settings | File Templates.
+
+#subjectList
+    h2 Current Subjects
+    ul
+        li(ng-repeat="subject in subjectList")
+            div
+                b
+                    a(href="/subject/{{subject.subjectId}}") {{subject.title}}
+            div
+                {{subject.content}}
+    - if (userDisplayName)
+        a(class='btn btn-success', href='/addSubject') Add your subject

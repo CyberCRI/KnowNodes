@@ -23,6 +23,9 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['ui.directives', 'KnowN
             templateUrl: 'partials/User/login',
             controller: LoginCtrl
         }).
+        when('/logout', {
+            controller: LogoutCtrl
+        }).
         when('/addUser', {
             templateUrl: 'partials/User/addUser',
             controller: AddUserCtrl
@@ -31,7 +34,7 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['ui.directives', 'KnowN
             templateUrl: 'partials/User/deleteUser',
             controller: DeleteUserCtrl
         }).
-        when('/addPostURL', {
+        when('/addPostURL/:id', {
             templateUrl: 'partials/KnownodePost/addPostURL',
             controller: AddPostCtrl
         }).
@@ -39,11 +42,24 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['ui.directives', 'KnowN
             templateUrl: 'partials/KnownodePost/addEdge',
             controller: AddEdgeCtrl
         }).
+        when('/addSubject', {
+            templateUrl: 'partials/KnownodePost/addSubject',
+            controller: AddSubjectCtrl
+        }).
+        when('/subjectList', {
+            templateUrl: 'partials/KnownodePost/subjectList',
+            controller: SubjectListCtrl
+        }).
+        when('/subject/:id', {
+            templateUrl: 'partials/KnownodePost/articleList',
+            controller: ArticleListCtrl
+        }).
         otherwise({
             redirectTo: '/'
         });
     $locationProvider.html5Mode(true);
 }]);
+
 
 KnowNodesAppModule.value('ui.config', {
     select2: {

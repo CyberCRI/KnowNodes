@@ -1,7 +1,6 @@
 'use strict';
 
 /* Controllers */
-
 function AppCtrl($scope, $http) {
   $http({method: 'GET', url: '/api/name'}).
   success(function(data, status, headers, config) {
@@ -22,17 +21,57 @@ MyCtrl2.$inject = [];
 
 // Users:
 function AddUserCtrl($scope, $http, $location) {
-    $scope.form = {};
-    $scope.submitUser = function () {
-        $http.post('/API/users', $scope.form).
+    $scope.userForm = {};
+    $scope.submitUser = function (userForm) {
+        $http.post('/API/users', userForm).
             success(function(data){
                 $location.path('/');
             });
     }
 }
 
+/***
+ * knownode subjects
+ */
+function AddSubjectCtrl($scope, $http, $location) {
+    var partnerList = document.getElementById('partner');
+
+    $http.get('/API/users').
+        success(function(data){
+            $scope.userList = data;
+        });
+
+    $scope.subjectForm = {};
+    $scope.submitSubject = function (subjectForm) {
+        $scope.isDisabled = true;
+
+        $http.post('/API/knownodes', subjectForm).
+            success(function(data) {
+                $location.path('/SubjectList');
+            });
+    };
+}
+
+function SubjectListCtrl($scope, $http) {
+    $http.get('/API/subjects').success(function(data){
+        $scope.subjectList = data;
+    });
+}
+
+function ArticleListCtrl($scope, $http, $routeParams) {
+    $scope.subjectId = $routeParams.id;
+    $http.get('/API/subjects/:' + $routeParams.id).success(function(data) {
+        $scope.subject = data;
+    });
+
+    $http.get('/API/knownodes/:' + $routeParams.id).success(function(data){
+        $scope.knownode = data;
+    });
+    //$http.get('API/article/')
+}
+
 //knownode Post:
-function AddPostCtrl($scope, $http, $location) {
+function AddPostCtrl($scope, $http, $location, $routeParams) {
     var dropbox = document.getElementById("dropbox");
 
     function dragEnterLeave(evt) {
@@ -89,7 +128,7 @@ function AddPostCtrl($scope, $http, $location) {
         });
     };
 
-    $scope.uploadFile = function() {
+    var uploadFile = function() {
         var i, fd = new FormData();
         for (i in $scope.files) {
             fd.append("uploadedFile", $scope.files[i]);
@@ -99,7 +138,8 @@ function AddPostCtrl($scope, $http, $location) {
         xhr.addEventListener("load", uploadComplete, false);
         xhr.addEventListener("error", uploadFailed, false);
         xhr.addEventListener("abort", uploadCanceled, false);
-        xhr.open("POST", "/API/knownodes");
+        //fd.append($scope.form)
+        xhr.open("POST", "/API/knownodeFiles");
         $scope.progressVisible = true;
         xhr.send(fd);
     }
@@ -117,6 +157,10 @@ function AddPostCtrl($scope, $http, $location) {
     function uploadComplete(evt) {
         /* This event is raised when the server send back a response */
         alert(evt.target.responseText);
+        var fileData = JSON.parse(evt.target.responseText);
+        $scope.form.knownodeForm.fileData = fileData;
+
+        saveForm();
         //$location.path('/AddEdge');
     }
 
@@ -131,14 +175,28 @@ function AddPostCtrl($scope, $http, $location) {
         alert("The upload has been canceled by the user or the browser dropped the connection.");
     }
 
-    $scope.form = {};
-    $scope.dropText = 'Drop files here...';
-
-    $scope.submitPost = function () {
+    function saveForm(){
         $http.post('/API/knownodes', $scope.form).
             success(function(data) {
-                $location.path('/AddEdge');
+                $location.path('/subject/' + $scope.originalPostId);
             });
+    }
+
+    $scope.form = {};
+    $scope.form.knownodeForm = {};
+    $scope.form.knownodeRelation = {};
+
+    $scope.dropText = 'Drop files here...';
+    $scope.originalPostId = $routeParams.id;
+    $scope.form.knownodeRelation.originalPostId = $routeParams.id;
+
+    $scope.submitPost = function (form) {
+        if($scope.files && $scope.files.length > 0) {
+            uploadFile();
+        }
+        else {
+            saveForm();
+        }
     };
 }
 
@@ -153,10 +211,17 @@ function AddEdgeCtrl($scope, $http, $location){
 }
 
 function IndexCtrl($scope, $http, $location) {
-  $http.get('/api/users').
-    success(function(data, status, headers, config) {
-      $scope.users = data.users;
-    });
+  var subjectMenu = [
+          {text: 'Another action', href:'#anotherAction'},
+          {text: 'Another action', href:'#anotherAction'},
+          {divider: true},
+          {text: 'Separated link', href:'#', submenu: [
+              {text: 'Second level link', href: '#'},
+              {text: 'Second level link 2', href: '#'}
+          ]}
+      ];
+
+    $scope.userDisplayName = '#{userDisplayName}';
 
   $scope.deleteUser = function(){
       $http.delete('/api/users').
@@ -187,9 +252,19 @@ function DeleteUserCtrl($scope, $http, $location, $routeParams) {
 function LoginCtrl($scope, $http, $location) {
     $scope.loginForm = {};
     $scope.performLogin = function () {
-        $http.post('/API/knownodes/edge', $scope.loginForm).
+        $http.post('/API/login', $scope.loginForm).
             success(function(data) {
-                $location.path('/');
+                console.log(data);
+                if(data == 'OK'){
+                    $location.path('/subjectList');
+                }
             });
     };
+}
+
+function LogoutCtrl($http, $location) {
+    $http.post('/API/logout').
+        success(function(data) {
+            $location.path('/');
+        });
 }
