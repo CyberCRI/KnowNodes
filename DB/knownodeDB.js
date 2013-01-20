@@ -12,6 +12,7 @@ var Schema = require('jugglingdb').Schema,
 //var schema = new Schema('neo4j', {url: 'http://localhost', port: 7474});
 var schema = new Schema('neo4j', DBData.getDBURL("neo4j"));
 
+// Generates a new GUID string
 function GUID ()
 {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -96,6 +97,8 @@ var kn_Edge = exports.Edge = schema.define('kn_Edge', {
     __CreatedOn__:  { type: Date, default: Date.now },
 
     title:          { type: String, length: 255 },
+    content:        { type: String, length: 2000 },
+    connectionType: { type: String, length: 255 },
 
     active:         { type: Boolean, default: true, index: true }
 });
@@ -130,3 +133,27 @@ kn_User.validatesUniquenessOf('email', {message: 'email is not unique'});
 //kn_User.validatesLengthOf('password', {min: 5, message: {min: 'Password is too short'}});
 
 kn_Post.validatesPresenceOf('title', 'bodyText');
+
+
+// DAL Methods
+var neo4jDB;
+
+function initDBConnection(){
+    var neo4js;
+
+    if(!neo4jDB)
+    {
+        neo4js = require('neo4js');
+        neo4jDB = new neo4js.GraphDatabase(DBData.getDBURL("neo4js"));
+    }
+    return neo4jDB;
+}
+
+exports.getNeo4jDB = function(){
+    return initDBConnection();
+}
+
+exports.getUsersByName = function(name, callback) {
+    var db = initDBConnection();
+    return db.queryNodeIndex('User', "START n=node(*) WHERE n.name =~ '"+ name + "*' RETURN n", callback);
+};

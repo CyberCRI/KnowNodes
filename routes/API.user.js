@@ -40,14 +40,32 @@
     };
 
     exports.show = function(req, res) {
-        var callBackRes, userEmail;
+        var callBackRes, userEmail, userName, userId;
         userEmail = req.params.email;
+        userName = req.params.name;
+        userId = req.params.__id__;
+
         callBackRes = callBack(res);
-        return DB.User.all({
-            where: {
-                email: userEmail
-            }
-        }, callBackRes);
+        if(userEmail) {
+            return DB.User.all({
+                where: {
+                    email: userEmail
+                }
+            }, callBackRes);
+        }
+
+        if(userId) {
+            return DB.User.all({
+                where: {
+                    __id__ : userId
+                }
+            }, callBackRes);
+        }
+
+        if(userName)
+        {
+            return DB.getUsersByName(userName, callBackRes);
+        }
     };
 
     exports.create = function(req, res) {
@@ -88,6 +106,39 @@
             }
             return user.destroy(callBackRes);
         });
+    };
+
+    exports.load = function(id, fn) {
+        var params = id.split('='),
+            q = params[0],
+            val = params.length > 1 ? params[1] : q,
+            cb = function(error, user) {
+                process.nextTick(function() {
+                    fn(error, user);
+                })
+            };
+
+        switch(q){
+            case "email":
+                DB.User.all({
+                    where: {
+                        email: val
+                    }
+                }, cb);
+                break;
+            case "guid":
+                DB.User.all({
+                    where: {
+                        __id__ : val
+                    }
+                }, cb);
+                break;
+            case "name":
+                DB.getUsersByName(val, cb);
+                break;
+            default:
+                DB.User.find(val, cb);
+        }
     };
 
 }).call(this);

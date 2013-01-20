@@ -4,21 +4,22 @@
    Date: 03/12/12
    Time: 17:06
 
-h2 Add a new user
-p
-    label(for='email') eMail:
-    input(ng-model='form.email', name='email')
-p
-    label(for='password') password:
-    input(ng-model='form.password', name='password', type='password')
-p
-    label(for='firstName') First Name:
-    input(ng-model='form.firstName', name='firstName')
-p
-    label(for='lastName') Last Name:
-    input(ng-model='form.lastName', name='lastName')
-p
-    label(for='dataOfBirth') Date Of Birth:
-    input(ng-model='form.dataOfBirth', name='dataOfBirth', ui-date)
-p
-    button(ng-click='submitUser()') Submit Post
+h2 Register
+form(ng-submit='submitUser(user)')
+    p
+        label(for='email') Your eMail:
+        input(type='email', ng-model='user.email', name='email', required)
+    p
+        label(for='password') Password:
+        input(ng-model='user.password', name='password', type='password', required)
+    p
+        label(for='firstName') First Name:
+        input(ng-model='user.firstName', type='text', name='firstName', required)
+    p
+        label(for='lastName') Last Name:
+        input(ng-model='user.lastName', type='text', name='lastName', required)
+    p
+        label(for='dataOfBirth') Date Of Birth:
+        input(ng-model='user.dataOfBirth', name='dataOfBirth', type='text', ui-date, required)
+    p
+        button(type='submit', class='btn btn-primary', ng-disabled="loginForm.$invalid") Add Me!

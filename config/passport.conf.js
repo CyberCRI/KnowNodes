@@ -6,7 +6,7 @@
 
         DB = require('../DB/knownodeDB'),
 
-        basicURL = 'http://knownode.eu01.aws.af.cm/',
+        basicURL = 'http://www.knownodes.com/',
         //basicURL = 'http://localhost:3000/',
 
         FACEBOOK_APP_ID = "138799776273826",
@@ -17,27 +17,43 @@
             if(err) {
                 return fn(err, profile);
             }
-            return fn(err, user);
+            return fn(err, user[0]);
         });
     }
 
+    exports.ensureAuthenticated = function(req, res, next) {
+        if (req.isAuthenticated()) { return next(); }
+        res.redirect('/login')
+    }
+
     exports.initializePassport = function () {
+
         passport.serializeUser(function (user, done) {
             done(null, user);
-        });
+         });
 
-        passport.deserializeUser(function (obj, done) {
-            done(null, obj);
+        passport.deserializeUser(function (id, done) {
+            /*
+            DB.User.all({ where: { __ID__: id }}, function(err, user) {
+                if(err) {
+                    return done(err, null);
+                }
+                return done(err, user[0]);
+            });
+           */
+            return done(null, id);
         });
 
 
         passport.use(new LocalStrategy(
             function(email, password, done) {
-                findByEmail(email, function (err, user) {
-                    if (err) { return done(err); }
-                    if (!user) { return done(null, false); }
-                    if (user.password != password) { return done(null, false); }
-                    return done(null, user);
+                process.nextTick(function () {
+                    findByEmail(email, null, function (err, user) {
+                        if (err) { return done(err); }
+                        if (!user) { return done(null, false); }
+                        if (user.password != password) { return done(null, false); }
+                        return done(null, user);
+                    });
                 });
             }
         ));
@@ -61,7 +77,7 @@
                             }, done);
                         }
 
-                        return done(null, profile);
+                        return done(null, user);
                     });
                 }
                 return done(null, profile);
@@ -90,10 +106,10 @@
                                 }, done);
                             }
 
-                            profile = user[0];
+                            profile = user;
                             profile.identifier = identifier;
 
-                            return done(null, profile);
+                            return done(null, user);
                         });
                     }
 
