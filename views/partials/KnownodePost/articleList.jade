@@ -6,16 +6,15 @@
    To change this template use File | Settings | File Templates.
 
 #subjectList
-    h2 {{subject.title}}
-    p {{subject.abstract}}
-    h4 Related Knownodes:
-    ul(ng-show='knownode.relatedNodes.length > 0')
-        li(ng-repeat="kn in knownode.relatedNodes")
+    h2 {{concept.title}}
+    p(class='well') {{concept.bodyText}}
+    h4 Related Knownodes to {{concept.title}}:
+    ul(ng-show='knownodeList.length > 0')
+        li(ng-repeat="knownode in knownodeList")
             div
                 b
-                    a(href="/subject/{{kn.__id__}}") {{kn.title}}
+                    a(href="/subject/{{kn.KN_ID}}") {{kn.title}}
             div
                 {{subject.bodyText}}
-    p(ng-show='scope.knownode.relatedNodes.length == 0')
-        No knownodes yet :(
-    a(class='btn btn-success', href='/addPostURL/{{subjectId}}') Add a new article knownode
+    p(ng-show='knownodeList.length == 0') No knownodes yet :(
+    a(class='btn btn-success', href='/addPostURL/{{conceptId}}') Add a new article knownode

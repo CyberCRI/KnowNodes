@@ -15,3 +15,11 @@ block content
     script(src='js/controllers.js')
     script(src='js/filters.js')
     script(src='js/directives.js')
+    script
+        var KN = KN || {};
+        KN.initAngularUser = function () {
+            var userString = '#{JSON.stringify(user)}';
+            userString = userString.replace(/\&nbsp\;/g, ' ');
+            userString = userString.replace(/&quot;/g, '"');
+            return userString ? JSON.parse(userString) : null;
+        }

@@ -22,28 +22,28 @@ function GUID ()
 }
 
 var kn_UserGroup = exports.UserGroup = schema.define('UserGroup', {
-    __ID__ :        { type: String, length: 36, default: GUID },
+    KN_ID :        { type: String, length: 36, default: GUID },
     __CreatedOn__:  { type: Date,    default: Date.now },
 
     title:          { type: String, length: 255 }
 });
 
 var kn_University = exports.University = schema.define('kn_University', {
-    __ID__ :        { type: String, length: 36, default: GUID },
+    KN_ID :        { type: String, length: 36, default: GUID },
     __CreatedOn__:  { type: Date,    default: Date.now },
 
     title:          { type: String, length: 255 }
 });
 
 var kn_Lab  = exports.Lab = schema.define('kn_Lab', {
-    __ID__ :        { type: String, length: 36, default: GUID },
+    KN_ID :        { type: String, length: 36, default: GUID },
     __CreatedOn__:  { type: Date,    default: Date.now },
 
     title:          { type: String, length: 255 }
 });
 
 var kn_User  = exports.User = schema.define('kn_User', {
-    __ID__ :        { type: String, length: 36, default: GUID },
+    KN_ID :        { type: String, length: 36, default: GUID },
     __CreatedOn__:  { type: Date,    default: Date.now },
 
     email:          { type: String, length: 255 },
@@ -61,50 +61,51 @@ kn_User.prototype.displayName = function() {
 };
 
 var kn_Tag = exports.Tag = schema.define('kn_Tag', {
-    __ID__ :        { type: String, length: 36, default: GUID },
+    KN_ID :        { type: String, length: 36, default: GUID },
     __CreatedOn__:  { type: Date,    default: Date.now },
 
     title:          { type: String, length: 255 }
 });
 
 var kn_KnowledgeDomain = exports.KnowledgeDomain = schema.define('kn_KnowledgeDomain', {
-    __ID__ :        { type: String, length: 36, default: GUID },
+    KN_ID :        { type: String, length: 36, default: GUID },
     __CreatedOn__:  { type: Date,    default: Date.now },
 
     title:          { type: String, length: 255 }
 });
 
 var kn_ConnectionType = exports.ConnectionType = schema.define('ConnectionType', {
-    __ID__ :        { type: String, length: 36, default: GUID },
+    KN_ID :        { type: String, length: 36, default: GUID },
     __CreatedOn__:  { type: Date,    default: Date.now },
 
     title:          { type: String, length: 255 }
 });
 
 var kn_Post = exports.Post = schema.define('kn_Post', {
-    __ID__ :        { type: String, length: 36, default: GUID },
+    KN_ID :        { type: String, length: 36, default: GUID },
     __CreatedOn__:  { type: Date,    default: Date.now },
 
     title:          { type: String, length: 255 },
     url:            { type: String, length: 2000 },
     bodyText:       { type: Schema.Text },
     fileId:         { type: Number },
+    postType:       { type: String, length: 50 },
     active:         { type: Boolean, default: true, index: true }
 });
 
 var kn_Edge = exports.Edge = schema.define('kn_Edge', {
-    __ID__ :        { type: String, length: 36, default: GUID },
+    KN_ID :        { type: String, length: 36, default: GUID },
     __CreatedOn__:  { type: Date, default: Date.now },
 
     title:          { type: String, length: 255 },
-    content:        { type: String, length: 2000 },
+    bodyText:        { type: String, length: 2000 },
     connectionType: { type: String, length: 255 },
 
     active:         { type: Boolean, default: true, index: true }
 });
 
 var kn_Comment = exports.Comment = schema.define('kn_Comment', {
-    __ID__ :        { type: String, length: 36, default: GUID },
+    KN_ID :        { type: String, length: 36, default: GUID },
     __CreatedOn__:  { type: Date,    default: Date.now },
 
     title:          { type: String, length: 255 },
@@ -114,17 +115,17 @@ var kn_Comment = exports.Comment = schema.define('kn_Comment', {
 
 /*
 //setup relationships
-kn_Source.hasMany(kn_Tag,   {as: 'tags',  foreignKey: '__ID__'});
-kn_Source.hasMany(kn_KnowledgeDomain,   {as: 'knowledgeDomains',  foreignKey: '__ID__'});
-kn_User.hasMany(kn_UserGroup,   {as: 'userGroups',  foreignKey: '__ID__'});
-kn_User.hasMany(kn_Source, {as: 'knownodeSources', foreignKey: 'kn_User.__ID__' });
+kn_Source.hasMany(kn_Tag,   {as: 'tags',  foreignKey: 'KN_ID'});
+kn_Source.hasMany(kn_KnowledgeDomain,   {as: 'knowledgeDomains',  foreignKey: 'KN_ID'});
+kn_User.hasMany(kn_UserGroup,   {as: 'userGroups',  foreignKey: 'KN_ID'});
+kn_User.hasMany(kn_Source, {as: 'knownodeSources', foreignKey: 'kn_User.KN_ID' });
 
-kn_Source.belongsTo(kn_User, {as: 'CreatedBy', foreignKey: 'kn_User.__ID__'});
+kn_Source.belongsTo(kn_User, {as: 'CreatedBy', foreignKey: 'kn_User.KN_ID'});
 
-kn_Edge.belongsTo(kn_User, {as: '__CreatedBy__', foreignKey: '__ID__'});
-kn_Comment.belongsTo(kn_User, {as: '__CreatedBy__', foreignKey: '__ID__'});
-kn_ConnectionType.belongsTo(kn_User, {as: '__CreatedBy__', foreignKey: '__ID__'});
-kn_ConnectionType.belongsTo(kn_Edge, {as: 'connectionType', foreignKey: '__ID__'});
+kn_Edge.belongsTo(kn_User, {as: '__CreatedBy__', foreignKey: 'KN_ID'});
+kn_Comment.belongsTo(kn_User, {as: '__CreatedBy__', foreignKey: 'KN_ID'});
+kn_ConnectionType.belongsTo(kn_User, {as: '__CreatedBy__', foreignKey: 'KN_ID'});
+kn_ConnectionType.belongsTo(kn_Edge, {as: 'connectionType', foreignKey: 'KN_ID'});
 */
 
 //validations
@@ -139,12 +140,12 @@ kn_Post.validatesPresenceOf('title', 'bodyText');
 var neo4jDB;
 
 function initDBConnection(){
-    var neo4js;
+    var neo4j;
 
     if(!neo4jDB)
     {
-        neo4js = require('neo4js');
-        neo4jDB = new neo4js.GraphDatabase(DBData.getDBURL("neo4js"));
+        neo4j = require('neo4j');
+        neo4jDB = new neo4j.GraphDatabase(DBData.getDBURL("neo4j"));
     }
     return neo4jDB;
 }
@@ -157,3 +158,15 @@ exports.getUsersByName = function(name, callback) {
     var db = initDBConnection();
     return db.queryNodeIndex('User', "START n=node(*) WHERE n.name =~ '"+ name + "*' RETURN n", callback);
 };
+
+exports.getPostTypes = function() {
+    return {
+        openQuestion: 'Open_Question',
+        query: 'Query',
+        publication: 'Publication',
+        tutorial: 'Tutorial',
+        concept: 'Concept',
+        problem: 'Problem',
+        article: 'Article'
+    }
+}

@@ -69,6 +69,6 @@ exports.delete = (req, res) ->
 	userId = req.params.id
 	callBackRes = callBack(res);
 	DB.User.Delete(where:
-		__ID__: userId
+		KN_ID: userId
 	, callBackRes)
 

@@ -2,12 +2,85 @@
 
 /* Directives */
 
-angular.module('KnowNodesApp.directives', []).
-  directive('appVersion', ['version', function(version) {
-    return function(scope, elm, attrs) {
-      elm.text(version);
-    };
-  }]).directive('userAutoComplete', ['$http', function($http) {
+angular.module('KnowNodesApp.directives', [])
+    .directive('navBarTop', function() {
+        return {
+            restrict: 'E',
+            transclude: true,
+            scope: {
+                'title': '@'
+            },
+            template:
+                '<div class="navbar navbar-fixed-top">' +
+                    '<div class="navbar-inner">' +
+                    '<div class="container">' +
+                    '<a class="brand" href="/">{{title}}</a>' +
+                    '<div ng-transclude></div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>',
+            replace: true
+        };
+    })
+
+    .directive('navLocation', function($location) {
+        return {
+            restrict: 'E',
+            transclude: true,
+            scope: {
+                'href': '@'
+            },
+            link: function (scope) {
+                scope.location = function (href) {
+                    return href.substr(1) === $location.url().substr(1);
+                };
+            },
+            template: '<li ng-class="{active: location(href)}">' +
+                '<a href="{{href}}" ng-transclude></a>' +
+                '</li>',
+            replace: true
+        };
+    })
+
+    .directive('navLocationLogin', function($location, $rootScope) {
+        return {
+            restrict: 'E',
+            transclude: true,
+            scope: {
+                'href': '@'
+            },
+            link: function (scope) {
+                scope.location = function (href) {
+                    return href.substr(1) === $location.url().substr(1);
+                };
+
+                scope.isUserLoggedIn = function () {
+                    return $rootScope.user;
+                }
+
+                scope.userDisplayName = function () {
+                    return $rootScope.userDisplayName;
+                }
+            },
+            template:
+                '<li ng-class="{active: location(href)}">' +
+                '<a ng-hide="isUserLoggedIn()" href="{{href}}" ng-transclude></a>' +
+                '<p ng-show="isUserLoggedIn()">Hello {{userDisplayName()}} ' +
+                '<a tabindex="-1" href="/logout">Logout</a>' +
+                '</p>' +
+                '</li>',
+            replace: true
+        };
+    })
+
+    .directive('appVersion', ['version', function(version)
+    {
+        return function(scope, elm, attrs) {
+          elm.text(version);
+        };
+    }])
+
+    .directive('userAutoComplete', ['$http', function($http) {
         return function(scope, element, attrs) {
             element.userAutoComplete({
                 minLength:3,

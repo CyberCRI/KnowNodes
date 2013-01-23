@@ -1,10 +1,19 @@
 h2 Login
+div(class="text-error", ng-show='loginerror')
+    span Something with your username or password went wrong. If you haven't registered yet, please&nbsp;
+        a(href='addUser') register
+    span &nbsp;or use&nbsp;
+        a(href='/auth/google') Google
+    span &nbsp;/&nbsp;
+        a(href='/auth/facebook') Facebook
+    span &nbsp;logins.
+
 div(class="row-fluid")
     div(class="span4")
         form(class='well', ng-submit='performLogin()')
             p
                 label(for='username') eMail:
-                input(ng-model='loginForm.username', name='username', required)
+                input(ng-model='loginForm.username', name='username', type='email', autofocus, required)
             p
                 label(for='password') Password:
                 input(ng-model='loginForm.password', name='password', type='password', required)

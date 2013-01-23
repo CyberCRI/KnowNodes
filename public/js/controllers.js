@@ -31,9 +31,9 @@ function AddUserCtrl($scope, $http, $location) {
 }
 
 /***
- * knownode subjects
+ * knownode concepts
  */
-function AddSubjectCtrl($scope, $http, $location) {
+function AddConceptCtrl($scope, $http, $location) {
     var partnerList = document.getElementById('partner');
 
     $http.get('/API/users').
@@ -41,33 +41,35 @@ function AddSubjectCtrl($scope, $http, $location) {
             $scope.userList = data;
         });
 
-    $scope.subjectForm = {};
-    $scope.submitSubject = function (subjectForm) {
+    $scope.conceptForm = {};
+    $scope.submitConcept = function () {
         $scope.isDisabled = true;
 
-        $http.post('/API/knownodes', subjectForm).
+        $http.post('/API/concepts', $scope.conceptForm).
             success(function(data) {
-                $location.path('/SubjectList');
+                $location.path('/conceptList');
             });
     };
 }
 
-function SubjectListCtrl($scope, $http) {
-    $http.get('/API/subjects').success(function(data){
-        $scope.subjectList = data;
+function ConceptListCtrl($scope, $http) {
+    $http.get('/API/concepts').success(function(data){
+        $scope.conceptList = data;
     });
 }
 
 function ArticleListCtrl($scope, $http, $routeParams) {
-    $scope.subjectId = $routeParams.id;
-    $http.get('/API/subjects/:' + $routeParams.id).success(function(data) {
-        $scope.subject = data;
+    var conceptId = $scope.conceptId = $routeParams.id;
+    $http.get('/API/concepts/:' + conceptId).success(function(data){
+       $scope.concept = data;
     });
 
-    $http.get('/API/knownodes/:' + $routeParams.id).success(function(data){
-        $scope.knownode = data;
+    $http.get('/API/knownodes/relatedTo/:' + conceptId).success(function(data){
+        if(data.error){
+            return alert(data.error);
+        }
+        $scope.knownodeList = data.success;
     });
-    //$http.get('API/article/')
 }
 
 //knownode Post:
@@ -211,24 +213,6 @@ function AddEdgeCtrl($scope, $http, $location){
 }
 
 function IndexCtrl($scope, $http, $location) {
-  var subjectMenu = [
-          {text: 'Another action', href:'#anotherAction'},
-          {text: 'Another action', href:'#anotherAction'},
-          {divider: true},
-          {text: 'Separated link', href:'#', submenu: [
-              {text: 'Second level link', href: '#'},
-              {text: 'Second level link 2', href: '#'}
-          ]}
-      ];
-
-    $scope.userDisplayName = '#{userDisplayName}';
-
-  $scope.deleteUser = function(){
-      $http.delete('/api/users').
-          success(function(data, status, headers, config) {
-
-          });
-  };
 }
 
 function DeleteUserCtrl($scope, $http, $location, $routeParams) {
@@ -249,15 +233,18 @@ function DeleteUserCtrl($scope, $http, $location, $routeParams) {
     };
 }
 
-function LoginCtrl($scope, $http, $location) {
+function LoginCtrl($scope, $http, $location, $rootScope) {
     $scope.loginForm = {};
+
     $scope.performLogin = function () {
         $http.post('/API/login', $scope.loginForm).
             success(function(data) {
-                console.log(data);
-                if(data == 'OK'){
-                    $location.path('/subjectList');
+                if(data == 'ERROR'){
+                    return $scope.loginerror = true;
                 }
+
+                $rootScope.user = data;
+                return $location.path('/conceptList');
             });
     };
 }
