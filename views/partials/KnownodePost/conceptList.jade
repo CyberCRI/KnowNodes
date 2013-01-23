@@ -1,0 +1,18 @@
+//
+   Created with JetBrains WebStorm.
+   User: admin
+   Date: 16/01/13
+   Time: 00:20
+   To change this template use File | Settings | File Templates.
+
+#subjectList
+    h2 Current Concepts
+    ul
+        li(ng-repeat="concept in conceptList")
+            div
+                b
+                    a(href="/concept/relatedTo/{{concept.conceptId}}") {{concept.title}}
+            div
+                {{concept.content}}
+    - if (userDisplayName)
+        a(class='btn btn-success', href='/addConcept') Add your own new concept
