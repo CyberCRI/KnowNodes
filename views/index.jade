@@ -1,18 +1,6 @@
 extends layout
 
 block content
-    h1= title
-    p Hello, #{user}
-    p Welcome to #{title}
-    ul
-        li
-            a(href='/', title="Go to the main page") Home
-        li
-            a(href='/Login', title="Sign in to knownodes") Login
-        li
-            a(href='/addUser') Add a new user
-        li
-            a(href='/addPostURL') Add a new Knownode
     div(ng-view)
 
     script(src='//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js')
@@ -20,8 +8,18 @@ block content
     script(src='js/lib/angular/angular.min.js')
     script(src='js/lib/angular/angular-resource.min.js')
     script(src='js/lib/angular-ui/angular-ui.min.js')
+    script(src='js/lib/angular-ui/angular-ui-ieshiv.min.js')
+    script(src='js/lib/angular-strap/angular-strap.min.js')
     script(src='js/app.js')
     script(src='js/services.js')
     script(src='js/controllers.js')
     script(src='js/filters.js')
     script(src='js/directives.js')
+    script
+        var KN = KN || {};
+        KN.initAngularUser = function () {
+            var userString = '#{JSON.stringify(user)}';
+            userString = userString.replace(/\&nbsp\;/g, ' ');
+            userString = userString.replace(/&quot;/g, '"');
+            return userString ? JSON.parse(userString) : null;
+        }

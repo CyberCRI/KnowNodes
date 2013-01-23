@@ -1,0 +1,36 @@
+h2 Login
+div(class="text-error", ng-show='loginerror')
+    span Something with your username or password went wrong. If you haven't registered yet, please&nbsp;
+        a(href='addUser') register
+    span &nbsp;or use&nbsp;
+        a(href='/auth/google') Google
+    span &nbsp;/&nbsp;
+        a(href='/auth/facebook') Facebook
+    span &nbsp;logins.
+
+div(class="row-fluid")
+    div(class="span4")
+        form(class='well', ng-submit='performLogin()')
+            p
+                label(for='username') eMail:
+                input(ng-model='loginForm.username', name='username', type='email', autofocus, required)
+            p
+                label(for='password') Password:
+                input(ng-model='loginForm.password', name='password', type='password', required)
+            p
+                button(type="submit", ng-disabled="loginForm.$invalid", class='btn btn-success') Get me in!
+    div(class="span1")
+        h4 Or
+    div(class="span4")
+        div
+            a(href="/auth/facebook", target='_self')
+                img(src="img/login/facebook-login-button.png")
+        br
+        div
+            a(href="/auth/google", target='_self', class="btn btn-large btn-block btn-primary", type="button", style='width:280px')
+                img(src="img/login/google-login-button.png")
+                span Login with Google
+h4
+    span Howcome you are not registered yet???&nbsp;
+    a(href='/addUser') Register now!
+p (or Login with Facebook/Google)

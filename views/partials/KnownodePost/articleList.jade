@@ -1,0 +1,20 @@
+//
+   Created with JetBrains WebStorm.
+   User: admin
+   Date: 16/01/13
+   Time: 00:20
+   To change this template use File | Settings | File Templates.
+
+#subjectList
+    h2 {{concept.title}}
+    p(class='well') {{concept.bodyText}}
+    h4 Related Knownodes to {{concept.title}}:
+    ul(ng-show='knownodeList.length > 0')
+        li(ng-repeat="knownode in knownodeList")
+            div
+                b
+                    a(href="/subject/{{kn.KN_ID}}") {{kn.title}}
+            div
+                {{subject.bodyText}}
+    p(ng-show='knownodeList.length == 0') No knownodes yet :(
+    a(class='btn btn-success', href='/addPostURL/{{conceptId}}') Add a new article knownode
