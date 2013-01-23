@@ -62,3 +62,13 @@ exports.update = (req, res) ->
   DB.User.all(where:
     email: userEmail
   , callBackRes)
+
+
+# delete user
+exports.delete = (req, res) ->
+	userId = req.params.id
+	callBackRes = callBack(res);
+	DB.User.Delete(where:
+		KN_ID: userId
+	, callBackRes)
+

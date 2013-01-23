@@ -1,18 +1,17 @@
 /**
  * Module dependencies.
  */
-
 var express = require('express')
   , routes = require('./routes')
+  , knownodeRoute = require('./routes/API.knownode')
   , Resource = require('express-resource')
   , http = require('http')
   , passport = require('passport')
   , passportConfig = require('./config/passport.conf')
   , path = require('path');
 
-
+// passport: Login initialization
 passportConfig.initializePassport();
-
 
 var app = express();
 
@@ -44,17 +43,30 @@ app.configure('production', function(){
     app.use(express.errorHandler());
 });
 
-
 // routing
 app.resource('API/users', require('./routes/API.user'));
 app.resource('API/knownodes', require('./routes/API.knownode'));
+app.get('/API/knownodes/relatedTo/:id', knownodeRoute.listKnownodesInConcept)
+app.resource('API/knownodeFiles', require('./routes/API.knownodeFiles'));
+app.resource('API/concepts', require('./routes/API.concept'));
 
-// authentication routing
-app.get('/login', routes.login);
-
-app.get('/logout', function(req, res){
+app.post('/API/logout', function(req, res){
     req.logout();
     res.redirect('/');
+});
+
+app.post('/API/login', function(req, res, next) {
+    passport.authenticate('local', function(err, user, info) {
+        if (err) { return next(err) }
+        if (!user) {
+            //req.flash('error', info.message);
+            //return res.redirect('/login')
+            return res.send('ERROR');
+        }
+        req.logIn(user, function(err) {
+            return (err) ? next(err) : res.send(user);
+        });
+    })(req, res, next);
 });
 
 app.get('/auth/facebook',
@@ -71,7 +83,7 @@ app.get('/auth/facebook/callback',
     });
 
 app.get('/auth/google',
-    passport.authenticate('google'),
+    passport.authenticate('google', { failureRedirect: '/login' }),
     function(req, res){
         // The request will be redirected to Google for authentication, so
         // this function will not be called.

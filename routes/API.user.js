@@ -40,14 +40,32 @@
     };
 
     exports.show = function(req, res) {
-        var callBackRes, userEmail;
+        var callBackRes, userEmail, userName, userId;
         userEmail = req.params.email;
+        userName = req.params.name;
+        userId = req.params.KN_ID;
+
         callBackRes = callBack(res);
-        return DB.User.all({
-            where: {
-                email: userEmail
-            }
-        }, callBackRes);
+        if(userEmail) {
+            return DB.User.all({
+                where: {
+                    email: userEmail
+                }
+            }, callBackRes);
+        }
+
+        if(userId) {
+            return DB.User.all({
+                where: {
+                    KN_ID : userId
+                }
+            }, callBackRes);
+        }
+
+        if(userName)
+        {
+            return DB.getUsersByName(userName, callBackRes);
+        }
     };
 
     exports.create = function(req, res) {
@@ -76,6 +94,51 @@
                 email: userEmail
             }
         }, callBackRes);
+    };
+
+    exports.destroy = function(req, res) {
+        var callBackRes, userId;
+        userId = req.params.user.substring(1);
+        callBackRes = callBack(res);
+        DB.User.find(userId, function(err, user) {
+            if(err){
+                return res.json(err);
+            }
+            return user.destroy(callBackRes);
+        });
+    };
+
+    exports.load = function(id, fn) {
+        var params = id.split('='),
+            q = params[0],
+            val = params.length > 1 ? params[1] : q,
+            cb = function(error, user) {
+                process.nextTick(function() {
+                    fn(error, user);
+                })
+            };
+
+        switch(q){
+            case "email":
+                DB.User.all({
+                    where: {
+                        email: val
+                    }
+                }, cb);
+                break;
+            case "guid":
+                DB.User.all({
+                    where: {
+                        KN_ID : val
+                    }
+                }, cb);
+                break;
+            case "name":
+                DB.getUsersByName(val, cb);
+                break;
+            default:
+                DB.User.find(val, cb);
+        }
     };
 
 }).call(this);

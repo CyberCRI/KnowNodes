@@ -1,0 +1,14 @@
+--- 
+applications: 
+  .: 
+    url: ${name}.${target-base}
+    name: knownode
+    framework: 
+      name: node
+      info: 
+        description: Node.js Application
+        mem: 64M
+        exec: 
+    mem: 128M
+    infra: eu-aws
+    instances: 1
