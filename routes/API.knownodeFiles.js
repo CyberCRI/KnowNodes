@@ -9,9 +9,9 @@ var ExpRes = require('express-resource'),
 var callBack = function (res) {
     return function (err, result) {
         if (err) {
-            res.json(err);
+            return res.json({error: err });
         } else {
-            res.json(result);
+            return res.json({success: result });
         }
     }
 };
@@ -22,21 +22,15 @@ exports.create = function (req, res) {
     var cb = callBack(res);
 
     if(req.files) {
-        postDB.SavePostFile(req, function(err, articleFile){
-            if(err)
-            {
-                cb(err)
-            }
-            res.json(articleFile);
-        });
+        return postDB.SavePostFile(req, cb);
     }
     else {
-        cb({"error": "no files were found"}, null);
+        return cb("no files were found");
     }
 };
 
 exports.show = function (req, res) {
-    req.knownode.relatedNodes = [];
+    return req.knownode.relatedNodes = [];
 };
 
 // PUT

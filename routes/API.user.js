@@ -43,7 +43,7 @@
         var callBackRes, userEmail, userName, userId;
         userEmail = req.params.email;
         userName = req.params.name;
-        userId = req.params.__id__;
+        userId = req.params.KN_ID;
 
         callBackRes = callBack(res);
         if(userEmail) {
@@ -57,7 +57,7 @@
         if(userId) {
             return DB.User.all({
                 where: {
-                    __id__ : userId
+                    KN_ID : userId
                 }
             }, callBackRes);
         }
@@ -129,7 +129,7 @@
             case "guid":
                 DB.User.all({
                     where: {
-                        __id__ : val
+                        KN_ID : val
                     }
                 }, cb);
                 break;

@@ -1,19 +1,7 @@
-div(class="navbar", bs-navbar="")
-    div(class="navbar-inner")
-        div(class="container", style="width:auto")
-        a(class="brand", href='#')= title
-        ul(class="nav", role="navigation")
-            li(data-match-route="/")
-                a(href='#', title="Go to the main page") Home
-            li(data-match-route='/subjectList')
-                a(href='/subjectList') Subjects
-            - if (userDisplayName)
-                li(data-match-route="/addSubject")
-                    a(href='/addSubject') Add your subject
-        ul(class="nav pull-right")
-            li(id="login-menu", class="dropdown")
-                - if (userDisplayName)
-                    p Hello  #{userDisplayName}!&nbsp;
-                        a(tabindex="-1", href="/logout") Logout
-                - else
-                    a(tabindex="-1", href="/login") Please Login
+nav-bar-top(title="Knownodes")
+    ul(class="nav", role="navigation")
+        nav-location(href="#") Home
+        nav-location(href="/conceptList") Concepts
+        nav-location(href="/addConcept") Add your concept
+    ul(class="nav pull-right", role="navigation")
+        nav-location-login(href="/login") Login

@@ -15,8 +15,6 @@ html(ng-app="KnowNodesApp")
     link(rel='stylesheet', href='/css/bootstrap-timepicker.css')
     body
     include partials/topBar
-    div(class="container-fluid")
-        div(class="row-fluid")
-            div(class="span10")
-
-                block content
+    div(class="container-fluid", style='margin-top:50px')
+        div(class="container")
+            block content

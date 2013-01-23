@@ -34,7 +34,7 @@
 
         passport.deserializeUser(function (id, done) {
             /*
-            DB.User.all({ where: { __ID__: id }}, function(err, user) {
+            DB.User.all({ where: { KN_ID: id }}, function(err, user) {
                 if(err) {
                     return done(err, null);
                 }

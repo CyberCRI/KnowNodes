@@ -13,7 +13,7 @@ form(method="post", enctype="multipart/form-data", ng-submit='submitPost(form)')
             div(class='well')
                 p
                     label(for='title') Title:
-                    input(ng-model='form.knownodeForm.title', name='title', required, ngMaxlength='255', style='width:100%')
+                    input(ng-model='form.knownodeForm.title', name='title', required, autofocus, '255', style='width:100%')
                 p
                     label(for='url') URL of the original file:
                     input(ng-model='form.knownodeForm.url', name='url', style='width:100%')
