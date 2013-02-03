@@ -1,7 +1,20 @@
-nav-bar-top(title="Knownodes")
-    ul(class="nav", role="navigation")
-        nav-location(href="#") Home
-        nav-location(href="/conceptList") Concepts
-        nav-location(href="/addConcept") Add your concept
-    ul(class="nav pull-right", role="navigation")
-        nav-location-login(href="/login") Login
+div.header.row
+  div.span23.offset1
+    a#github(href='https://github.com/liadMagen/KnowNodes') Fork us on github
+
+    div#logo
+      a(href='#')
+        img#logo(src="img/KnownodesLogo.jpg")
+    span.login
+      a(href='/login', title="sign in to knownodes") Login
+    span
+      a.info(href="/conceptList") Concepts
+    span
+      a.info(href="/addConcept") Add your concept
+    span
+      a.info(href='/addPostURL/{{conceptId}}') Create new Knownode
+      //a(href='/about') About
+      //a(href='/contact') Contact us
+
+div.headerLine.row
+  div.line.span24

@@ -12,7 +12,15 @@ var callBack = function (res) {
         if (err) {
             return res.json({error: err });
         } else {
-            return res.json({success: result });
+            var jsonResult = JSON.stringify(result, function(key, value) {
+                if(key == 'parent') {
+                    return value.KN_ID;
+                }
+                else {
+                    return value;
+                }
+            });
+            return res.json({success: jsonResult });
         }
     }
 };

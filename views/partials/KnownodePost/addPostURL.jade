@@ -6,6 +6,17 @@
    To change this template use File | Settings | File Templates.
 
 #addKnownodeStep1
+
+div.subheader.row
+  div.span23.offset1
+    h2.subheader Create new knownode
+  div.inputMenu(id="toggleText").span16
+    div.connectionWrapper.span16
+  form(method="post", enctype="multipart/form-data", ng-submit='submitPost(form)')
+    include resourceInput
+    include connectionInput
+  include resourceInput
+
 form(method="post", enctype="multipart/form-data", ng-submit='submitPost(form)')
     div(class="row-fluid")
         div(class="span6")

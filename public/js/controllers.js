@@ -1,6 +1,7 @@
 'use strict';
 
 /* Controllers */
+
 function AppCtrl($scope, $http) {
   $http({method: 'GET', url: '/api/name'}).
   success(function(data, status, headers, config) {
@@ -10,6 +11,10 @@ function AppCtrl($scope, $http) {
     $scope.name = 'Error!'
   });
 }
+
+var TooltipDemoCtrl = function ($scope) {
+
+};
 
 function MyCtrl1() {}
 MyCtrl1.$inject = [];
