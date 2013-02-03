@@ -1,0 +1,32 @@
+//
+   User: dorgarbash   Date: 1/17/13   Time: 4:40 PM
+
+div.testRelative
+  button.btn.btn-link.knowledgeButton(onclick="return toggle('toggleText2');") Choose domain
+  div.popup(id="toggleText2")
+    a.btn.btn-success.btn-mini(id="biology", href='#', onclick="return buttonMark('biology');") Biology
+    a.btn.btn-inverse.btn-mini(id="mathematics", href='#', onclick="return buttonMark('mathematics');",href='#') Mathematics
+    a.btn.btn-mini(href='#',id="history", href='#', onclick="return buttonMark('history');") History
+    a.btn.btn-mini(href='#',id="physics", href='#', onclick="return buttonMark('physics');") Physics
+    a.btn.btn-info.btn-mini(href='#',id="philosophy", href='#', onclick="return buttonMark('philosophy');") Philosophy
+    a.btn.btn-primary.btn-mini(href='#',id="sociology", href='#', onclick="return buttonMark('sociology');") Sociology
+    a.btn.btn-danger.btn-mini(href='#',id="chemistry", href='#', onclick="return buttonMark('chemistry');") Chemistry
+    a.btn.btn-warning.btn-mini(href='#',id="art", href='#', onclick="return buttonMark('art');") Art
+    a.btn.btn-mini(href='#',id="economy", href='#', onclick="return buttonMark('economy');") Economy
+    a.btn.btn-mini(href='#',id="computer", href='#', onclick="return buttonMark('computer');") Computer Science
+    a.btn.btn-mini(href='#',id="psychology", href='#', onclick="return buttonMark('psychology');") Psychology
+    a.btn(onclick="return toggle('toggleText2');") Done
+  div.dropdown(style="display:inline; z-index:1000;")
+    a(href="#", data-toggle="dropdown", style="display:inline;") [Choose Resource Type]
+    ul.dropdown-menu(role="menu", aria-labelledby="dropdownMenu")
+      li.dropdown-submenu
+        a(tabindex='-1', href='#') Expands on
+        ul.dropdown-menu
+          li.dropdown-submenu
+            a(tabindex='-1', href='#') Another action
+          li.dropdown-submenu
+            a(tabindex='-1', href='#') Something else here
+      li.dropdown
+        a(tabindex='-1', href='#') Another action
+      li.dropdown-submenu
+        a(tabindex='-1', href='#') Something else here

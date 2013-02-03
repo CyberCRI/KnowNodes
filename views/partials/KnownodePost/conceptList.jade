@@ -6,13 +6,18 @@
    To change this template use File | Settings | File Templates.
 
 #subjectList
-    h2 Current Concepts
-    ul
-        li(ng-repeat="concept in conceptList")
-            div
-                b
-                    a(href="/concept/relatedTo/{{concept.conceptId}}") {{concept.title}}
-            div
-                {{concept.content}}
-    - if (userDisplayName)
-        a(class='btn btn-success', href='/addConcept') Add your own new concept
+  div.subheader.row
+    div.span23.offset1
+      h2.subheader Current Concepts
+      ul
+        il(ng-repeat="concept in conceptList")
+          include resource
+          div.row
+          br
+            //div
+              a(href="/concept/relatedTo/{{concept.conceptId}}") {{concept.title}}
+                div
+                    {{concept.content}}
+  - if (userDisplayName)
+    div.row
+      a.offset2(class='btn btn-success', href='/addConcept') Add your own new concept

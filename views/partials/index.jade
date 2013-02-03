@@ -1,9 +1,18 @@
 div(class="hero-unit")
-    h2 Welcome to #{title}
-    - if (userDisplayName)
-        p Hello  #{userDisplayName}
-    - else
-        p Hello Someone! Please&nbsp;
-            a(href='/login') Login
+  - if (userDisplayName)
+    h2 Hello  #{userDisplayName}, Welcome!
+    p Share and discover what links between problems, ideas and knowledge.
+    p Together we can make science more open and accessible.
+
+  - else
+    h2 Welcome to Knownodes
+    p Share and discover what links between problems, ideas and knowledge.
+    p Together we can make science more open and accessible.
+    br
+    p
+      a(href='/login') Login
+    br
+    p Please note that we're in prototype phase, and registration is only open for AIV M2 students at the moment, feel free to browse around.
 
 p There are {{users.length}} users registered
+

@@ -1,0 +1,345 @@
+@title-c: #59688B;
+@background-c: #F7F7F8;
+@body-c: #717577;
+@knownode-border-c: #CECFD1;
+@opposed-c: #DF1F25;
+@opposed-font-c: white;
+@biology-c: #62A265;
+@border-connection-c: #808B99;
+@create-node-c : #BFBFBF;
+@create-node-backg-c :#F6F6F6;
+@moving-edge: #B0B3B3;
+
+//mixins
+
+.invertedBox(@box-color) {
+  float:right;
+  margin-top: 0px;
+  padding-left:5px;
+  padding-right:5px;
+  color: @opposed-font-c;
+  background-color: @box-color;
+  border: solid 1px @box-color;
+  border-radius: 3px;
+}
+
+//#base - common styles and variables to be used across the entire website
+
+body a {
+  font-size: 14;
+}
+
+
+
+//###############components - styles for specific user interface elements
+
+//use .clicker and .popup to create interactive popup menus
+
+.clicker {
+  position:relative;
+}
+
+.popup {
+  position:absolute;
+  display: none;
+  border: solid 1px @knownode-border-c;
+  background: #ffffff;
+}
+
+.popover {
+  left: 20px;
+  top:-48px;
+}
+
+//a line between two nodes in a knownode
+.movingEdge{
+
+  background:transparent url('/img/lineGrey.png') repeat-y 10px 0;
+  background-position:10px 20px;
+
+}
+
+.tab-content{
+  padding: 0;
+  margin: 0;
+
+}
+
+.tab-pane {
+  background-color: @create-node-backg-c;
+  padding-top: 0;
+  margin: 0;
+  -webkit-border-radius: 10px;
+}
+
+.tab-content {
+  overflow: hidden;
+}
+
+.buttonActive {
+  border: solid 2px black;
+}
+
+#toggleText2 {
+  position: absolute;
+  right:0px;
+}
+
+.addButton{
+  display: relative;
+}
+
+//#########Modules - styles for different sections of a page,
+
+h3.subheader{
+  margin-top: 0px;
+  text-align: center;
+}
+
+.mainSubject{
+    display:inline;
+}
+
+
+div#logo {
+  float:left;
+  left:50px;
+}
+img#logo {
+  width:150px;
+}
+
+#github{
+  margin-top:11px;
+  position: absolute;
+  right: 5%;
+}
+span.login {
+  width:50px;
+  float:left;
+  margin-left: 40px;
+  margin-top: 11px;
+}
+
+.info {
+  float: left;
+  margin-top: 11px;
+  margin-left:40px
+}
+
+.lineSeperator{
+  margin-bottom: 2px;
+  vertical-align: top;
+  height:1px;
+  background: #CBCBCD;
+  border-bottom:1px solid rgba(173, 174, 177, 0.29);
+  #headerLine {
+    margin:10px;
+  }
+}
+
+.headerLine{
+  margin:5px;
+  margin-bottom:5px;
+  vertical-align: top;
+  height:1px;
+  background: #CBCBCD;
+  border-bottom:1px solid rgba(173, 174, 177, 0.29);
+
+}
+
+
+div.knownode {
+  border: 1px solid @knownode-border-c;
+  padding:10px;
+  margin-left:5px;
+  border-radius: 15px;
+
+  .resource {
+    .map {
+      margin-top:4px;
+    }
+
+    div.content {
+      background-color:@background-c;
+      padding:8px;
+      padding-bottom: 0px;
+      border-radius: 7px;
+      border: 0px solid @knownode-border-c;
+      border-right: 1px solid @knownode-border-c;
+      h5.title {
+        color: @title-c;
+        margin-top: 0px;
+        padding-top: 0px;
+      }
+
+      img {
+        vertical-align: bottom;
+      }
+      .knowledgeDomain, .resourceType{
+        float:right;
+        margin-top: 0px;
+        padding-top: 0px;
+      }
+      .knowledgeDomain {
+        .invertedBox(@biology-c);
+      //background:@biology-c;
+      //color:white;
+
+      }
+
+    }
+
+  }
+
+    .connection {
+      .map {
+        img{ float:right;}
+      }
+      div.content {
+        padding:8px;
+        border-radius: 7px;
+        border: 0px solid @border-connection-c;
+        border-left: 1px solid @border-connection-c;
+        border-right: 1px solid @border-connection-c;
+        h5.title {
+          color: @title-c;
+          margin-top: 0px;
+          padding-top: 0px;
+        }
+
+        .tagLine {
+          .connectionType {
+          .invertedBox(@opposed-c);
+          }
+
+          .infoLine {float:left;
+            margin-top: 3px;
+            padding-top: 0px;
+            font-style:italic;
+            font-size: 0.75em;
+          }
+        }
+      }
+      .buttons{ }
+    }
+  }
+
+//addIcon
+.add {
+  float:left;
+}
+
+.addConnection{
+  position:fixed;
+  bottom: 65px;
+  left: 50%;
+  .inputMenu{background:white;
+    border: 1px solid @border-connection-c;
+    -webkit-border-radius: 10px;
+  }
+
+  button{
+    position:fixed;
+    bottom: 10px;
+    left: 50%;
+
+    width:200px;
+    padding:0;
+    background: white;
+    border-radius: 8px;
+    box-shadow: none;
+    -moz-box-shadow: none;
+
+  }
+  legend h4{
+     color: #ffffff;
+     float: left;
+     display: block;
+     background-color: @create-node-c;
+     padding-left: 5px;
+     padding-right: 5px;
+     padding-top: 3px;
+     padding-bottom: 3px;
+     margin-left:30px;
+     -webkit-border-radius: 4px;
+  }
+  .connectionInput{
+    //background-color: blue;
+    padding-left: 0;
+    margin-left: 0;
+
+  }
+
+  .resourceInput{
+
+  }
+  textarea{
+    //background-color: green;
+    border-right: solid, 5px;
+    width: 90%;
+  }
+  input{
+    //background-color: purple;
+    width: 90%;
+  }
+
+.map{
+  padding: 0;
+  margin: 0;
+  margin-top: 2px
+}
+}
+.connectionWrapper{
+  padding: 0;
+  margin-left:3px;
+//  background-color: pink;
+  //border: solid 3px;
+}
+.connectionForm {
+  background-color: @create-node-backg-c;
+  -webkit-border-radius: 10px;
+  margin-top: 37px;
+  margin-bottom: 0;
+  padding-left: 0;
+  margin-left: 0;
+}
+
+.nodeTree{
+  width: 20px;
+  height: 200px;
+  //background-color: orange;
+}
+
+
+.testRelative {
+  position:relative;
+  z-index: 1;
+
+}
+
+button.knowledgeButton{
+ color: white;
+ font-style: none;
+ width:93px;
+ background:@create-node-c;
+ padding: 0px;
+ margin-right: 0px;
+ border-radius: 4px;
+ text-shadow:none;
+ &:hover {
+   color: #f5f5f5;
+   text-decoration: none;
+   font-style: none;
+   width:93px;
+   background:@create-node-c;
+   padding: 0px;
+   margin-right: 0px;
+   border-radius: 4px;
+   text-shadow:none;
+ }
+}
+
+.edgeBlock {
+  margin-top: 42px;
+}
