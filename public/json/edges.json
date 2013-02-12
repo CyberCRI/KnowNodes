@@ -1,0 +1,16 @@
+[
+    {
+        "title": "challenges the notion of",
+        "body": "In the article, the author claims that free will has no rational biological basis.",
+        "connectionType":"is opposed to",
+        "date":"1000",
+        "votes":"10"
+    },
+    {
+    "title": "one reason",
+    "body": " reason in more detail",
+    "connectionType":"is an example of",
+    "date":"10",
+    "votes":"5"
+    }
+]
