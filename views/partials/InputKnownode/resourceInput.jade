@@ -1,0 +1,41 @@
+//
+   User: dorgarbash   Date: 1/11/13   Time: 2:51 PM
+
+div.resourceInput
+
+  .tabbable
+  div.span11.offset1
+    ul.nav.nav-tabs
+      li.active
+        a(href='#pane1', data-toggle='tab') Text
+      li
+        a(href='#pane2', data-toggle='tab') URL
+      li
+        a(href='#pane3', data-toggle='tab') PDF
+
+  div.tab-content.span12.movingEdge
+
+    div.map.span1
+      img(src="img/nodeGrey.png")
+    #pane1.tab-pane.active.span11
+      input(type="text", placeholder="Enter title here").span11
+      include formSelectors
+      textarea(rows="2", placeholder="Enter additional text here(optional)").span11
+
+    #pane2.tab-pane.span11
+      input(type="text", placeholder="Paste URL here").span11
+      input(type="text", placeholder="Enter title here").span11
+      include formSelectors
+      textarea(rows="2", placeholder="Enter additional text here(optional)").span11
+    #pane3.tab-pane.span11
+      .control-group
+        label.control-label File Button
+      .controls
+        input#fileInput.input-file(type='file')
+
+      input(type="text", placeholder="Enter title here").span11
+
+      include formSelectors
+
+      textarea(rows="2", placeholder="Enter additional text here(optional)").
+

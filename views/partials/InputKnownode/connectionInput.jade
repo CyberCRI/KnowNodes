@@ -1,0 +1,26 @@
+//
+   User: dorgarbash   Date: 1/11/13   Time: 3:38 PM
+div.connectionInput.span12.movingEdge
+  div.map.span1
+    img.edgeBlock(src="img/edgeBlock.png")
+  div.connectionForm.span11
+    input(type="text", placeholder="textTitle").span11
+    p
+      div.dropdown(style="display:inline; z-index:1000;")
+      a(href="#", data-toggle="dropdown", style="display:inline;") [Choose Resource Type]
+      ul.dropdown-menu(role="menu", aria-labelledby="dropdownMenu")
+        li.dropdown-submenu
+          a(tabindex='-1', href='#') Expands on
+          ul.dropdown-menu
+            li.dropdown-submenu
+              a(tabindex='-1', href='#') Another action
+            li.dropdown-submenu
+              a(tabindex='-1', href='#') Something else here
+        li.dropdown
+          a(tabindex='-1', href='#') Another action
+        li.dropdown-submenu
+          a(tabindex='-1', href='#') Something else here
+
+    textarea(rows="2", placeholder="Body").span10
+
+
