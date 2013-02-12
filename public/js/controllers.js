@@ -1,5 +1,36 @@
 'use strict';
 
+//Dor experiments
+function TopBarCtrl($scope) {
+    var result = false;
+    $scope.toggle = function(classToToggle) {
+        if(result) {
+            result = false;
+        } else{
+            result = classToToggle;
+        }
+        return result;
+    };
+}
+
+function FormCtrl($scope, $location) {
+    $scope.steps = [
+        'Text',
+        'URL',
+        'PDF'];
+    $scope.selection = $scope.steps[0];
+        //Get the index of the current step given selection
+    $scope.getCurrentStepIndex = function(){
+        return $scope.steps.indexOf($scope.selection);
+    };
+        // Go to a defined step index
+    $scope.goToStep = function(index){
+        if(!($scope.steps[index] === undefined)) {
+            $scope.selection = $scope.steps[index];
+        }
+    };
+}
+
 /* Controllers */
 
 function AppCtrl($scope, $http) {
@@ -12,17 +43,12 @@ function AppCtrl($scope, $http) {
   });
 }
 
-var TooltipDemoCtrl = function ($scope) {
-
-};
-
 function MyCtrl1() {}
 MyCtrl1.$inject = [];
 
 
 function MyCtrl2() {}
 MyCtrl2.$inject = [];
-
 
 // Users:
 function AddUserCtrl($scope, $http, $location) {
@@ -57,21 +83,51 @@ function AddConceptCtrl($scope, $http, $location) {
     };
 }
 
-function ConceptListCtrl($scope, $http) {
-    $http.get('/API/concepts').success(function(data){
-        $scope.conceptList = data;
+//function ConceptListCtrl($scope, $http) {
+//    $http.get('/API/concepts').success(function(data){
+//        $scope.conceptList = data;
+//    });
+//}
+
+function ConceptListCtrl($scope, $http, $routeParams, MockJSON) {
+
+    MockJSON.getData().then(function(result) {
+        $scope.edges = result.data;
+        angular.forEach($scope.edges, function(value,id){
+            if($routeParams.id === value.source1.id) {
+                $scope.subtitletest = value.source1.title;
+            }
+            if($routeParams.id === value.source2.id) {
+                $scope.subtitletest = value.source2.title;
+            }
+        })
+
+//        for(var source in $scope.edges) {
+//            if($routeParams.id === parseInt(source.id)) {
+//                $scope.subtitletest = source.title;
+//            }
+//        }
     });
+    //
+//    $scope.titleClicked = function(something){
+//        $scope.subtitletest = something.source1.title;
+//    };
+    $scope.orderProp = "date";
 }
 
-function ArticleListCtrl($scope, $http, $routeParams) {
+function ArticleListCtrl($scope, $http, $routeParams, MockJSON) {
     var conceptId = $scope.conceptId = $routeParams.id;
+    $scope.orderProp = "date";
     $http.get('/API/concepts/:' + conceptId).success(function(data){
        $scope.concept = data;
     });
 
     $http.get('/API/knownodes/relatedTo/:' + conceptId).success(function(data){
         if(data.error){
-            return alert(data.error);
+            //just a little hack for a demo
+            return MockJSON.getData().then(function(result) {
+                $scope.edges = result.data;
+            });
         }
         $scope.knownodeList = data.success;
     });

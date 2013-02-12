@@ -52,8 +52,12 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['ui.directives', 'KnowN
             }).
             when('/concept/relatedTo/:id', {
                 templateUrl: 'partials/KnownodePost/articleList',
-                controller: ArticleListCtrl
+                controller: ConceptListCtrl
             }).
+//            when('/concept/relatedTo/:id', {
+//                templateUrl: 'partials/KnownodePost/articleList',
+//                controller: ArticleListCtrl
+//            }).
             otherwise({
                 redirectTo: '/'
             });

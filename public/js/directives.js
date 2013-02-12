@@ -3,6 +3,13 @@
 /* Directives */
 
 angular.module('KnowNodesApp.directives', [])
+    .directive('subtitle', function() {
+        return {
+            restrict: "A",
+            template: "<div><h3>Showing connection to: {{subtitletest}}</h3></div>"
+            }
+    })
+
     .directive('navBarTop', function() {
         return {
             restrict: 'E',
@@ -111,3 +118,4 @@ angular.module('KnowNodesApp.directives', [])
             };
             };
     }]);
+

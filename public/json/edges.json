@@ -1,16 +1,100 @@
 [
     {
+        "source1": {
+            "title": "The Lucretian swerve: The biological bases of human behaviour and the criminal justice system",
+            "body": "It is widely believed, at least in scientific circles, that living systems, including mankind, obey the natural physical laws...",
+            "url":"http://www.pnas.org/content/early/2010/02/04/0915161107",
+            "knowledgeDomain":"biology",
+            "resourceType":"publication",
+            "id":"1"
+        } ,
+        "source2": {
+            "title": "Why is the sky blue",
+            "body": "a long text about this thing",
+            "url":"http://www.google.com",
+            "knowledgeDomain":"Physics",
+            "resourceType":"question",
+            "id":"2"
+        },
         "title": "challenges the notion of",
         "body": "In the article, the author claims that free will has no rational biological basis.",
         "connectionType":"is opposed to",
         "date":"1000",
-        "votes":"10"
+        "votes":"10",
+        "id":"1"
     },
     {
+    "source1": {
+        "title": "2The Lucretian swerve: The biological bases of human behaviour and the criminal justice system",
+        "body": "It is widely believed, at least in scientific circles, that living systems, including mankind, obey the natural physical laws...",
+        "url":"http://www.pnas.org/content/early/2010/02/04/0915161107",
+        "knowledgeDomain":"biology",
+        "resourceType":"publication",
+        "id":"3"
+        },
     "title": "one reason",
-    "body": " reason in more detail",
+    "body": "reason in more detail",
     "connectionType":"is an example of",
     "date":"10",
-    "votes":"5"
+    "votes":"5",
+    "isBidirect": "false",
+    "id":"2",
+    "source2": {
+        "title": "2Why is the sky blue",
+        "body": "a long text about this thing",
+        "url":"http://www.google.com",
+        "knowledgeDomain":"Physics",
+        "resourceType":"question",
+        "id":"4"
+        }
+    },
+    {
+        "source1": {
+            "title": "2The Lucretian swerve: The biological bases of human behaviour and the criminal justice system",
+            "body": "It is widely believed, at least in scientific circles, that living systems, including mankind, obey the natural physical laws...",
+            "url":"http://www.pnas.org/content/early/2010/02/04/0915161107",
+            "knowledgeDomain":"biology",
+            "resourceType":"publication",
+            "id":"5"
+        },
+        "title": "one reason",
+        "body": "reason in more detail",
+        "connectionType":"is an example of",
+        "date":"10",
+        "votes":"5",
+        "isBidirect": "false",
+        "id":"3",
+        "source2": {
+            "title": "2Why is the sky blue",
+            "body": "a long text about this thing",
+            "url":"http://www.google.com",
+            "knowledgeDomain":"Physics",
+            "resourceType":"question",
+            "id":"6"
+        }
+    },
+    {
+    "source1": {
+    "title": "The Lucretian swerve: The biological bases of human behaviour and the criminal justice system",
+    "body": "It is widely believed, at least in scientific circles, that living systems, including mankind, obey the natural physical laws...",
+    "url":"http://www.pnas.org/content/early/2010/02/04/0915161107",
+    "knowledgeDomain":"biology",
+    "resourceType":"publication",
+        "id":"7"
+    } ,
+    "source2": {
+    "title": "Why is the sky blue",
+    "body": "a long text about this thing",
+    "url":"http://www.google.com",
+    "knowledgeDomain":"Physics",
+    "resourceType":"question",
+        "id":"8"
+    },
+    "title": "challenges the notion of",
+    "body": "In the article, the author claims that free will has no rational biological basis.",
+    "connectionType":"is opposed to",
+    "date":"1000",
+    "votes":"10",
+    "id":"4"
     }
 ]

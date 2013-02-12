@@ -21,8 +21,14 @@
   background-color: @box-color;
   border: solid 1px @box-color;
   border-radius: 3px;
+  .box-sizing(border-box);
 }
 
+.box-sizing(border-box) {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
 //#base - common styles and variables to be used across the entire website
 
 body a {
@@ -34,6 +40,27 @@ body a {
 //###############components - styles for specific user interface elements
 
 //use .clicker and .popup to create interactive popup menus
+
+html, body {
+  height: 100%;
+}
+
+.fill {
+  min-height: 100%;
+  position:relative;
+}
+
+.filler::after {
+  background-color: inherit;
+  bottom: 0;
+  content: "";
+  right: 0;
+  position: absolute;
+  top: 0;
+  width: inherit;
+  z-index: -1;
+}
+
 
 .clicker {
   position:relative;
@@ -55,8 +82,8 @@ body a {
 .movingEdge{
 
   background:transparent url('/img/lineGrey.png') repeat-y 10px 0;
-  background-position:10px 20px;
-
+  //background-position:10px 20px;
+  margin:0;
 }
 
 .tab-content{
@@ -110,9 +137,10 @@ img#logo {
 }
 
 #github{
-  margin-top:11px;
-  position: absolute;
-  right: 5%;
+  position:absolute;
+  display: inline;
+  top: 11px;
+  right: 2%;
 }
 span.login {
   width:50px;
@@ -122,9 +150,10 @@ span.login {
 }
 
 .info {
+  width: 150px;
   float: left;
   margin-top: 11px;
-  margin-left:40px
+
 }
 
 .lineSeperator{
@@ -133,6 +162,7 @@ span.login {
   height:1px;
   background: #CBCBCD;
   border-bottom:1px solid rgba(173, 174, 177, 0.29);
+  .box-sizing(border-box);
   #headerLine {
     margin:10px;
   }
@@ -149,24 +179,23 @@ span.login {
 }
 
 
-div.knownode {
+.knownode {
   border: 1px solid @knownode-border-c;
   padding:10px;
   margin-left:5px;
   border-radius: 15px;
+  .box-sizing(border-box);
 
-  .resource {
-    .map {
-      margin-top:4px;
-    }
-
-    div.content {
+    .resourcecontent {
       background-color:@background-c;
       padding:8px;
       padding-bottom: 0px;
       border-radius: 7px;
       border: 0px solid @knownode-border-c;
       border-right: 1px solid @knownode-border-c;
+      .box-sizing(border-box);
+      margin-left: 5px;
+
       h5.title {
         color: @title-c;
         margin-top: 0px;
@@ -193,15 +222,25 @@ div.knownode {
   }
 
     .connection {
+      margin-left: 0px;
       .map {
         img{ float:right;}
+
+      .edge-map-icon {
+        position:relative;
+        top:10px;
+        float:left;
       }
+        }
       div.content {
         padding:8px;
         border-radius: 7px;
         border: 0px solid @border-connection-c;
         border-left: 1px solid @border-connection-c;
         border-right: 1px solid @border-connection-c;
+        .box-sizing(border-box);
+        margin-left:0px;
+
         h5.title {
           color: @title-c;
           margin-top: 0px;
@@ -218,12 +257,12 @@ div.knownode {
             padding-top: 0px;
             font-style:italic;
             font-size: 0.75em;
+            .box-sizing(border-box);
           }
         }
       }
       .buttons{ }
     }
-  }
 
 //addIcon
 .add {
@@ -231,27 +270,17 @@ div.knownode {
 }
 
 .addConnection{
+  z-index: 10;
+  bottom:0;
   position:fixed;
-  bottom: 65px;
   left: 50%;
   .inputMenu{background:white;
+    padding:10px;
     border: 1px solid @border-connection-c;
     -webkit-border-radius: 10px;
+    .box-sizing(border-box);
   }
 
-  button{
-    position:fixed;
-    bottom: 10px;
-    left: 50%;
-
-    width:200px;
-    padding:0;
-    background: white;
-    border-radius: 8px;
-    box-shadow: none;
-    -moz-box-shadow: none;
-
-  }
   legend h4{
      color: #ffffff;
      float: left;
@@ -266,22 +295,15 @@ div.knownode {
   }
   .connectionInput{
     //background-color: blue;
-    padding-left: 0;
     margin-left: 0;
-
+    margin-top: 37px;
   }
 
   .resourceInput{
-
   }
   textarea{
     //background-color: green;
     border-right: solid, 5px;
-    width: 90%;
-  }
-  input{
-    //background-color: purple;
-    width: 90%;
   }
 
 .map{
@@ -293,6 +315,7 @@ div.knownode {
 .connectionWrapper{
   padding: 0;
   margin-left:3px;
+  .box-sizing(border-box);
 //  background-color: pink;
   //border: solid 3px;
 }
@@ -327,6 +350,7 @@ button.knowledgeButton{
  margin-right: 0px;
  border-radius: 4px;
  text-shadow:none;
+ .box-sizing(border-box);
  &:hover {
    color: #f5f5f5;
    text-decoration: none;
@@ -337,9 +361,78 @@ button.knowledgeButton{
    margin-right: 0px;
    border-radius: 4px;
    text-shadow:none;
+   .box-sizing(border-box);
  }
 }
 
 .edgeBlock {
   margin-top: 42px;
+  .box-sizing(border-box);
+}
+
+.buttonhack {
+  position: relative;
+  right: -2%;
+  top: -1px;
+  width: 13px;
+  margin-left:0;
+}
+
+.map {
+  margin-top:4px;
+  .box-sizing(border-box);
+  margin-left:0px;
+
+}
+
+#content {
+  margin-left: 0px;
+}
+
+.left-align {
+  margin-left:0px;
+}
+
+.active-red {
+  color:@opposed-c;
+}
+
+.btn-link:hover {
+  color:@opposed-c;
+  text-decoration:none;
+}
+.sort:hover {
+  color: #717577;
+  text-decoration:none;
+  cursor:default;
+}
+
+.hide{
+  display:none;
+}
+
+.tab-content {
+  height: 125px;
+}
+
+.icon-remove {
+  background-image: url("/img/glyphicons-halflings.png");
+}
+
+.inputHeader{
+  margin: 0;
+  line-height: 30px;
+}
+
+.nav-tabs {
+  max-width: 90%;
+  &:hover {font: @opposed-c}
+}
+
+.control-group{
+  margin-bottom: 0;
+}
+
+.control-label{
+  margin-top:5px;
 }

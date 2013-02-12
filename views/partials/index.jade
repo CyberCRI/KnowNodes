@@ -1,4 +1,5 @@
 div(class="hero-unit")
+
   - if (userDisplayName)
     h2 Hello  #{userDisplayName}, Welcome!
     p Share and discover what links between problems, ideas and knowledge.
@@ -13,6 +14,3 @@ div(class="hero-unit")
       a(href='/login') Login
     br
     p Please note that we're in prototype phase, and registration is only open for AIV M2 students at the moment, feel free to browse around.
-
-p There are {{users.length}} users registered
-

@@ -6,15 +6,15 @@ html(ng-app="KnowNodesApp")
     title= title
     link(rel='stylesheet', href='/css/angular-ui.min.css')
     link(rel='stylesheet', href='/css/smoothness/jquery-ui-1.9.2.custom.min.css')
+    link(rel='stylesheet', href='/css/bootstrap.css')
     link(rel='stylesheet/less', href='css/styles.less')
     //link(rel='stylesheet', href='//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/css/bootstrap.min.css')
     //link(rel='stylesheet', href='//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/css/bootstrap-responsive.min.css')
-    link(rel='stylesheet', href='/css/bootstrap.css')
     //link(rel='stylesheet', href='/css/bootstrap-responsive.min.css')
     link(rel='stylesheet', href='/css/bootstrap-datepicker.css')
     link(rel='stylesheet', href='/css/bootstrap-timepicker.css')
 
-    body
-    include partials/topBar
-
+    body(ng-controller="TopBarCtrl")
+      include partials/topBar
+      include partials/inputKnownode/addConnection
       block content
