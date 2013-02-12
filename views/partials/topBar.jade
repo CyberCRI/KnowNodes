@@ -6,13 +6,14 @@ div.header.row
       a(href='#')
         img#logo(src="img/KnownodesLogo.jpg")
     span.login
-      a(href='/login', title="sign in to knownodes") Login
+      a.btn.btn-link(href='/login', title="sign in to knownodes") Login
     span
-      a.info(href="/conceptList") Concepts
+      a.btn.btn-link.info(href="/conceptList") Concepts
+      //span
+      //a.btn.btn-link.info(href="/addConcept") Add your concept
     span
-      a.info(href="/addConcept") Add your concept
-    span
-      a.info(href='/addPostURL/{{conceptId}}') Create new Knownode
+      button.btn.btn-link.info(ng-click="showtoggle= toggle('hide')") Create new Knownode
+      //a.info(href='/addPostURL/{{conceptId}}') Create new Knownode
       //a(href='/about') About
       //a(href='/contact') Contact us
 

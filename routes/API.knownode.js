@@ -1,6 +1,6 @@
 /*
- * Serve JSON to the AngularJS client by sending a request
- */
+* Serve JSON to the AngularJS client by sending a request
+*/
 // GET
 var ExpRes = require('express-resource'),
     DB = require('../DB/knownodeDB'),

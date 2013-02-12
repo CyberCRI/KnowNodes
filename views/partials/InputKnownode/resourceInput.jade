@@ -1,41 +1,66 @@
 //
    User: dorgarbash   Date: 1/11/13   Time: 2:51 PM
 
-div.resourceInput
 
-  .tabbable
-  div.span11.offset1
-    ul.nav.nav-tabs
-      li.active
-        a(href='#pane1', data-toggle='tab') Text
-      li
-        a(href='#pane2', data-toggle='tab') URL
-      li
-        a(href='#pane3', data-toggle='tab') PDF
 
-  div.tab-content.span12.movingEdge
+div.resourceInput(ng-controller="FormCtrl")
+  form.form-horizontal.span12.offset1
+    ul.nav.nav-tabs(data-toggle="buttons-radio")
+      li(ng-repeat="step in steps", ng-class="{active: $index==getCurrentStepIndex()}")
+        a(href="javascript:void(0)", ng-click="goToStep($index)") {{step}}
 
-    div.map.span1
-      img(src="img/nodeGrey.png")
-    #pane1.tab-pane.active.span11
-      input(type="text", placeholder="Enter title here").span11
-      include formSelectors
-      textarea(rows="2", placeholder="Enter additional text here(optional)").span11
+  div.map.span1
+    img(src="img/nodeGrey.png")
+  div(ng-switch="selection").span11
+    div(ng-switch-when="Text")
+      div.control-group
+        label.control-label(for="title").span2 Title
+        div
+          input(type="text", id="title", placeholder="Enter title here").span9
+      div.control-group
+        label.control-label(for="body").span2 Body
+        div.controls
+          textarea(rows="2", id="body", placeholder="Enter additional text here(optional)").span9
+      div.control-group
+        div.controls
+          button.btn.knowledgeButton.pull-right.span3 Choose domain
+          include resourceTypeSelector
 
-    #pane2.tab-pane.span11
-      input(type="text", placeholder="Paste URL here").span11
-      input(type="text", placeholder="Enter title here").span11
-      include formSelectors
-      textarea(rows="2", placeholder="Enter additional text here(optional)").span11
-    #pane3.tab-pane.span11
-      .control-group
-        label.control-label File Button
-      .controls
-        input#fileInput.input-file(type='file')
 
-      input(type="text", placeholder="Enter title here").span11
 
-      include formSelectors
+    div(ng-switch-when="URL")
+      div.control-group
+        label.control-label(for="title").span2 URL
+        div.controls
+          input(type="text", id="title", placeholder="Paste URL here").span9
+      div.control-group
+        label.control-label(for="title").span2 Title
+        div.controls
+          input(type="text", id="title", placeholder="Enter title here").span9
 
-      textarea(rows="2", placeholder="Enter additional text here(optional)").
-
+      div.control-group
+        label.control-label(for="body").span2 Body
+        div.controls
+          textarea(rows="2", id="body", placeholder="Enter additional text here(optional)").span9
+      div.control-group
+        div.controls
+          button.btn.knowledgeButton.pull-right.span3 Choose domain
+          include resourceTypeSelector
+    div(ng-switch-when="PDF")
+      div.span11
+        div.control-group
+          label.control-label(for="file").span2 PDF
+          div.controls
+            input.input-file(type='file').span9
+        div.control-group
+          label.control-label(for="title").span2 Title
+          div.controls
+            input(type="text", id="title", placeholder="Enter title here").span9
+        div.control-group
+          label.control-label(for="body").span2 Body
+          div.controls
+            textarea(rows="2", id="body", placeholder="Enter additional text here(optional)").span9
+        div.control-group
+          div.controls
+            button.btn.knowledgeButton.pull-right.span3 Choose domain
+            include resourceTypeSelector

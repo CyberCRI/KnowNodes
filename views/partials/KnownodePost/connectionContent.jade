@@ -1,4 +1,4 @@
-div.connection.span6
+div.resource.connection.span6.offset1
   //div.map.span1
     img(src="/img/edgeBlock.png", width="25")
   //div.content.span6
@@ -6,11 +6,14 @@ div.connection.span6
     div.lineSeperator
     p.body
       small {{edge.body}}
-  div.tagLine
+
+  div.tagLine.connection.span6
     p.connectionType
       small {{edge.connectionType}}
-    p.infoLine 3 hours ago, by Dor Garbash
-    div(style="clear:both")
+    //div.buttons.span1
+      a(href="/parallel:#")
+        img(src="/img/parallel.png", href="/parallel:#")
+
 //div.buttons.span1
   a(href="/parallel:#")
     img(src="/img/parallel.png", href="/parallel:#")
