@@ -26,8 +26,8 @@ var callBack = function (res) {
 exports.index = function (req, res) {
     var concepts = [];
     DB.Post.all({where: {
-                postType: DB.getPostTypes().concept
-            }
+            postType: DB.getPostTypes().concept
+        }
         },
         function (err, result) {
             result.forEach(function (concept, index) {
@@ -38,23 +38,21 @@ exports.index = function (req, res) {
                     content: concept.bodyText
                 });
             });
-           res.json(concepts);
+            res.json(concepts);
         }
     );
 };
 
 // show is connected to 'load' function (below) which fetches the concept to show according to the supplied ID
 exports.show = function(req, res) {
-    var callBackRes;
-
     res.json(req.concept[0]);
 };
 
 exports.load = function(req, id, fn) {
     var cb = function(error, postSubject) {
-            process.nextTick(function() {
-                fn(error, postSubject);
-            })
+        process.nextTick(function() {
+            fn(error, postSubject);
+        });
     };
 
     // let's isolate the id, removing the leading ':'

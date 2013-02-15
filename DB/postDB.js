@@ -1,3 +1,11 @@
+/*
+
+Deprecated. Will be deleted soon
+
+ */
+
+
+
 var config = require('../config/DB.conf'),
     mongoose = require('mongoose'),
     fs = require('fs'),
@@ -15,10 +23,9 @@ function initialize(callback) {
 
     mongoose.connect(dbURL, opts);
     db = mongoose.connection;
-    //db.on('error', console.error.bind(console, 'connection error:'));
     db.on('error', callback);
     db.on('open', function() {
-        var Post = db.model('Post', postSchema);
+        Post = db.model('Post', postSchema);
         callback(null, Post);
     });
 }

@@ -52,6 +52,8 @@
                         if (err) { return done(err); }
                         if (!user) { return done(null, false); }
                         if (user.password != password) { return done(null, false); }
+
+
                         return done(null, user);
                     });
                 });
@@ -66,7 +68,7 @@
 
             function (accessToken, refreshToken, profile, done) {
                 if(profile.emails && profile.emails.length > 0){
-                    findByEmail(profile.emails[0], profile, function(err, user){
+                    return findByEmail(profile.emails[0], profile, function(err, user){
                         if(err)
                         {
                             return DB.User.create({
@@ -95,7 +97,7 @@
                     profile.identifier = identifier;
 
                     if(profile.emails && profile.emails.length > 0){
-                        findByEmail(profile.emails[0].value, profile, function(err, user){
+                        return findByEmail(profile.emails[0].value, profile, function(err, user){
                             if(err)
                             {
                                 return DB.User.create({
