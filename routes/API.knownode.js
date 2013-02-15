@@ -5,6 +5,7 @@
 var ExpRes = require('express-resource'),
     DB = require('../DB/knownodeDB'),
     postDB = require('../DB/postDB'),
+    email = require('./.'),
     neo4js = DB.getNeo4jDB();
 
 var callBack = function (res) {
@@ -79,28 +80,76 @@ exports.create = function (req, res) {
 };
 
 exports.index = function (req, res) {
-    var nodes = [];
-    DB.Post.all({
-        limit: 10
-    }, function (err, result) {
-        result.forEach(function (node, index) {
-            nodes.push({
-                id: index,
-                nodeId: node.KN_ID,
-                title: node.title,
-                url: node.url,
-                text: node.bodyText.substr(0, 50) + '...'
+    var nodes = [],
+        startPointId = null,
+        db,
+        query,
+        params;
+
+    if (req.concept && req.concept.length > 0) {
+        startPointId = req.concept[0].id;
+    }
+
+    if (req.knownode && req.knownode.length > 0) {
+        startPointId = req.knownode[0].id;
+    }
+
+    if (startPointId) {
+        db = DB.getNeo4jDB();
+        query = [
+            'START firstNode=node({startNode})',
+            'MATCH (firstNode) -[:RELATED_TO]- (edge) -[:RELATED_TO]- (article) -[:CREATED_BY]- (articleUser),' +
+            '(edge) -[:CREATED_BY]- (edgeUser) ' +
+            'RETURN article, articleUser, edge, edgeUser'].join('\n');
+        params = {
+            startNode: startPointId
+        };
+
+        return db.query(query, params, function (err, result) {
+            if (err) {
+                return res.json({
+                    "error": err
+                });
+            }
+
+            result.forEach(function (kn, index) {
+                nodes.push({
+                    id: index,
+                    knownodeID: kn.article.data.KN_ID,
+                    title: kn.article.data.title,
+                    bodyText: kn.article.data.bodyText,
+                    connection: {
+                        data: kn.edge.data,
+                        user: kn.edgeUser.data
+                    },
+                    user: kn.articleUser.data
+                });
+            });
+
+            return res.json({
+                'success': nodes
             });
         });
+    }
+    else {
+        return DB.Post.all({
+            limit: 10
+        }, function (err, result) {
+            result.forEach(function (node, index) {
+                nodes.push({
+                    id: index,
+                    nodeId: node.KN_ID,
+                    title: node.title,
+                    url: node.url,
+                    text: node.bodyText.substr(0, 50) + '...'
+                });
+            });
 
-        return res.json({
-            nodes: nodes
+            return res.json({
+                nodes: nodes
+            });
         });
-    });
-};
-
-exports.show = function (req, res) {
-    return req.knownode.relatedNodes = [];
+    }
 };
 
 // PUT
@@ -123,6 +172,10 @@ exports.destroy = function (req, res) {
     }, callBack(res));
 };
 
+exports.show = function (req, res) {
+    res.json(req.knownode[0]);
+};
+
 exports.load = function(req, id, fn) {
     var cb = function(error, postSubject) {
         process.nextTick(function() {
@@ -140,49 +193,13 @@ exports.load = function(req, id, fn) {
     }, cb);
 };
 
-exports.listKnownodesInConcept = function(req, res) {
-    var query, params, nodes = [],
-        conceptId = req.param('id'),
-        db = DB.getNeo4jDB();
-
-    conceptId = conceptId.split(':');
-    conceptId = (conceptId.length > 1)?conceptId[1]:conceptId[0];
-
-   DB.Post.all({ where: {
-       KN_ID: conceptId
-   }}, function(err, concept){
-       if(err)
-       {
-           return res.json({ "error" : err });
-       }
-
-       query = [
-           'START concept=node({conceptId})',
-           'MATCH (concept) -[:RELATED_TO]- (edge) -[:RELATED_TO]- (article)',
-           'RETURN article'
-       ].join('\n');
-
-       params = {
-           conceptId: concept[0].id
-       };
-
-       db.query(query, params, function(err, result){
-           if(err)
-           {
-               return res.json({ "error" : err });
-           }
-
-           result.forEach(function (kn, index) {
-               nodes.push({
-                   id: index,
-                   knownodeID: kn.KN_ID,
-                   title: kn.title,
-                   content: kn.bodyText
-               });
-           });
-
-           return res.json({'success': nodes });
-       });
-   });
-
+/*
+exports.test = function(req, res){
+    email.sendTemplateEmail('newUserActivation', 'this is a test', req.user, function(err, something){
+        if(err) {
+            return res.json(err);
+        }
+        res.json(something);
+    });
 };
+*/

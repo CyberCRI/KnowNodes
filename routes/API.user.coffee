@@ -1,74 +1,99 @@
 # Serve JSON to the AngularJS client by sending a request
 # handles requests for the user
 
-DB = require('../DB/knownodeDB');
+DB = require('../DB/knownodeDB')
 
 # general function to be used as a callback function for the return data from the DB
 callBack = (res) ->
-  (err, result) ->
-    if (err)
-      res.json(user: err)
-    else
-      res.json(user: result)
+	(err, result) ->
+		if err
+			res.json user: err
+		else
+			res.json user: result
 
-
-
-# GET
 exports.index = (req, res) ->
-  userList = []
-  user = new DB.User
+	userList = []
+	users = DB.User.all(limit: 10, _).forEach_ _, (_, currentUser) ->
+		userList.push currentUserObj
+	res.json success: userList
 
-  DB.User.all(limit: 10, (err, result) ->
-    if err
-      res.json(err)
-    else
-      userList.push currentUserObj for currentUser, currentUserObj of result
-      res.json(users: userList))
-
-
-
-# Get for a specific user /user:id
 exports.show = (req, res) ->
-  userEmail = req.params.email
-  callBackRes = callBack(res)
-  DB.User.all(where:
-    email: userEmail
-  , callBackRes)
+	callBackRes = undefined
+	userEmail = undefined
+	userName = undefined
+	userId = undefined
+	userEmail = req.params.email
+	userName = req.params.name
+	userId = req.params.KN_ID
+	callBackRes = callBack(res)
+	if userEmail
+		return DB.User.all(
+			where:
+				email: userEmail
+		, callBackRes)
+	if userId
+		return DB.User.all(
+			where:
+				KN_ID: userId
+		, callBackRes)
+	DB.getUsersByName userName, callBackRes  if userName
 
-
-
-
-# POST (create new)
 exports.create = (req, res) ->
-  callBackRes = callBack(res)
-  DB.User.create(req.body, callBackRes)
+	callBackRes = undefined
+	callBackRes = callBack(res)
+	DB.User.create req.body, callBackRes
 
-
-
-#Put
 exports.edit = (req, res) ->
-  userEmail = req.params.email
-  callBackRes = callBack(res)
-  DB.User.all(where:
-    email: userEmail
-  , callBackRes)
+	callBackRes = undefined
+	userEmail = undefined
+	userEmail = req.params.email
+	callBackRes = callBack(res)
+	DB.User.all
+		where:
+			email: userEmail
+	, callBackRes
 
-
-
-# update user
 exports.update = (req, res) ->
-  userEmail = req.params.email
-  callBackRes = callBack(res)
-  DB.User.all(where:
-    email: userEmail
-  , callBackRes)
+	callBackRes = undefined
+	userEmail = undefined
+	userEmail = req.params.email
+	callBackRes = callBack(res)
+	DB.User.all
+		where:
+			email: userEmail
+	, callBackRes
+
+exports.destroy = (req, res) ->
+	callBackRes = undefined
+	userId = undefined
+	userId = req.params.user.substring(1)
+	callBackRes = callBack(res)
+	DB.User.find userId, (err, user) ->
+		return res.json(err)  if err
+		user.destroy callBackRes
 
 
-# delete user
-exports.delete = (req, res) ->
-	userId = req.params.id
-	callBackRes = callBack(res);
-	DB.User.Delete(where:
-		KN_ID: userId
-	, callBackRes)
+exports.load = (id, fn) ->
+	params = id.split("=")
+	q = params[0]
+	val = (if params.length > 1 then params[1] else q)
+	cb = (error, user) ->
+		process.nextTick ->
+			fn error, user
 
+
+	switch q
+		when "email"
+			DB.User.all
+				where:
+					email: val
+			, cb
+		when "guid"
+			DB.User.all
+				where:
+					KN_ID: val
+			, cb
+		when "name"
+			DB.getUsersByName val, cb
+		else
+			DB.User.find val, cb

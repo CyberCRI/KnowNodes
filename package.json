@@ -6,18 +6,22 @@
     "start": "node app"
   },
   "dependencies": {
-      "express": "3.0.2",
-      "express-resource": "1.0.0",
-      "jade": "0.27.7",
-      "jugglingdb": "0.2.x",
-      "jugglingdb-mongodb": "latest",
-      "neo4j": "0.2.19",
-      "passport": "0.1.15",
-      "passport-local": "0.1.6",
-      "passport-facebook": "0.1.4",
-      "passport-google": "0.2.0",
-      "mongodb" : "1.1.11",
-      "email-templates": "0.0.7"
+    "email-templates": "0.0.7",
+    "express": "3.1",
+    "express-resource": "1.0.0",
+    "express-resource-new": "0.1.0",
+    "jade": "0.27.7",
+    "jugglingdb": "https://github.com/liadmagen/jugglingdb/archive/master.tar.gz",
+    "jugglingdb-mongodb": "latest",
+    "jugglingdb-mysql": "latest",
+    "neo4j": "https://github.com/liadmagen/node-neo4j/archive/develop.tar.gz",
+    "nodemailer": "0.3.37",
+    "passport": "0.1.15",
+    "passport-local": "0.1.6",
+    "passport-facebook": "0.1.4",
+    "passport-google": "0.2.0",
+    "mongodb": "1.1.11",
+    "mongoose": "3.5.3"
   },
   "engines": {
     "node": "0.8.x"
