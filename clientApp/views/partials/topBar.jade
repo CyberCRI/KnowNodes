@@ -1,0 +1,7 @@
+nav-bar-top(title="Knownodes")
+    ul(class="nav", role="navigation")
+        nav-location(href="#") Home
+        nav-location(href="/conceptList") Concepts
+        nav-location(href="/addConcept", ng-show="isUserLoggedIn") Add your concept
+    ul(class="nav pull-right", role="navigation")
+        nav-location-login(href="/login") Login
