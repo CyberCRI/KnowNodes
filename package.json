@@ -3,7 +3,10 @@
   "version": "0.0.2",
   "private": true,
   "scripts": {
-    "start": "node app"
+    "build": "_coffee -c modules/.",
+    "build": "coffee -c controllers/.",
+    "start": "node app",
+    "postinstall": "npm run build"
   },
   "dependencies": {
     "email-templates": "0.0.7",

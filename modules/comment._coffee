@@ -17,8 +17,8 @@ module.exports = class Comment extends BaseModule
 	getAllComments: (nodeId, _) ->
 		query = [
 			'START root=node({nodeId})',
-			'MATCH (comment) -[:COMMENT_OF]-> (root)',
-			'RETURN knownode'
+			'MATCH (root) <-[r:COMMENT_OF*]- (comment)',
+			'RETURN comment, r'
 		].join('\n');
 
 		params =
@@ -30,10 +30,20 @@ module.exports = class Comment extends BaseModule
 	# creating a new comment on a specific node
 	# @param commentData the json object with the comment details, according to the db structure
 	# @param commentedOnNode the node to relate the comment to
-	createNewComment: (commentData, commentedOnNode, _) ->
+	createNewComment: (commentData, commentedObject, _) ->
 		comment = @DB.Comment.create commentData, _
-		@relation.createOwnerRelationship comment
+		@relation.createOwnerRelationshipToNode comment
+
 		properties =
 			creationDate: new Date()
-		commentedOnNode.createRelationshipTo commentedOnNode, comment, 'COMMENT_OF', properties, _
-		return comment
+		@relation.createRelation comment, 'COMMENT_OF', commentedObject, properties, _
+
+		comment
+
+	createNewCommentToObjectId: (commentData, commentedObjectId, _) ->
+		queryParams = where :
+			'KN_ID' : commentedObjectId
+
+		commentedObject = @neo4jDB.getNodeById commentedObjectId, _
+
+		@createNewComment commentData, commentedObject, _

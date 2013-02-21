@@ -30,11 +30,12 @@
       return modKnownode.getKnownodeByKnownodeId(id, cb);
     },
     create: function(request, response) {
-      var cb, modKnownode;
+      var cb, modKnownode, originalPostId;
       cb = baseController.callBack(response);
       modKnownode = new knownodeModule(request.user);
       if (request.body.knownodeRelation) {
-        return modKnownode.createNewKnownodeWithRelation(request.body.originalPostId, request.body.knownodeRelation, request.body.knownodeForm, cb);
+        originalPostId = request.body.originalPostId.replace(/:/g, '');
+        return modKnownode.createNewKnownodeWithRelation(originalPostId, request.body.knownodeRelation, request.body.knownodeForm, cb);
       } else {
         return modKnownode.createNewKnownode(request.body.knownodeForm, cb);
       }
