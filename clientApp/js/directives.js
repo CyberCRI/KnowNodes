@@ -3,6 +3,13 @@
 /* Directives */
 
 angular.module('KnowNodesApp.directives', [])
+    .directive('subtitle', function() {
+        return {
+            restrict: "A",
+            templateUrl: 'partials/directiveTemplates/subTitle',
+            replace: true
+        };
+    })
     .directive('navBarTop', function() {
         return {
             restrict: 'AC',

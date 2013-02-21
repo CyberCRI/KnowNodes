@@ -1,0 +1,19 @@
+//
+   Created with JetBrains WebStorm.
+   User: dorgarbash
+   Date: 1/9/13
+   Time: 2:58 PM
+   To change this template use File | Settings | File Templates.
+
+div.addConnection.row.hide(ng-class="showtoggle")
+  div.inputMenu.span13
+    h3.inputHeader Add knownode
+      a(href="javascript:void(0);", ng-click="showtoggle= toggle('show')").pull-right
+        i.icon-remove
+      div.lineSeperator
+    include resourceInput
+    .movingEdge.left-align.span12
+      include connectionInput
+    include resource2Input
+    div.span12
+      button.btn.btn-success.pull-right.submitKnownode Submit EVERYTHING

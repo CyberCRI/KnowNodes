@@ -8,6 +8,7 @@
 angular.module('KnowNodesApp.services', [])
     .factory('userService', function($rootScope) {
         var serviceReturned = {};
+
         serviceReturned.isUserLoggedIn = function() {
             return $rootScope.user ? true : false;
         };

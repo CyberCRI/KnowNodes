@@ -1,0 +1,38 @@
+//
+   Created with JetBrains WebStorm.
+   User: dorgarbash
+   Date: 1/7/13
+   Time: 2:09 PM
+   To change this template use File | Settings | File Templates.
+
+#addKnownodeStep1
+  h2 Add a new knownode
+
+  div.row
+    div.span2
+      p Canvas?
+      hr
+      p Canvas?
+    div.span1
+      p or
+      hr
+      p or
+    div.span4
+      p Add new:
+      input.btn-primary(ng-click="show-true", type="submit", value="PDF")
+        dialogue(title="hello", visible="show", on-cancel="show = false", on-ok="show = false; doSomething()")
+        div(ng-show="show")
+          h3 {{title}}
+          div.body.ng-transclude
+          div.footer
+            button(ng-click="onOk()") Save changes
+            button(ng-click="onCancel()") Close
+
+      input.btn-primary(type="submit", value="URL")
+      input.btn-primary(type="submit", value="Text")
+      hr
+      p Add new:
+      input.btn-primary(type="submit", value="PDF")
+      input.btn-primary(type="submit", value="URL")
+      input.btn-primary(type="submit", value="Text")
+

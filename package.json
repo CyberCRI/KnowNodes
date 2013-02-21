@@ -3,7 +3,6 @@
   "version": "0.0.2",
   "private": true,
   "scripts": {
-    "build": "_coffee -c modules/.",
     "build": "coffee -c controllers/.",
     "start": "node app",
     "postinstall": "npm run build"
@@ -12,7 +11,7 @@
     "email-templates": "0.0.7",
     "express": "3.1",
     "express-resource": "1.0.0",
-    "express-resource-new": "0.1.0",
+    "express-resource-new": "~0.1.1",
     "jade": "0.27.7",
     "jugglingdb": "https://github.com/liadmagen/jugglingdb/archive/master.tar.gz",
     "jugglingdb-mongodb": "latest",
