@@ -1,7 +1,21 @@
-div(class="nav-bar-top", title="Knownodes")
-    ul(class="nav", role="navigation")
-        a.nav-location(href="#") Home
-        a.nav-location(href="/conceptList") Concepts
-        a.nav-location(href="/addConcept", ng-show="isUserLoggedIn") Add your concept
-    ul(class="nav pull-right", role="navigation")
-        a.nav-location-login(href="/login") Login
+div.header.row.topbar
+  div.span23.offset1
+    a#github(href='https://github.com/liadMagen/KnowNodes') Fork us on github
+
+    div#logo
+      a(href='#')
+        img#logo(src="img/KnownodesLogo.jpg")
+    span.login
+      a.btn.btn-link(href='/login', title="sign in to knownodes") Login
+    span
+      a.btn.btn-link.info(href="/conceptList") View concepts
+    span
+      a.btn.btn-link.info(href="/addConcept") Add new concept
+    span
+      button.btn.btn-link.info(ng-click="showtoggle= toggle('show')") Create new Knownode
+    //a.info(href='/addPostURL/{{conceptId}}') Create new Knownode
+    //a(href='/about') About
+    //a(href='/contact') Contact us
+
+div.headerLine.row
+  div.line.span24

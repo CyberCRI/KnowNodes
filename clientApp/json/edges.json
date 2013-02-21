@@ -1,0 +1,100 @@
+[
+    {
+        "source1": {
+            "title": "Biological evolution",
+            "body": "Extract from Wikipedia",
+            "url":"http://www.pnas.org/content/early/2010/02/04/0915161107",
+            "knowledgeDomain":"Biology",
+            "resourceType":"Concept",
+            "id":"1"
+        } ,
+        "source2": {
+            "title": "Linguistic evolution",
+            "body": "Extract from Wikipedia",
+            "url":"http://www.wikipedia.com",
+            "knowledgeDomain":"Linguistics",
+            "resourceType":"Concept",
+            "id":"2"
+        },
+        "title": "Can be compared to",
+        "body": "In the Descent of Man(1871), Darwin observed 'curious parallels' between the process of biological and linguistic...",
+        "connectionType":"is similar to",
+        "date":"1000",
+        "votes":"10",
+        "id":"1"
+    },
+    {
+    "source1": {
+        "title": "The Lucretian swerve: The biological bases of human behaviour and the criminal justice system",
+        "body": "It is widely believed, at least in scientific circles, that living systems, including mankind, obey the natural physical laws...",
+        "url":"http://www.pnas.org/content/early/2010/02/04/0915161107",
+        "knowledgeDomain":"Biology",
+        "resourceType":"Publication",
+        "id":"3"
+        },
+    "title": "Challenges the notion of",
+    "body": "In the article, the author claims that free will has no rational biological basis.",
+    "connectionType":"is opposed to",
+    "date":"10",
+    "votes":"5",
+    "isBidirect": "false",
+    "id":"2",
+    "source2": {
+        "title": "Free will",
+        "body": "Extract from wikipedia",
+        "url":"http://www.wikipedia.com",
+        "knowledgeDomain":"Philosophy",
+        "resourceType":"Concept",
+        "id":"4"
+        }
+    },
+    {
+        "source1": {
+            "title": "Coca-Cola",
+            "body": "Extract form wikipedia",
+            "url":"http://www.wikipedia.com",
+            "knowledgeDomain":"Cuisine",
+            "resourceType":"Product",
+            "id":"5"
+        },
+        "title": "Used to contain",
+        "body": "Coca-Cola was named back in 1885 for its two 'medical' ingredients: extract of coca leaves and kola nuts",
+        "connectionType":"was in the past",
+        "date":"10",
+        "votes":"5",
+        "isBidirect": "false",
+        "id":"3",
+        "source2": {
+            "title": "Cocaine",
+            "body": "a long text about this thing",
+            "url":"http://www.wikipedia.com",
+            "knowledgeDomain":"Chemistry",
+            "resourceType":"Chemical compound",
+            "id":"6"
+        }
+    },
+    {
+    "source1": {
+    "title": "Predicting errors from reconfiguration patterns in human brain networks",
+    "body": "Publication abstract",
+    "url":"http://www.pnas.org/content/early/2010/02/04/0915161107",
+    "knowledgeDomain":"Neurology",
+    "resourceType":"Publication",
+        "id":"7"
+    } ,
+    "source2": {
+    "title": "Which network analysis algorithm is most predictive in neural networks?",
+    "body": "",
+    "url":"http://www.google.com",
+    "knowledgeDomain":"Physics",
+    "resourceType":"Open question",
+        "id":"8"
+    },
+    "title": "Suggests a novel method to deal with the question",
+    "body": "In fact, they offer a novel way to create a matrix comparing many methods and thus create a unique fingerprint that can help us...",
+    "connectionType":"contributes to solution",
+    "date":"1000",
+    "votes":"10",
+    "id":"4"
+    }
+]

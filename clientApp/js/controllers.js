@@ -1,4 +1,43 @@
 'use strict';
+//Dor experiments
+function TopBarCtrl($scope) {
+    var result = false;
+    var knowledgeDomain = false;
+    $scope.toggle = function(classToToggle) {
+        if(result) {
+            result = false;
+        } else{
+            result = classToToggle;
+        }
+        return result;
+    };
+    $scope.toggleKnowledgeDomain = function(classToToggle) {
+        if(knowledgeDomain) {
+            knowledgeDomain = false;
+        } else{
+            knowledgeDomain = classToToggle;
+        }
+        return knowledgeDomain;
+    };
+}
+
+function FormCtrl($scope, $location) {
+    $scope.steps = [
+        'Text',
+        'URL',
+        'PDF'];
+    $scope.selection = $scope.steps[0];
+    //Get the index of the current step given selection
+    $scope.getCurrentStepIndex = function(){
+        return $scope.steps.indexOf($scope.selection);
+    };
+    // Go to a defined step index
+    $scope.goToStep = function(index){
+        if(!($scope.steps[index] === undefined)) {
+            $scope.selection = $scope.steps[index];
+        }
+    };
+}
 
 /* Controllers */
 function AppCtrl($scope, $http) {
@@ -73,8 +112,28 @@ function AddConceptCtrl($scope, $http, $location) {
     };
 }
 
-function ConceptListCtrl($scope, $http, userService) {
+function ConceptListCtrl($scope, $http, $routeParams, userService) {
+
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
+
+    var showtoggle2 = false;
+    $scope.plusToggle = function(classToToggle) {
+        if(showtoggle2) {
+            showtoggle2 = false;
+        } else{
+            showtoggle2 = classToToggle;
+        }
+        return showtoggle2;
+    };
+
+    angular.forEach($scope.edges, function(value,id){
+        if($routeParams.id === value.source1.id) {
+            $scope.subtitletest = value.source1.title;
+        }
+        if($routeParams.id === value.source2.id) {
+            $scope.subtitletest = value.source2.title;
+        }
+    });
 
     $http.get('/concepts').success(function(data){
         if(data.error) {
@@ -83,8 +142,10 @@ function ConceptListCtrl($scope, $http, userService) {
         }
         $scope.conceptList = data.success;
     });
+
+    $scope.orderProp = "date";
 }
-ConceptListCtrl.$inject = ['$scope', '$http', 'userService'];
+ConceptListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
 
 
 function ArticleListCtrl($scope, $http, $routeParams, userService) {
