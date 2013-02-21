@@ -28,7 +28,7 @@
 
 
 
-    Relation.prototype.createRelation = function Relation_prototype_createRelation__1(from, to, relationshipType, properties, _) { var __frame = { name: "Relation_prototype_createRelation__1", line: 31 }; return __func(_, this, arguments, Relation_prototype_createRelation__1, 4, __frame, function __$Relation_prototype_createRelation__1() {
+    Relation.prototype.createRelation = function Relation_prototype_createRelation__1(from, relationshipType, to, properties, _) { var __frame = { name: "Relation_prototype_createRelation__1", line: 31 }; return __func(_, this, arguments, Relation_prototype_createRelation__1, 4, __frame, function __$Relation_prototype_createRelation__1() {
         console.log("in createRelation. Extracting the Neo4J node");
         if ((to.__data && to.__data._node)) {
           to = to.__data._node; } ;
@@ -41,39 +41,19 @@
           return _(null, console.log("created relation done.")); }, true)); }); };
 
 
-    Relation.prototype.createOwnerRelationshipToNode = function Relation_prototype_createOwnerRelationshipToNode__2(toNode, _) { var properties, __this = this; var __frame = { name: "Relation_prototype_createOwnerRelationshipToNode__2", line: 44 }; return __func(_, this, arguments, Relation_prototype_createOwnerRelationshipToNode__2, 1, __frame, function __$Relation_prototype_createOwnerRelationshipToNode__2() {
-
-
-
-
-
-
-
-
+    Relation.prototype.createOwnerRelationshipToNode = function Relation_prototype_createOwnerRelationshipToNode__2(node, _) { var properties, __this = this; var __frame = { name: "Relation_prototype_createOwnerRelationshipToNode__2", line: 44 }; return __func(_, this, arguments, Relation_prototype_createOwnerRelationshipToNode__2, 1, __frame, function __$Relation_prototype_createOwnerRelationshipToNode__2() {
 
         console.log(("createOwnerRelationshipToNode: user is " + __this.user.id));
         properties = {
           creationDate: new Date() };
 
-        return __this.createRelation(__this.user, toNode, "CREATED_BY", properties, __cb(_, __frame, 14, 13, _, true)); }); };
+        return __this.createRelation(node, "CREATED_BY", __this.user, properties, __cb(_, __frame, 6, 13, _, true)); }); };
 
 
-
-
-
-
-
-
-
-
-    Relation.prototype.createOwnerRelationship = function Relation_prototype_createOwnerRelationship__3(toNode, _) { var __this = this; var __frame = { name: "Relation_prototype_createOwnerRelationship__3", line: 69 }; return __func(_, this, arguments, Relation_prototype_createOwnerRelationship__3, 1, __frame, function __$Relation_prototype_createOwnerRelationship__3() {
-        return _(null, __this.createRelation(toNode.__data._node)); }); };
-
-
-    Relation.prototype.getOwnerRelationship = function Relation_prototype_getOwnerRelationship__4(node, _) { var nodes, __this = this; var __frame = { name: "Relation_prototype_getOwnerRelationship__4", line: 73 }; return __func(_, this, arguments, Relation_prototype_getOwnerRelationship__4, 1, __frame, function __$Relation_prototype_getOwnerRelationship__4() { return (function __$Relation_prototype_getOwnerRelationship__4(__then) {
+    Relation.prototype.getOwnerRelationship = function Relation_prototype_getOwnerRelationship__3(node, _) { var nodes, __this = this; var __frame = { name: "Relation_prototype_getOwnerRelationship__3", line: 53 }; return __func(_, this, arguments, Relation_prototype_getOwnerRelationship__3, 1, __frame, function __$Relation_prototype_getOwnerRelationship__3() { return (function __$Relation_prototype_getOwnerRelationship__3(__then) {
 
           if ((typeof node === "number")) {
-            return __this.neo4jDB.getNodeById(node, __cb(_, __frame, 3, 15, function ___(__0, __1) { node = __1; __then(); }, true)); } else { __then(); } ; })(function __$Relation_prototype_getOwnerRelationship__4() {
+            return __this.neo4jDB.getNodeById(node, __cb(_, __frame, 3, 15, function ___(__0, __1) { node = __1; __then(); }, true)); } else { __then(); } ; })(function __$Relation_prototype_getOwnerRelationship__3() {
 
           return node.getRelationshipByType(node, "CREATED_BY", __cb(_, __frame, 5, 14, function ___(__0, __2) { nodes = __2;
             if ((nodes.length > 0)) {
@@ -83,7 +63,7 @@
 
 
 
-    Relation.prototype.addKnownodeEdge = function Relation_prototype_addKnownodeEdge__5(connectionData, fromKnownode, toKnownode, _) { var edge, relationshipData, __this = this; var __frame = { name: "Relation_prototype_addKnownodeEdge__5", line: 86 }; return __func(_, this, arguments, Relation_prototype_addKnownodeEdge__5, 3, __frame, function __$Relation_prototype_addKnownodeEdge__5() {
+    Relation.prototype.addKnownodeEdge = function Relation_prototype_addKnownodeEdge__4(fromKnownode, connectionData, toKnownode, _) { var edge, relationshipData, __this = this; var __frame = { name: "Relation_prototype_addKnownodeEdge__4", line: 66 }; return __func(_, this, arguments, Relation_prototype_addKnownodeEdge__4, 3, __frame, function __$Relation_prototype_addKnownodeEdge__4() {
 
         console.log("in addKnownodeEdge");
         relationshipData = {
@@ -95,8 +75,8 @@
         return __this.DB.Edge.create(connectionData, __cb(_, __frame, 9, 13, function ___(__0, __1) { edge = __1;
           __this.createOwnerRelationshipToNode(edge);
           console.log("creating relations");
-          return __this.createRelation(fromKnownode, edge, "RELATED_TO", relationshipData, __cb(_, __frame, 12, 6, function __$Relation_prototype_addKnownodeEdge__5() {
-            return __this.createRelation(edge, toKnownode, "RELATED_TO", relationshipData, __cb(_, __frame, 13, 6, function __$Relation_prototype_addKnownodeEdge__5() {
+          return __this.createRelation(fromKnownode, "RELATED_TO", edge, relationshipData, __cb(_, __frame, 12, 6, function __$Relation_prototype_addKnownodeEdge__4() {
+            return __this.createRelation(edge, "RELATED_TO", toKnownode, relationshipData, __cb(_, __frame, 13, 6, function __$Relation_prototype_addKnownodeEdge__4() {
               return _(null, edge); }, true)); }, true)); }, true)); }); };
 
 

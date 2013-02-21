@@ -23,7 +23,8 @@ module.exports =
 		cb = baseController.callBack response
 		modKnownode = new knownodeModule request.user
 		if request.body.knownodeRelation
-			modKnownode.createNewKnownodeWithRelation request.body.originalPostId, request.body.knownodeRelation, request.body.knownodeForm, cb
+			originalPostId = request.body.originalPostId.replace /:/g, ''
+			modKnownode.createNewKnownodeWithRelation originalPostId, request.body.knownodeRelation, request.body.knownodeForm, cb
 		else
 			modKnownode.createNewKnownode request.body.knownodeForm, cb
 

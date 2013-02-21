@@ -89,15 +89,15 @@
     Knownode.prototype.createNewKnownode = function Knownode_prototype_createNewKnownode__5(knownodeData, _) { var knownode, __this = this; var __frame = { name: "Knownode_prototype_createNewKnownode__5", line: 89 }; return __func(_, this, arguments, Knownode_prototype_createNewKnownode__5, 1, __frame, function __$Knownode_prototype_createNewKnownode__5() {
 
         return __this.DB.Post.create(knownodeData, __cb(_, __frame, 2, 17, function ___(__0, __1) { knownode = __1;
-          return __this.relation.createOwnerRelationship(knownode, __cb(_, __frame, 3, 6, function __$Knownode_prototype_createNewKnownode__5() {
+          return __this.relation.createOwnerRelationshipToNode(knownode, __cb(_, __frame, 3, 6, function __$Knownode_prototype_createNewKnownode__5() {
             return _(null, knownode); }, true)); }, true)); }); };
 
 
-    Knownode.prototype.createNewKnownodeWithRelation = function Knownode_prototype_createNewKnownodeWithRelation__6(firstNodeId, relationData, newKnownodeData, _) { var edge, firstNode, knownode, __this = this; var __frame = { name: "Knownode_prototype_createNewKnownodeWithRelation__6", line: 96 }; return __func(_, this, arguments, Knownode_prototype_createNewKnownodeWithRelation__6, 3, __frame, function __$Knownode_prototype_createNewKnownodeWithRelation__6() {
+    Knownode.prototype.createNewKnownodeWithRelation = function Knownode_prototype_createNewKnownodeWithRelation__6(existingNodeId, relationData, newKnownodeData, _) { var edge, existingNode, knownode, __this = this; var __frame = { name: "Knownode_prototype_createNewKnownodeWithRelation__6", line: 96 }; return __func(_, this, arguments, Knownode_prototype_createNewKnownodeWithRelation__6, 3, __frame, function __$Knownode_prototype_createNewKnownodeWithRelation__6() {
 
         return __this.createNewKnownode(newKnownodeData, __cb(_, __frame, 2, 17, function ___(__0, __1) { knownode = __1;
-          return __this.getKnownodeByKnownodeId(firstNodeId, __cb(_, __frame, 3, 18, function ___(__0, __2) { firstNode = __2;
-            return __this.relation.addKnownodeEdge(relationData, firstNode, knownode, __cb(_, __frame, 4, 13, function ___(__0, __3) { edge = __3;
+          return __this.getKnownodeByKnownodeId(existingNodeId, __cb(_, __frame, 3, 21, function ___(__0, __2) { existingNode = __2;
+            return __this.relation.addKnownodeEdge(existingNode, relationData, knownode, __cb(_, __frame, 4, 13, function ___(__0, __3) { edge = __3;
               knownode.edge = edge;
               return _(null, knownode); }, true)); }, true)); }, true)); }); };
 

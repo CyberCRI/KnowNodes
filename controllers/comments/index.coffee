@@ -16,4 +16,4 @@ module.exports =
 
 	create: (request, response) ->
 		cb = baseController.callBack response
-		commentModule.createNewComment request.body.comment, request.params.knownode, cb
+		commentModule.createNewComment request.body.comment, request.body.originalObject.id, cb

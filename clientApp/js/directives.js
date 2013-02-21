@@ -5,27 +5,19 @@
 angular.module('KnowNodesApp.directives', [])
     .directive('navBarTop', function() {
         return {
-            restrict: 'E',
+            restrict: 'AC',
             transclude: true,
             scope: {
-                'title': '@'
+                'title': '@title'
             },
-            template:
-                '<div class="navbar navbar-fixed-top">' +
-                    '<div class="navbar-inner">' +
-                    '<div class="container">' +
-                    '<a class="brand" href="/">{{title}}</a>' +
-                    '<div ng-transclude></div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>',
+            templateUrl: 'partials/directiveTemplates/navBarTop',
             replace: true
         };
     })
 
     .directive('navLocation', function($location) {
         return {
-            restrict: 'E',
+            restrict: 'AC',
             transclude: true,
             scope: {
                 'href': '@'
@@ -35,16 +27,14 @@ angular.module('KnowNodesApp.directives', [])
                     return href.substr(1) === $location.url().substr(1);
                 };
             },
-            template: '<li ng-class="{active: location(href)}">' +
-                '<a href="{{href}}" ng-transclude></a>' +
-                '</li>',
+            templateUrl: 'partials/directiveTemplates/navLocation',
             replace: true
         };
     })
 
     .directive('navLocationLogin', function($location, $rootScope) {
         return {
-            restrict: 'E',
+            restrict: 'AC',
             transclude: true,
             scope: {
                 'href': '@'
@@ -62,13 +52,7 @@ angular.module('KnowNodesApp.directives', [])
                     return $rootScope.userDisplayName;
                 }
             },
-            template:
-                '<li ng-class="{active: location(href)}">' +
-                '<a ng-hide="isLoggedIn()" href="{{href}}" ng-transclude></a>' +
-                '<div style="float: none; padding: 10px 15px 10px; color: #777; text-decoration: none; text-shadow: 0 1px 0 #fff; display:block" ng-show="isLoggedIn()">Hello {{userDisplayName()}}! ' +
-                '<a tabindex="-1" href="/logout">Logout</a>' +
-                '</div>' +
-                '</li>',
+            templateUrl: 'partials/directiveTemplates/navLocationLogin',
             replace: true
         };
     })
@@ -79,6 +63,58 @@ angular.module('KnowNodesApp.directives', [])
           elm.text(version);
         };
     }])
+
+    .directive('commentSection', ['$http', function($http) {
+        return {
+            restrict: 'E',
+            transclude: true,
+            scope: {
+                'href': '@'
+            },
+            template: '<ul class="media-list" ng-transclude>' +
+                '</ul>',
+            replace: true
+        };
+    }])
+
+    .directive('commentListItem', ['$http', function($http) {
+        return {
+            restrict: 'E',
+            transclude: true,
+            scope: {
+                'href': '@'
+            },
+            template: '<li class="media">' +
+                '<a class="pull-left" href="#">' +
+                    '<img class="media-object" data-src="holder.js/64x64">' +
+                '</a>' +
+                '<div class="media-body" ng-transclude>' +
+                    '<h4 class="media-heading">{{title}}</h4>' +
+                '</div>' +
+                '</li>',
+            replace: true
+        };
+    }])
+
+    .directive('commentDiv', ['$http', function($http) {
+    return {
+        restrict: 'E',
+        transclude: true,
+        scope: {
+            'href': '@'
+        },
+        template: '<div class="media">' +
+            '<a class="pull-left" href="#">' +
+            '<img class="media-object" data-src="holder.js/64x64">' +
+            '</a>' +
+            '<div class="media-body" ng-transclude>' +
+            '<h4 class="media-heading">{{title}}</h4>' +
+            '<p>{{content}}</p>' +
+            '</div>' +
+            '</li>',
+        replace: true
+    };
+}])
 
     .directive('userAutoComplete', ['$http', function($http) {
         return function(scope, element, attrs) {
