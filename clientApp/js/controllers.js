@@ -2,7 +2,6 @@
 //Dor experiments
 function TopBarCtrl($scope) {
     var result = false;
-    var knowledgeDomain = false;
     $scope.toggle = function(classToToggle) {
         if(result) {
             result = false;
@@ -10,32 +9,6 @@ function TopBarCtrl($scope) {
             result = classToToggle;
         }
         return result;
-    };
-    $scope.toggleKnowledgeDomain = function(classToToggle) {
-        if(knowledgeDomain) {
-            knowledgeDomain = false;
-        } else{
-            knowledgeDomain = classToToggle;
-        }
-        return knowledgeDomain;
-    };
-}
-
-function FormCtrl($scope, $location) {
-    $scope.steps = [
-        'Text',
-        'URL',
-        'PDF'];
-    $scope.selection = $scope.steps[0];
-    //Get the index of the current step given selection
-    $scope.getCurrentStepIndex = function(){
-        return $scope.steps.indexOf($scope.selection);
-    };
-    // Go to a defined step index
-    $scope.goToStep = function(index){
-        if(!($scope.steps[index] === undefined)) {
-            $scope.selection = $scope.steps[index];
-        }
     };
 }
 
@@ -46,7 +19,7 @@ function AppCtrl($scope, $http) {
     $scope.name = data.name;
   }).
   error(function(data, status, headers, config) {
-    $scope.name = 'Error!'
+    $scope.name = 'Error!';
   });
 }
 
@@ -60,7 +33,7 @@ function AddUserCtrl($scope, $http, $location) {
             success(function(data){
                 $location.path('/');
             });
-    }
+    };
 }
 
 function LoginCtrl($scope, $http, $location, $rootScope) {
@@ -69,7 +42,7 @@ function LoginCtrl($scope, $http, $location, $rootScope) {
     $scope.performLogin = function () {
         $http.post('/login', $scope.loginForm).
             success(function(data) {
-                if(data == 'ERROR'){
+                if(data === 'ERROR'){
                     return $scope.loginerror = true;
                 }
 
@@ -184,6 +157,89 @@ function KnownodeCtrl($scope, $http, $routeParams, userService) {
 }
 
 function AddPostCtrl($scope, $http, $location, $routeParams) {
+
+    // form tab manager
+    $scope.resourceFormats = [
+        'Text',
+        'URL',
+        'File'];
+    $scope.currentFormat = $scope.resourceFormats[0];
+
+    //Get the index of the current step given selection
+    $scope.getCurrentFormatIndex = function(){
+        return $scope.resourceFormats.indexOf($scope.currentFormat);
+    };
+
+    // Go to a defined step index
+    $scope.goToFormat = function(index){
+        if(!($scope.resourceFormats[index] === undefined)) {
+            $scope.currentFormat = $scope.resourceFormats[index];
+        }
+    };
+
+    // toggle knowledgeDomain selector window
+    var knowledgeDomain = false;
+    $scope.toggleKnowledgeDomain = function(classToToggle) {
+        if(knowledgeDomain) {
+            knowledgeDomain = false;
+        } else{
+            knowledgeDomain = classToToggle;
+        }
+        return knowledgeDomain;
+    };
+
+    function saveForm(){
+        $http.post('/knownodes', $scope.form).
+            success(function(data) {
+                if(data.success) {
+                    $location.path('/concept/:' + $scope.form.originalPostId);
+                }
+            });
+    }
+
+    $scope.form = {};
+    $scope.form.fromNode = {};
+    $scope.form.toNode = {};
+    $scope.form.edge = {};
+
+    $scope.dropText = 'Drop files here...';
+    $scope.form.originalPostId = $scope.form.edge.originalPostId = $routeParams.id;
+    $scope.errorMessage = null;
+
+    $scope.tooltip = {title: "Hello Tooltip<br />This is a multiline message!", checked: false};
+
+    $scope.submitPost = function (form) {
+        if($scope.files && $scope.files.length > 0) {
+            uploadFile();
+        }
+        else {
+            saveForm();
+        }
+    };
+
+    function submitForm() {
+        var submission = {};
+        submission.edge = $scope.form.edge;
+        if(fromTab === "Url") {
+            submission.from=$scope.form.fromUrl;
+        } else if(fromTab === "Text") {
+            submission.from=$scope.form.fromText;
+        } else if(fromTab === "File") {
+            submission.from=$scope.form.fromFile;
+        } else {
+            console.log("submitform() failed");
+        }
+        if(toTab === "Url") {
+            submission.to=$scope.form.toUrl;
+        }   else if(toTab === "Text") {
+            submission.to=$scope.form.toText;
+        } else if(toTab === "File") {
+            submission.to=$scope.form.toFile;
+        } else {
+            console.log("submitform() failed");
+        }
+        }
+
     var dropbox = document.getElementById("dropbox");
 
     function dragEnterLeave(evt) {
@@ -195,6 +251,9 @@ function AddPostCtrl($scope, $http, $location, $routeParams) {
         });
     }
 
+    if(dropbox === null) {
+        return console.log("no dropbox");
+    } else {
     dropbox.addEventListener("dragenter", dragEnterLeave, false);
     dropbox.addEventListener("dragleave", dragEnterLeave, false);
     dropbox.addEventListener("dragover", function(evt) {
@@ -207,6 +266,7 @@ function AddPostCtrl($scope, $http, $location, $routeParams) {
             $scope.dropClass = ok ? 'over' : 'not-available';
         })
     }, false);
+
     dropbox.addEventListener("drop", function(evt) {
         console.log('drop evt:', JSON.parse(JSON.stringify(evt.dataTransfer)));
         evt.stopPropagation();
@@ -226,6 +286,7 @@ function AddPostCtrl($scope, $http, $location, $routeParams) {
             });
         }
     }, false);
+    }
     //============== DRAG & DROP =============
 
     $scope.setFiles = function(element) {
@@ -282,46 +343,9 @@ function AddPostCtrl($scope, $http, $location, $routeParams) {
     function uploadCanceled(evt) {
         $scope.$apply(function(){
             $scope.progressVisible = false;
-        })
+        });
         $scope.errorMessage = "The upload has been canceled by the user or the browser dropped the connection.";
     }
-
-    function saveForm(){
-        $http.post('/knownodes', $scope.form).
-            success(function(data) {
-                if(data.success) {
-                    $location.path('/concept/:' + $scope.form.originalPostId);
-                }
-            });
-    }
-
-    $scope.form = {};
-    $scope.form.knownodeForm = {};
-    $scope.form.knownodeRelation = {};
-
-    $scope.dropText = 'Drop files here...';
-    $scope.form.originalPostId = $scope.form.knownodeRelation.originalPostId = $routeParams.id;
-    $scope.errorMessage = null;
-
-    $scope.tooltip = {title: "Hello Tooltip<br />This is a multiline message!", checked: false};
-
-    /*{
-        knownodeRelation : {
-            bodyText : {
-                "title": "Hello Tooltip<br />This is a multiline message!",
-                "checked": false
-            }
-        }
-    }; */
-
-    $scope.submitPost = function (form) {
-        if($scope.files && $scope.files.length > 0) {
-            uploadFile();
-        }
-        else {
-            saveForm();
-        }
-    };
 }
 
 function IndexCtrl($scope, $http, $location) {

@@ -6,7 +6,80 @@ angular.module('KnowNodesApp.directives', [])
     .directive('subtitle', function() {
         return {
             restrict: "A",
-            templateUrl: 'partials/directiveTemplates/subTitle',
+            templateUrl: 'partials/directiveTemplates/subtitle',
+            replace: true
+        };
+    })
+    .directive('concept', function() {
+        return {
+            restrict: 'EAC',
+            transclude: true,
+            templateUrl: 'partials/directiveTemplates/concept',
+            replace: true
+        };
+    })
+    .directive('formatSelector', function() {
+        return {
+            compile: function compile(tElement, tAttrs, transclude) {
+                return {
+                    pre: function preLink(scope) {
+                        scope.resourceFormats = [
+                            'Text',
+                            'URL',
+                            'File'];
+                    },
+                    post: function postLink(scope, iElement, iAttrs, controller) {
+                        $(function() {
+                            $('#createResourceTabs_' + iAttrs.direction + ' a:first').tab('show');
+                        });
+                    }
+                };
+            },
+            restrict: 'EAC',
+            scope: {
+                resourceDirection: '@direction'
+            },
+            templateUrl: 'partials/directiveTemplates/formatSelector',
+            replace: true
+        };
+    })
+    .directive('resourceTypeSelector', function() {
+        return {
+            restrict: 'EAC',
+            transclude: true,
+            templateUrl: 'partials/directiveTemplates/resourceTypeSelector',
+            replace: true
+        };
+    })
+    .directive('knowledgeDomainSelector', function() {
+        return {
+            restrict: 'EAC',
+            transclude: true,
+            templateUrl: 'partials/directiveTemplates/knowledgeDomainSelector',
+            replace: true
+        };
+    })
+    .directive('resource2', function() {
+        return {
+            restrict: 'E',
+            transclude: true,
+            templateUrl: 'partials/directiveTemplates/resource2',
+            replace: true
+        };
+    })
+    .directive('resource', function() {
+        return {
+            restrict: 'E',
+            transclude: true,
+            templateUrl: 'partials/directiveTemplates/resource',
+            replace: true
+        };
+    })
+    .directive('connection', function() {
+        return {
+            restrict: 'E',
+            transclude: true,
+            templateUrl: 'partials/directiveTemplates/connection',
             replace: true
         };
     })

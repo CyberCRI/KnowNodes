@@ -1,7 +1,4 @@
-//
-   User: dorgarbash   Date: 1/17/13   Time: 10:52 AM
-
-div.popup(ng-class="showKnowledgeDomain")
+div.popup(ng-class="showKnowledgeDomain", ng-model='form.knownodeRelation.knowledgeDomain', name='knowledgeDomain')
   a.btn.btn-success.btn-mini(id="biology", href="javascript:void(0);", onclick="return buttonMark('biology');") Biology
   a.btn.btn-inverse.btn-mini(id="mathematics", href="javascript:void(0);", onclick="return buttonMark('mathematics');") Mathematics
   a.btn.btn-mini.btn-primary(id="history", href="javascript:void(0);", onclick="return buttonMark('history');") History
@@ -13,4 +10,4 @@ div.popup(ng-class="showKnowledgeDomain")
   a.btn.btn-mini.btn-success(id="economy", href="javascript:void(0);", onclick="return buttonMark('economy');") Economy
   a.btn.btn-mini.btn-inverse(id="computer", href="javascript:void(0);", onclick="return buttonMark('computer');") Computer Science
   a.btn.btn-mini.btn-warning(id="psychology", href="javascript:void(0);", onclick="return buttonMark('psychology');") Psychology
-  a.btn(href="javascript:void(0);", ng-click="showKnowledgeDomain = toggle('show')") Done
+  a.btn(href="javascript:void(0);", ng-click="showKnowledgeDomain = toggle('show')") Close window

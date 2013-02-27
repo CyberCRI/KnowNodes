@@ -15,26 +15,26 @@ div.span11.offset1(ng-controller="LoginCtrl")
 
 
 
+    //-
+      div(class="span1")
+              h4 Or
+         div(class="span4")
+               div
+                   a(href="/auth/facebook", target='_self')
+                       img(src="img/login/facebook-login-button.png")
+               br
+               div
+                   a(href="/auth/google", target='_self', class="btn btn-large btn-block btn-primary", type="button", style='width:280px')
+                       img(src="img/login/google-login-button.png")
+                       span Login with Google
+        h4
+            span Howcome you are not registered yet???&nbsp;
+            a(href='/addUser') Register now!
+        p (or Login with Facebook/Google)
 
-          //div(class="span1")
-                h4 Or
-          // div(class="span4")
-                 div
-                     a(href="/auth/facebook", target='_self')
-                         img(src="img/login/facebook-login-button.png")
-                 br
-                 div
-                     a(href="/auth/google", target='_self', class="btn btn-large btn-block btn-primary", type="button", style='width:280px')
-                         img(src="img/login/google-login-button.png")
-                         span Login with Google
-          //h4
-              span Howcome you are not registered yet???&nbsp;
-              a(href='/addUser') Register now!
-          //p (or Login with Facebook/Google)
-
-              //a(href='addUser') register
-              //span &nbsp;or use&nbsp;
-                    a(href='/auth/google') Google
-              //span &nbsp;/&nbsp;
-                    a(href='/auth/facebook') Facebook
-              //span &nbsp;logins.
+            a(href='addUser') register
+            span &nbsp;or use&nbsp;
+                  a(href='/auth/google') Google
+            span &nbsp;/&nbsp;
+                  a(href='/auth/facebook') Facebook
+            span &nbsp;logins.
