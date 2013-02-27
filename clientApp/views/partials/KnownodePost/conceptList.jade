@@ -1,18 +1,3 @@
-//
-   Created with JetBrains WebStorm.
-   User: admin
-   Date: 16/01/13
-   Time: 00:20
-   To change this template use File | Settings | File Templates.
-
-#subjectList
-    h2 Current Concepts
-    dl(ng-repeat="concept in conceptList")
-        dt
-            a(href="/concept/{{concept.conceptId}}") {{concept.title}}
-        dd {{concept.content}}
-    a(class='btn btn-success', href='/addConcept', ng-show='isUserLoggedIn') Add your own new concept
-
 div.subheader
   div.span23.offset1
     h2.subheader Current Concepts
@@ -22,13 +7,6 @@ div.subheader
       button.btn.btn-link(type="button", ng-click="orderProp='votes'") Popular
       button.btn.btn-link(type="button", ng-click="orderProp='hotRank'") Hot
   div(ng-repeat="concept in conceptList | orderBy:orderProp").span11.offset1
-    include knownode
-
-
-//div
-    a(href="/concept/relatedTo/{{concept.conceptId}}") {{concept.title}}
-      div
-          {{concept.content}}
-- if (userDisplayName)
+    concept
   div.row
     a.offset2(class='btn btn-success', href='/addConcept') Add your own new concept

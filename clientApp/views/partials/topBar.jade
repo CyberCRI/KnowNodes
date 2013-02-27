@@ -5,11 +5,16 @@ div.header.row.topbar
     div#logo
       a(href='#')
         img#logo(src="img/KnownodesLogo.jpg")
-    span.login
-      a.btn.btn-link(href='/login', title="sign in to knownodes") Login
+    -if (userDisplayName)
+      span.btn.btn-link hello #{userDisplayName}
+    -else
+      span.login
+        a.btn.btn-link(href='/login', title="sign in to knownodes") Login
+    span
+      a.btn.btn-link.info(href="/knownodeList") View knownodes
     span
       a.btn.btn-link.info(href="/conceptList") View concepts
-    span
+        span
       a.btn.btn-link.info(href="/addConcept") Add new concept
     span
       button.btn.btn-link.info(ng-click="showtoggle= toggle('show')") Create new Knownode

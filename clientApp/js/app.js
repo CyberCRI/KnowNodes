@@ -45,8 +45,8 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['ui', 'ui.directives', 
             }).
             when('/concept/:id', {
                 templateUrl: 'partials/KnownodePost/articleList',
-                //controller: ArticleListCtrl
-                controller: ConceptListCtrl
+                controller: ArticleListCtrl
+                //controller: ConceptListCtrl
             }).
             when('/addKnownodeTo/:id', {
                 templateUrl: 'partials/KnownodePost/addPostURL',
@@ -55,6 +55,10 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['ui', 'ui.directives', 
             when('/article/:id', {
                 templateUrl: 'partials/KnownodePost/knownode',
                 controller: KnownodeCtrl
+            }).
+            when('/knownodeList', {
+                templateUrl: 'partials/KnownodePost/knownodeList',
+                controller: ArticleListCtrl
             }).
             otherwise({
                 redirectTo: '/'
