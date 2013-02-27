@@ -53,9 +53,7 @@ module.exports = class Concept extends BaseModule
 
 	# return concept by knownode-Id
 	getConceptByKnownodeId: (knownodeId, _) ->
-		conceptType = @DB.getPostTypes().concept
 		params = where:
-			postType: conceptType,
 			KN_ID: knownodeId
 
 		concept = @DB.Post.findOne(params, _)
