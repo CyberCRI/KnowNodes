@@ -73,16 +73,14 @@
           return _(null, concept); }, true)); }); };
 
 
-    Concept.prototype.getConceptByKnownodeId = function Concept_prototype_getConceptByKnownodeId__4(knownodeId, _) { var concept, conceptType, params, returnConcept, __this = this; var __frame = { name: "Concept_prototype_getConceptByKnownodeId__4", line: 76 }; return __func(_, this, arguments, Concept_prototype_getConceptByKnownodeId__4, 1, __frame, function __$Concept_prototype_getConceptByKnownodeId__4() {
+    Concept.prototype.getConceptByKnownodeId = function Concept_prototype_getConceptByKnownodeId__4(knownodeId, _) { var concept, params, returnConcept, __this = this; var __frame = { name: "Concept_prototype_getConceptByKnownodeId__4", line: 76 }; return __func(_, this, arguments, Concept_prototype_getConceptByKnownodeId__4, 1, __frame, function __$Concept_prototype_getConceptByKnownodeId__4() {
 
-        conceptType = __this.DB.getPostTypes().concept;
         params = {
           where: {
-            postType: conceptType,
             KN_ID: knownodeId } };
 
 
-        return __this.DB.Post.findOne(params, __cb(_, __frame, 9, 16, function ___(__0, __1) { concept = __1;
+        return __this.DB.Post.findOne(params, __cb(_, __frame, 7, 16, function ___(__0, __1) { concept = __1;
           if (concept) {
             returnConcept = {
               id: concept.id,
@@ -96,7 +94,7 @@
 
 
 
-    Concept.prototype.createNewConcept = function Concept_prototype_createNewConcept__5(conceptObject, _) { var concept, __this = this; var __frame = { name: "Concept_prototype_createNewConcept__5", line: 99 }; return __func(_, this, arguments, Concept_prototype_createNewConcept__5, 1, __frame, function __$Concept_prototype_createNewConcept__5() {
+    Concept.prototype.createNewConcept = function Concept_prototype_createNewConcept__5(conceptObject, _) { var concept, __this = this; var __frame = { name: "Concept_prototype_createNewConcept__5", line: 97 }; return __func(_, this, arguments, Concept_prototype_createNewConcept__5, 1, __frame, function __$Concept_prototype_createNewConcept__5() {
 
         conceptObject.postType = __this.DB.getPostTypes().concept;
         return __this.DB.Post.create(conceptObject, __cb(_, __frame, 3, 16, function ___(__0, __1) { concept = __1;
@@ -105,7 +103,7 @@
             return _(null, concept); }, true)); }, true)); }); };
 
 
-    Concept.prototype.deleteConcept = function Concept_prototype_deleteConcept__6(conceptId, _) { var concept, __this = this; var __frame = { name: "Concept_prototype_deleteConcept__6", line: 108 }; return __func(_, this, arguments, Concept_prototype_deleteConcept__6, 1, __frame, function __$Concept_prototype_deleteConcept__6() {
+    Concept.prototype.deleteConcept = function Concept_prototype_deleteConcept__6(conceptId, _) { var concept, __this = this; var __frame = { name: "Concept_prototype_deleteConcept__6", line: 106 }; return __func(_, this, arguments, Concept_prototype_deleteConcept__6, 1, __frame, function __$Concept_prototype_deleteConcept__6() {
 
         return __this.DB.Post.find(nodeId, __cb(_, __frame, 2, 16, function ___(__0, __1) { concept = __1;
           return concept.destroy(__cb(_, __frame, 3, 13, _, true)); }, true)); }); };
