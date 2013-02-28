@@ -5,6 +5,7 @@
 knownodeModule = require('../../modules/knownode')
 relationModule = require('../../modules/relation')
 baseController = require('../baseController')
+commentModule = require('../../modules/comment')
 
 module.exports =
 	###options:
@@ -41,3 +42,9 @@ module.exports =
 		modKnownode = new knownodeModule request.user
 		id = request.params.knownode.replace /:/g, ''
 		modKnownode.getRelatedKnownodesToKnowNodeId id, cb
+
+	getRelatedComments: (request, response) ->
+		cb = baseController.callBack response
+		comment = new commentModule request.user
+		id = request.params.knownode.replace /:/g, ''
+		comment.getAllComments id, cb

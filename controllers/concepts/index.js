@@ -6,13 +6,15 @@
 
 
 (function() {
-  var baseController, conceptModule, knownodeModule;
+  var baseController, commentModule, conceptModule, knownodeModule;
 
   conceptModule = require('../../modules/concept');
 
   baseController = require('../baseController');
 
   knownodeModule = require('../../modules/knownode');
+
+  commentModule = require('../../modules/comment');
 
   module.exports = {
     options: {
@@ -53,6 +55,13 @@
       modKnownode = new knownodeModule(request.user);
       id = request.params.concept.replace(/:/g, '');
       return modKnownode.getRelatedKnownodesToKnowNodeId(id, cb);
+    },
+    getRelatedComments: function(request, response) {
+      var cb, comment, id;
+      cb = baseController.callBack(response);
+      comment = new commentModule(request.user);
+      id = request.params.concept.replace(/:/g, '');
+      return comment.getAllComments(id, cb);
     }
   };
 

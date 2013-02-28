@@ -1,9 +1,9 @@
 //
    Created with JetBrains WebStorm.
-   User: admin
+   User: Liad Magen
    Date: 16/01/13
    Time: 00:20
-   To change this template use File | Settings | File Templates.
+   displays the concept and its related knownodes
 
 #subjectList
     div(class="well span6")
@@ -24,3 +24,5 @@
         p.span7(ng-show='knownodeList.length == 0') No knownodes yet :(
     div.row-fluid
         a(ng-show='isUserLoggedIn', class='btn btn-success', href='/addKnownodeTo/{{conceptId}}') Add a new article knownode
+    div.row-fluid
+        div(comment-section='{{concept.KN_ID}}')

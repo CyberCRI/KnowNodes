@@ -6,7 +6,8 @@
 
 
 (function() {
-  var baseController, commentModule;
+  var baseController, commentModule,
+    _this = this;
 
   commentModule = require('../../modules/comment');
 
@@ -15,19 +16,25 @@
   module.exports = {
     options: {
       before: {
-        index: [baseController.isAdmin()],
+        create: [baseController.isLoggedIn],
         destroy: [baseController.isAdmin]
       }
     },
-    index: function(request, response) {
-      var cb;
-      cb = baseController.callBack(response);
-      return commentModule.getAllComments(request.params.knownode, cb);
+    show: function(request, response) {
+      return module.exports.getRelatedComments(request, response);
     },
     create: function(request, response) {
-      var cb;
+      var cb, comment;
       cb = baseController.callBack(response);
-      return commentModule.createNewComment(request.body.comment, request.params.knownode, cb);
+      comment = new commentModule(request.user);
+      return comment.createNewComment(request.body.comment, request.body.originalObject.id, cb);
+    },
+    getRelatedComments: function(request, response) {
+      var cb, comment, commentsOfId;
+      cb = baseController.callBack(response);
+      comment = new commentModule(request.user);
+      commentsOfId = request.params.comment.replace(/:/g, '');
+      return comment.getAllCommentsOfKnownodeID(commentsOfId, cb);
     }
   };
 

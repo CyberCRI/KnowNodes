@@ -7,13 +7,15 @@
 
 
 (function() {
-  var baseController, knownodeModule, relationModule;
+  var baseController, commentModule, knownodeModule, relationModule;
 
   knownodeModule = require('../../modules/knownode');
 
   relationModule = require('../../modules/relation');
 
   baseController = require('../baseController');
+
+  commentModule = require('../../modules/comment');
 
   module.exports = {
     /*options:
@@ -56,6 +58,13 @@
       modKnownode = new knownodeModule(request.user);
       id = request.params.knownode.replace(/:/g, '');
       return modKnownode.getRelatedKnownodesToKnowNodeId(id, cb);
+    },
+    getRelatedComments: function(request, response) {
+      var cb, comment, id;
+      cb = baseController.callBack(response);
+      comment = new commentModule(request.user);
+      id = request.params.knownode.replace(/:/g, '');
+      return comment.getAllComments(id, cb);
     }
   };
 
