@@ -66,55 +66,17 @@ angular.module('KnowNodesApp.directives', [])
 
     .directive('commentSection', ['$http', function($http) {
         return {
-            restrict: 'E',
-            transclude: true,
+            restrict: 'EAC',
             scope: {
-                'href': '@'
+                'knownodeId': '='
             },
-            template: '<ul class="media-list" ng-transclude>' +
-                '</ul>',
+            templateUrl: 'partials/directiveTemplates/commentList',
+            link: function(scope, iElement, iAttrs, controller) {
+
+            },
             replace: true
         };
     }])
-
-    .directive('commentListItem', ['$http', function($http) {
-        return {
-            restrict: 'E',
-            transclude: true,
-            scope: {
-                'href': '@'
-            },
-            template: '<li class="media">' +
-                '<a class="pull-left" href="#">' +
-                    '<img class="media-object" data-src="holder.js/64x64">' +
-                '</a>' +
-                '<div class="media-body" ng-transclude>' +
-                    '<h4 class="media-heading">{{title}}</h4>' +
-                '</div>' +
-                '</li>',
-            replace: true
-        };
-    }])
-
-    .directive('commentDiv', ['$http', function($http) {
-    return {
-        restrict: 'E',
-        transclude: true,
-        scope: {
-            'href': '@'
-        },
-        template: '<div class="media">' +
-            '<a class="pull-left" href="#">' +
-            '<img class="media-object" data-src="holder.js/64x64">' +
-            '</a>' +
-            '<div class="media-body" ng-transclude>' +
-            '<h4 class="media-heading">{{title}}</h4>' +
-            '<p>{{content}}</p>' +
-            '</div>' +
-            '</li>',
-        replace: true
-    };
-}])
 
     .directive('userAutoComplete', ['$http', function($http) {
         return function(scope, element, attrs) {

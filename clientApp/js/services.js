@@ -13,6 +13,7 @@ angular.module('KnowNodesApp.services', [])
         };
 
         serviceReturned.getConnectedUser = function(){
+            $rootScope.user.displayName = serviceReturned.getUserDisplayName();
             return $rootScope.user;
         };
 
@@ -22,6 +23,22 @@ angular.module('KnowNodesApp.services', [])
                 return $rootScope.user.firstName + " " + $rootScope.user.lastName;
             }
             return '';
+        };
+
+        return serviceReturned;
+    })
+    .factory('broadcastService', function($rootScope){
+        var serviceReturned = {};
+
+        serviceReturned.message = '';
+
+        serviceReturned.prepForBroadcast = function(msg) {
+            this.message = msg;
+            this.broadcastItem();
+        };
+
+        serviceReturned.broadcastItem = function() {
+            $rootScope.$broadcast('handleBroadcast');
         };
 
         return serviceReturned;

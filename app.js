@@ -65,15 +65,20 @@ app.configure('production', function(){
 
 // routing
 app.resource('users');
+app.resource('comments', function() {
+    this.member.get('getRelatedComments');
+});
 app.resource('concepts', function() {
     //this.collection.get('getRelatedKnownodes');
     this.member.get('getRelatedKnownodes');
+    this.member.get('getRelatedComments');
 
     this.resource('knownodes', function() {
     });
 });
 app.resource('knownodes', function(){
     this.member.get('getRelatedKnownodes');
+    this.member.get('getRelatedComments');
 
     this.resource('knownodes', { id: 'related' });
     this.resource('files');

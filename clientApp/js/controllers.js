@@ -1,16 +1,5 @@
 'use strict';
 
-/* Controllers */
-function AppCtrl($scope, $http) {
-  $http({method: 'GET', url: '/api/name'}).
-  success(function(data, status, headers, config) {
-    $scope.name = data.name;
-  }).
-  error(function(data, status, headers, config) {
-    $scope.name = 'Error!'
-  });
-}
-
 /***
  * knownode users
  */
@@ -18,7 +7,7 @@ function AddUserCtrl($scope, $http, $location) {
     $scope.userForm = {};
     $scope.submitUser = function (userForm) {
         $http.post('/users', userForm).
-            success(function(data){
+            success(function(data, status, headers, config){
                 $location.path('/');
             });
     }
@@ -29,7 +18,7 @@ function LoginCtrl($scope, $http, $location, $rootScope) {
 
     $scope.performLogin = function () {
         $http.post('/login', $scope.loginForm).
-            success(function(data) {
+            success(function(data, status, headers, config) {
                 if(data == 'ERROR'){
                     return $scope.loginerror = true;
                 }
@@ -57,7 +46,7 @@ function AddConceptCtrl($scope, $http, $location) {
     var partnerList = document.getElementById('partner');
 
     $http.get('/users').
-        success(function(data){
+        success(function(data, status, headers, config){
             $scope.userList = data;
         });
 
@@ -76,7 +65,7 @@ function AddConceptCtrl($scope, $http, $location) {
 function ConceptListCtrl($scope, $http, userService) {
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
 
-    $http.get('/concepts').success(function(data){
+    $http.get('/concepts').success(function(data, status, headers, config){
         if(data.error) {
             alert(data.error);
             return;
@@ -91,11 +80,11 @@ function ArticleListCtrl($scope, $http, $routeParams, userService) {
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
 
     var conceptId = $scope.conceptId = $routeParams.id;
-    $http.get('/concepts/:' + conceptId).success(function(data){
+    $http.get('/concepts/:' + conceptId).success(function(data, status, headers, config){
        $scope.concept = data.success;
     });
 
-    $http.get('/concepts/:' + conceptId + '/getRelatedKnownodes').success(function(data){
+    $http.get('/concepts/:' + conceptId + '/getRelatedKnownodes').success(function(data, status, headers, config){
         if(data.error){
             return $scope.errorMessage = data.error;
         }
@@ -110,11 +99,11 @@ function KnownodeCtrl($scope, $http, $routeParams, userService) {
     var knownodeId = $scope.conceptId = $routeParams.id;
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
 
-    $http.get('/knownodes/:' + knownodeId).success(function(data){
+    $http.get('/knownodes/:' + knownodeId).success(function(data, status, headers, config){
         $scope.knownode = data.success;
     });
 
-    $http.get('/knownodes/:' + knownodeId + '/getRelatedKnownodes').success(function(data){
+    $http.get('/knownodes/:' + knownodeId + '/getRelatedKnownodes').success(function(data, status, headers, config){
         if(data.error){
             return $scope.errorMessage = data.error;
         }
@@ -124,6 +113,11 @@ function KnownodeCtrl($scope, $http, $routeParams, userService) {
 
 function AddPostCtrl($scope, $http, $location, $routeParams) {
     var dropbox = document.getElementById("dropbox");
+
+    var conceptId = $scope.conceptId = $routeParams.id;
+    $http.get('/concepts/:' + conceptId).success(function(data, status, headers, config){
+        $scope.concept = data.success;
+    });
 
     function dragEnterLeave(evt) {
         evt.stopPropagation();
@@ -227,7 +221,7 @@ function AddPostCtrl($scope, $http, $location, $routeParams) {
 
     function saveForm(){
         $http.post('/knownodes', $scope.form).
-            success(function(data) {
+            success(function(data, status, headers, config) {
                 if(data.success) {
                     $location.path('/concept/:' + $scope.form.originalPostId);
                 }
@@ -267,14 +261,14 @@ function IndexCtrl($scope, $http, $location) {
 }
 
 function DeleteUserCtrl($scope, $http, $location, $routeParams) {
-    $http.get('/api/users/' + $routeParams.id).
+    $http.get('/users/' + $routeParams.id).
         success(function(data) {
             $scope.post = data.post;
         });
 
     $scope.deleteUser = function () {
-        $http.delete('/api/users/:' + $routeParams.id).
-            success(function(data) {
+        $http.delete('/users/:' + $routeParams.id).
+            success(function(data, status, headers, config) {
                 $location.url('/');
             });
     };
@@ -283,3 +277,45 @@ function DeleteUserCtrl($scope, $http, $location, $routeParams) {
         $location.url('/');
     };
 }
+
+function commentCtrl($scope, $http, $routeParams, userService, broadcastService)
+{
+    var objectId = $routeParams.id;
+    $scope.comments = [];
+
+    $http.get('/comments/:' + objectId)
+        .success(function(data, status, headers, config) {
+            $scope.comments = data.success;
+        });
+
+    $scope.addComment = function() {
+
+    };
+
+    $scope.$on('handleBroadcast', function() {
+        $scope.comments.push(broadcastService.message);
+    });
+}
+commentCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'broadcastService'];
+
+function addCommentCtrl($scope, $http, $routeParams, userService, broadcastService) {
+    var objectId = $routeParams.id;
+    $scope.isUserLoggedIn = userService.isUserLoggedIn();
+
+    $scope.form = $scope.form || {};
+    $scope.form.comment = {};
+    $scope.form.originalObject = {};
+    $scope.form.originalObject.id = objectId;
+
+    $scope.submitComment = function(originalObjectId) {
+        $scope.form.originalObject.id = originalObjectId || $scope.form.originalObject.id;
+
+        $http.post('/comments', $scope.form).
+            success(function(data, status, headers, config) {
+                var comment = data.success;
+                comment.user = userService.getConnectedUser();
+                broadcastService.prepForBroadcast(comment);
+            });
+    };
+}
+addCommentCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'broadcastService'];

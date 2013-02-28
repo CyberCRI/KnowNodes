@@ -4,7 +4,7 @@
    Date: 20/2/13
    Time: 17:17
 
-#addKnownodeConcept
+div(ng-show='isUserLoggedIn')
     h2 Comment on this
     div(class="alert alert-error", ng-show="isError")
     form(ng-submit='submitComment()', ng-init="scope = { isDisabled: false }")

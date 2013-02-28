@@ -81,7 +81,7 @@ var kn_Post = exports.Post = schema.define('kn_Post', {
 
 var kn_Edge = exports.Edge = schema.define('kn_Edge', {
     KN_ID :        { type: String, length: 36, default: GUID, index: true },
-    __CreatedOn__:  { type: Date, default: Date.now },
+    __CreatedOn__:  { type: Date, default: Date.now, index: true },
 
     title:          { type: String, length: 255 },
     bodyText:        { type: String, length: 2000 },
