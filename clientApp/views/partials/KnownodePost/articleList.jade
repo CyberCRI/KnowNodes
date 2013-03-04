@@ -1,8 +1,8 @@
 div.subheader
   div.span23.offset1
-    h2.subheader(subtitle)
-    p.btn.btn-link.sort sort:
-    div.btn-group(data-toggle="buttons-radio")
+    h2.subheader {{concept.title}}
+    //p.btn.btn-link.sort sort:
+    //div.btn-group(data-toggle="buttons-radio")
       button.btn.btn-link.active-red(type="button", ng-click="orderProp='date'") New
       button.btn.btn-link(type="button", ng-click="orderProp='votes'") Popular
       button.btn.btn-link(type="button", ng-click="setMaster(subtitle)") Hot
@@ -11,4 +11,5 @@ div.subheader
       .movingEdge.left-align.span12
         connection
       resource
+    p &nbsp;
   a(ng-show='isUserLoggedIn', class='btn btn-success', href='/addKnownodeTo/{{conceptId}}') Add a new article knownode

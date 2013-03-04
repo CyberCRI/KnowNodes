@@ -1,12 +1,15 @@
-- if (userDisplayName)
+//- if (userDisplayName)
   include KnownodePost/knownodeList
-- else
-  div(class="hero-unit").span24
-    div.span12
-      h2 Welcome to Knownodes
-      p A place to create and discover interesting connections between things.
-      br
-      small Please note that we're in prototype phase, and registration is invite only, do feel free to browse around!
+//- else
+div(class="hero-unit").span24
+  div.span12
+    h2 Welcome to Knownodes
+    p A place to create and explore interesting connections between things.
+    br
+    small Please note that we're in prototype phase, and registration is invite only, do feel free to browse around!
+  - if (userDisplayName)
+    h2 Hello {{userDisplayName}}!
+  - else
     div.span11
       include User/login
-  img(src="/img/edge sketch.jpg", width="700px").offset1
+img(src="/img/edge sketch.jpg", width="700px").offset1

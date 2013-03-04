@@ -112,7 +112,7 @@ angular.module('KnowNodesApp.directives', [])
         };
     })
 
-    .directive('navLocationLogin', function($location, $rootScope) {
+    .directive('topBarLogin', function($location, $rootScope) {
         return {
             restrict: 'AC',
             transclude: true,
@@ -132,7 +132,7 @@ angular.module('KnowNodesApp.directives', [])
                     return $rootScope.userDisplayName;
                 }
             },
-            templateUrl: 'partials/directiveTemplates/navLocationLogin',
+            templateUrl: 'partials/directiveTemplates/topBarLogin',
             replace: true
         };
     })
