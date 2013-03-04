@@ -2,79 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="431296cc-86b7-4eb9-acfc-3fa01530ab6d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/KnowNodes.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/img/Edge sketch.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/img/KnownodesLogo.gif" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/img/KnownodesLogo.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/img/add.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/img/addIcon.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/img/down.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/img/edgeBlock.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/img/forkme_ribbon.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/img/greyLine.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/img/grid.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/img/inputAsNodes.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/img/inputButton.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/img/lineGrey.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/img/node.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/img/nodeGrey.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/img/nodeInput.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/img/openInNewWindow.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/img/parallel.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/img/up.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries/dorgarbash.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/sass_stdlib.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/scopes/scope_settings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/css/styles.less" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/img/popUpTemp.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/js/lib/angular-ui-bootstrap/ui-bootstrap-tpls-0.1.0-SNAPSHOT.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/js/lib/jquery-1.9.1.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/js/lib/less/less-1.3.3.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/js/lib/less/less.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/js/switchButton.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/json/edges.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/views/partials/addKnownode/addConnection.jade" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/views/partials/addKnownode/connectionDropdown.jade" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/views/partials/addKnownode/connectionInput.jade" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/views/partials/addKnownode/knowledgeDomain.jade" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/views/partials/addKnownode/menuDefault.jade" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/views/partials/addKnownode/plusButtonPopup.jade" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/views/partials/addKnownode/resource2Input.jade" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/views/partials/addKnownode/resourceInput.jade" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/views/partials/addKnownode/resourceTypeSelector.jade" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/views/partials/addKnownode/select.jade" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/subTitle.jade" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/clientApp/img/1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/clientApp/img/2.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/routes/API.comment.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/routes/API.concept.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/routes/API.knownode.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/routes/API.knownodeFiles.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/routes/API.relatedNodes.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/routes/API.user.coffee" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/routes/API.user.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/routes/API.user__.coffee" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/routes/log.js" afterPath="$PROJECT_DIR$/clientApp/css/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/img/glyphicons-halflings-white.png" afterPath="$PROJECT_DIR$/clientApp/img/glyphicons-halflings-white.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/img/glyphicons-halflings.png" afterPath="$PROJECT_DIR$/clientApp/img/glyphicons-halflings.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/css/bootstrap.css" afterPath="$PROJECT_DIR$/clientApp/css/bootstrap.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/css/bootstrap.min.css" afterPath="$PROJECT_DIR$/clientApp/css/bootstrap.min.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/js/app.js" afterPath="$PROJECT_DIR$/clientApp/js/app.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/topBarLogin.jade" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/navLocationLogin.jade" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/css/styles.less" afterPath="$PROJECT_DIR$/clientApp/css/styles.less" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/js/controllers.js" afterPath="$PROJECT_DIR$/clientApp/js/controllers.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/js/directives.js" afterPath="$PROJECT_DIR$/clientApp/js/directives.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/js/services.js" afterPath="$PROJECT_DIR$/clientApp/js/services.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/views/index.jade" afterPath="$PROJECT_DIR$/clientApp/views/index.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/views/layout.jade" afterPath="$PROJECT_DIR$/clientApp/views/layout.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/views/partials/KnownodePost/addEdge.jade" afterPath="$PROJECT_DIR$/clientApp/views/partials/KnownodePost/addEdge.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/views/partials/KnownodePost/articleList.jade" afterPath="$PROJECT_DIR$/clientApp/views/partials/KnownodePost/articleList.jade" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/views/partials/KnownodePost/conceptList.jade" afterPath="$PROJECT_DIR$/clientApp/views/partials/KnownodePost/conceptList.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/views/partials/User/login.jade" afterPath="$PROJECT_DIR$/clientApp/views/partials/User/login.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/concept.jade" afterPath="$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/concept.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/connection.jade" afterPath="$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/connection.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/resource.jade" afterPath="$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/resource.jade" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/views/partials/index.jade" afterPath="$PROJECT_DIR$/clientApp/views/partials/index.jade" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/views/partials/topBar.jade" afterPath="$PROJECT_DIR$/clientApp/views/partials/topBar.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/comments/index.js" afterPath="$PROJECT_DIR$/controllers/comments/index.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
     </list>
     <ignored path="KnowNodes.iws" />
@@ -95,10 +38,95 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="knownode.jade" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/clientApp/views/partials/KnownodePost/knownode.jade">
+      <file leaf-file-name="directives.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/clientApp/js/directives.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="126" column="0" selection-start="3777" selection-end="3887" vertical-scroll-proportion="-9.307693">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.jade" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/clientApp/views/partials/index.jade">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="9" column="24" selection-start="341" selection-end="366" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="conceptList.jade" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/clientApp/views/partials/KnownodePost/conceptList.jade">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="4" column="30" selection-start="134" selection-end="134" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="styles.less" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/clientApp/css/styles.less">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="197" column="19" selection-start="2893" selection-end="2893" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#8749#10644#2" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="resource.jade" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/resource.jade">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="4" column="36" selection-start="160" selection-end="160" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="connection.jade" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/connection.jade">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="7" column="23" selection-start="277" selection-end="277" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="articleList.jade" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/clientApp/views/partials/KnownodePost/articleList.jade">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6" column="21" selection-start="257" selection-end="257" vertical-scroll-proportion="0.44295302">
+              <folding>
+                <marker date="1362411693000" expanded="true" signature="397:578" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="subTitle.jade" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/subTitle.jade">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1" column="30" selection-start="34" selection-end="34" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="addEdge.jade" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/clientApp/views/partials/KnownodePost/addEdge.jade">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="4" column="6" selection-start="107" selection-end="107" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="concept.jade" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/concept.jade">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="8" column="25" selection-start="335" selection-end="335" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -117,27 +145,30 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app.js" />
-        <option value="$PROJECT_DIR$/clientApp/js/app.js" />
-        <option value="$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/subTitle.jade" />
-        <option value="$PROJECT_DIR$/clientApp/js/directives.js" />
-        <option value="$PROJECT_DIR$/clientApp/js/services.js" />
-        <option value="$PROJECT_DIR$/clientApp/js/controllers.js" />
-        <option value="$PROJECT_DIR$/clientApp/views/index.jade" />
         <option value="$PROJECT_DIR$/clientApp/views/layout.jade" />
-        <option value="$PROJECT_DIR$/clientApp/views/partials/topBar.jade" />
+        <option value="$PROJECT_DIR$/clientApp/views/partials/KnownodePost/knownode.jade" />
         <option value="$PROJECT_DIR$/clientApp/views/partials/index.jade" />
-        <option value="$PROJECT_DIR$/clientApp/css/styles.less" />
+        <option value="$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/topBarLogin.jade" />
         <option value="$PROJECT_DIR$/clientApp/views/partials/User/login.jade" />
+        <option value="$PROJECT_DIR$/clientApp/views/partials/topBar.jade" />
+        <option value="$PROJECT_DIR$/config/DB.conf.js" />
+        <option value="$PROJECT_DIR$/clientApp/js/controllers.js" />
+        <option value="$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/concept.jade" />
+        <option value="$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/connection.jade" />
+        <option value="$PROJECT_DIR$/clientApp/css/styles.less" />
+        <option value="$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/resource.jade" />
+        <option value="$PROJECT_DIR$/clientApp/js/directives.js" />
         <option value="$PROJECT_DIR$/clientApp/views/partials/KnownodePost/conceptList.jade" />
+        <option value="$PROJECT_DIR$/clientApp/views/partials/KnownodePost/addEdge.jade" />
+        <option value="$PROJECT_DIR$/clientApp/views/partials/KnownodePost/articleList.jade" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-700" />
-    <option name="y" value="-78" />
-    <option name="width" value="651" />
-    <option name="height" value="889" />
+    <option name="x" value="126" />
+    <option name="y" value="135" />
+    <option name="width" value="978" />
+    <option name="height" value="625" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -165,6 +196,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -262,6 +294,18 @@
               <option name="myItemId" value="clientApp" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="partials" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="directiveTemplates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -281,16 +325,47 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="KnowNodes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="KnowNodes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="clientApp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="KnowNodes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="KnowNodes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="clientApp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="css" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="recentsLimit" value="5" />
-    <property name="options.lastSelected" value="Settings.JavaScript" />
+    <property name="options.lastSelected" value="editor.preferences.appearance" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/app.js" />
     <property name="FullScreen" value="false" />
@@ -311,11 +386,13 @@
     </key>
   </component>
   <component name="RunManager" selected="Node.js.app.js">
-    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" working-dir="$PROJECT_DIR$">
+    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" working-dir="$PROJECT_DIR$" coffeescript-run="false">
       <method />
     </configuration>
-    <configuration default="false" name="app.js" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="/usr/local/bin/node" path-to-js-file="app.js" working-dir="$PROJECT_DIR$">
+    <configuration default="false" name="app.js" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="/usr/local/bin/node" path-to-js-file="app.js" working-dir="$PROJECT_DIR$" coffeescript-run="false">
+      <RunnerSettings RunnerId="NodeJS.debug" />
       <RunnerSettings RunnerId="NodeJS.run" />
+      <ConfigurationWrapper RunnerId="NodeJS.debug" />
       <ConfigurationWrapper RunnerId="NodeJS.run" />
       <method />
     </configuration>
@@ -324,34 +401,53 @@
     </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false">
+    <option name="USER" value="" />
+    <option name="PASSWORD" value="" />
+    <option name="mySSHConnectionTimeout" value="30000" />
+    <option name="mySSHReadTimeout" value="30000" />
+    <option name="LAST_MERGED_REVISION" />
+    <option name="MERGE_DRY_RUN" value="false" />
+    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
+    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
+    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
+    <option name="DETECT_NESTED_COPIES" value="true" />
+    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
+    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
+    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
+    <option name="FORCE_UPDATE" value="false" />
+    <option name="IGNORE_EXTERNALS" value="false" />
+    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
+      <changelist id="431296cc-86b7-4eb9-acfc-3fa01530ab6d" name="Default" comment="" />
       <created>1361455928474</created>
       <updated>1361455928474</updated>
     </task>
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-700" y="-78" width="651" height="889" extended-state="0" />
-    <editor active="false" />
+    <frame x="126" y="135" width="978" height="625" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32738096" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3280255" sideWeight="0.31572327" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6842767" sideWeight="0.97671133" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Pomodoro" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27853402" sideWeight="0.67261904" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3997344" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13944224" sideWeight="0.9668313" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Pomodoro" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -405,128 +501,119 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="8" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/clientApp/css/angular-ui.min.css">
+    <entry file="file://$PROJECT_DIR$/modules/relation._coffee">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/modules/knownode._coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="90" column="33" selection-start="2706" selection-end="2723" vertical-scroll-proportion="0.75609756" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/streamline/lib/callbacks/runtime.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="42" column="21" selection-start="881" selection-end="881" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/clientApp/css/style.css">
+    <entry file="file://$PROJECT_DIR$/node_modules/jugglingdb/lib/abstract-class.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="198" column="0" selection-start="5638" selection-end="5638" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/clientApp/views/partials/topBar.jade">
+    <entry file="file://$PROJECT_DIR$/modules/relation.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="18" selection-start="313" selection-end="313" vertical-scroll-proportion="0.28169015">
+        <state line="39" column="0" selection-start="1415" selection-end="1415" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/connection.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="23" selection-start="277" selection-end="277" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/concept.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="25" selection-start="335" selection-end="335" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/clientApp/css/styles.less">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="456" column="0" selection-start="7109" selection-end="7109" vertical-scroll-proportion="0.35211268">
-          <folding />
+        <state line="197" column="19" selection-start="2893" selection-end="2893" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#8749#10644#2" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/clientApp/js/directives.js">
+    <entry file="file://$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/resource.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="21" selection-start="430" selection-end="430" vertical-scroll-proportion="0.47887325">
+        <state line="4" column="36" selection-start="160" selection-end="160" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/clientApp/js/controllers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="66" column="17" selection-start="1684" selection-end="1684" vertical-scroll-proportion="0.27272728">
-          <folding>
-            <marker date="1361466513000" expanded="true" signature="3219:3511" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/clientApp/views/layout.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="13" selection-start="1012" selection-end="1012" vertical-scroll-proportion="0.5915493">
+        <state line="236" column="52" selection-start="7095" selection-end="7096" vertical-scroll-proportion="0.33070865">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/clientApp/views/index.jade">
+    <entry file="file://$PROJECT_DIR$/clientApp/js/directives.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="23" selection-start="489" selection-end="489" vertical-scroll-proportion="0.23943663">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/clientApp/js/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="24" selection-start="628" selection-end="628" vertical-scroll-proportion="-0.14084508">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/clientApp/views/partials/User/login.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="8" selection-start="417" selection-end="417" vertical-scroll-proportion="0.28169015">
-          <folding>
-            <marker date="1361473882000" expanded="true" signature="0:1352" placeholder="..." />
-            <marker date="1361473882000" expanded="true" signature="3:1352" placeholder="..." />
-            <marker date="1361473882000" expanded="true" signature="53:1352" placeholder="..." />
-            <marker date="1361473882000" expanded="true" signature="539:637" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/clientApp/views/partials/readPost.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="126" column="0" selection-start="3777" selection-end="3887" vertical-scroll-proportion="-9.307693">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/clientApp/views/partials/index.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="12" selection-start="362" selection-end="362" vertical-scroll-proportion="0.28169015">
-          <folding>
-            <marker date="1361473207000" expanded="true" signature="3:349" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/subTitle.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/navLocationLogin.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="9" column="24" selection-start="341" selection-end="366" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/clientApp/views/partials/KnownodePost/conceptList.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="39" selection-start="878" selection-end="878" vertical-scroll-proportion="0.5492958">
+        <state line="4" column="30" selection-start="134" selection-end="134" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/clientApp/views/partials/KnownodePost/knownode.jade">
+    <entry file="file://$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/subTitle.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="1" column="30" selection-start="34" selection-end="34" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clientApp/views/partials/KnownodePost/addEdge.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="6" selection-start="107" selection-end="107" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clientApp/views/partials/KnownodePost/articleList.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="21" selection-start="257" selection-end="257" vertical-scroll-proportion="0.44295302">
+          <folding>
+            <marker date="1362411693000" expanded="true" signature="397:578" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>

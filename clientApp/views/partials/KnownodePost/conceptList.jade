@@ -1,12 +1,14 @@
 div.subheader
   div.span23.offset1
     h2.subheader Current Concepts
-    span.btn.btn-link.sort sort:
-    div.btn-group(data-toggle="buttons-radio")
+    //span.btn.btn-link.sort sort:
+    //div.btn-group(data-toggle="buttons-radio")
       button.btn.btn-link.active-red(type="button", ng-click="orderProp='date'") New
       button.btn.btn-link(type="button", ng-click="orderProp='votes'") Popular
       button.btn.btn-link(type="button", ng-click="orderProp='hotRank'") Hot
   div(ng-repeat="concept in conceptList | orderBy:orderProp").span11.offset1
     concept
-  div.row
-    a.offset2(class='btn btn-success', href='/addConcept') Add your own new concept
+    p &nbsp;
+  - if (userDisplayName)
+    div.row
+      a.offset2(class='btn btn-success', href='/addConcept', ng-hide="isLoggedIn()") Add your own new concept

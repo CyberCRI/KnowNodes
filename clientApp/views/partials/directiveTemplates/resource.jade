@@ -3,19 +3,18 @@
     a(ng-href="/article/:{{knownode.article.KN_ID}}")
       img(src="/img/node.png")
   div.resourcecontent.span10#content
-    a.title(ng-href="/article/:{{knownode.article.KN_ID}}") {{knownode.article.title}}
+    a.knownode-title(ng-href="/article/:{{knownode.article.KN_ID}}") {{knownode.article.title}}
       a(ng-href="{{knownode.article.url}}", target="_blank")
-        img(src="/img/openInNewWindow.png", width="18px")
+        img.open-in-new-window(src="/img/openInNewWindow.png", width="20px")
     div.lineSeperator
-    p.body
-      span
-        small {{knownode.article.bodyText}}
-    p.tagLine
+    div.body.ellipsis
+      p.knownode-body {{knownode.article.bodyText}}
+    //p.tagLine
       p.knowledgeDomain
         small ?? {{}}
       span.resourceType
         small [ ?? {{}} ]&nbsp;
-  div.span1.buttonhack
+  //div.span1.buttonhack
     a.addButton.clicker(href="javascript:void(0);", ng-click="showtoggle2 = plusToggle('show')")
       img(src="/img/addIcon.png", class="example")
     div.popover.fade.right.in.hide(id="popover", ng-class="showtoggle2")

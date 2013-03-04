@@ -27,7 +27,7 @@
     create: function(request, response) {
       var cb;
       cb = baseController.callBack(response);
-      return commentModule.createNewComment(request.body.comment, request.params.knownode, cb);
+      return commentModule.createNewComment(request.body.comment, request.body.originalObject.id, cb);
     }
   };
 

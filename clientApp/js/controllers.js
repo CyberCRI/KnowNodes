@@ -135,6 +135,34 @@ function ArticleListCtrl($scope, $http, $routeParams, userService) {
         }
         $scope.knownodeList = data.success;
     });
+
+//    $scope.textTrim = function (nodeBody,edgeBody) {
+//        var maxSize = 200;
+//        var edgeMaxSize = (maxSize/10)*6;
+//        var reducedNodeBody, reducedEdgeBody, lastWordIndex, nodeBodyTrimmed, edgeBodyTrimmed;
+//        if(nodeBody.length+edgeBody.length < maxSize) {
+//            nodeBodyTrimmed = nodeBody;
+//            edgeBodyTrimmed = edgeBody;
+//        } else if(edgeBody.length<edgeMaxSize) {
+//            var nodeReduce = maxSize - edgeBody.length;
+//            reducedNodeBody = nodeBody.slice(0,nodeReduce);
+//            lastWordIndex = reducedNodeBody.lastIndexOf(" ");
+//            reducedNodeBody = reducedNodeBody.slice(0,lastWordIndex);
+//            nodeBodyTrimmed = reducedNodeBody+"...";
+//            edgeBodyTrimmed = edgeBody+"...";
+//        } else {
+//            reducedEdgeBody = edgeBody.slice(0, edgeMaxSize);
+//            lastWordIndex = reducedEdgeBody.lastIndexOf(" ");
+//            reducedEdgeBody = reducedEdgeBody.slice(0,lastWordIndex);
+//            reducedNodeBody = nodeBody.slice(0, maxSize -edgeMaxSize);
+//            lastWordIndex = reducedNodeBody.lastIndexOf(" ");
+//            reducedNodeBody = reducedNodeBody.slice(0,lastWordIndex);
+//            nodeBodyTrimmed = reducedNodeBody+"...";
+//            edgeBodyTrimmed = reducedEdgeBody+"...";
+//        }
+//        return edgeBodyTrimmed;
+//    }
+
 }
 ArticleListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
 
