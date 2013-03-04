@@ -1,9 +1,3 @@
-//
-   Created with JetBrains WebStorm.
-   User: Liad Magen
-   Date: 03/12/12
-   Time: 17:06
-
 h2 Register
 form(ng-submit='submitUser(user)')
     p
@@ -19,7 +13,7 @@ form(ng-submit='submitUser(user)')
         label(for='lastName') Last Name:
         input(ng-model='user.lastName', type='text', name='lastName', required)
     p
-        label(for='dataOfBirth') Date Of Birth:
-        input(ng-model='user.dataOfBirth', name='dataOfBirth', type='text', ui-date, required)
+        label(for='dataOfBirth') Date Of Birth(dd/mm/yyyy):
+        input(ng-model='user.dataOfBirth', name='dataOfBirth', type='text', required)
     p
         button(type='submit', class='btn btn-primary', ng-disabled="loginForm.$invalid") Add Me!
