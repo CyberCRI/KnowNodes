@@ -112,6 +112,12 @@ function KnownodeCtrl($scope, $http, $routeParams, userService) {
 }
 
 function AddPostCtrl($scope, $http, $location, $routeParams) {
+
+    var conceptId = $scope.conceptId = $routeParams.id;
+    $http.get('/concepts/:' + conceptId).success(function(data){
+        $scope.concept = data.success;
+    });
+
     var dropbox = document.getElementById("dropbox");
 
     var conceptId = $scope.conceptId = $routeParams.id;
