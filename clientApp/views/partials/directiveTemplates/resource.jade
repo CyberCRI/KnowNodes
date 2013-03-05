@@ -7,7 +7,7 @@
       a(ng-href="{{knownode.article.url}}", target="_blank")
         img.open-in-new-window(src="/img/openInNewWindow.png", width="20px")
     div.lineSeperator
-    div.body.ellipsis
+    div.body.ellipsis-node(title="{{knownode.article.bodyText}}")
       p.knownode-body {{knownode.article.bodyText}}
     //p.tagLine
       p.knowledgeDomain

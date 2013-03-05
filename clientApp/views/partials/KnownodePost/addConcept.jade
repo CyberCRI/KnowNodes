@@ -5,7 +5,9 @@ div.subheader
     form(ng-submit='submitConcept()', ng-init="scope = { isDisabled: false }")
         p
             label(for='title') Title:
-            input(ng-model='form.concept.title', name='title', style='width:500px', type='text', autofocus, required)
+            input(ng-model='form.concept.title', name='title', style='width:500px', type='text', autofocus, required, ngMaxLegth="140")
+            span {{form.concept.title.length}} out 140
+
         p
             label(for='bodyText') Abstract:
             textarea(ng-model='form.concept.bodyText', name='bodyText', required, style='width:500px; height:400px')
