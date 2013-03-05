@@ -3,7 +3,7 @@
     h3 How does it relate to {{concept.title}}?
     p
       label(for='connectionType') Choose a type of a connection
-      select(class="input-xlarge", ui-select2, ng-model='form.knownodeRelation.connectionType', name='connectionType')
+      select(class="input-xlarge", ui-select2, ng-model='form.knownodeRelation.connectionType', name='connectionType', style="width: 75%;")
         option(value="") pick something
         option(value="questions") questions
         option(value="critiques") critiques
@@ -39,10 +39,10 @@
         option(value="was created by") was created by
         option(value="is instance of") is instance of
     p
-      label(for='title') In brief:
-      input(class="input-xlarge", ng-model='form.knownodeRelation.title', name='title', required, ngMaxlength='140')
-      span {{form.knownodeRelation.title.length}} out 140
-      span.help-inline Just a short text about how it is related to the original article-node
+      label(for='title') Title: in one sentence: How is connected to {{concept.title}}?
+      input(class="input-xlarge", ng-model='form.knownodeRelation.title', name='title', required, ng-maxlength='250')
+      span &nbsp;{{(140 -(form.knownodeRelation.title.length))}}
     p
-      label(for='bodyText') Or more?
-      textarea(class="input-xlarge", ng-model='form.knownodeRelation.bodyText', name='bodyText', rows='5', ngMaxlength='2000', required, data-trigger="focus", data-unique="1")
+      label(for='bodyText') Body: Additional thoughts and information goes here
+
+      textarea(class="input-xlarge", ng-model='form.knownodeRelation.bodyText', name='bodyText', rows='5', ng-maxlength='2000', required, data-trigger="focus", data-unique="1")
