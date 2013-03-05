@@ -73,11 +73,10 @@
 
           return __this.neo4jDB.query((("START node=node(*) WHERE node.KN_ID='" + commentedObjectId) + "' RETURN node"), __cb(_, __frame, 7, 24, function ___(__0, __2) { commentedObject = __2;
             return __this.relation.createRelation(comment, "COMMENT_OF", commentedObject[0].node, properties, __cb(_, __frame, 8, 6, function __$Comment_prototype_createNewComment__4() {
-              comment.__data.user = __this.user;
               return _(null, comment); }, true)); }, true)); }, true)); }); };
 
 
-    Comment.prototype.createNewCommentToObjectId = function Comment_prototype_createNewCommentToObjectId__5(commentData, commentedObjectId, _) { var commentedObject, queryParams, __this = this; var __frame = { name: "Comment_prototype_createNewCommentToObjectId__5", line: 80 }; return __func(_, this, arguments, Comment_prototype_createNewCommentToObjectId__5, 2, __frame, function __$Comment_prototype_createNewCommentToObjectId__5() {
+    Comment.prototype.createNewCommentToObjectId = function Comment_prototype_createNewCommentToObjectId__5(commentData, commentedObjectId, _) { var commentedObject, queryParams, __this = this; var __frame = { name: "Comment_prototype_createNewCommentToObjectId__5", line: 79 }; return __func(_, this, arguments, Comment_prototype_createNewCommentToObjectId__5, 2, __frame, function __$Comment_prototype_createNewCommentToObjectId__5() {
 
         queryParams = {
           where: {

@@ -10,12 +10,13 @@
 BaseModule = require './baseModule'
 userModule = require('./user')
 mongoose = require('mongoose')
-fs = require('fs')
 postSchema = require('../DB/PostSchema')
 config = require('../config/DB.conf')
 gridfs = require('../DB/gridFS')
 
 module.exports = class KnownodeFiles extends BaseModule
+	gfs = null
+
 	constructor: (user) ->
 		super user
 
@@ -28,14 +29,23 @@ module.exports = class KnownodeFiles extends BaseModule
 		dbURL = config.getDBURL('mongoDB').url
 		mongoose.connect dbURL, opts
 		db = mongoose.connection
-		db.on 'error', callback
-		db.on 'open', () ->
+		db.on 'error', (err) ->
+			try
+				mongoose.connection.close()
+				callback err
+			catch error
+				console.log error
+				callback error
+
+		db.once 'open', () ->
+			console.log 'db is open'
 			Post = db.model 'Post', postSchema
+			console.log 'sending Post'
 			callback null, Post
 
 	saveFile: (files, params, _) =>
 		Post = @initDB _
-		gridfs.get id, _
+		console.log 'post initialized'
 		post = new Post
 			fileURL: params.url,
 			fileName: files.uploadedFile.name,
@@ -50,7 +60,9 @@ module.exports = class KnownodeFiles extends BaseModule
 
 		filepost = post.save _
 		filepost.addFile files.uploadedFile, opts, _
-		mongoose.disconnect
+		mongoose.connection.close()
+
+		filepost
 
 	getFile: (id, _) =>
 		Post = @initDB _

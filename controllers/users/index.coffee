@@ -8,7 +8,6 @@ user = new userModule
 module.exports =
 	options:
 		before: 
-			index: [baseController.isAdmin],
 			destroy: [baseController.isAdmin]
 
 	index: (request, response) ->

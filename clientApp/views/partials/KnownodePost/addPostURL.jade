@@ -8,20 +8,20 @@
 #addKnownodeStep1
 form(method="post", enctype="multipart/form-data", ng-submit='submitPost(form)')
     div(class="row-fluid")
-        div(class="span6")
+        div(class="span6 control-group")
             h3 Add a new KnowNode
             div(class='well')
                 p
-                    label(for='title') Title:
+                    label.control-label(for='title') Title:
                     input(class="input-xxlarge", placeholder="The title of the article - just copy paste", ng-model='form.knownodeForm.title', ngMaxlength='255', name='title', required, autofocus,)
                 p
-                    label(for='url') URL of the original file:
+                    label.control-label(for='url') URL of the original file:
                     input(class="input-xxlarge", placeholder="The URL where you took the file from", ng-model='form.knownodeForm.url', name='url')
                 p
-                    label(for='bodyText') Abstract from the file (or what it is about?):
+                    label.control-label(for='bodyText') Abstract from the file (or what it is about?):
                     textarea(class="input-xxlarge", placeholder="Abstract or brief about it", ng-model='form.knownodeForm.bodyText', name='bodyText', rows='5', required, style='width:100%')
                 p
-                    label(for='articleFile') PDF File:
+                    label.control-label(for='articleFile') PDF File:
                     input(nclass="input-xxlarge", placeholder="Attach a file", g-model='file', name='file', type='file', ng-model-instant, multiple, onchange="angular.element(this).scope().setFiles(this)")
 
                 div(id="dropbox", class="dropbox", ng-class="dropClass")
