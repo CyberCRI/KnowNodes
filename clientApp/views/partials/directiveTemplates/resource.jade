@@ -3,7 +3,7 @@
     a(ng-href="/article/:{{knownode.article.KN_ID}}")
       img(src="/img/node.png")
   div.resourcecontent.span10#content
-    a.knownode-title(ng-href="/article/:{{knownode.article.KN_ID}}") {{knownode.article.title}}
+    a.knownode-title(ng-href="/article/:{{knownode.article.KN_ID}}", title="{{knownode.article.title}}") {{knownode.article.title}}
       a(ng-href="{{knownode.article.url}}", target="_blank")
         img.open-in-new-window(src="/img/openInNewWindow.png", width="20px")
     div.lineSeperator
