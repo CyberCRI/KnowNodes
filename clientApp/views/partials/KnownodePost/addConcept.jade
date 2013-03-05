@@ -5,8 +5,8 @@ div.subheader
     form(ng-submit='submitConcept()', ng-init="scope = { isDisabled: false }")
         p
             label(for='title') Title:
-            input(ng-model='form.concept.title', name='title', style='width:500px', type='text', autofocus, required, ngMaxLegth="140")
-            span {{form.concept.title.length}} out 140
+            input(ng-model='form.concept.title', name='title', style='width:500px', type='text', autofocus, required, ng-maxlength="200")
+            span {{(140 - (form.concept.title.length))}} characters left
 
         p
             label(for='bodyText') Abstract:

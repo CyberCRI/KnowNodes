@@ -11,13 +11,13 @@ angular.module('KnowNodesApp.directives', [])
         };
     })
     .directive('concept', function() {
-        return {
-            restrict: 'EAC',
-            transclude: true,
-            templateUrl: 'partials/directiveTemplates/concept',
-            replace: true
-        };
-    })
+            return {
+                restrict: 'EAC',
+                transclude: true,
+                templateUrl: 'partials/directiveTemplates/concept',
+                replace: true
+            };
+        })
     .directive('formatSelector', function() {
         return {
             compile: function compile(tElement, tAttrs, transclude) {
