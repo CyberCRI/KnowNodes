@@ -5,30 +5,18 @@
    Time: 00:20
    displays the concept and its related knownodes
 
-#subjectList
-    div(class="well span6")
-        h2 {{concept.title}}
-        p {{concept.bodyText}}
+div.subheader
+    div.span23.offset1
+    h2.subheader Showing connections for: {{concept.title}}
 
-    div.row-fluid(ng-show='knownodeList.length > 0')
-        div.row-fluid
-            p.span7
-                a(ng-show='isUserLoggedIn', class='btn btn-success', href='/addKnownodeTo/{{conceptId}}') Add a new article knownode
-        dl(ng-repeat="knownode in knownodeList")
-            div.span7
-                dt
-                    a(ng-href="/article/:{{knownode.article.KN_ID}}") {{knownode.article.title}}
-                dd {{knownode.article.bodyText}}
-                p contributed by:
-                    strong {{knownode.article.user.firstName}} {{knownode.article.user.lastName}}
-                p
-                    button(class="btn-link offset11", ng-click="deleteArticle(knownode.article.id, $index)", ng-show="isOwner(knownode.article.user.id)") Delete
-            div(class="span5 well")
-                include articleEdge
-    div.row-fluid
-        p.span7(ng-show='knownodeList.length == 0') No knownodes yet :(
-    div.row-fluid
-        p.span7
-            a(ng-show='isUserLoggedIn', class='btn btn-success', href='/addKnownodeTo/{{conceptId}}') Add a new article knownode
-    div.row-fluid
-        div(comment-section='{{concept.KN_ID}}')
+    div(ng-show='knownodeList.length > 0')
+        div(ng-repeat="knownode in knownodeList | orderBy:orderProp").span11.offset1
+            div.knownode.span12.shortKnownode
+                .movingEdge.left-align.span12
+                    connection
+                resource
+                
+    p
+        a.span5.offset1(ng-show='isUserLoggedIn', class='btn btn-success', href='/addKnownodeTo/{{conceptId}}') Connect a new resource
+    
+    div(comment-section='{{concept.KN_ID}}')

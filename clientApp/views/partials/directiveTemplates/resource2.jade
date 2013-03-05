@@ -1,0 +1,30 @@
+.left-align.span12
+  div.map.span1#map
+    a(href="/concept/relatedTo/{{edge.source2.id}}")
+      img(src="/img/node.png").node
+  div.resourcecontent.span10#content
+    a.title(href="/concept/relatedTo/{{edge.source2.id}}") {{edge.source2.title}}
+      a(href="{{edge.source2.url}}")
+        img(src="/img/openInNewWindow.png", width="18px")
+    div.lineSeperator
+    p.body
+      span
+        small {{edge.source2.body}}
+    p.tagLine
+      p.knowledgeDomain
+        small {{edge.source2.knowledgeDomain}}
+      span.resourceType
+        small [ {{edge.source2.resourceType}} ]&nbsp;
+
+  div.span1.buttonhack
+    a.addButton.clicker(href="javascript:void(0);", ng-click="showtoggle3 = plusToggle('show')")
+      img(src="/img/addIcon.png", width="15px", class="example")
+    div.popover.fade.right.in.hide(id="popover", ng-class="showtoggle3")
+      div.arrow
+      div.popover-inner
+        h3.popover-title Input as
+        img(src="img/inputAsNodes.png", style="float:left; margin-top:6px;")
+        div.popover-content.hover Node1
+        div.popover-content.hover Node2
+        div.popover-content.hover Set a parallel link
+
