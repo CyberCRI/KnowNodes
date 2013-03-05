@@ -1,27 +1,21 @@
-//
-   Created with JetBrains WebStorm.
-   User: Liad Magen
-   Date: 03/12/12
-   Time: 17:06
-
 div.subheader
-    div.span23.offset1
-        h2.subheader Register
+  div.span23.offset1
+    h2.subheader Register
     form(ng-submit='submitUser(user)')
-        p
-            label(for='email') Your eMail:
-            input(type='email', ng-model='user.email', name='email', required)
-        p
-            label(for='password') Password:
-            input(ng-model='user.password', name='password', type='password', required)
-        p
-            label(for='firstName') First Name:
-            input(ng-model='user.firstName', type='text', name='firstName', required)
-        p
-            label(for='lastName') Last Name:
-            input(ng-model='user.lastName', type='text', name='lastName', required)
-        p
-            label(for='dateOfBirth') Date Of Birth:
-            input(ng-model='user.dateOfBirth', name='dateOfBirth', type='text', ui-date, required)
-        p
-            button(type='submit', class='btn btn-primary', ng-disabled="loginForm.$invalid") Add Me!
+      p
+        label(for='email') Your eMail:
+        input(type='email', ng-model='user.email', name='email', required)
+      p
+        label(for='password') Password:
+        input(ng-model='user.password', name='password', type='password', required)
+      p
+        label(for='firstName') First Name:
+        input(ng-model='user.firstName', type='text', name='firstName', required)
+      p
+        label(for='lastName') Last Name:
+        input(ng-model='user.lastName', type='text', name='lastName', required)
+      p
+        label(for='dateOfBirth') Date Of Birth:
+        input(ng-model='user.dateOfBirth', name='dateOfBirth', type='text', ui-date, required)
+      p
+        button(type='submit', class='btn btn-primary', ng-disabled="loginForm.$invalid") Add Me!
