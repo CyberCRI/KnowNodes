@@ -83,7 +83,7 @@ app.resource('knownodes', function(){
     this.resource('knownodes', { id: 'related' });
     this.resource('files');
 });
-app.resource('files', { id: 'knownodeFiles'});
+app.resource('files', { name: 'knownodeFiles', id: 'files'});
 //app.get('/concepts/:cid/knownodes/:kid', require('./routes/API.concept').load, require('./routes/API.knownode').load);
 
 app.post('/logout', function(req, res){
