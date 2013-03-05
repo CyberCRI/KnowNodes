@@ -9,6 +9,8 @@ div.subheader
   div(ng-repeat="concept in conceptList | orderBy:orderProp").span11.offset1
     concept
     p &nbsp;
-  - if (userDisplayName)
-    div.row
-      a.offset2(class='btn btn-success', href='/addConcept', ng-hide="isLoggedIn()") Add your own new concept
+- if (userDisplayName)
+  div.row
+    a.offset2(class='btn btn-success', href='/addConcept', ng-hide="isLoggedIn()") Add your own new concept
+- else
+  p &nbsp;

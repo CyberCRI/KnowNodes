@@ -4,10 +4,10 @@ div.connection.span12
   div.content.span10
     p.knownode-title {{knownode.connection.title}}
     div.lineSeperator
-    p.body.ellipsis(title="{{knownode.connection.bodyText}}")
+    div.body.ellipsis-edge(ng-show="knownode.connection.bodyText.length>0", title="{{knownode.connection.bodyText}}")
       div.knownode-body {{knownode.connection.bodyText}}
     div.tagLine
-      p.connectionType
+      p.connection-type
         small {{knownode.connection.connectionType}}
-      p.infoLine 3 hours ago, by {{knownode.article.user.firstName}} {{knownode.article.user.lastName}}
+      p.infoLine by {{knownode.article.user.firstName}} {{knownode.article.user.lastName}}
       div(style="clear:both")

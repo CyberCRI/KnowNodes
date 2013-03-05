@@ -1,44 +1,47 @@
-#addKnownodeStep1
-form(method="post", enctype="multipart/form-data", ng-submit='submitPost(form)')
-    div(class="row-fluid")
-        div(class="span6")
-            h3 Add a new KnowNode
-            div(class='well')
-                p
-                    label(for='title') Title:
-                    input(class="input-xxlarge", placeholder="The title of the article - just copy paste", ng-model='form.knownodeForm.title', ngMaxlength='255', name='title', required, autofocus,)
-                p
-                    label(for='url') URL of the original file:
-                    input(class="input-xxlarge", placeholder="The URL where you took the file from", ng-model='form.knownodeForm.url', name='url')
-                p
-                    label(for='bodyText') Abstract from the file (or what it is about?):
-                    textarea(class="input-xxlarge", placeholder="Abstract or brief about it", ng-model='form.knownodeForm.bodyText', name='bodyText', rows='5', required, style='width:100%')
-                p
-                    label(for='articleFile') PDF File:
-                    input(nclass="input-xxlarge", placeholder="Attach a file", g-model='file', name='file', type='file', ng-model-instant, multiple, onchange="angular.element(this).scope().setFiles(this)")
+div.subheader
+  div.span23.offset1
+    h2.subheader Add a new knownode
+  form(method="post", enctype="multipart/form-data", ng-submit='submitPost(form)').span11
+    div.span11
+      div(class='well')
+        h3 Add a new resource
+        p
+          label(for='title') Title:
+          input(class="input-xxlarge", placeholder="The title of the article - just copy paste", ng-model='form.knownodeForm.title', ngMaxlength='140', name='title', required, autofocus)
+          span {{form.knownodeForm.title.length}} out 140
 
-                div(id="dropbox", class="dropbox", ng-class="dropClass")
-                    span
-                        {{dropText}}
-                <span class="label label-info">.PDF Files - up to 16Mb</span>
-                div(ng-show="files.length")
-                div(ng-repeat="file in files.slice(0)")
-                    span
-                        {{file.webkitRelativePath || file.name}}
-                    span(ng-switch="file.size > 1024*1024")
-                        span(ng-switch-when="true")
-                            {{file.size / 1024 / 1024 | number:2}} MB
-                        span(ng-switch-default)
-                            {{file.size / 1024 | number:2}} kB
+        p
+          label(for='url') URL of the original file:
+          input(class="input-xxlarge", placeholder="The URL where you took the file from", ng-model='form.knownodeForm.url', name='url')
+        p
+          label(for='bodyText') Abstract from the file (or what it is about?):
+          textarea(class="input-xxlarge", placeholder="Abstract or brief about it", ng-model='form.knownodeForm.bodyText', name='bodyText', rows='5', required, style='width:100%')
+        p
+          label(for='articleFile') PDF File:
+          input(nclass="input-xxlarge", placeholder="Attach a file", g-model='file', name='file', type='file', ng-model-instant, multiple, onchange="angular.element(this).scope().setFiles(this)")
 
-                div(ng-show="progressVisible")
-                    div(class="percent")
-                        {{progress}}%
-                    div(class="progress-bar")
-                        div(class="uploaded", ng-style="{'width': progress+'%'}")
+        div(id="dropbox", class="dropbox", ng-class="dropClass")
+            span
+                {{dropText}}
+        <span class="label label-info">.PDF Files - up to 16Mb</span>
+        div(ng-show="files.length")
+        div(ng-repeat="file in files.slice(0)")
+            span
+                {{file.webkitRelativePath || file.name}}
+            span(ng-switch="file.size > 1024*1024")
+                span(ng-switch-when="true")
+                    {{file.size / 1024 / 1024 | number:2}} MB
+                span(ng-switch-default)
+                    {{file.size / 1024 | number:2}} kB
 
-        div(class="span5 offset1")
-                include addEdge
-    div(class="row-fluid")
-        div(class="span3 offset5")
-            button(type="submit", class='btn btn-large btn-primary') Upload, Save and everything
+        div(ng-show="progressVisible")
+            div(class="percent")
+                {{progress}}%
+            div(class="progress-bar")
+                div(class="uploaded", ng-style="{'width': progress+'%'}")
+
+  div.span11.offset1
+    include addEdge
+div.row
+  div(class="span3 offset5")
+  button(type="submit", class='btn btn-large btn-primary') Upload, Save and everything
