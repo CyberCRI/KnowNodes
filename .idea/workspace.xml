@@ -4,17 +4,7 @@
     <list default="true" id="431296cc-86b7-4eb9-acfc-3fa01530ab6d" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/css/styles.less" afterPath="$PROJECT_DIR$/clientApp/css/styles.less" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/js/app.js" afterPath="$PROJECT_DIR$/clientApp/js/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/views/partials/KnownodePost/addConcept.jade" afterPath="$PROJECT_DIR$/clientApp/views/partials/KnownodePost/addConcept.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/views/partials/KnownodePost/addEdge.jade" afterPath="$PROJECT_DIR$/clientApp/views/partials/KnownodePost/addEdge.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/views/partials/KnownodePost/addPostURL.jade" afterPath="$PROJECT_DIR$/clientApp/views/partials/KnownodePost/addPostURL.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/views/partials/KnownodePost/articleList.jade" afterPath="$PROJECT_DIR$/clientApp/views/partials/KnownodePost/articleList.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/views/partials/KnownodePost/conceptList.jade" afterPath="$PROJECT_DIR$/clientApp/views/partials/KnownodePost/conceptList.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/views/partials/User/addUser.jade" afterPath="$PROJECT_DIR$/clientApp/views/partials/User/addUser.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/views/partials/User/login.jade" afterPath="$PROJECT_DIR$/clientApp/views/partials/User/login.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/concept.jade" afterPath="$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/concept.jade" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/connection.jade" afterPath="$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/connection.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/resource.jade" afterPath="$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/resource.jade" />
     </list>
     <ignored path="KnowNodes.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -55,7 +45,7 @@
       <file leaf-file-name="connection.jade" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/connection.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="15" selection-start="382" selection-end="382" vertical-scroll-proportion="0.0">
+            <state line="5" column="6" selection-start="148" selection-end="148" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -70,22 +60,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="styles.less" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="styles.less" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/clientApp/css/styles.less">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="574" column="0" selection-start="11328" selection-end="11328" vertical-scroll-proportion="-484.84616">
+            <state line="263" column="32" selection-start="4278" selection-end="4278" vertical-scroll-proportion="0.3993994">
               <folding>
                 <element signature="e#8859#10754#2" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="addPost.jade" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/clientApp/views/partials/addPost.jade">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
             </state>
           </provider>
         </entry>
@@ -119,10 +100,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="addPostURL.jade" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="addPostURL.jade" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/clientApp/views/partials/KnownodePost/addPostURL.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="20" selection-start="296" selection-end="296" vertical-scroll-proportion="0.52519894">
+            <state line="6" column="23" selection-start="223" selection-end="223" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="articleEdge.jade" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/clientApp/views/partials/KnownodePost/articleEdge.jade">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="7" column="5" selection-start="248" selection-end="248" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -152,17 +142,17 @@
         <option value="$PROJECT_DIR$/clientApp/views/partials/KnownodePost/articleList.jade" />
         <option value="$PROJECT_DIR$/config/DB.conf.js" />
         <option value="$PROJECT_DIR$/clientApp/views/partials/User/addUser.jade" />
-        <option value="$PROJECT_DIR$/clientApp/css/styles.less" />
-        <option value="$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/connection.jade" />
         <option value="$PROJECT_DIR$/clientApp/views/partials/KnownodePost/addEdge.jade" />
         <option value="$PROJECT_DIR$/clientApp/views/partials/KnownodePost/addConcept.jade" />
         <option value="$PROJECT_DIR$/clientApp/views/partials/KnownodePost/addPostURL.jade" />
+        <option value="$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/connection.jade" />
+        <option value="$PROJECT_DIR$/clientApp/css/styles.less" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="268" />
-    <option name="y" value="215" />
+    <option name="x" value="201" />
+    <option name="y" value="224" />
     <option name="width" value="978" />
     <option name="height" value="609" />
   </component>
@@ -464,7 +454,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="268" y="215" width="978" height="609" extended-state="6" />
+    <frame x="201" y="224" width="978" height="609" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -541,13 +531,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/resource.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="21" selection-start="416" selection-end="416" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/clientApp/views/partials/KnownodePost/conceptList.jade">
       <provider selected="true" editor-type-id="text-editor">
         <state line="8" column="7" selection-start="401" selection-end="401" vertical-scroll-proportion="0.0">
@@ -620,22 +603,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/clientApp/css/styles.less">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="574" column="0" selection-start="11328" selection-end="11328" vertical-scroll-proportion="-484.84616">
-          <folding>
-            <element signature="e#8859#10754#2" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/connection.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="15" selection-start="382" selection-end="382" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/clientApp/views/partials/KnownodePost/addEdge.jade">
       <provider selected="true" editor-type-id="text-editor">
         <state line="33" column="42" selection-start="1862" selection-end="1862" vertical-scroll-proportion="0.0">
@@ -652,8 +619,31 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/clientApp/views/partials/KnownodePost/addPostURL.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="20" selection-start="296" selection-end="296" vertical-scroll-proportion="0.52519894">
+        <state line="6" column="23" selection-start="223" selection-end="223" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clientApp/views/partials/KnownodePost/articleEdge.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="5" selection-start="248" selection-end="248" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clientApp/views/partials/directiveTemplates/connection.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="6" selection-start="148" selection-end="148" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clientApp/css/styles.less">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="263" column="32" selection-start="4278" selection-end="4278" vertical-scroll-proportion="0.3993994">
+          <folding>
+            <element signature="e#8859#10754#2" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
