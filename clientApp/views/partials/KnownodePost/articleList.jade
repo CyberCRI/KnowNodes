@@ -7,7 +7,7 @@
 
 div.subheader
     div.span23.offset1
-    h2.subheader Showing connections for: {{concept.title}}
+        h2.subheader Showing connections for: {{concept.title}}
 
     div(ng-show='knownodeList.length > 0')
         div(ng-repeat="knownode in knownodeList | orderBy:orderProp").span11.offset1
@@ -16,7 +16,7 @@ div.subheader
                     connection
                 resource
                 
-    p
-        a.span5.offset1(ng-show='isUserLoggedIn', class='btn btn-success', href='/addKnownodeTo/{{conceptId}}') Connect a new resource
-    
-    div(comment-section='{{concept.KN_ID}}')
+    p.span23.offset1
+        a(ng-show='isUserLoggedIn', class='btn btn-success', href='/addKnownodeTo/{{conceptId}}') Connect a new resource
+    div.span23.offset1
+        div(comment-section='{{concept.KN_ID}}')
