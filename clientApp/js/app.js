@@ -12,7 +12,7 @@
  */
 
 // Declare app level module which depends on filters, and services
-var KnowNodesAppModule = angular.module('KnowNodesApp', ['ui', '$strap', 'KnowNodesApp.filters', 'KnowNodesApp.services', 'KnowNodesApp.directives']).
+var KnowNodesAppModule = angular.module('KnowNodesApp', ['ui', 'ui.directives', '$strap', 'KnowNodesApp.filters', 'KnowNodesApp.services', 'KnowNodesApp.directives']).
     config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
         $routeProvider.
             when('/', {
@@ -46,14 +46,19 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['ui', '$strap', 'KnowNo
             when('/concept/:id', {
                 templateUrl: 'partials/KnownodePost/articleList',
                 controller: ArticleListCtrl
+                //controller: ConceptListCtrl
             }).
             when('/addKnownodeTo/:id', {
                 templateUrl: 'partials/KnownodePost/addPostURL',
                 controller: AddPostCtrl
             }).
             when('/article/:id', {
-                templateUrl: 'partials/KnownodePost/knownode',
-                controller: KnownodeCtrl
+                templateUrl: 'partials/KnownodePost/articleList',
+                controller: ArticleListCtrl
+            }).
+            when('/knownodeList', {
+                templateUrl: 'partials/KnownodePost/knownodeList',
+                controller: ArticleListCtrl
             }).
             otherwise({
                 redirectTo: '/'

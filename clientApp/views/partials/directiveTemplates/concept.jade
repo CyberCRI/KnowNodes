@@ -1,0 +1,28 @@
+div.knownode.span12
+  div.map.span1#map
+    a(href="/concept/{{concept.conceptId}}")
+      img(src="/img/node.png")
+  div.resourcecontent.span10#content
+    a.knownode-title(href="/concept/{{concept.conceptId}}") {{concept.title}}&nbsp;
+    div.lineSeperator
+    div.ellipsis-concept.body(title="{{concept.content}}")
+      div.knownode-body {{concept.content}}
+    //p.tagLine
+      p.knowledgeDomain
+        small ?? {{}}
+    //span.resourceType
+      small [ ?? {{edge.source1.resourceType}} ]&nbsp;
+
+  //div.span1.buttonhack
+    a.addButton.clicker(href="javascript:void(0);", ng-click="showtoggle2 = plusToggle('show')")
+      img(src="/img/addIcon.png", class="example")
+    div.popover.fade.right.in.hide(id="popover", ng-class="showtoggle2")
+      div.arrow
+      div.popover-inner
+        h3.popover-title Input as
+        img(src="img/inputAsNodes.png", style="float:left; margin-top:6px;")
+        div.popover-content.hover(ng-click="inputNode(1)") Node1
+        div.popover-content.hover(ng-click="inputNode(2)") Node2
+        div.popover-content.hover(ng-click="inputNode(3)") Set a parallel link
+        div(ng-transclude)
+

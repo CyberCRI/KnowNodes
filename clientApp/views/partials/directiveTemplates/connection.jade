@@ -1,0 +1,14 @@
+div.connection.span12
+  div.map.span1
+    img.edge-map-icon(src="/img/edgeBlock.png", width="20")
+  div.content.span10
+    div.ellipsis-title
+      p.knownode-title {{knownode.connection.title}}
+    div.lineSeperator
+    div.body.ellipsis-edge(ng-show="knownode.connection.bodyText.length>0", title="{{knownode.connection.bodyText}}")
+      div.knownode-body {{knownode.connection.bodyText}}
+    div.tagLine
+      p.connection-type
+        small {{knownode.connection.connectionType}}
+      p.infoLine by {{knownode.article.user.firstName}} {{knownode.article.user.lastName}}
+      div(style="clear:both")
