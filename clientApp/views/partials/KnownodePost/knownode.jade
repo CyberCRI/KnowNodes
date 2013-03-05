@@ -2,17 +2,8 @@
     div(class="well span6")
         h2 {{knownode.title}}
         p {{knownode.bodyText}}
-        p(ng-show="attachedFile")
-            em Attached file:&nbsp;
-            a.btn-link(ng-href="/knownodeFiles/:{{knownode.fileId}}", target='_blank') {{attachedFile.files[0].filename}}
-        p(ng-show="knownode.url")
-            em Source URL:&nbsp;
-            a.btn-link(ng-href="{{knownode.url}}", target='_blank') {{knownode.url}}
 
     div.row-fluid(ng-show='knownodeList.length > 0')
-        div.row-fluid
-            p.span7
-                a(ng-show='isUserLoggedIn', class='btn btn-success', href='/addKnownodeTo/{{conceptId}}') Add a new article knownode
         dl(ng-repeat="knownode in knownodeList")
             div.span7
                 dt
@@ -23,7 +14,6 @@
             div(class="span5 well")
                 include articleEdge
     div.row-fluid
-        p.span7(ng-show='knownodeList.length == 0') No knownodes yet :(
+        p(ng-show='knownodeList.length == 0') No knownodes yet :(
     div.row-fluid
-        p.span7
-            a(ng-show='isUserLoggedIn', class='btn btn-success', href='/addKnownodeTo/{{conceptId}}') Add a new article knownode
+        a(ng-show='isUserLoggedIn', class='btn btn-success', href='/addKnownodeTo/{{conceptId}}') Add a new article knownode

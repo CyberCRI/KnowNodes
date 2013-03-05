@@ -24,7 +24,6 @@ module.exports = class Knownode extends BaseModule
 			'START firstNode=node({startNode})',
 			'MATCH (firstNode) -[:RELATED_TO]- (edge) -[:RELATED_TO]- (article) -[:CREATED_BY]- (articleUser),',
 			'(edge) -[:CREATED_BY]- (edgeUser) ',
-			'WHERE article <> firstNode ',
 			'RETURN article, articleUser, edge, edgeUser'
 		].join('\n');
 
@@ -97,19 +96,3 @@ module.exports = class Knownode extends BaseModule
 		edge = @relation.addKnownodeEdge existingNode, relationData, knownode, _
 		knownode.edge = edge
 		knownode
-
-	# destroy is delete node
-	destroy: (id, _) ->
-		query = [
-			'START user=node({userId}), n=node({nodeId})',
-			'MATCH ()-[r]-n-[:CREATED_BY]-(user)',
-			'DELETE n'
-		].join('\n');
-
-		console.log 'user is' + @user.id
-
-		params =
-			userId: @user.id,
-			nodeId: id
-
-		@neo4jDB.query query, params, _

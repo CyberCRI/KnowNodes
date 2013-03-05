@@ -29,12 +29,6 @@ module.exports =
 		else
 			modKnownode.createNewKnownode request.body.knownodeForm, cb
 
-	destroy: (request, response) ->
-		cb = baseController.callBack response
-		modKnownode = new knownodeModule request.user
-		id = request.params.knownode.replace /:/g, ''
-		modKnownode.destroy id, cb
-
 	search: (request, response) ->
 		cb = baseController.callBack response
 

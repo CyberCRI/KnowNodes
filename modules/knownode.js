@@ -32,7 +32,7 @@
     Knownode.prototype.getRelatedKnownodesToNodeId = function Knownode_prototype_getRelatedKnownodesToNodeId__1(nodeId, _) { var nodes, params, query, user, __this = this; var __frame = { name: "Knownode_prototype_getRelatedKnownodesToNodeId__1", line: 32 }; return __func(_, this, arguments, Knownode_prototype_getRelatedKnownodesToNodeId__1, 1, __frame, function __$Knownode_prototype_getRelatedKnownodesToNodeId__1() {
 
         nodes = [];
-        query = ["START firstNode=node({startNode})","MATCH (firstNode) -[:RELATED_TO]- (edge) -[:RELATED_TO]- (article) -[:CREATED_BY]- (articleUser),","(edge) -[:CREATED_BY]- (edgeUser) ","WHERE article <> firstNode ","RETURN article, articleUser, edge, edgeUser",].join("\n");
+        query = ["START firstNode=node({startNode})","MATCH (firstNode) -[:RELATED_TO]- (edge) -[:RELATED_TO]- (article) -[:CREATED_BY]- (articleUser),","(edge) -[:CREATED_BY]- (edgeUser) ","RETURN article, articleUser, edge, edgeUser",].join("\n");
         params = {
           startNode: nodeId };
 
@@ -100,17 +100,6 @@
             return __this.relation.addKnownodeEdge(existingNode, relationData, knownode, __cb(_, __frame, 4, 13, function ___(__0, __3) { edge = __3;
               knownode.edge = edge;
               return _(null, knownode); }, true)); }, true)); }, true)); }); };
-
-
-    Knownode.prototype.destroy = function Knownode_prototype_destroy__7(id, _) { var params, query, __this = this; var __frame = { name: "Knownode_prototype_destroy__7", line: 105 }; return __func(_, this, arguments, Knownode_prototype_destroy__7, 1, __frame, function __$Knownode_prototype_destroy__7() {
-
-        query = ["START user=node({userId}), n=node({nodeId})","MATCH ()-[r]-n-[:CREATED_BY]-(user)","DELETE n",].join("\n");
-        console.log(("user is" + __this.user.id));
-        params = {
-          userId: __this.user.id,
-          nodeId: id };
-
-        return __this.neo4jDB.query(query, params, __cb(_, __frame, 8, 13, _, true)); }); };
 
 
     return Knownode;

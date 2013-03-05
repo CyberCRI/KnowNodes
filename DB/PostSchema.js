@@ -19,12 +19,8 @@ postSchema = new Schema({
 postSchema.methods.addFile = function(file, options, fn) {
     var _this = this;
     return gridfs.putFile(file.path, file.filename, options, function(err, result) {
-        if(err) {
-            fn(err);
-        }
         _this.files.push(result);
-        fn(null, _this);
-        //return _this.save(fn);
+        return _this.save(fn);
     });
 };
 
