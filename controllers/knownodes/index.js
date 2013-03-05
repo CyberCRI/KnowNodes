@@ -42,13 +42,6 @@
         return modKnownode.createNewKnownode(request.body.knownodeForm, cb);
       }
     },
-    destroy: function(request, response) {
-      var cb, id, modKnownode;
-      cb = baseController.callBack(response);
-      modKnownode = new knownodeModule(request.user);
-      id = request.params.knownode.replace(/:/g, '');
-      return modKnownode.destroy(id, cb);
-    },
     search: function(request, response) {
       var cb;
       return cb = baseController.callBack(response);
