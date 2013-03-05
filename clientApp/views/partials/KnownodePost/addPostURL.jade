@@ -1,29 +1,23 @@
-//
-   Created with JetBrains WebStorm.
-   User: Liad Magen
-   Date: 10/12/12
-   Time: 18:14
-   To change this template use File | Settings | File Templates.
-
-#addKnownodeStep1
-form(method="post", enctype="multipart/form-data", ng-submit='submitPost(form)')
-    div(class="row-fluid")
-        div(class="span6 control-group")
-            h3 Add a new KnowNode
+div.subheader
+    div.span23.offset1
+        h2.subheader Add a new knownode
+    form(method="post", enctype="multipart/form-data", ng-submit='submitPost(form)').span24
+        div.span11
             div(class='well')
+                h3 Add a new resource
                 p
-                    label.control-label(for='title') Title:
-                    input(class="input-xxlarge", placeholder="The title of the article - just copy paste", ng-model='form.knownodeForm.title', ngMaxlength='255', name='title', required, autofocus,)
+                    label(for='title') Title:
+                    input(placeholder="The title of the article - just copy paste", ng-model='form.knownodeForm.title', ng-maxlength='200', name='title', required, autofocus, style="width:100%;").input_xxlarge
+                    span {{(140 -(form.knownodeForm.title.length))}}
                 p
-                    label.control-label(for='url') URL of the original file:
-                    input(class="input-xxlarge", placeholder="The URL where you took the file from", ng-model='form.knownodeForm.url', name='url')
+                    label(for='url') URL of the original file:
+                    input(class="input-xxlarge", placeholder="The URL where you took the file from", ng-model='form.knownodeForm.url', name='url', style="width:100%;")
                 p
-                    label.control-label(for='bodyText') Abstract from the file (or what it is about?):
+                    label(for='bodyText') Abstract from the file (or what it is about?):
                     textarea(class="input-xxlarge", placeholder="Abstract or brief about it", ng-model='form.knownodeForm.bodyText', name='bodyText', rows='5', required, style='width:100%')
                 p
-                    label.control-label(for='articleFile') PDF File:
+                    label(for='articleFile') PDF File:
                     input(nclass="input-xxlarge", placeholder="Attach a file", g-model='file', name='file', type='file', ng-model-instant, multiple, onchange="angular.element(this).scope().setFiles(this)")
-
                 div(id="dropbox", class="dropbox", ng-class="dropClass")
                     span
                         {{dropText}}
@@ -43,9 +37,10 @@ form(method="post", enctype="multipart/form-data", ng-submit='submitPost(form)')
                         {{progress}}%
                     div(class="progress-bar")
                         div(class="uploaded", ng-style="{'width': progress+'%'}")
+        div.span11.offset1
+            include addEdge
+        div.row
+            div.span8.offset1
+                button(type="submit").btn.btn-large.btn-primary Upload, Save and everything
 
-        div(class="span5 offset1")
-                include addEdge
-    div(class="row-fluid")
-        div(class="span3 offset5")
-            button(type="submit", class='btn btn-large btn-primary') Upload, Save and everything
+

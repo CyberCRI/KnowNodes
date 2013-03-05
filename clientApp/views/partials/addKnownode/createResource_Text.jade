@@ -1,0 +1,14 @@
+div.tab-pane(id='{{resourceDirection}}_Text')
+  div.control-group
+    label.control-label(for="title").span2 Title
+    div.controls
+      input(type="text", id="title", placeholder="Enter title here", ng-model='form.title', ngMaxlength='255', name='title', required, autofocus).span9
+  div.control-group
+    label.control-label(for="bodyText").span2 Body
+    div.controls
+      textarea(rows="2", id="bodyText", placeholder="Enter additional text here(optional)", ng-model='form.knownodeForm.bodyText', name='bodyText', required).span9
+  div.control-group
+    div.controls
+      button.btn.knowledgeButton.pull-right.span3(ng-click="showKnowledgeDomain= toggleKnowledgeDomain('show')") Choose domain
+      resource-type-selector
+      knowledge-domain-selector
