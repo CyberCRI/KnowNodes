@@ -14,15 +14,37 @@
 
   module.exports = {
     show: function(request, response) {
-      var cb, id;
+      var cb, fileModule, id;
       cb = baseController.callBack(response);
-      id = request.params.user.replace(/:/g, '');
-      return knownodeFileModule.getUserByNodeId(id, cb);
+      id = request.params.files.replace(/:/g, '');
+      fileModule = new knownodeFileModule(request.user);
+      return fileModule.getFile(id, function(err, store) {
+        var fileStream;
+        if (err != null) {
+          return response.json({
+            error: err
+          });
+        } else {
+          response.writeHead(200, {
+            'Content-Type': store.contentType,
+            'Content-Length': store.length,
+            'Content-disposition': 'attachment; filename=' + store.filename
+          });
+          fileStream = store.stream(false);
+          fileStream.pipe(response, {
+            end: false
+          });
+          return fileStream.on("end", function() {
+            return fileStream.end();
+          });
+        }
+      });
     },
     create: function(request, response) {
-      var cb;
+      var cb, fileModule;
       cb = baseController.callBack(response);
-      return knownodeFileModule.saveFile(request.files, request.param, cb);
+      fileModule = new knownodeFileModule(request.user);
+      return fileModule.saveFile(request.files, request.param, cb);
     }
   };
 

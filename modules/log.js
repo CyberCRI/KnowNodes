@@ -15,7 +15,7 @@
       log = new this.DB.Log;
       log.user = ((this.user && this.user.id) ? this.user.id : "anonymous");
       log.title = title;
-      log.content = description;
+      log.description = description;
       return log.save(console.log); };
 
 
