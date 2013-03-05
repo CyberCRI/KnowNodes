@@ -66,10 +66,13 @@ function LogoutCtrl($http, $location, $rootScope) {
  */
 function AddConceptCtrl($scope, $http, $location) {
     var partnerList = document.getElementById('partner');
+    $scope.userList = [];
 
     $http.get('/users').
         success(function(data, status, headers, config){
-            $scope.userList = data;
+            angular.forEach(data.success, function(user) {
+                $scope.userList.push(user.displayName);
+            });
         });
 
     $scope.form = {};
@@ -122,6 +125,20 @@ ConceptListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
 function ArticleListCtrl($scope, $http, $routeParams, userService) {
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
 
+    $scope.deleteArticle = function(id, index) {
+        $http.delete('/knownodes/:' + id).
+            success(function(){
+                $scope.knownodeList.splice(index, 1);
+            });
+    };
+
+    $scope.isOwner = function(id) {
+        if(userService.isUserLoggedIn()) {
+            return userService.getConnectedUser().id === id;
+        }
+        return false;
+    }
+
     var conceptId = $scope.conceptId = $routeParams.id;
     $http.get('/concepts/:' + conceptId).success(function(data, status, headers, config){
        $scope.concept = data.success;
@@ -144,6 +161,9 @@ function KnownodeCtrl($scope, $http, $routeParams, userService) {
 
     $http.get('/knownodes/:' + knownodeId).success(function(data, status, headers, config){
         $scope.knownode = data.success;
+        if(data.success.fileData) {
+            $scope.attachedFile = JSON.parse(data.success.fileData);
+        }
     });
 
     $http.get('/knownodes/:' + knownodeId + '/getRelatedKnownodes').success(function(data, status, headers, config){
@@ -337,8 +357,10 @@ function AddPostCtrl($scope, $http, $location, $routeParams) {
 
     function uploadComplete(evt) {
         /* This event is raised when the server send back a response */
-        var fileData = JSON.parse(evt.target.responseText);
-        $scope.form.knownodeForm.fileData = fileData;
+        var fileData = JSON.parse(evt.target.responseText).success;
+        $scope.form.knownodeForm.fileId = fileData.files[0]._id;
+        $scope.form.knownodeForm.fileName = fileData.files[0].filename;
+        $scope.form.knownodeForm.fileData = JSON.stringify(fileData);
 
         saveForm();
         //$location.path('/AddEdge');
