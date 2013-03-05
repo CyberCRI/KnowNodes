@@ -32,7 +32,7 @@ function clientErrorHandler(err, req, res, next) {
 
 // configuration
 app.configure(function(){
-    app.set('port', process.env.PORT || 3000);
+    app.set('port', process.env.PORT || 4000);
     app.set('views', path.join(__dirname, 'clientApp/views'));
     app.set('view engine', 'jade');
     app.set('controllers', path.join(__dirname, 'controllers'));

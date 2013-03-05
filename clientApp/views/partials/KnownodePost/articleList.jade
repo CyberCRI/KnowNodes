@@ -1,32 +1,15 @@
-//
-   Created with JetBrains WebStorm.
-   User: Liad Magen
-   Date: 16/01/13
-   Time: 00:20
-   displays the concept and its related knownodes
-
-#subjectList
-    div(class="well span6")
-        h2 {{concept.title}}
-        p {{concept.bodyText}}
-
-    div.row-fluid(ng-show='knownodeList.length > 0')
-        dl(ng-repeat="knownode in knownodeList")
-            div.span7
-                dt
-                    a(ng-href="/article/:{{knownode.article.KN_ID}}") {{knownode.article.title}}
-                dd {{knownode.article.bodyText}}
-                p contributed by:
-                    strong {{knownode.article.user.firstName}} {{knownode.article.user.lastName}}
-            div(class="span5 well")
-                include articleEdge
-    div.row-fluid
-        p.span7(ng-show='knownodeList.length == 0') No knownodes yet :(
-    div.row-fluid
-<<<<<<< HEAD
-        a(ng-show='isUserLoggedIn', class='btn btn-success', href='/addKnownodeTo/{{conceptId}}') Add a new article knownode
-    div.row-fluid
-        div(comment-section='{{concept.KN_ID}}')
-=======
-        a(ng-show='isUserLoggedIn', class='btn btn-success', href='/addKnownodeTo/{{conceptId}}') Connect a new resource
->>>>>>> Changed some text + removed calendat UI
+div.subheader
+  div.span23.offset1
+    h2.subheader Showing connections for: {{concept.title}}
+    //p.btn.btn-link.sort sort:
+    //div.btn-group(data-toggle="buttons-radio")
+      button.btn.btn-link.active-red(type="button", ng-click="orderProp='date'") New
+      button.btn.btn-link(type="button", ng-click="orderProp='votes'") Popular
+      button.btn.btn-link(type="button", ng-click="setMaster(subtitle)") Hot
+  div(ng-repeat="knownode in knownodeList | orderBy:orderProp").span11.offset1
+    div.knownode.span12.shortKnownode
+      .movingEdge.left-align.span12
+        connection
+      resource
+    p &nbsp;
+  a.span5.offset1(ng-show='isUserLoggedIn', class='btn btn-success', href='/addKnownodeTo/{{conceptId}}') Connect a new resource
