@@ -74,9 +74,14 @@ var kn_Post = exports.Post = schema.define('kn_Post', {
     title:          { type: String, length: 255 },
     url:            { type: String, length: 2000, index: true },
     bodyText:       { type: Schema.Text },
-    fileId:         { type: Number },
+    fileData:       { type: String },
+    fileId:         { type: String },
+    fileName:       { type: String },
     postType:       { type: String, length: 50, index: true },
-    active:         { type: Boolean, default: true, index: true }
+    active:         { type: Boolean, default: true, index: true },
+
+    partner:        { type: String, length: 255 },
+    presentationDate: { type: Date }
 });
 
 var kn_Edge = exports.Edge = schema.define('kn_Edge', {

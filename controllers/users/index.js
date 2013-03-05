@@ -17,7 +17,6 @@
   module.exports = {
     options: {
       before: {
-        index: [baseController.isAdmin],
         destroy: [baseController.isAdmin]
       }
     },

@@ -78,12 +78,25 @@ angular.module('KnowNodesApp.directives', [])
         };
     }])
 
+    .directive('autoComplete', function($timeout) {
+        return function(scope, iElement, iAttrs) {
+            iElement.autocomplete({
+                source: scope[iAttrs.uiItems],
+                select: function() {
+                    $timeout(function() {
+                        iElement.trigger('input');
+                    }, 0);
+                }
+            });
+        };
+    })
+
     .directive('userAutoComplete', ['$http', function($http) {
         return function(scope, element, attrs) {
             element.userAutoComplete({
                 minLength:3,
                 source:function (request, response) {
-                    $http.get('/api/users/' + request.term).success( function(data) {
+                    $http.get('/users/' + request.term).success( function(data) {
                         response(data.results);
                     });
                 },

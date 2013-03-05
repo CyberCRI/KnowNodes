@@ -7,7 +7,7 @@ Grid = mongoose.mongo.Grid;
 ObjectID = mongoose.mongo.BSONPure.ObjectID;
 
 exports.putFile = function() {
-    var db, fn, name, options, path, _i;
+    var db, name, fn, options, path, _i;
     path = arguments[0], name = arguments[1], options = 4 <= arguments.length ? __slice.call(arguments, 2, _i = arguments.length - 1) : (_i = 2, []), fn = arguments[_i++];
     db = mongoose.connection.db;
     options = parse(options);
@@ -35,8 +35,7 @@ parse = function(options) {
 exports.get = function(id, fn) {
     var db, store;
     db = mongoose.connection.db;
-    id = new ObjectID(id);
-    store = new GridStore(db, id, "r", {
+    store = new GridStore(db, new ObjectID(id), "r", {
         root: "fs"
     });
     return store.open(function(err, store) {

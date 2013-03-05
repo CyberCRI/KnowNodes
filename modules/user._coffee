@@ -21,10 +21,10 @@ module.exports = class User extends BaseModule
 			displayName: usr.firstName + ' ' + usr.lastName
 		return retVal
 
-	getAllUsers: (_) ->
+	getAllUsers: (_) =>
 		userList = []
-		@DB.User.all(limit: 10, _).forEach_ _, (_, currentUserObj) ->
-			userList.push currentUserObj
+		@DB.User.all(_).forEach_ _, (_, currentUserObj) =>
+			userList.push @formatUser currentUserObj
 		return userList
 
 	getUserByNodeId: (id, _) =>

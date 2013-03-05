@@ -3,7 +3,6 @@
   "version": "0.0.2",
   "private": true,
   "scripts": {
-    "build": "_coffee -c modules/.",
     "build": "coffee -c controllers/.",
     "start": "node app",
     "postinstall": "npm run build"
