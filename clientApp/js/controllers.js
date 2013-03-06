@@ -362,6 +362,7 @@ function AddPostCtrl($scope, $http, $location, $routeParams) {
             alert(response.error.stack);
             return;
         }
+        debugger;
         var fileData = JSON.parse(evt.target.responseText).success;
         $scope.form.knownodeForm.fileId = fileData.files[0]._id;
         $scope.form.knownodeForm.fileName = fileData.files[0].filename;
