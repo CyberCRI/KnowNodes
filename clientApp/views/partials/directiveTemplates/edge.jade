@@ -5,7 +5,7 @@ div.connection.span12
     div.ellipsis-title
       p.knownode-title {{knownode.connection.title}}
     div.lineSeperator
-    div.body.ellipsis-edge(ng-show="knownode.connection.bodyText.length>0", title="{{knownode.connection.bodyText}}")
+    div.body.ellipsis-edge(ng-show="knownode.connection.bodyText.length>0", tooltip-placement="right" , tooltip="{{knownode.connection.bodyText}}")
       div.knownode-body {{knownode.connection.bodyText}}
     div.tagLine
       p.connection-type
