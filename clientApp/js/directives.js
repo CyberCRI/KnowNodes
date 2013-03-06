@@ -59,27 +59,19 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     })
-    .directive('resource2', function() {
+    .directive('node', function() {
         return {
-            restrict: 'E',
+            restrict: 'EAC',
             transclude: true,
-            templateUrl: 'partials/directiveTemplates/resource2',
+            templateUrl: 'partials/directiveTemplates/node',
             replace: true
         };
     })
-    .directive('resource', function() {
+    .directive('edge', function() {
         return {
-            restrict: 'E',
+            restrict: 'EAC',
             transclude: true,
-            templateUrl: 'partials/directiveTemplates/resource',
-            replace: true
-        };
-    })
-    .directive('connection', function() {
-        return {
-            restrict: 'E',
-            transclude: true,
-            templateUrl: 'partials/directiveTemplates/connection',
+            templateUrl: 'partials/directiveTemplates/edge',
             replace: true
         };
     })
