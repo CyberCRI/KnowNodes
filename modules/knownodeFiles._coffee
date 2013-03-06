@@ -12,10 +12,9 @@ userModule = require('./user')
 mongoose = require('mongoose')
 postSchema = require('../DB/PostSchema')
 config = require('../config/DB.conf')
-gridfs = require('../DB/gridFS')
+
 
 module.exports = class KnownodeFiles extends BaseModule
-	gfs = null
 
 	constructor: (user) ->
 		super user
@@ -58,12 +57,18 @@ module.exports = class KnownodeFiles extends BaseModule
 		opts =
 			content_type: files.uploadedFile.type
 
-		filepost = post.save _
-		filepost.addFile files.uploadedFile, opts, _
+		#filepost = post.save _
+		post.addFile files.uploadedFile, opts, _
 		mongoose.connection.close()
 
-		filepost
+		post
 
 	getFile: (id, _) =>
 		Post = @initDB _
-		gridfs.get id, _
+		post = new Post()
+		post.getFile id, _
+
+	deleteFile: (id, _) =>
+		Post = @initDB _
+		post = new Post()
+		post.deleteFile id, _

@@ -31,3 +31,8 @@ module.exports =
 		cb = baseController.callBack response
 		fileModule = new knownodeFileModule request.user
 		fileModule.saveFile request.files, request.param, cb
+
+	destroy: (request, response) ->
+		cb = baseController.callBack response
+		fileModule = new knownodeFileModule request.user
+		fileModule.deleteFile request.files, request.param, cb

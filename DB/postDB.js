@@ -32,7 +32,7 @@ function initialize(callback) {
 
 exports.getPostFile = function(id, callback) {
   initialize(function(Post) {
-     gridfs.get(id, callback);
+     Post.getFile(id, callback);
   });
 };
 

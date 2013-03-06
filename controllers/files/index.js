@@ -45,6 +45,12 @@
       cb = baseController.callBack(response);
       fileModule = new knownodeFileModule(request.user);
       return fileModule.saveFile(request.files, request.param, cb);
+    },
+    destroy: function(request, response) {
+      var cb, fileModule;
+      cb = baseController.callBack(response);
+      fileModule = new knownodeFileModule(request.user);
+      return fileModule.deleteFile(request.files, request.param, cb);
     }
   };
 
