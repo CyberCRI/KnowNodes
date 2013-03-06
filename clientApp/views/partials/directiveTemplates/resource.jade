@@ -9,8 +9,8 @@
     div.lineSeperator
     div.body.ellipsis-node(title="{{knownode.article.bodyText}}")
       p.knownode-body {{knownode.article.bodyText}}
-    div(ng-view=
-      button(class="btn-info",href="/knownodeFiles/:{{knownode.article.fileId}}", target="_blank") {{knownode.article.fileName}}
+    div.lineSeperator
+      a(class="btn-info",href="/knownodeFiles/:{{knownode.article.fileId}}", target="_blank") &nbsp;{{knownode.article.fileName}}&nbsp;
     //p.tagLine
       p.knowledgeDomain
         small ?? {{}}

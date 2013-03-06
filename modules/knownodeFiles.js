@@ -10,7 +10,7 @@
 
 
 
-  var BaseModule, KnownodeFiles, config, fs, gridfs, mongoose, postSchema, userModule, __bind = function(fn, me) {
+  var BaseModule, KnownodeFiles, config, mongoose, postSchema, userModule, __bind = function(fn, me) {
     return function() { return fn.apply(me, arguments); };
   }, __hasProp = { }.hasOwnProperty, __extends = function(child, parent) {
     for (var key in parent) { if (__hasProp.call(parent, key)) { child[key] = parent[key]; }; }; function ctor() { this.constructor = child; }; ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -21,19 +21,17 @@
 
   mongoose = require("mongoose");
 
-  fs = require("fs");
-
   postSchema = require("../DB/PostSchema");
 
   config = require("../config/DB.conf");
-
-  gridfs = require("../DB/gridFS");
 
   module.exports = KnownodeFiles = (function(_super) {
 
     __extends(KnownodeFiles, _super);
 
     function KnownodeFiles(user) {
+      this.deleteFile = __bind(this.deleteFile, this);
+
       this.getFile = __bind(this.getFile, this);
 
       this.saveFile = __bind(this.saveFile, this);
@@ -52,41 +50,59 @@
       dbURL = config.getDBURL("mongoDB").url;
       mongoose.connect(dbURL, opts);
       db = mongoose.connection;
-      db.on("error", callback);
-      return db.on("open", function() {
+      db.on("error", function(err) {
+        try {
+          mongoose.connection.close();
+          return callback(err);
+        } catch (error) {
+          console.log(error);
+          return callback(error); }; });
+
+
+      return db.once("open", function() {
         var Post;
+        console.log("db is open");
         Post = db.model("Post", postSchema);
+        console.log("sending Post");
         return callback(null, Post); }); };
 
 
 
-    KnownodeFiles.prototype.saveFile = function KnownodeFiles_prototype_saveFile__1(files, params, _) { var Post, filepost, opts, post, __this = this; var __frame = { name: "KnownodeFiles_prototype_saveFile__1", line: 63 }; return __func(_, this, arguments, KnownodeFiles_prototype_saveFile__1, 2, __frame, function __$KnownodeFiles_prototype_saveFile__1() {
+    KnownodeFiles.prototype.saveFile = function KnownodeFiles_prototype_saveFile__1(files, params, _) { var Post, opts, post, __this = this; var __frame = { name: "KnownodeFiles_prototype_saveFile__1", line: 71 }; return __func(_, this, arguments, KnownodeFiles_prototype_saveFile__1, 2, __frame, function __$KnownodeFiles_prototype_saveFile__1() {
 
         return __this.initDB(__cb(_, __frame, 2, 13, function ___(__0, __1) { Post = __1;
-          return gridfs.get(id, __cb(_, __frame, 3, 6, function __$KnownodeFiles_prototype_saveFile__1() {
-            post = new Post({
-              fileURL: params.url,
-              fileName: files.uploadedFile.name,
-              abstract: params.bodyText,
-              title: params.title,
-              meta: {
-                uploaderId: __this.user.id,
-                uploaderEmail: __this.user.email,
-                size: files.uploadedFile.size } });
+          console.log("post initialized");
+          post = new Post({
+            fileURL: params.url,
+            fileName: files.uploadedFile.name,
+            abstract: params.bodyText,
+            title: params.title,
+            meta: {
+              uploaderId: __this.user.id,
+              uploaderEmail: __this.user.email,
+              size: files.uploadedFile.size } });
 
 
-            opts = {
-              content_type: files.uploadedFile.type };
+          opts = {
+            content_type: files.uploadedFile.type };
 
-            return post.save(__cb(_, __frame, 18, 17, function ___(__0, __2) { filepost = __2;
-              return filepost.addFile(files.uploadedFile, opts, __cb(_, __frame, 19, 6, function __$KnownodeFiles_prototype_saveFile__1() {
-                return _(null, mongoose.disconnect); }, true)); }, true)); }, true)); }, true)); }); };
+          return post.addFile(files.uploadedFile, opts, __cb(_, __frame, 18, 6, function __$KnownodeFiles_prototype_saveFile__1() {
+            mongoose.connection.close();
+            return _(null, post); }, true)); }, true)); }); };
 
 
-    KnownodeFiles.prototype.getFile = function KnownodeFiles_prototype_getFile__2(id, _) { var Post, __this = this; var __frame = { name: "KnownodeFiles_prototype_getFile__2", line: 86 }; return __func(_, this, arguments, KnownodeFiles_prototype_getFile__2, 1, __frame, function __$KnownodeFiles_prototype_getFile__2() {
+    KnownodeFiles.prototype.getFile = function KnownodeFiles_prototype_getFile__2(id, _) { var Post, post, __this = this; var __frame = { name: "KnownodeFiles_prototype_getFile__2", line: 94 }; return __func(_, this, arguments, KnownodeFiles_prototype_getFile__2, 1, __frame, function __$KnownodeFiles_prototype_getFile__2() {
 
         return __this.initDB(__cb(_, __frame, 2, 13, function ___(__0, __1) { Post = __1;
-          return gridfs.get(id, __cb(_, __frame, 3, 13, _, true)); }, true)); }); };
+          post = new Post();
+          return post.getFile(id, __cb(_, __frame, 4, 13, _, true)); }, true)); }); };
+
+
+    KnownodeFiles.prototype.deleteFile = function KnownodeFiles_prototype_deleteFile__3(id, _) { var Post, post, __this = this; var __frame = { name: "KnownodeFiles_prototype_deleteFile__3", line: 101 }; return __func(_, this, arguments, KnownodeFiles_prototype_deleteFile__3, 1, __frame, function __$KnownodeFiles_prototype_deleteFile__3() {
+
+        return __this.initDB(__cb(_, __frame, 2, 13, function ___(__0, __1) { Post = __1;
+          post = new Post();
+          return post.deleteFile(id, __cb(_, __frame, 4, 13, _, true)); }, true)); }); };
 
 
     return KnownodeFiles;

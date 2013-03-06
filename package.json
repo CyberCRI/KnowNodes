@@ -25,7 +25,8 @@
     "mongodb": "1.1.11",
     "mongoose": "3.5.3",
     "memory-cache": "0.0.5",
-    "streamline": "~0.4.6"
+    "streamline": "~0.4.6",
+    "gridfs-stream": "~0.3.2"
   },
   "engines": {
     "node": "0.8.x"

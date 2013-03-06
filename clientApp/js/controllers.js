@@ -357,6 +357,11 @@ function AddPostCtrl($scope, $http, $location, $routeParams) {
 
     function uploadComplete(evt) {
         /* This event is raised when the server send back a response */
+        var response = JSON.parse(evt.target.responseText);
+        if(response.error) {
+            alert(response.error.stack);
+            return;
+        }
         var fileData = JSON.parse(evt.target.responseText).success;
         $scope.form.knownodeForm.fileId = fileData.files[0]._id;
         $scope.form.knownodeForm.fileName = fileData.files[0].filename;
