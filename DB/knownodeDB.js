@@ -74,7 +74,6 @@ var kn_Post = exports.Post = schema.define('kn_Post', {
     title:          { type: String, length: 255 },
     url:            { type: String, length: 2000, index: true },
     bodyText:       { type: Schema.Text },
-    fileId:         { type: Number },
     postType:       { type: String, length: 50, index: true },
     active:         { type: Boolean, default: true, index: true },
 

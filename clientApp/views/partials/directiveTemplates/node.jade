@@ -10,7 +10,7 @@
     div.body.ellipsis-node(tooltip-placement="right" , tooltip="{{knownode.article.bodyText}}")
       p.knownode-body {{knownode.article.bodyText}}
     div.lineSeperator
-      a(class="btn-info",href="/knownodeFiles/:{{knownode.article.fileId}}", target="_blank") &nbsp;{{knownode.article.fileName}}&nbsp;
+      a(class="btn-info",href="/knownodeFiles/:{{knownode.article.fileId}}", target="_blank", ng-show="knownode.article.fileId") &nbsp;{{knownode.article.fileName}}&nbsp;
     //p.tagLine
       p.knowledgeDomain
         small ?? {{}}

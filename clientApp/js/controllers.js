@@ -125,14 +125,19 @@ ConceptListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
 function ArticleListCtrl($scope, $http, $routeParams, userService) {
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
     $scope.checkOwnership = function(userId) {
-        return userId == userService.getConnectedUser().id;
+        if(userService.isUserLoggedIn()) {
+            return userId == userService.getConnectedUser().id;
+        }
+        return false;
     }
 
     $scope.deleteArticle = function(id, index) {
+        if(confirm("Are you sure you want to delete this post?")) {
         $http.delete('/knownodes/:' + id).
             success(function(){
                 $scope.knownodeList.splice(index, 1);
             });
+        }
     };
 
     $scope.isOwner = function(id) {
