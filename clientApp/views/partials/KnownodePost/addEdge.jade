@@ -1,144 +1,33 @@
 #addKnownodeStepEdge
-  div(class="well")
-    h3 How does it relate to {{concept.title}}?
-    div.dropdown.btn-group(style="display:inline;", ng-model='form.knownodeRelation.connectionType')
-      a.btn.btn-danger.dropdown-toggle(href="javascript:void(0);", data-toggle="dropdown") Choose connection Type
-        span.caret
-      ul.dropdown-menu(role="menu", aria-labelledby="dropdownMenu")
-        li.dropdown-submenu
-          a(tabindex='-1', href="javascript:void(0);") Understanding
-          ul.dropdown-menu(style="width:50px;")
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="is an example of", ng-click="form.knownodeRelation.connectionType="is an example of") is an example of
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="is a tutorial of") is a tutorial of
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="is cited by") is cited by
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="is a source of") is a source of
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="discusses") discusses
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="extends") extends
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="gives background to") gives background to
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="is an opinion on") is an opinion on
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="is transformation of") transformation of
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="was created by") was created by
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="is instance of") instance of
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="is participant of") participant of
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="is contained in") contained in
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="is located in") located in
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="is adjacent to") adjacent to
+  div.well.span11
+    h3 (2) Specify the relationship
+    label Specify how they are connected by forming a full sentence.
+    label First choose the connection type and then fill the text field with specifics.
+    div.bs-docs-example
+      code.text-center Charles Darwin
 
-        li.dropdown-submenu
-          a(tabindex='-1', href="javascript:void(0);") Questioning
-          ul.dropdown-menu(style="width:50px;")
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="questions") questions
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="contradicts") contradicts
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="critiques") critiques
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="disputes") disputes
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="derides" ) derides
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="disagrees with" ) disagrees with
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="is ridiculed") is ridiculed
-        li.dropdown-submenu
-          a(tabindex='-1', href="javascript:void(0);") Inspiring
-          ul.dropdown-menu(style="width:50px;")
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="raises the open question") raises the question
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="offer a unique perspective on") offer a unique persperctive on
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="is strangely related to") is strangely related to
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="reminds me of") reminds me of
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="laughs about") laughs about
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="is an interesting take on") is an interesting take on
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="is a possible application") is a possible application
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="is a recommended reading of") is a recommended reading of
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="is parodied" ) is parodied
-        li.dropdown-submenu
-          a(tabindex='-1', href="javascript:void(0);") Proving
-          ul.dropdown-menu(style="width:50px;")
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="confirms") confirms
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="is an evidence of") is an evidence of
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="agrees with") agrees with
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="contains data of") Contains data of
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="is corrected by") is corrected by
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="supports") supports
-            li.dropdown
-              a(tabindex='-1', href="javascript:void(0);", value="is refuted") is refuted
+      div.input-prepend
+        div.btn-group
+          a.btn.disabled(href="javascript:void(0);", style="color:rgb(113, 117, 119);") &nbsp;contributed to
+            span.caret(style="float:left;")
+        //input#prependedDropdownButton.span7(type="text")
+        span.uneditable-input.span7 laying the foundations of
 
-
-
-              //p
-                  label(for='connectionType') Choose a type of a connection
-                  select(class="input-xlarge", ui-select2, ng-model='form.knownodeRelation.connectionType', name='connectionType', style="width: 75%;")
-                    option(value="") pick something
-                    option(value="questions") questions
-                    option(value="critiques") critiques
-                    option(value="contradicts") contradicts
-                    option(value="supports") supports
-                    option(value="is a recommended reading of") is a recommended reading of
-                    option(value="raises the open question") raises the open question
-                    option(value="gives background to") gives background to
-                    option(value="extends", selected) extends
-                    option(value="is a part of") is a part of
-                    option(value="is an example of") is an example of
-                    option(value="is refuted") is refuted
-                    option(value="contained data of") Contained data of
-                    option(value="agrees with") Agrees with
-                    option(value="confirms") Confirms
-                    option(value="is transformation of") is transformation of
-                    option(value="is participant of") is participant of
-                    option(value="is an evidence of") is an evidence of
-                    option(value="is a possible application") is a possible application
-                    option(value="is an interesting take on") is an interesting take on
-                    option(value="reminds me of") reminds me of
-                    option(value="laughs about") laughs about
-                    option(value="is strangely related to") is strangely related to
-                    option(value="offer a unique perspective on") offer a unique perspective on
-                    option(value="is an opinion on") is an opinion on
-                    option(value="discusses") discusses
-                    option(value="is a source of") is a source of
-                    option(value="is quoted by") is quoted by
-                    option(value="is a tutorial of") is a tutorial of
-                    option(value="is adjacent to") is adjacent to
-                    option(value="is located in") is located in
-                    option(value="is contained in") is contained in
-                    option(value="was created by") was created by
-                    option(value="is instance of") is instance of
+      p
+        code Evolution theory
+    h3 Your turn:
     p
-      label(for='title') Title: in one sentence: How is connected to {{concept.title}}?
-      input(class="input-xlarge", ng-model='form.knownodeRelation.title', name='title', required, ng-maxlength='250')
-      span &nbsp;{{(140 -(form.knownodeRelation.title.length))}}
-    p
-      label(for='bodyText') Body: Additional thoughts and information goes here
+      code {{concept.title}}
+    p(edge-type-selector)
 
-      textarea(class="input-xlarge", ng-model='form.knownodeRelation.bodyText', name='bodyText', rows='5', ng-maxlength='2000', required, data-trigger="focus", data-unique="1")
+    p
+      code(ng-hide="form.knownodeForm.title") [Target resource]
+      code(ng-show="form.knownodeForm.title") {{form.knownodeForm.title}}
+
+    p
+      label(for='bodyText') Body: Additional thoughts and information about the connection go here&nbsp;&nbsp;(optional):
+
+      textarea(class="input-xlarge", ng-model='form.knownodeRelation.bodyText', name='bodyText', rows='5', ng-maxlength='2000', data-trigger="focus", data-unique="1")
+
+
+            //label(for='title') Title: in one sentence: How is connected to {{concept.title}}?

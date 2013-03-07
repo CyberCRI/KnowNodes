@@ -179,6 +179,10 @@ span.login {
     margin:10px;
   }
 }
+.with-margin{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
 
 .headerLine{
   margin:5px;
@@ -588,13 +592,36 @@ img.open-in-new-window {
 
 .btn:focus {
   outline: none;
-
 }
 
-.dropdown-menu li > a {
-  white-space:none;
+#example-dropdown:hover {
+  color:none;
 }
 
-a.btn-group {
-  white-space:none;
+.bs-docs-example
+{
+  position: relative;
+  margin: 15px 0;
+  padding: 39px 19px 14px;
+  background-color: white;
+  border: 1px solid #DDD;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+
+  &::after {
+    content: "Example";
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: bold;
+    background-color: #9DA0A4;
+    border: 1px solid #DDD;
+    color: #F5F5F5;
+    -webkit-border-radius: 4px 0 4px 0;
+    -moz-border-radius: 4px 0 4px 0;
+    border-radius: 4px 0 4px 0;
+  }
 }
