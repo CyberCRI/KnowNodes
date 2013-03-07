@@ -8,7 +8,8 @@ div.subheader
                 .movingEdge.left-align.span12
                     div(edge)
                 div(node)
-                
+                div(class="ui-icon ui-icon-trash", ng-click="deleteArticle(knownode.article.id, $index)", ng-show="checkOwnership(knownode.article.user.id)")
+
     p.span23.offset1
         a(ng-show='isUserLoggedIn', class='btn btn-success', href='/addKnownodeTo/{{conceptId}}') Connect a new resource
     div.span23.offset1
