@@ -1,7 +1,9 @@
-div.input-prepend
+div.input-prepend.input-append
+
   div.btn-group(style="display:inline;", ng-model='form.knownodeRelation.connectionType', name="connectionType")
     a.btn.dropdown-toggle(href="javascript:void(0);", data-toggle="dropdown") &nbsp;{{form.knownodeRelation.connectionType}}
       span.caret(style="float:left;")
+
     span(ng-transclude)
     ul.dropdown-menu(role="menu", aria-labelledby="dropdownMenu")
       li.dropdown-submenu
@@ -95,5 +97,7 @@ div.input-prepend
             a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='supports'") supports
           li.dropdown
             a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is refuted'") is refuted
-  input#prependedDropdownButton.span7(type="text", ng-model='form.knownodeRelation.title', name='title', required, ng-maxlength='250', placeholder="continue the sentence to make it specific")
-  span &nbsp;{{(140 -(form.knownodeRelation.title.length))}}
+  input#appendedPrependedDropdownButton.span6(type="text", ng-model='form.knownodeRelation.title', name='title', required, ng-maxlength='250', placeholder="continue the sentence to make it specific")
+  div.btn-group
+   p.btn.btn-link {{(140 -(form.knownodeRelation.title.length))}}
+

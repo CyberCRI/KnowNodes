@@ -10,7 +10,6 @@
         div.btn-group
           a.btn.disabled(href="javascript:void(0);", style="color:rgb(113, 117, 119);") &nbsp;contributed to
             span.caret(style="float:left;")
-        //input#prependedDropdownButton.span7(type="text")
         span.uneditable-input.span7 laying the foundations of
 
       p
@@ -20,6 +19,7 @@
       code {{concept.title}}
     p(edge-type-selector)
 
+
     p
       code(ng-hide="form.knownodeForm.title") [Target resource]
       code(ng-show="form.knownodeForm.title") {{form.knownodeForm.title}}
@@ -27,7 +27,7 @@
     p
       label(for='bodyText') Body: Additional thoughts and information about the connection go here&nbsp;&nbsp;(optional):
 
-      textarea(class="input-xlarge", ng-model='form.knownodeRelation.bodyText', name='bodyText', rows='5', ng-maxlength='2000', data-trigger="focus", data-unique="1")
+      textarea(ng-model='form.knownodeRelation.bodyText', name='bodyText', rows='5', ng-maxlength='2000', data-trigger="focus", data-unique="1").span11
 
 
             //label(for='title') Title: in one sentence: How is connected to {{concept.title}}?
