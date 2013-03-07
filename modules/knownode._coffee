@@ -10,6 +10,7 @@
 BaseModule = require './baseModule'
 relationModule = require('./relation')
 userModule = require('./user')
+knownodeFile = require('./knownodeFiles')
 
 module.exports = class Knownode extends BaseModule
 	constructor: (user) ->
@@ -103,7 +104,7 @@ module.exports = class Knownode extends BaseModule
 		query = [
 			'START user=node({userId}), n=node({nodeId})',
 			'MATCH ()-[r]-n-[:CREATED_BY]-(user)',
-			'DELETE n'
+			'RETURN n'
 		].join('\n');
 
 		console.log 'user is' + @user.id
@@ -112,4 +113,16 @@ module.exports = class Knownode extends BaseModule
 			userId: @user.id,
 			nodeId: id
 
-		@neo4jDB.query query, params, _
+		knownode = @neo4jDB.query query, params, _
+
+		console.log "Deleting file #{knownode.fileId}"
+		kn_File = new knownodeFile @user
+		kn_File.deleteFile knownode.fileId, _
+
+		console.log "File deleted"
+
+		query = [
+			'START user=node({userId}), n=node({nodeId})',
+			'MATCH ()-[r]-n-[:CREATED_BY]-(user)',
+			'DELETE n'
+		].join('\n');
