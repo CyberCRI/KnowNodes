@@ -5,12 +5,12 @@
   div.resourcecontent.span10#content
     a.knownode-title(ng-href="/article/:{{knownode.article.KN_ID}}", title="{{knownode.article.title}}") {{knownode.article.title}}
       a(ng-href="{{knownode.article.url}}", target="_blank")
-        img.open-in-new-window(src="/img/openInNewWindow.png", width="20px")
+        img.open-in-new-window(src="/img/openInNewWindow.png", width="20px", ng-show="knownode.article.url")
     div.lineSeperator
     div.body.ellipsis-node(tooltip-placement="right" , tooltip="{{knownode.article.bodyText}}")
       p.knownode-body {{knownode.article.bodyText}}
     div.lineSeperator
-      a(class="btn-info",href="/knownodeFiles/:{{knownode.article.fileId}}", target="_blank", ng-show="knownode.article.fileId") &nbsp;{{knownode.article.fileName}}&nbsp;
+      a(class="btn-info",href="/knownodeFiles/:{{knownode.article.fileId}}", target="_blank", ng-show="knownode.article.fileName") &nbsp;{{knownode.article.fileName}}&nbsp;
     //p.tagLine
       p.knowledgeDomain
         small ?? {{}}

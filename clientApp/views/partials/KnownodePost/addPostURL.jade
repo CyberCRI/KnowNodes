@@ -1,10 +1,10 @@
 div.subheader
     div.span23.offset1
-        h2.subheader Add a new knownode
+        h2.subheader Connect a resource to: {{concept.title}}
     form(method="post", enctype="multipart/form-data", ng-submit='submitPost(form)').span24
         div.span11
             div(class='well')
-                h3 Add a new resource
+                h3 (1) Add a new resource
                 p
                     label(for='title') Title:
                     input(placeholder="The title of the resource - just copy paste", ng-model='form.knownodeForm.title', ng-maxlength='200', name='title', required, autofocus, style="width:100%;").input_xxlarge
@@ -13,8 +13,8 @@ div.subheader
                     label(for='url') URL:
                     input(class="input-xxlarge", placeholder="Add Source URL here", ng-model='form.knownodeForm.url', name='url', style="width:100%;")
                 p
-                    label(for='bodyText') Text body (or what it is about?):
-                    textarea(class="input-xxlarge", placeholder="Abstract or summery of the resource", ng-model='form.knownodeForm.bodyText', name='bodyText', rows='5', required, style='width:100%')
+                    label(for='bodyText') Text body (abstract, summery or additional information): &nbsp;(optional)
+                    textarea(class="input-xxlarge", placeholder="Abstract or summery of the resource", ng-model='form.knownodeForm.bodyText', name='bodyText', rows='5', style='width:100%')
                 p
                     label(for='articleFile') PDF File:
                     input(nclass="input-xxlarge", placeholder="Attach a file", g-model='file', name='file', type='file', ng-model-instant, multiple, onchange="angular.element(this).scope().setFiles(this)")
