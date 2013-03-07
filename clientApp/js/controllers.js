@@ -228,7 +228,6 @@ function AddPostCtrl($scope, $http, $location, $routeParams) {
     $scope.dropText = 'Drop files here...';
     $scope.form.originalPostId = $scope.form.edge.originalPostId = $routeParams.id;
     $scope.errorMessage = null;
-
     $scope.tooltip = {title: "Hello Tooltip<br />This is a multiline message!", checked: false};
 
     $scope.submitPost = function (form) {
@@ -395,7 +394,7 @@ function AddPostCtrl($scope, $http, $location, $routeParams) {
     $scope.form = {};
     $scope.form.knownodeForm = {};
     $scope.form.knownodeRelation = {};
-
+    $scope.form.knownodeRelation.connectionType = "Choose connection type";
     $scope.dropText = 'Drop files here...';
     $scope.form.originalPostId = $scope.form.knownodeRelation.originalPostId = $routeParams.id;
     $scope.errorMessage = null;

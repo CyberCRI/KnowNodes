@@ -1,0 +1,99 @@
+div.input-prepend
+  div.btn-group(style="display:inline;", ng-model='form.knownodeRelation.connectionType', name="connectionType")
+    a.btn.dropdown-toggle(href="javascript:void(0);", data-toggle="dropdown") &nbsp;{{form.knownodeRelation.connectionType}}
+      span.caret(style="float:left;")
+    span(ng-transclude)
+    ul.dropdown-menu(role="menu", aria-labelledby="dropdownMenu")
+      li.dropdown-submenu
+        a(tabindex='-1', href="javascript:void(0);") Understanding
+        ul.dropdown-menu
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is an example of'") is an example of
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='contributed to'") contributed to
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is a tutorial of'") is a tutorial of
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is cited by'") is cited by
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is a source of'") is a source of
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='discusses'") discusses
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='extends'") extends
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='gives background to'") gives background to
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is an opinion on'") is an opinion on
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is transformation of'") transformation of
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='was created by'") was created by
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is instance of'") instance of
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is participant of'") participant of
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is contained in'") contained in
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is located in'") located in
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is adjacent to'") adjacent to
+
+      li.dropdown-submenu
+        a(tabindex='-1', href="javascript:void(0);") Questioning
+        ul.dropdown-menu
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='questions'") questions
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='contradicts'") contradicts
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='critiques'") critiques
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='disputes'") disputes
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='derides'") derides
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='disagrees with'") disagrees with
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is ridiculed'") is ridiculed
+      li.dropdown-submenu
+        a(tabindex='-1', href="javascript:void(0);") Inspiring
+        ul.dropdown-menu
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='raises the open question'") raises the question
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='offer a unique perspective on'") offer a unique persperctive on
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is strangely related to'") is strangely related to
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='reminds me of'") reminds me of
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='laughs about'") laughs about
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is an interesting take on'") is an interesting take on
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is a possible application'") is a possible application
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is a recommended reading of'") is a recommended reading of
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is parodied'") is parodied
+      li.dropdown-submenu
+        a(tabindex='-1', href="javascript:void(0);") Proving
+        ul.dropdown-menu
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='confirms'") confirms
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is an evidence of'") is an evidence of
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='agrees with'") agrees with
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='contains data of'") Contains data of
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is corrected by'") is corrected by
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='supports'") supports
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is refuted'") is refuted
+  input#prependedDropdownButton.span7(type="text", ng-model='form.knownodeRelation.title', name='title', required, ng-maxlength='250', placeholder="continue the sentence to make it specific")
+  span &nbsp;{{(140 -(form.knownodeRelation.title.length))}}
