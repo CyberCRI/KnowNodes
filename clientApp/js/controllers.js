@@ -182,6 +182,10 @@ function KnownodeCtrl($scope, $http, $routeParams, userService) {
     });
 }
 
+function EditPostCtrl($scope, $http, $location, $routeParams) {
+
+}
+
 function AddPostCtrl($scope, $http, $location, $routeParams) {
 
     var conceptId = $scope.conceptId = $routeParams.id;

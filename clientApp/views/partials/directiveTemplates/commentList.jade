@@ -5,7 +5,7 @@ div#CommentList
             div {{comment.user.displayName}}
         div.media-body
             h4.media-heading {{comment.title}}
-            span {{comment.bodyText}}
+            pre {{comment.bodyText}}
             div(ng-repeat="comment in comment.comments", ng-include="'internalCommentDiv.html'")
 
     script(type="text/ng-template", id="addCommentDiv.html")

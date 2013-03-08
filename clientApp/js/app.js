@@ -51,6 +51,10 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['ui', 'ui.directives', 
                 templateUrl: 'partials/KnownodePost/addPostURL',
                 controller: AddPostCtrl
             }).
+            when('/editKnownode/:id', {
+                templateUrl: 'partials/KnownodePost/addPostURL',
+                controller: EditPostCtrl
+            }).
             when('/article/:id', {
                 templateUrl: 'partials/KnownodePost/articleList',
                 controller: ArticleListCtrl
