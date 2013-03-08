@@ -14,7 +14,9 @@ angular.module('KnowNodesApp.services', [])
         };
 
         serviceReturned.getConnectedUser = function(){
-            $rootScope.user.displayName = serviceReturned.getUserDisplayName();
+            if($rootScope.user) {
+                $rootScope.user.displayName = serviceReturned.getUserDisplayName();
+            }
             return $rootScope.user;
         };
 
@@ -44,4 +46,14 @@ angular.module('KnowNodesApp.services', [])
 
         return serviceReturned;
     })
+    .factory('nowTime', ['$timeout',function($timeout) {
+    var nowTime;
+    (function updateTime() {
+        nowTime = Date.now();
+        $timeout(updateTime, 1000);
+    }());
+    return function() {
+        return nowTime;
+    };
+    }])
     .value('version', '0.2');
