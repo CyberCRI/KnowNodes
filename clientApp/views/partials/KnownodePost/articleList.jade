@@ -1,8 +1,9 @@
 div.subheader
     div.span23.offset1
         h2.subheader Showing connections for: {{concept.title}}
+        div.well.knownode-body {{concept.bodyText}}
 
-    div(ng-show='knownodeList.length > 0')
+  div(ng-show='knownodeList.length > 0')
         div(ng-repeat="knownode in knownodeList | orderBy:orderProp").span11.offset1
             div.knownode.span12.shortKnownode
                 .movingEdge.left-align.span12
