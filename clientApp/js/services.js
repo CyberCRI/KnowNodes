@@ -46,4 +46,14 @@ angular.module('KnowNodesApp.services', [])
 
         return serviceReturned;
     })
+    .factory('nowTime', ['$timeout',function($timeout) {
+    var nowTime;
+    (function updateTime() {
+        nowTime = Date.now();
+        $timeout(updateTime, 1000);
+    }());
+    return function() {
+        return nowTime;
+    };
+    }])
     .value('version', '0.2');

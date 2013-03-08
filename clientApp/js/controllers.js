@@ -158,6 +158,8 @@ function ArticleListCtrl($scope, $http, $routeParams, userService) {
         }
         $scope.knownodeList = data.success;
     });
+    $scope.start = +new Date();
+
 }
 
 ArticleListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
