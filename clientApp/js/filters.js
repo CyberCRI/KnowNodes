@@ -7,4 +7,9 @@ angular.module('KnowNodesApp.filters', []).
     return function(text) {
       return String(text).replace(/\%VERSION\%/mg, version);
     }
-  }]);
+  }])
+  .filter('timeAgo', ['nowTime', function(now) {
+    return function(input) {
+      return moment(input).from(now());
+    };
+}]);
