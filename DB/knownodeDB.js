@@ -71,7 +71,7 @@ var kn_Post = exports.Post = schema.define('kn_Post', {
     KN_ID :        { type: String, length: 36, default: GUID, index: true },
     __CreatedOn__:  { type: Date,    default: Date.now },
 
-    title:          { type: String, length: 255 },
+    title:          { type: String, length: 350 },
     url:            { type: String, length: 2000, index: true },
     bodyText:       { type: Schema.Text },
     postType:       { type: String, length: 50, index: true },

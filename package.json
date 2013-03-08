@@ -10,8 +10,6 @@
   "dependencies": {
     "email-templates": "0.0.7",
     "express": "3.1",
-    "express-resource": "1.0.0",
-    "express-resource-new": "~0.1.1",
     "jade": "0.27.7",
     "jugglingdb": "https://github.com/liadmagen/jugglingdb/archive/master.tar.gz",
     "jugglingdb-mongodb": "latest",
@@ -25,7 +23,8 @@
     "mongodb": "1.1.11",
     "mongoose": "3.5.3",
     "memory-cache": "0.0.5",
-    "streamline": "~0.4.6"
+    "streamline": "~0.4.6",
+    "express-resource-new": "~0.1.1"
   },
   "engines": {
     "node": "0.8.x"
