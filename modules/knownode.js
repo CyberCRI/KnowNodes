@@ -65,7 +65,7 @@
 
     Knownode.prototype.getUserKnownodes = function Knownode_prototype_getUserKnownodes__3(_) { var params, query, __this = this; var __frame = { name: "Knownode_prototype_getUserKnownodes__3", line: 66 }; return __func(_, this, arguments, Knownode_prototype_getUserKnownodes__3, 0, __frame, function __$Knownode_prototype_getUserKnownodes__3() {
 
-        query = ["START user=node({userId})","MATCH (knownode) -[:CREATED_BY]-> (user)","WHERE (knownode.nodeType = \"kn_Post\")","RETURN knownode",].join("\n");
+        query = ["START user=node({userId})","MATCH (knownode) -[:CREATED_BY]-> (user)","RETURN knownode",].join("\n");
         params = {
           userId: __this.user.id,
           conceptType: __this.DB.getPostTypes().concept };

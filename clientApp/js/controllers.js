@@ -148,7 +148,7 @@ function ArticleListCtrl($scope, $http, $routeParams, userService) {
     }
 
     var conceptId = $scope.conceptId = $routeParams.id;
-    $http.get('/concepts/:' + conceptId).success(function(data, status, headers, config){
+    $http.get('/knownodes/:' + conceptId).success(function(data, status, headers, config){
        $scope.concept = data.success;
     });
 

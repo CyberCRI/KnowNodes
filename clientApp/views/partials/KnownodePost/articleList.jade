@@ -2,6 +2,8 @@ div.subheader
     div.span23.offset1
         h2.subheader Showing connections for: {{concept.title}}
         div.well.knownode-body {{concept.bodyText}}
+        div(ng-show="concept.fileName")
+            a(class="btn-info",href="/knownodeFiles/:{{concept.fileId}}", target="_blank", ng-show="concept.fileName") &nbsp;{{concept.fileName}}&nbsp;
 
   div(ng-show='knownodeList.length > 0')
         div(ng-repeat="knownode in knownodeList | orderBy:orderProp").span11.offset1
