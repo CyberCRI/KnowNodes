@@ -63,7 +63,6 @@ module.exports = class Knownode extends BaseModule
 		query = [
 			'START user=node({userId})',
 			'MATCH (knownode) -[:CREATED_BY]-> (user)',
-			'WHERE (knownode.nodeType = "kn_Post")',
 			'RETURN knownode'
 		].join('\n');
 
