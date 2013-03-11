@@ -372,15 +372,21 @@ function AddPostCtrl($scope, $http, $location, $routeParams) {
         /* This event is raised when the server send back a response */
         var response = JSON.parse(evt.target.responseText);
         if(response.error) {
-            alert(response.error.stack);
+            $scope.errorMessage = response.error.stack);
             return;
         }
-        var fileData = JSON.parse(evt.target.responseText).success;
-        $scope.form.knownodeForm.fileId = fileData.files[0]._id;
-        $scope.form.knownodeForm.fileName = fileData.files[0].filename;
-        $scope.form.knownodeForm.fileData = JSON.stringify(fileData);
+        if(JSON.parse(evt.target.responseText).success)
+        {
+            var fileData = JSON.parse(evt.target.responseText).success;
+            $scope.form.knownodeForm.fileId = fileData.files[0]._id;
+            $scope.form.knownodeForm.fileName = fileData.files[0].filename;
+            $scope.form.knownodeForm.fileData = JSON.stringify(fileData);
 
-        saveForm();
+            saveForm();
+        }
+        else {
+            $scope.error = JSON.parse(evt.target.responseText).error;
+        }
         //$location.path('/AddEdge');
     }
 
@@ -400,6 +406,9 @@ function AddPostCtrl($scope, $http, $location, $routeParams) {
             success(function(data, status, headers, config) {
                 if(data.success) {
                     $location.path('/concept/:' + $scope.form.originalPostId);
+                }
+                if(data.error) {
+                    $scope.errorMessage = data.error
                 }
             });
     }
