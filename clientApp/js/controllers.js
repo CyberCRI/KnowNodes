@@ -150,6 +150,15 @@ function ArticleListCtrl($scope, $http, $routeParams, userService) {
     var conceptId = $scope.conceptId = $routeParams.id;
     $http.get('/knownodes/:' + conceptId).success(function(data, status, headers, config){
        $scope.concept = data.success;
+       if($scope.concept.url.match(/youtube.com/ig)){
+           var search = $scope.concept.url.split('?')[1];
+           var video_id = search.split('v=')[1];
+           var ampersandPosition = video_id.indexOf('&');
+           if(ampersandPosition != -1) {
+               video_id = video_id.substring(0, ampersandPosition);
+           }
+           $scope.videoLink = video_id;
+       }
     });
 
     $http.get('/concepts/:' + conceptId + '/getRelatedKnownodes').success(function(data, status, headers, config){
@@ -372,7 +381,7 @@ function AddPostCtrl($scope, $http, $location, $routeParams) {
         /* This event is raised when the server send back a response */
         var response = JSON.parse(evt.target.responseText);
         if(response.error) {
-            $scope.errorMessage = response.error.stack);
+            $scope.errorMessage = response.error.stack;
             return;
         }
         if(JSON.parse(evt.target.responseText).success)

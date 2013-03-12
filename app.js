@@ -82,6 +82,7 @@ app.resource('knownodes', function(){
 
     this.resource('knownodes', { id: 'related' });
     this.resource('files');
+    this.resource('comments');
 });
 app.resource('files', { name: 'knownodeFiles', id: 'files'});
 //app.get('/concepts/:cid/knownodes/:kid', require('./routes/API.concept').load, require('./routes/API.knownode').load);
