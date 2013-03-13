@@ -111,6 +111,10 @@ span.login {
 .lineSeperator #headerLine {
   margin: 10px;
 }
+.with-margin {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
 .headerLine {
   margin: 5px;
   margin-bottom: 5px;
@@ -125,6 +129,7 @@ span.login {
   margin-left: 5px;
   margin-bottom: 10px;
   border-radius: 15px;
+  height: 380px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -592,6 +597,48 @@ img.open-in-new-window {
 .btn:focus {
   outline: none;
 }
-.input-xlarge {
-  width: none;
+#example-dropdown:hover {
+  color: none;
+}
+.bs-docs-example {
+  position: relative;
+  margin: 15px 0;
+  padding: 39px 19px 14px;
+  background-color: white;
+  border: 1px solid #DDD;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+.bs-docs-example::after {
+  content: "Example";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  padding: 3px 7px;
+  font-size: 12px;
+  font-weight: bold;
+  background-color: #9DA0A4;
+  border: 1px solid #DDD;
+  color: #F5F5F5;
+  -webkit-border-radius: 4px 0 4px 0;
+  -moz-border-radius: 4px 0 4px 0;
+  border-radius: 4px 0 4px 0;
+}
+.connection-type {
+  float: right;
+  margin-top: 0px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #ffffff;
+  background-color: #62a265;
+  border: solid 1px #62a265;
+  border-radius: 3px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  float: none;
+}
+#dropbox {
+  height: 6em;
 }
