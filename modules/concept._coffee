@@ -9,16 +9,18 @@
 * since it currently has a special meaning with a designated page, it gets its own API code. Lucky him.
 ###
 
-BaseModule = require './baseModule'
 relationModule = require './relation'
+DBModule = require './DBModule'
 
-module.exports = class Concept extends BaseModule
+module.exports = class Concept extends DBModule
 	constructor: (user) ->
 		super user
 		@relation = new relationModule user
+		@currentModule = 'module/Concept'
 
 	# return all concepts
 	getAllConcepts: (_) =>
+		@logger.logDebug @currentModule, "getAllConcepts"
 		conceptType = @DB.getPostTypes().concept
 		concepts = []
 		params = where:
@@ -26,20 +28,21 @@ module.exports = class Concept extends BaseModule
 
 		@DB.Post.all(params, _).forEach_(_, (_, concept) ->
 			concepts.push(
-				id: concept.id,
-				conceptId: concept.KN_ID,
-				title: concept.title,
-				content: concept.bodyText))
+				             id: concept.id,
+				             conceptId: concept.KN_ID,
+				             title: concept.title,
+				             content: concept.bodyText))
 
 		return concepts
 
 	getUserConcepts: (_) ->
+		@logger.logDebug @currentModule, "getUserConcepts"
 		query = [
-		    'START user=node({userId})',
-		     'MATCH (concept) -[:CREATED_BY]-> (user)',
-				 'WHERE (concept.postType = "{conceptType}")',
-		     'RETURN other'
-		   ].join('\n');
+			'START user=node({userId})',
+			'MATCH (concept) -[:CREATED_BY]-> (user)',
+			'WHERE (concept.postType = "{conceptType}")',
+			'RETURN other'
+		].join('\n');
 
 		params =
 			userId: @user.id,
@@ -48,11 +51,13 @@ module.exports = class Concept extends BaseModule
 		@neo4jDB.query query, params, _
 
 	getConceptById: (nodeId, _) =>
+		@logger.logDebug @currentModule, "getConceptById #{nodeId}"
 		concept = @DB.Post.find nodeId, _
 		return concept;
 
 	# return concept by knownode-Id
 	getConceptByKnownodeId: (knownodeId, _) ->
+		@logger.logDebug @currentModule, "getConceptByKnownodeId #{knownodeId}"
 		params = where:
 			KN_ID: knownodeId
 
@@ -69,6 +74,7 @@ module.exports = class Concept extends BaseModule
 
 	createNewConcept: (conceptObject, _) =>
 		# we'll set hard-coded the post type to be a concept
+		@logger.logDebug @currentModule, 'createNewConcept'
 		conceptObject.postType = @DB.getPostTypes().concept;
 		concept = @DB.Post.create conceptObject, _
 		concept.index 'kn_Post', 'KN_ID', concept.KN_ID, _
@@ -76,5 +82,6 @@ module.exports = class Concept extends BaseModule
 		return concept
 
 	deleteConcept: (conceptId, _) =>
+		@logger.logDebug @currentModule, "deleteConcept #{conceptId}"
 		concept = @DB.Post.find nodeId, _
 		concept.destroy _

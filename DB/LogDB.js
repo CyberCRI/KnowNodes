@@ -7,7 +7,7 @@ var kn_log = exports.Log = schema.define('Log', {
     __CreatedOn__:  { type: Date,    default: Date.now },
     user:           { type: String, length: 255 },
     title:          { type: String, length: 255 },
-    content:        { type: String, length: 2000 }
+    content:        { type: Schema.Text }
 });
 
 kn_log.validatesPresenceOf('title');

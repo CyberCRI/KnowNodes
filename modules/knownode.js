@@ -10,11 +10,9 @@
 
 
 
-  var BaseModule, Knownode, knownodeFile, relationModule, userModule, __hasProp = {
+  var DBModule, Knownode, knownodeFile, relationModule, userModule, __hasProp = {
   }.hasOwnProperty, __extends = function(child, parent) {
     for (var key in parent) { if (__hasProp.call(parent, key)) { child[key] = parent[key]; }; }; function ctor() { this.constructor = child; }; ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
-
-  BaseModule = require("./baseModule");
 
   relationModule = require("./relation");
 
@@ -22,24 +20,28 @@
 
   knownodeFile = require("./knownodeFiles");
 
+  DBModule = require("./DBModule");
+
   module.exports = Knownode = (function(_super) {
 
     __extends(Knownode, _super);
 
     function Knownode(user) {
       Knownode.__super__.constructor.call(this, user);
-      this.relation = new relationModule(user); };
+      this.relation = new relationModule(user);
+      this.currentModule = "module/Knownode"; };
 
 
-    Knownode.prototype.getRelatedKnownodesToNodeId = function Knownode_prototype_getRelatedKnownodesToNodeId__1(nodeId, _) { var nodes, params, query, user, __this = this; var __frame = { name: "Knownode_prototype_getRelatedKnownodesToNodeId__1", line: 34 }; return __func(_, this, arguments, Knownode_prototype_getRelatedKnownodesToNodeId__1, 1, __frame, function __$Knownode_prototype_getRelatedKnownodesToNodeId__1() {
+    Knownode.prototype.getRelatedKnownodesToNodeId = function Knownode_prototype_getRelatedKnownodesToNodeId__1(nodeId, _) { var nodes, params, query, user, __this = this; var __frame = { name: "Knownode_prototype_getRelatedKnownodesToNodeId__1", line: 35 }; return __func(_, this, arguments, Knownode_prototype_getRelatedKnownodesToNodeId__1, 1, __frame, function __$Knownode_prototype_getRelatedKnownodesToNodeId__1() {
 
+        __this.logger.logDebug(__this.currentModule, ("getRelatedKnownodesToNodeId " + nodeId));
         nodes = [];
         query = ["START firstNode=node({startNode})","MATCH (firstNode) -[:RELATED_TO]- (edge) -[:RELATED_TO]- (article) -[:CREATED_BY]- (articleUser),","(edge) -[:CREATED_BY]- (edgeUser) ","WHERE article <> firstNode ","RETURN article, articleUser, edge, edgeUser",].join("\n");
         params = {
           startNode: nodeId };
 
         user = new userModule;
-        return __this.neo4jDB.query(query, params, __cb(_, __frame, 8, 6, function ___(__0, __2) { return __2.map_(__cb(_, __frame, 8, 6, function __$Knownode_prototype_getRelatedKnownodesToNodeId__1() {
+        return __this.neo4jDB.query(query, params, __cb(_, __frame, 9, 6, function ___(__0, __2) { return __2.map_(__cb(_, __frame, 9, 6, function __$Knownode_prototype_getRelatedKnownodesToNodeId__1() {
 
 
 
@@ -54,33 +56,36 @@
 
 
 
-            return _(null, nodes); }, true), function __1(_, item) { var articleUser, connectionUser; var __frame = { name: "__1", line: 42 }; return __func(_, this, arguments, __1, 0, __frame, function __$__1() { articleUser = user.formatUser(item.articleUser.data); articleUser.id = item.articleUser.id; item.article.data.id = item.article.id; item.article.data.user = articleUser; connectionUser = user.formatUser(item.edgeUser.data); connectionUser.id = item.edgeUser.id; item.edge.data.id = item.edge.data.id; item.edge.data.user = connectionUser; return _(null, nodes.push({ article: item.article.data, connection: item.edge.data })); }); }); }, true)); }); };
+            return _(null, nodes); }, true), function __1(_, item) { var articleUser, connectionUser; var __frame = { name: "__1", line: 44 }; return __func(_, this, arguments, __1, 0, __frame, function __$__1() { articleUser = user.formatUser(item.articleUser.data); articleUser.id = item.articleUser.id; item.article.data.id = item.article.id; item.article.data.user = articleUser; connectionUser = user.formatUser(item.edgeUser.data); connectionUser.id = item.edgeUser.id; item.edge.data.id = item.edge.data.id; item.edge.data.user = connectionUser; return _(null, nodes.push({ article: item.article.data, connection: item.edge.data })); }); }); }, true)); }); };
 
 
-    Knownode.prototype.getRelatedKnownodesToKnowNodeId = function Knownode_prototype_getRelatedKnownodesToKnowNodeId__2(knownodeId, _) { var node, __this = this; var __frame = { name: "Knownode_prototype_getRelatedKnownodesToKnowNodeId__2", line: 60 }; return __func(_, this, arguments, Knownode_prototype_getRelatedKnownodesToKnowNodeId__2, 1, __frame, function __$Knownode_prototype_getRelatedKnownodesToKnowNodeId__2() {
+    Knownode.prototype.getRelatedKnownodesToKnowNodeId = function Knownode_prototype_getRelatedKnownodesToKnowNodeId__2(knownodeId, _) { var node, __this = this; var __frame = { name: "Knownode_prototype_getRelatedKnownodesToKnowNodeId__2", line: 62 }; return __func(_, this, arguments, Knownode_prototype_getRelatedKnownodesToKnowNodeId__2, 1, __frame, function __$Knownode_prototype_getRelatedKnownodesToKnowNodeId__2() {
 
-        return __this.getKnownodeByKnownodeId(knownodeId, __cb(_, __frame, 2, 13, function ___(__0, __1) { node = __1;
-          return __this.getRelatedKnownodesToNodeId(node.id, __cb(_, __frame, 3, 13, _, true)); }, true)); }); };
+        __this.logger.logDebug(__this.currentModule, ("getRelatedKnownodesToKnowNodeId " + knownodeId));
+        return __this.getKnownodeByKnownodeId(knownodeId, __cb(_, __frame, 3, 13, function ___(__0, __1) { node = __1;
+          return __this.getRelatedKnownodesToNodeId(node.id, __cb(_, __frame, 4, 13, _, true)); }, true)); }); };
 
 
-    Knownode.prototype.getUserKnownodes = function Knownode_prototype_getUserKnownodes__3(_) { var params, query, __this = this; var __frame = { name: "Knownode_prototype_getUserKnownodes__3", line: 66 }; return __func(_, this, arguments, Knownode_prototype_getUserKnownodes__3, 0, __frame, function __$Knownode_prototype_getUserKnownodes__3() {
+    Knownode.prototype.getUserKnownodes = function Knownode_prototype_getUserKnownodes__3(_) { var params, query, __this = this; var __frame = { name: "Knownode_prototype_getUserKnownodes__3", line: 69 }; return __func(_, this, arguments, Knownode_prototype_getUserKnownodes__3, 0, __frame, function __$Knownode_prototype_getUserKnownodes__3() {
 
+        __this.logger.logDebug(__this.currentModule, "getUserKnownodes");
         query = ["START user=node({userId})","MATCH (knownode) -[:CREATED_BY]-> (user)","RETURN knownode",].join("\n");
         params = {
           userId: __this.user.id,
           conceptType: __this.DB.getPostTypes().concept };
 
-        return __this.neo4jDB.query(query, params, __cb(_, __frame, 7, 13, _, true)); }); };
+        return __this.neo4jDB.query(query, params, __cb(_, __frame, 8, 13, _, true)); }); };
 
 
-    Knownode.prototype.getKnownodeByKnownodeId = function Knownode_prototype_getKnownodeByKnownodeId__4(knownodeId, _) { var knownode, params, __this = this; var __frame = { name: "Knownode_prototype_getKnownodeByKnownodeId__4", line: 76 }; return __func(_, this, arguments, Knownode_prototype_getKnownodeByKnownodeId__4, 1, __frame, function __$Knownode_prototype_getKnownodeByKnownodeId__4() {
+    Knownode.prototype.getKnownodeByKnownodeId = function Knownode_prototype_getKnownodeByKnownodeId__4(knownodeId, _) { var knownode, params, __this = this; var __frame = { name: "Knownode_prototype_getKnownodeByKnownodeId__4", line: 80 }; return __func(_, this, arguments, Knownode_prototype_getKnownodeByKnownodeId__4, 1, __frame, function __$Knownode_prototype_getKnownodeByKnownodeId__4() {
 
+        __this.logger.logDebug(__this.currentModule, ("getKnownodeByKnownodeId " + knownodeId));
         params = {
           where: {
             KN_ID: knownodeId } };
 
 
-        return __this.DB.Post.all(params, __cb(_, __frame, 7, 17, function ___(__0, __1) { knownode = __1;
+        return __this.DB.Post.all(params, __cb(_, __frame, 8, 17, function ___(__0, __1) { knownode = __1;
           if ((knownode.length > 0)) {
             return _(null, knownode[0]); }
            else {
@@ -88,40 +93,43 @@
 
 
 
-    Knownode.prototype.createNewKnownode = function Knownode_prototype_createNewKnownode__5(knownodeData, _) { var knownode, __this = this; var __frame = { name: "Knownode_prototype_createNewKnownode__5", line: 91 }; return __func(_, this, arguments, Knownode_prototype_createNewKnownode__5, 1, __frame, function __$Knownode_prototype_createNewKnownode__5() {
+    Knownode.prototype.createNewKnownode = function Knownode_prototype_createNewKnownode__5(knownodeData, _) { var knownode, __this = this; var __frame = { name: "Knownode_prototype_createNewKnownode__5", line: 96 }; return __func(_, this, arguments, Knownode_prototype_createNewKnownode__5, 1, __frame, function __$Knownode_prototype_createNewKnownode__5() {
 
-        return __this.DB.Post.create(knownodeData, __cb(_, __frame, 2, 17, function ___(__0, __1) { knownode = __1;
-          return __this.relation.createOwnerRelationshipToNode(knownode, __cb(_, __frame, 3, 6, function __$Knownode_prototype_createNewKnownode__5() {
+        __this.logger.logDebug(__this.currentModule, "createNewKnownode");
+        return __this.DB.Post.create(knownodeData, __cb(_, __frame, 3, 17, function ___(__0, __1) { knownode = __1;
+          return __this.relation.createOwnerRelationshipToNode(knownode, __cb(_, __frame, 4, 6, function __$Knownode_prototype_createNewKnownode__5() {
             return _(null, knownode); }, true)); }, true)); }); };
 
 
-    Knownode.prototype.createNewKnownodeWithRelation = function Knownode_prototype_createNewKnownodeWithRelation__6(existingNodeId, relationData, newKnownodeData, _) { var edge, existingNode, knownode, __this = this; var __frame = { name: "Knownode_prototype_createNewKnownodeWithRelation__6", line: 98 }; return __func(_, this, arguments, Knownode_prototype_createNewKnownodeWithRelation__6, 3, __frame, function __$Knownode_prototype_createNewKnownodeWithRelation__6() {
+    Knownode.prototype.createNewKnownodeWithRelation = function Knownode_prototype_createNewKnownodeWithRelation__6(existingNodeId, relationData, newKnownodeData, _) { var edge, existingNode, knownode, __this = this; var __frame = { name: "Knownode_prototype_createNewKnownodeWithRelation__6", line: 104 }; return __func(_, this, arguments, Knownode_prototype_createNewKnownodeWithRelation__6, 3, __frame, function __$Knownode_prototype_createNewKnownodeWithRelation__6() {
 
-        return __this.createNewKnownode(newKnownodeData, __cb(_, __frame, 2, 17, function ___(__0, __1) { knownode = __1;
-          return __this.getKnownodeByKnownodeId(existingNodeId, __cb(_, __frame, 3, 21, function ___(__0, __2) { existingNode = __2;
-            return __this.relation.addKnownodeEdge(existingNode, relationData, knownode, __cb(_, __frame, 4, 13, function ___(__0, __3) { edge = __3;
+        __this.logger.logDebug(__this.currentModule, ("createNewKnownodeWithRelation " + existingNodeId));
+        return __this.createNewKnownode(newKnownodeData, __cb(_, __frame, 3, 17, function ___(__0, __1) { knownode = __1;
+          return __this.getKnownodeByKnownodeId(existingNodeId, __cb(_, __frame, 4, 21, function ___(__0, __2) { existingNode = __2;
+            return __this.relation.addKnownodeEdge(existingNode, relationData, knownode, __cb(_, __frame, 5, 13, function ___(__0, __3) { edge = __3;
               knownode.edge = edge;
               return _(null, knownode); }, true)); }, true)); }, true)); }); };
 
 
-    Knownode.prototype.destroy = function Knownode_prototype_destroy__7(id, _) { var kn_File, knownode, params, query, __this = this; var __frame = { name: "Knownode_prototype_destroy__7", line: 107 }; return __func(_, this, arguments, Knownode_prototype_destroy__7, 1, __frame, function __$Knownode_prototype_destroy__7() {
+    Knownode.prototype.destroy = function Knownode_prototype_destroy__7(id, _) { var kn_File, knownode, params, query, __this = this; var __frame = { name: "Knownode_prototype_destroy__7", line: 114 }; return __func(_, this, arguments, Knownode_prototype_destroy__7, 1, __frame, function __$Knownode_prototype_destroy__7() {
 
+        __this.logger.logDebug(__this.currentModule, ("destroy " + id));
         query = ["START user=node({userId}), n=node({nodeId})","MATCH ()-[r]-n-[:CREATED_BY]-(user)","RETURN n",].join("\n");
         console.log(("user is" + __this.user.id));
         params = {
           userId: __this.user.id,
           nodeId: id };
 
-        return __this.neo4jDB.query(query, params, __cb(_, __frame, 8, 17, function ___(__0, __1) { knownode = __1;
+        return __this.neo4jDB.query(query, params, __cb(_, __frame, 9, 17, function ___(__0, __1) { knownode = __1;
           console.log(("Deleting file " + knownode.fileId));
           kn_File = new knownodeFile(__this.user);
-          return kn_File.deleteFile(knownode.fileId, __cb(_, __frame, 11, 6, function __$Knownode_prototype_destroy__7() {
+          return kn_File.deleteFile(knownode.fileId, __cb(_, __frame, 12, 6, function __$Knownode_prototype_destroy__7() {
             console.log("File deleted");
             return _(null, query = ["START user=node({userId}), n=node({nodeId})","MATCH ()-[r]-n-[:CREATED_BY]-(user)","DELETE n",].join("\n")); }, true)); }, true)); }); };
 
 
     return Knownode;
 
-  })(BaseModule);
+  })(DBModule);
 
 }).call(this);

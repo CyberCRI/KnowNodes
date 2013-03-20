@@ -11,6 +11,8 @@
     __extends(User, _super);
 
     function User() {
+      this.getUserByConnectionGUID = __bind(this.getUserByConnectionGUID, this);
+
       this.getUserByEmail = __bind(this.getUserByEmail, this);
 
       this.getUserByKnownodeId = __bind(this.getUserByKnownodeId, this);
@@ -32,12 +34,13 @@
         lastName: usr.lastName,
         gender: usr.gender,
         dateOfBirth: usr.dateOfBirth,
-        displayName: ((usr.firstName + " ") + usr.lastName) };
+        displayName: ((usr.firstName + " ") + usr.lastName),
+        lastConnectionDate: usr.lastConnectionDate };
 
       return retVal; };
 
 
-    User.prototype.getAllUsers = function User_prototype_getAllUsers__1(_) { var userList, __this = this; var __frame = { name: "User_prototype_getAllUsers__1", line: 40 }; return __func(_, this, arguments, User_prototype_getAllUsers__1, 0, __frame, function __$User_prototype_getAllUsers__1() {
+    User.prototype.getAllUsers = function User_prototype_getAllUsers__1(_) { var userList, __this = this; var __frame = { name: "User_prototype_getAllUsers__1", line: 43 }; return __func(_, this, arguments, User_prototype_getAllUsers__1, 0, __frame, function __$User_prototype_getAllUsers__1() {
 
         userList = [];
         return __this.DB.User.all({
@@ -45,16 +48,16 @@
           return __2.forEach_(__cb(_, __frame, 5, 6, function __$User_prototype_getAllUsers__1() {
 
 
-            return _(null, userList); }, true), function __1(_, currentUserObj) { var __frame = { name: "__1", line: 45 }; return __func(_, this, arguments, __1, 0, __frame, function __$__1() { return _(null, userList.push(currentUserObj)); }); }); }, true)); }); };
+            return _(null, userList); }, true), function __1(_, currentUserObj) { var __frame = { name: "__1", line: 48 }; return __func(_, this, arguments, __1, 0, __frame, function __$__1() { return _(null, userList.push(currentUserObj)); }); }); }, true)); }); };
 
 
-    User.prototype.getUserByNodeId = function User_prototype_getUserByNodeId__2(id, _) { var usr, __this = this; var __frame = { name: "User_prototype_getUserByNodeId__2", line: 51 }; return __func(_, this, arguments, User_prototype_getUserByNodeId__2, 1, __frame, function __$User_prototype_getUserByNodeId__2() {
+    User.prototype.getUserByNodeId = function User_prototype_getUserByNodeId__2(id, _) { var usr, __this = this; var __frame = { name: "User_prototype_getUserByNodeId__2", line: 54 }; return __func(_, this, arguments, User_prototype_getUserByNodeId__2, 1, __frame, function __$User_prototype_getUserByNodeId__2() {
 
         return __this.DB.User.find(id, __cb(_, __frame, 2, 12, function ___(__0, __1) { usr = __1;
           return _(null, __this.formatUser(usr)); }, true)); }); };
 
 
-    User.prototype.getUserByKnownodeId = function User_prototype_getUserByKnownodeId__3(id, _) { var usr, __this = this; var __frame = { name: "User_prototype_getUserByKnownodeId__3", line: 57 }; return __func(_, this, arguments, User_prototype_getUserByKnownodeId__3, 1, __frame, function __$User_prototype_getUserByKnownodeId__3() {
+    User.prototype.getUserByKnownodeId = function User_prototype_getUserByKnownodeId__3(id, _) { var usr, __this = this; var __frame = { name: "User_prototype_getUserByKnownodeId__3", line: 60 }; return __func(_, this, arguments, User_prototype_getUserByKnownodeId__3, 1, __frame, function __$User_prototype_getUserByKnownodeId__3() {
 
         return __this.DB.User.findOne({
           where: {
@@ -64,7 +67,7 @@
           return _(null, __this.formatUser(usr)); }, true)); }); };
 
 
-    User.prototype.getUserByEmail = function User_prototype_getUserByEmail__4(email, _) { var usr, __this = this; var __frame = { name: "User_prototype_getUserByEmail__4", line: 67 }; return __func(_, this, arguments, User_prototype_getUserByEmail__4, 1, __frame, function __$User_prototype_getUserByEmail__4() {
+    User.prototype.getUserByEmail = function User_prototype_getUserByEmail__4(email, _) { var usr, __this = this; var __frame = { name: "User_prototype_getUserByEmail__4", line: 70 }; return __func(_, this, arguments, User_prototype_getUserByEmail__4, 1, __frame, function __$User_prototype_getUserByEmail__4() {
 
         return __this.DB.User.findOne({
           where: {
@@ -74,14 +77,24 @@
           return _(null, __this.formatUser(usr)); }, true)); }); };
 
 
-    User.prototype.saveNewUser = function User_prototype_saveNewUser__5(userData, _) { var __this = this; var __frame = { name: "User_prototype_saveNewUser__5", line: 77 }; return __func(_, this, arguments, User_prototype_saveNewUser__5, 1, __frame, function __$User_prototype_saveNewUser__5() {
+    User.prototype.saveNewUser = function User_prototype_saveNewUser__5(userData, _) { var __this = this; var __frame = { name: "User_prototype_saveNewUser__5", line: 80 }; return __func(_, this, arguments, User_prototype_saveNewUser__5, 1, __frame, function __$User_prototype_saveNewUser__5() {
         return __this.DB.User.create(userData, __cb(_, __frame, 1, 13, _, true)); }); };
 
 
-    User.prototype.deleteUser = function User_prototype_deleteUser__6(id, _) { var user, __this = this; var __frame = { name: "User_prototype_deleteUser__6", line: 81 }; return __func(_, this, arguments, User_prototype_deleteUser__6, 1, __frame, function __$User_prototype_deleteUser__6() {
+    User.prototype.deleteUser = function User_prototype_deleteUser__6(id, _) { var user, __this = this; var __frame = { name: "User_prototype_deleteUser__6", line: 84 }; return __func(_, this, arguments, User_prototype_deleteUser__6, 1, __frame, function __$User_prototype_deleteUser__6() {
 
         return __this.DB.User.find(id, __cb(_, __frame, 2, 13, function ___(__0, __1) { user = __1;
           return user.destroy(__cb(_, __frame, 3, 13, _, true)); }, true)); }); };
+
+
+    User.prototype.getUserByConnectionGUID = function User_prototype_getUserByConnectionGUID__7(connectionGUID, _) { var usr, __this = this; var __frame = { name: "User_prototype_getUserByConnectionGUID__7", line: 90 }; return __func(_, this, arguments, User_prototype_getUserByConnectionGUID__7, 1, __frame, function __$User_prototype_getUserByConnectionGUID__7() {
+
+        return __this.DB.User.findOne({
+          where: {
+            connectionGUID: connectionGUID } }, __cb(_, __frame, 2, 12, function ___(__0, __1) { usr = __1;
+
+
+          return _(null, __this.formatUser(usr)); }, true)); }); };
 
 
     return User;

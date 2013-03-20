@@ -39,7 +39,10 @@ var kn_User  = exports.User = schema.define('kn_User', {
     gender:         { type: String, length: 1 },
     dateOfBirth:    { type: Date },
 
-    origin:         { type: String, length: 50 }
+    origin:         { type: String, length: 50 },
+
+    connectionGUID:     { type: String, length: 36, index: true },
+    lastConnectionDate: { type: Date }
 });
 
 kn_User.prototype.displayName = function() {
@@ -87,7 +90,7 @@ var kn_Edge = exports.Edge = schema.define('kn_Edge', {
     __CreatedOn__:  { type: Date, default: Date.now, index: true },
 
     title:          { type: String, length: 255 },
-    bodyText:        { type: String, length: 2000 },
+    bodyText:        { type: Schema.Text },
     connectionType: { type: String, length: 255 },
     fromNodeId:     { type: String, length: 20, index: true },
     toNodeId:       { type: String, length: 20, index: true },

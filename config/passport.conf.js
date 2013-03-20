@@ -4,6 +4,10 @@
         GoogleStrategy = require('passport-google').Strategy,
         LocalStrategy = require('passport-local').Strategy,
 
+        emailConf = require('./email.conf'),
+        nodemailer = require('nodemailer'),
+
+        LOG = require('../modules/log'),
         DB = require('../DB/knownodeDB'),
 
         basicURL = 'http://www.knownodes.com/',
@@ -67,6 +71,10 @@
             },
 
             function (accessToken, refreshToken, profile, done) {
+                var prof = JSON.stringify(profile);
+                var logger = new LOG();
+                logger.logActivity('facebook profile', prof);
+
                 if(profile.emails && profile.emails.length > 0){
                     return findByEmail(profile.emails[0], profile, function(err, user){
                         if(err)

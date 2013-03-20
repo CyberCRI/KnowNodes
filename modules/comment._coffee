@@ -9,13 +9,16 @@
 BaseModule = require './baseModule'
 relationModule = require('./relation')
 userModule = require('./user')
+DBModule = require './DBModule'
 
-module.exports = class Comment extends BaseModule
+module.exports = class Comment extends DBModule
 	constructor: (user) ->
 		super user
 		@relation = new relationModule user
+		@currentModule = 'module/Comment'
 
 	queryAndFormatCommentResults: (query, queryParams, _) ->
+		@logger.logDebug @currentModule, "queryAndFormatCommentResults #{query}"
 		user = new userModule
 		comments = []
 
@@ -32,6 +35,7 @@ module.exports = class Comment extends BaseModule
 	# return all comments for a specific node according to its neo4j node id
 	# @param nodeId - a node id number (in neo4j)
 	getAllComments: (nodeId, _) ->
+		@logger.logDebug @currentModule, "getAllComments #{nodeId}"
 		query = [
 			'START root=node({nodeId})',
 			'MATCH (root) <-[r:COMMENT_OF*]- (comment) -[u:CREATED_BY]-> (commentUser)',
@@ -44,6 +48,7 @@ module.exports = class Comment extends BaseModule
 		@queryAndFormatCommentResults query, params, _
 
 	getAllCommentsOfKnownodeID: (knownodeId, _) ->
+		@logger.logDebug @currentModule, "getAllCommentsOfKnownodeID #{knownodeId}"
 		queryParams = 'KN_ID' : knownodeId
 
 		query = [
@@ -59,6 +64,7 @@ module.exports = class Comment extends BaseModule
 	# @param commentData the json object with the comment details, according to the db structure
 	# @param commentedOnNode the node to relate the comment to
 	createNewComment: (commentData, commentedObjectId, _) =>
+		@logger.logDebug @currentModule, "createNewComment #{commentedObjectId}"
 		comment = @DB.Comment.create commentData, _
 		@relation.createOwnerRelationshipToNode comment
 
@@ -70,6 +76,7 @@ module.exports = class Comment extends BaseModule
 		comment
 
 	createNewCommentToObjectId: (commentData, commentedObjectId, _) ->
+		@logger.logDebug @currentModule, "createNewCommentToObjectId #{commentedObjectId}"
 		queryParams = where :
 			'KN_ID' : commentedObjectId
 
