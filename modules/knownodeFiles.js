@@ -10,12 +10,10 @@
 
 
 
-  var BaseModule, KnownodeFiles, config, mongoose, postSchema, userModule, __bind = function(fn, me) {
+  var DBModule, KnownodeFiles, config, mongoose, postSchema, userModule, __bind = function(fn, me) {
     return function() { return fn.apply(me, arguments); };
   }, __hasProp = { }.hasOwnProperty, __extends = function(child, parent) {
     for (var key in parent) { if (__hasProp.call(parent, key)) { child[key] = parent[key]; }; }; function ctor() { this.constructor = child; }; ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
-
-  BaseModule = require("./baseModule");
 
   userModule = require("./user");
 
@@ -24,6 +22,8 @@
   postSchema = require("../DB/PostSchema");
 
   config = require("../config/DB.conf");
+
+  DBModule = require("./DBModule");
 
   module.exports = KnownodeFiles = (function(_super) {
 
@@ -35,11 +35,13 @@
       this.getFile = __bind(this.getFile, this);
 
       this.saveFile = __bind(this.saveFile, this);
-      KnownodeFiles.__super__.constructor.call(this, user); };
+      KnownodeFiles.__super__.constructor.call(this, user);
+      this.currentModule = "module/KnownodeFiles"; };
 
 
     KnownodeFiles.prototype.initDB = function(callback) {
       var db, dbURL, opts;
+      this.logger.logDebug(this.currentModule, "initDB");
       opts = {
         server: {
           auto_reconnect: false,
@@ -51,13 +53,14 @@
       mongoose.connect(dbURL, opts);
       db = mongoose.connection;
       db.on("error", function(err) {
-        try {
-          mongoose.connection.close();
-          return callback(err);
-        } catch (error) {
-          console.log(error);
-          return callback(error); }; });
+        return this.logger.logError(this.currentModule, err); });
 
+      try {
+        mongoose.connection.close();
+        callback(err);
+      } catch (error) {
+        this.logger.logError(this.currentModule, error);
+        callback(error); };
 
       return db.once("open", function() {
         var Post;
@@ -68,10 +71,11 @@
 
 
 
-    KnownodeFiles.prototype.saveFile = function KnownodeFiles_prototype_saveFile__1(files, params, _) { var Post, opts, post, __this = this; var __frame = { name: "KnownodeFiles_prototype_saveFile__1", line: 71 }; return __func(_, this, arguments, KnownodeFiles_prototype_saveFile__1, 2, __frame, function __$KnownodeFiles_prototype_saveFile__1() {
+    KnownodeFiles.prototype.saveFile = function KnownodeFiles_prototype_saveFile__1(files, params, _) { var Post, opts, post, __this = this; var __frame = { name: "KnownodeFiles_prototype_saveFile__1", line: 74 }; return __func(_, this, arguments, KnownodeFiles_prototype_saveFile__1, 2, __frame, function __$KnownodeFiles_prototype_saveFile__1() {
 
-        return __this.initDB(__cb(_, __frame, 2, 13, function ___(__0, __1) { Post = __1;
-          console.log("post initialized");
+        __this.logger.logDebug(__this.currentModule, "saveFile");
+        return __this.initDB(__cb(_, __frame, 3, 13, function ___(__0, __1) { Post = __1;
+          __this.logger.logDebug(__this.currentModule, "post initialized");
           post = new Post({
             fileURL: params.url,
             fileName: files.uploadedFile.name,
@@ -86,27 +90,29 @@
           opts = {
             content_type: files.uploadedFile.type };
 
-          return post.addFile(files.uploadedFile, opts, __cb(_, __frame, 18, 6, function __$KnownodeFiles_prototype_saveFile__1() {
+          return post.addFile(files.uploadedFile, opts, __cb(_, __frame, 19, 6, function __$KnownodeFiles_prototype_saveFile__1() {
             mongoose.connection.close();
             return _(null, post); }, true)); }, true)); }); };
 
 
-    KnownodeFiles.prototype.getFile = function KnownodeFiles_prototype_getFile__2(id, _) { var Post, post, __this = this; var __frame = { name: "KnownodeFiles_prototype_getFile__2", line: 94 }; return __func(_, this, arguments, KnownodeFiles_prototype_getFile__2, 1, __frame, function __$KnownodeFiles_prototype_getFile__2() {
+    KnownodeFiles.prototype.getFile = function KnownodeFiles_prototype_getFile__2(id, _) { var Post, post, __this = this; var __frame = { name: "KnownodeFiles_prototype_getFile__2", line: 98 }; return __func(_, this, arguments, KnownodeFiles_prototype_getFile__2, 1, __frame, function __$KnownodeFiles_prototype_getFile__2() {
 
-        return __this.initDB(__cb(_, __frame, 2, 13, function ___(__0, __1) { Post = __1;
+        __this.logger.logDebug(__this.currentModule, ("getFile " + id));
+        return __this.initDB(__cb(_, __frame, 3, 13, function ___(__0, __1) { Post = __1;
           post = new Post();
-          return post.getFile(id, __cb(_, __frame, 4, 13, _, true)); }, true)); }); };
+          return post.getFile(id, __cb(_, __frame, 5, 13, _, true)); }, true)); }); };
 
 
-    KnownodeFiles.prototype.deleteFile = function KnownodeFiles_prototype_deleteFile__3(id, _) { var Post, post, __this = this; var __frame = { name: "KnownodeFiles_prototype_deleteFile__3", line: 101 }; return __func(_, this, arguments, KnownodeFiles_prototype_deleteFile__3, 1, __frame, function __$KnownodeFiles_prototype_deleteFile__3() {
+    KnownodeFiles.prototype.deleteFile = function KnownodeFiles_prototype_deleteFile__3(id, _) { var Post, post, __this = this; var __frame = { name: "KnownodeFiles_prototype_deleteFile__3", line: 106 }; return __func(_, this, arguments, KnownodeFiles_prototype_deleteFile__3, 1, __frame, function __$KnownodeFiles_prototype_deleteFile__3() {
 
-        return __this.initDB(__cb(_, __frame, 2, 13, function ___(__0, __1) { Post = __1;
+        __this.logger.logDebug(__this.currentModule, ("deleteFile " + id));
+        return __this.initDB(__cb(_, __frame, 3, 13, function ___(__0, __1) { Post = __1;
           post = new Post();
-          return post.deleteFile(id, __cb(_, __frame, 4, 13, _, true)); }, true)); }); };
+          return post.deleteFile(id, __cb(_, __frame, 5, 13, _, true)); }, true)); }); };
 
 
     return KnownodeFiles;
 
-  })(BaseModule);
+  })(DBModule);
 
 }).call(this);

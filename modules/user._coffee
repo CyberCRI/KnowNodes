@@ -18,7 +18,8 @@ module.exports = class User extends BaseModule
 			lastName: usr.lastName,
 			gender: usr.gender,
 			dateOfBirth: usr.dateOfBirth,
-			displayName: usr.firstName + ' ' + usr.lastName
+			displayName: usr.firstName + ' ' + usr.lastName,
+			lastConnectionDate: usr.lastConnectionDate
 		return retVal
 
 	getAllUsers: (_) ->
@@ -51,3 +52,10 @@ module.exports = class User extends BaseModule
 	deleteUser: (id, _) ->
 		user = @DB.User.find id, _
 		user.destroy _
+
+	getUserByConnectionGUID: (connectionGUID, _) =>
+		usr = @DB.User.findOne
+			where:
+				connectionGUID: connectionGUID
+		, _
+		return @formatUser(usr)

@@ -1,12 +1,34 @@
-module.exports = class Log
+BaseModule = require './baseModule'
+LogDB = require '../DB/LogDB'
+
+module.exports = class Log extends BaseModule
 
 	constructor: (user) ->
-		@DB = require('../DB/LogDB')
-		@user = user or {}
+		super user
+		@currentStage = 3
 
-	logActivity: (title, description) =>
-		log = new @DB.Log
-		log.user = if @user and @user.id then @user.id else "anonymous"
-		log.title = title
-		log.description = description
-		log.save console.log
+	logActivity: (title, content, _) =>
+	    console.log title + '-' + content
+	    if @currentStage > 2
+            log = new LogDB.Log
+            log.user = if @user and @user.id then @user.id else "anonymous"
+            log.title = title
+            log.content = content
+            log.save console.log
+
+	logError: (title, content, _) =>
+        console.log title + '-' + content
+        log = new LogDB.Log
+        log.user = if @user and @user.id then @user.id else "anonymous"
+        log.title = title
+        log.content = content
+        log.save console.log
+
+	logDebug: (title, content, _) =>
+	    console.log title + '-' + content
+	    if @currentStage > 1
+            log = new LogDB.Log
+            log.user = if @user and @user.id then @user.id else "anonymous"
+            log.title = title
+            log.content = content
+            log.save console.log

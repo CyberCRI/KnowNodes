@@ -419,6 +419,7 @@ function AddPostCtrl($scope, $http, $location, $routeParams) {
                 if(data.error) {
                     $scope.errorMessage = data.error
                 }
+                $("#btnSubmitPost").removeAttr('disabled');
             });
     }
 
@@ -432,6 +433,7 @@ function AddPostCtrl($scope, $http, $location, $routeParams) {
 
     $scope.tooltip = {title: "Hello Tooltip<br />This is a multiline message!", checked: false};
     $scope.submitPost = function (form) {
+        $("#btnSubmitPost").attr('disabled', 'disabled');
         if($scope.files && $scope.files.length > 0) {
             uploadFile();
         }

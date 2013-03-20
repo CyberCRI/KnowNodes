@@ -9,18 +9,19 @@
 
 
 
-  var BaseModule, Relation, __hasProp = {
+  var DBModule, Relation, __hasProp = {
   }.hasOwnProperty, __extends = function(child, parent) {
     for (var key in parent) { if (__hasProp.call(parent, key)) { child[key] = parent[key]; }; }; function ctor() { this.constructor = child; }; ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  BaseModule = require("./baseModule");
+  DBModule = require("./DBModule");
 
   module.exports = Relation = (function(_super) {
 
     __extends(Relation, _super);
 
     function Relation(user) {
-      Relation.__super__.constructor.call(this, user); };
+      Relation.__super__.constructor.call(this, user);
+      this.currentModule = "module/Relation"; };
 
 
 
@@ -28,34 +29,36 @@
 
 
 
-    Relation.prototype.createRelation = function Relation_prototype_createRelation__1(from, relationshipType, to, properties, _) { var __frame = { name: "Relation_prototype_createRelation__1", line: 31 }; return __func(_, this, arguments, Relation_prototype_createRelation__1, 4, __frame, function __$Relation_prototype_createRelation__1() {
-        console.log("in createRelation. Extracting the Neo4J node");
+    Relation.prototype.createRelation = function Relation_prototype_createRelation__1(from, relationshipType, to, properties, _) { var __this = this; var __frame = { name: "Relation_prototype_createRelation__1", line: 32 }; return __func(_, this, arguments, Relation_prototype_createRelation__1, 4, __frame, function __$Relation_prototype_createRelation__1() {
+        __this.logger.logDebug(__this.currentModule, "createRelation");
         if ((to.__data && to.__data._node)) {
           to = to.__data._node; } ;
 
         if ((from.__data && from.__data._node)) {
           from = from.__data._node; } ;
 
-        console.log("done. creating relation");
+        __this.logger.logDebug(__this.currentModule, "done. creating relation");
         return from.createRelationshipTo(to, relationshipType, properties, __cb(_, __frame, 9, 6, function __$Relation_prototype_createRelation__1() {
-          return _(null, console.log("created relation done.")); }, true)); }); };
+          return _(null, __this.logger.logDebug(__this.currentModule, "created relation done.")); }, true)); }); };
 
 
-    Relation.prototype.createOwnerRelationshipToNode = function Relation_prototype_createOwnerRelationshipToNode__2(node, _) { var properties, __this = this; var __frame = { name: "Relation_prototype_createOwnerRelationshipToNode__2", line: 44 }; return __func(_, this, arguments, Relation_prototype_createOwnerRelationshipToNode__2, 1, __frame, function __$Relation_prototype_createOwnerRelationshipToNode__2() {
+    Relation.prototype.createOwnerRelationshipToNode = function Relation_prototype_createOwnerRelationshipToNode__2(node, _) { var properties, __this = this; var __frame = { name: "Relation_prototype_createOwnerRelationshipToNode__2", line: 45 }; return __func(_, this, arguments, Relation_prototype_createOwnerRelationshipToNode__2, 1, __frame, function __$Relation_prototype_createOwnerRelationshipToNode__2() {
 
+        __this.logger.logDebug(__this.currentModule, "createOwnerRelationshipToNode");
         console.log(("createOwnerRelationshipToNode: user is " + __this.user.id));
         properties = {
           creationDate: new Date() };
 
-        return __this.createRelation(node, "CREATED_BY", __this.user, properties, __cb(_, __frame, 6, 13, _, true)); }); };
+        return __this.createRelation(node, "CREATED_BY", __this.user, properties, __cb(_, __frame, 7, 13, _, true)); }); };
 
 
-    Relation.prototype.getOwnerRelationship = function Relation_prototype_getOwnerRelationship__3(node, _) { var nodes, __this = this; var __frame = { name: "Relation_prototype_getOwnerRelationship__3", line: 53 }; return __func(_, this, arguments, Relation_prototype_getOwnerRelationship__3, 1, __frame, function __$Relation_prototype_getOwnerRelationship__3() { return (function __$Relation_prototype_getOwnerRelationship__3(__then) {
+    Relation.prototype.getOwnerRelationship = function Relation_prototype_getOwnerRelationship__3(node, _) { var nodes, __this = this; var __frame = { name: "Relation_prototype_getOwnerRelationship__3", line: 55 }; return __func(_, this, arguments, Relation_prototype_getOwnerRelationship__3, 1, __frame, function __$Relation_prototype_getOwnerRelationship__3() {
 
+        __this.logger.logDebug(__this.currentModule, "getOwnerRelationship"); return (function __$Relation_prototype_getOwnerRelationship__3(__then) {
           if ((typeof node === "number")) {
-            return __this.neo4jDB.getNodeById(node, __cb(_, __frame, 3, 15, function ___(__0, __1) { node = __1; __then(); }, true)); } else { __then(); } ; })(function __$Relation_prototype_getOwnerRelationship__3() {
+            return __this.neo4jDB.getNodeById(node, __cb(_, __frame, 4, 15, function ___(__0, __1) { node = __1; __then(); }, true)); } else { __then(); } ; })(function __$Relation_prototype_getOwnerRelationship__3() {
 
-          return node.getRelationshipByType(node, "CREATED_BY", __cb(_, __frame, 5, 14, function ___(__0, __2) { nodes = __2;
+          return node.getRelationshipByType(node, "CREATED_BY", __cb(_, __frame, 6, 14, function ___(__0, __2) { nodes = __2;
             if ((nodes.length > 0)) {
               return _(null, nodes[0]); }
              else {
@@ -63,18 +66,18 @@
 
 
 
-    Relation.prototype.addKnownodeEdge = function Relation_prototype_addKnownodeEdge__4(fromKnownode, connectionData, toKnownode, _) { var edge, relationshipData, __this = this; var __frame = { name: "Relation_prototype_addKnownodeEdge__4", line: 66 }; return __func(_, this, arguments, Relation_prototype_addKnownodeEdge__4, 3, __frame, function __$Relation_prototype_addKnownodeEdge__4() {
+    Relation.prototype.addKnownodeEdge = function Relation_prototype_addKnownodeEdge__4(fromKnownode, connectionData, toKnownode, _) { var edge, relationshipData, __this = this; var __frame = { name: "Relation_prototype_addKnownodeEdge__4", line: 69 }; return __func(_, this, arguments, Relation_prototype_addKnownodeEdge__4, 3, __frame, function __$Relation_prototype_addKnownodeEdge__4() {
 
-        console.log("in addKnownodeEdge");
+        __this.logger.logDebug(__this.currentModule, "addKnownodeEdge");
         relationshipData = {
           creationDate: new Date() };
 
         connectionData.fromNodeId = fromKnownode.id;
         connectionData.toNodeId = toKnownode.id;
-        console.log(JSON.stringify(connectionData));
+        __this.logger.logDebug(__this.currentModule, JSON.stringify(connectionData));
         return __this.DB.Edge.create(connectionData, __cb(_, __frame, 9, 13, function ___(__0, __1) { edge = __1;
           __this.createOwnerRelationshipToNode(edge);
-          console.log("creating relations");
+          __this.logger.logDebug(__this.currentModule, "creating relations");
           return __this.createRelation(fromKnownode, "RELATED_TO", edge, relationshipData, __cb(_, __frame, 12, 6, function __$Relation_prototype_addKnownodeEdge__4() {
             return __this.createRelation(edge, "RELATED_TO", toKnownode, relationshipData, __cb(_, __frame, 13, 6, function __$Relation_prototype_addKnownodeEdge__4() {
               return _(null, edge); }, true)); }, true)); }, true)); }); };
@@ -82,6 +85,6 @@
 
     return Relation;
 
-  })(BaseModule);
+  })(DBModule);
 
 }).call(this);

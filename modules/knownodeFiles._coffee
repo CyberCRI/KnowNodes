@@ -7,19 +7,20 @@
 *
 #####
 
-BaseModule = require './baseModule'
 userModule = require('./user')
 mongoose = require('mongoose')
 postSchema = require('../DB/PostSchema')
 config = require('../config/DB.conf')
+DBModule = require './DBModule'
 
-
-module.exports = class KnownodeFiles extends BaseModule
+module.exports = class KnownodeFiles extends DBModule
 
 	constructor: (user) ->
 		super user
+		@currentModule = 'module/KnownodeFiles'
 
 	initDB: (callback) ->
+		@logger.logDebug @currentModule, 'initDB'
 		opts =
 			server:
 				auto_reconnect: false,
@@ -29,12 +30,13 @@ module.exports = class KnownodeFiles extends BaseModule
 		mongoose.connect dbURL, opts
 		db = mongoose.connection
 		db.on 'error', (err) ->
-			try
-				mongoose.connection.close()
-				callback err
-			catch error
-				console.log error
-				callback error
+			@logger.logError @currentModule, err
+		try
+			mongoose.connection.close()
+			callback err
+		catch error
+			@logger.logError @currentModule, error
+			callback error
 
 		db.once 'open', () ->
 			console.log 'db is open'
@@ -43,8 +45,9 @@ module.exports = class KnownodeFiles extends BaseModule
 			callback null, Post
 
 	saveFile: (files, params, _) =>
+		@logger.logDebug @currentModule, 'saveFile'
 		Post = @initDB _
-		console.log 'post initialized'
+		@logger.logDebug @currentModule, 'post initialized'
 		post = new Post
 			fileURL: params.url,
 			fileName: files.uploadedFile.name,
@@ -64,11 +67,13 @@ module.exports = class KnownodeFiles extends BaseModule
 		post
 
 	getFile: (id, _) =>
+		@logger.logDebug @currentModule, "getFile #{id}"
 		Post = @initDB _
 		post = new Post()
 		post.getFile id, _
 
 	deleteFile: (id, _) =>
+		@logger.logDebug @currentModule, "deleteFile #{id}"
 		Post = @initDB _
 		post = new Post()
 		post.deleteFile id, _
