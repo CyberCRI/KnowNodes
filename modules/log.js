@@ -24,6 +24,7 @@
 
     Log.prototype.logActivity = function Log_prototype_logActivity__1(title, content, _) { var log, __this = this; var __frame = { name: "Log_prototype_logActivity__1", line: 25 }; return __func(_, this, arguments, Log_prototype_logActivity__1, 2, __frame, function __$Log_prototype_logActivity__1() {
 
+        title = ("Activity: " + title);
         console.log(((title + "-") + content));
         if ((__this.currentStage > 2)) {
           log = new LogDB.Log;
@@ -34,8 +35,9 @@
 
 
 
-    Log.prototype.logError = function Log_prototype_logError__2(title, content, _) { var log, __this = this; var __frame = { name: "Log_prototype_logError__2", line: 37 }; return __func(_, this, arguments, Log_prototype_logError__2, 2, __frame, function __$Log_prototype_logError__2() {
+    Log.prototype.logError = function Log_prototype_logError__2(title, content, _) { var log, __this = this; var __frame = { name: "Log_prototype_logError__2", line: 38 }; return __func(_, this, arguments, Log_prototype_logError__2, 2, __frame, function __$Log_prototype_logError__2() {
 
+        title = ("ERROR: " + title);
         console.log(((title + "-") + content));
         log = new LogDB.Log;
         log.user = ((__this.user && __this.user.id) ? __this.user.id : "anonymous");
@@ -44,8 +46,9 @@
         return _(null, log.save(console.log)); }); };
 
 
-    Log.prototype.logDebug = function Log_prototype_logDebug__3(title, content, _) { var log, __this = this; var __frame = { name: "Log_prototype_logDebug__3", line: 47 }; return __func(_, this, arguments, Log_prototype_logDebug__3, 2, __frame, function __$Log_prototype_logDebug__3() {
+    Log.prototype.logDebug = function Log_prototype_logDebug__3(title, content, _) { var log, __this = this; var __frame = { name: "Log_prototype_logDebug__3", line: 49 }; return __func(_, this, arguments, Log_prototype_logDebug__3, 2, __frame, function __$Log_prototype_logDebug__3() {
 
+        title = ("DEBUG: " + title);
         console.log(((title + "-") + content));
         if ((__this.currentStage > 1)) {
           log = new LogDB.Log;

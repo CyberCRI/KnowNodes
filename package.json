@@ -3,7 +3,7 @@
   "version": "0.0.2",
   "private": true,
   "scripts": {
-    "build": "coffee -c controllers/.",
+    "build": "coffee -c controllers/.; _coffee -c modules/.",
     "start": "node app",
     "postinstall": "npm run build"
   },
@@ -13,7 +13,6 @@
     "jade": "0.27.7",
     "jugglingdb": "https://github.com/liadmagen/jugglingdb/archive/master.tar.gz",
     "jugglingdb-mongodb": "latest",
-    "jugglingdb-mysql": "latest",
     "neo4j": "https://github.com/liadmagen/node-neo4j/archive/develop.tar.gz",
     "nodemailer": "0.3.37",
     "passport": "0.1.15",
@@ -24,7 +23,8 @@
     "mongoose": "3.5.3",
     "memory-cache": "0.0.5",
     "streamline": "~0.4.6",
-    "express-resource-new": "~0.1.1"
+    "express-resource-new": "~0.1.1",
+    "jugglingdb-mysql": "0.0.1-3"
   },
   "engines": {
     "node": "0.8.x"

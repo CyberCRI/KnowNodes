@@ -9,9 +9,11 @@ div.header.row.topbar
     //span
       a.btn.btn-link.info(href="/knownodeList") View knownodes
     span
-      a.btn.btn-link.info(href="/conceptList") View concepts
+        a.btn.btn-link.info(href="/conceptList") View concepts
     span
-      a.btn.btn-link.info(href="/addConcept", ng-show="isLoggedIn()") Add new concept
+        a.btn.btn-link.info(href="/addConcept", ng-show="isLoggedIn()") Add new concept
+    span
+        a.btn.btn-link.info(href="/about") About
 
     //span
       button.btn.btn-link.info(ng-click="showtoggle= toggle('show')") Create new Knownode

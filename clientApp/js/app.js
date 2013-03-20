@@ -18,6 +18,10 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['ui', 'ui.directives', 
                 templateUrl: 'partials/index',
                 controller: IndexCtrl
             }).
+            when('/about', {
+                templateUrl: 'partials/about',
+                controller: aboutCtrl
+            }).
             when('/login', {
                 templateUrl: 'partials/User/login',
                 controller: LoginCtrl
