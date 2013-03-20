@@ -505,3 +505,8 @@ function addCommentCtrl($scope, $http, $routeParams, userService, broadcastServi
     };
 }
 addCommentCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'broadcastService'];
+
+function aboutCtrl($scope)
+{
+
+}
