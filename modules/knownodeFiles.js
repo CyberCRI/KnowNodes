@@ -53,14 +53,14 @@
       mongoose.connect(dbURL, opts);
       db = mongoose.connection;
       db.on("error", function(err) {
-        return this.logger.logError(this.currentModule, err); });
+        this.logger.logError(this.currentModule, err);
+        try {
+          mongoose.connection.close();
+          return callback(err);
+        } catch (error) {
+          this.logger.logError(this.currentModule, error);
+          return callback(error); }; });
 
-      try {
-        mongoose.connection.close();
-        callback(err);
-      } catch (error) {
-        this.logger.logError(this.currentModule, error);
-        callback(error); };
 
       return db.once("open", function() {
         var Post;
