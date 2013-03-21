@@ -1,9 +1,0 @@
-Syntax error on line 9, column 9: unexpected 'n' (\u006E)
-06 : # general function to be used as a callback function for the return data from the DB
-07 : module.exports = class User extends BaseModule
-08 : 	constructor: () ->
-09 : 		super null
-^^ :~~~~~~~~^
-10 : 
-11 : 	formatUser: (usr) ->
-12 : 		return null if not usr

@@ -1,9 +1,0 @@
-Unexpected DEDENT
-33 : 				             title: concept.title,
-34 : 				             content: concept.bodyText))
-35 : 
-36 : 		return concepts
-^^ :~~^
-37 : 
-38 : 	getUserConcepts: (_) ->
-39 : 		@logger.logDebug @currentModule, "getUserConcepts"
