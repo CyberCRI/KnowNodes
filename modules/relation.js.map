@@ -1,0 +1,9 @@
+Syntax error on line 13, column 9: unexpected 'u' (\u0075)
+10 : 
+11 : module.exports = class Relation extends DBModule
+12 : 	constructor: (user) ->
+13 : 		super user
+^^ :~~~~~~~~^
+14 : 		@currentModule = 'module/Relation'
+15 : 
+16 : 	###

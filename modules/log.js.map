@@ -1,0 +1,9 @@
+Syntax error on line 14: indention is ambiguous
+11 : 	    title = "Activity: #{title}"
+12 : 	    console.log title + '-' + content
+13 : 	    if @currentStage > 2
+14 :             log = new LogDB.Log
+^^ :~~~~~^
+15 :             log.user = if @user and @user.id then @user.id else "anonymous"
+16 :             log.title = title
+17 :             log.content = content
