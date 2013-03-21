@@ -31,12 +31,12 @@ module.exports = class KnownodeFiles extends DBModule
 		db = mongoose.connection
 		db.on 'error', (err) ->
 			@logger.logError @currentModule, err
-		try
-			mongoose.connection.close()
-			callback err
-		catch error
-			@logger.logError @currentModule, error
-			callback error
+			try
+				mongoose.connection.close()
+				callback err
+			catch error
+				@logger.logError @currentModule, error
+				callback error
 
 		db.once 'open', () ->
 			console.log 'db is open'
