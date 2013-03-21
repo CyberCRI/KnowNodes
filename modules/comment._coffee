@@ -1,11 +1,3 @@
-###
-* User: Liad Magen
-* Date: 05/02/13
-* Time: 12:43
-*
-* comments module. for adding / editing the comments of knownodes and relations
-*
-#####
 BaseModule = require './baseModule'
 relationModule = require('./relation')
 userModule = require('./user')
