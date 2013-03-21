@@ -1,9 +1,0 @@
-Syntax error on line 8, column 4: unexpected '#' (\u0023)
-05 : *
-06 : * Knownode files module. for saving / retriving the file articles for knownode from MongoDB
-07 : *
-08 : #####
-^^ :~~~~^
-09 : 
-10 : userModule = require('./user')
-11 : mongoose = require('mongoose')
