@@ -22,25 +22,25 @@ div.input-prepend.input-append
           li.dropdown
             a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='discusses'") discusses
           li.dropdown
-            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='extends'") extends
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is an extension of'") is an extension of
           li.dropdown
             a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='gives background to'") gives background to
           li.dropdown
             a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is an opinion on'") is an opinion on
           li.dropdown
-            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is transformation of'") transformation of
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is a transformation of'") is a transformation of
           li.dropdown
             a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='was created by'") was created by
           li.dropdown
-            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is instance of'") instance of
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is an instance of'") is an instance of
           li.dropdown
-            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is participant of'") participant of
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is a participant of'") is a participant of
           li.dropdown
-            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is contained in'") contained in
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is contained in'") is contained in
           li.dropdown
-            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is located in'") located in
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is located in'") is located in
           li.dropdown
-            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is adjacent to'") adjacent to
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is adjacent to'") is adjacent to
 
       li.dropdown-submenu
         a(tabindex='-1', href="javascript:void(0);") Questioning
@@ -97,6 +97,7 @@ div.input-prepend.input-append
             a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='supports'") supports
           li.dropdown
             a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is refuted'") is refuted
+
   input#appendedPrependedDropdownButton.span6(type="text", ng-model='form.knownodeRelation.title', name='title', required, ng-maxlength='250', placeholder="continue the sentence to make it specific")
   div.btn-group
    p.btn.btn-link {{(140 -(form.knownodeRelation.title.length))}}
