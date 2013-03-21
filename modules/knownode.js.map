@@ -1,0 +1,9 @@
+Syntax error on line 8, column 4: unexpected '#' (\u0023)
+05 : *
+06 : * Knownode module. for saving / retriving the knownodes
+07 : *
+08 : #####
+^^ :~~~~^
+09 : 
+10 : relationModule = require('./relation')
+11 : userModule = require('./user')
