@@ -8,12 +8,15 @@ var express = require('express')
   , http = require('http')
   , passport = require('passport')
   , passportConfig = require('./config/passport.conf')
-  , path = require('path');
+  , path = require('path')
+  , MongoStore = require('connect-mongo')(express)
+  , ConfigSettings = require('./config/settings')
 
 // passport: Login initialization
 passportConfig.initializePassport();
 
 var app = express();
+var settings = ConfigSettings.getSettings();
 
 function errorHandler(err, req, res, next) {
     res.status(500);
@@ -36,6 +39,7 @@ app.configure(function(){
     app.set('views', path.join(__dirname, 'clientApp/views'));
     app.set('view engine', 'jade');
     app.set('controllers', path.join(__dirname, 'controllers'));
+    app.set('controllers', path.join(__dirname, 'controllers'));
 
     app.use(express.favicon());
     app.use(express.logger('dev'));
@@ -43,7 +47,16 @@ app.configure(function(){
     app.use(express.methodOverride());
 
     app.use(express.cookieParser());
-    app.use(express.session({ secret: 'dorIsGarbash' }));
+    //app.use(express.session({ secret: 'dorIsGarbash' }));
+
+    app.use(express.session({
+        secret: settings.cookie_secret,
+        store: new MongoStore({
+            url: settings.session_db_url,
+            db: settings.session_db
+        })
+    }));
+
     app.use(passport.initialize());
     app.use(passport.session());
 

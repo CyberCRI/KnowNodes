@@ -42,6 +42,10 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['ui', 'ui.directives', 
                 templateUrl: 'partials/KnownodePost/addConcept',
                 controller: AddConceptCtrl
             }).
+            when('/editConcept/:id', {
+                templateUrl: 'partials/KnownodePost/editConcept',
+                controller: EditConceptCtrl
+            }).
             when('/conceptList', {
                 templateUrl: 'partials/KnownodePost/conceptList',
                 controller: ConceptListCtrl

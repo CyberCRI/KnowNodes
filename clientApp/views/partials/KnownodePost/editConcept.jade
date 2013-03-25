@@ -1,0 +1,14 @@
+//
+   Created with JetBrains WebStorm.
+   User: admin
+   Date: 22/03/13
+   Time: 14:14
+   To change this template use File | Settings | File Templates.
+
+div.subheader
+    div.span23.offset1
+        h2.subheader Edit your concept
+        div(class="alert alert-error", ng-show="isError")
+        include conceptForm
+        p
+            button(type='submit', class='btn btn-primary', ng-disabled="form.concept.$invalid || {{scope.isDisabled}}") Save Concept

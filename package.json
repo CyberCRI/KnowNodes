@@ -25,7 +25,8 @@
     "streamline": "~0.4.6",
     "express-resource-new": "~0.1.1",
     "jugglingdb-mysql": "0.0.1-3",
-    "mysql": "~2.0.0-alpha7"
+    "mysql": "~2.0.0-alpha7",
+    "connect-mongo": "~0.3.2"
   },
   "engines": {
     "node": "0.8.x"

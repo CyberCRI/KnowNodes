@@ -86,6 +86,42 @@ function AddConceptCtrl($scope, $http, $location) {
             });
     };
 }
+AddConceptCtrl.$inject = ['$scope', '$http', '$location'];
+
+function EditConceptCtrl($scope, $http, $location, $routeParams) {
+    var partnerList = document.getElementById('partner'),
+        conceptId = $scope.conceptId = $routeParams.id;
+    $scope.userList = [];
+    $scope.form = {};
+    $scope.form.concept = {};
+
+    $http.get('/users').
+        success(function(data, status, headers, config){
+            angular.forEach(data.success, function(user) {
+                $scope.userList.push(user.displayName);
+            });
+        });
+
+    $http.get('/concepts/:' + conceptId).
+        success(function(data, status, headers, config) {
+        if(data.success) {
+            angular.forEach(data.success, function(value, key) {
+                $scope.form.concept[key] = value;
+            });
+        }
+    });
+
+    $scope.submitConcept = function () {
+        $scope.isDisabled = true;
+
+        $http.put('/concepts/:' + conceptId, $scope.form).
+            success(function(data) {
+                $location.path('/conceptList');
+            });
+    };
+}
+EditConceptCtrl.$inject = ['$scope', '$http', '$location', '$routeParams'];
+
 
 function ConceptListCtrl($scope, $http, $routeParams, userService) {
 
@@ -170,7 +206,6 @@ function ArticleListCtrl($scope, $http, $routeParams, userService) {
     $scope.start = +new Date();
 
 }
-
 ArticleListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
 
 //knownode Post:
@@ -198,8 +233,18 @@ function EditPostCtrl($scope, $http, $location, $routeParams) {
 }
 
 function AddPostCtrl($scope, $http, $location, $routeParams) {
-
+    var dropbox = document.getElementById("dropbox");
     var conceptId = $scope.conceptId = $routeParams.id;
+
+    function dragEnterLeave(evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        $scope.$apply(function(){
+            $scope.dropText = 'Drop files here...';
+            $scope.dropClass = '';
+        });
+    }
+
     $http.get('/concepts/:' + conceptId).success(function(data){
         $scope.concept = data.success;
     });
@@ -234,108 +279,42 @@ function AddPostCtrl($scope, $http, $location, $routeParams) {
         return knowledgeDomain;
     };
 
-    function saveForm(){
-        $http.post('/knownodes', $scope.form).
-            success(function(data) {
-                if(data.success) {
-                    $location.path('/concept/:' + $scope.form.originalPostId);
-                }
-            });
-    }
-
-    $scope.form = {};
-    $scope.form.fromNode = {};
-    $scope.form.toNode = {};
-    $scope.form.edge = {};
-
-    $scope.dropText = 'Drop files here...';
-    $scope.form.originalPostId = $scope.form.edge.originalPostId = $routeParams.id;
-    $scope.errorMessage = null;
-    $scope.tooltip = {title: "Hello Tooltip<br />This is a multiline message!", checked: false};
-
-    $scope.submitPost = function (form) {
-        if($scope.files && $scope.files.length > 0) {
-            uploadFile();
-        }
-        else {
-            saveForm();
-        }
-    };
-
-    function submitForm() {
-        var submission = {};
-        submission.edge = $scope.form.edge;
-        if(fromTab === "Url") {
-            submission.from=$scope.form.fromUrl;
-        } else if(fromTab === "Text") {
-            submission.from=$scope.form.fromText;
-        } else if(fromTab === "File") {
-            submission.from=$scope.form.fromFile;
-        } else {
-            console.log("submitform() failed");
-        }
-        if(toTab === "Url") {
-            submission.to=$scope.form.toUrl;
-        }   else if(toTab === "Text") {
-            submission.to=$scope.form.toText;
-        } else if(toTab === "File") {
-            submission.to=$scope.form.toFile;
-        } else {
-            console.log("submitform() failed");
-        }
-        }
-
-    var dropbox = document.getElementById("dropbox");
-
-    var conceptId = $scope.conceptId = $routeParams.id;
-    $http.get('/concepts/:' + conceptId).success(function(data, status, headers, config){
-        $scope.concept = data.success;
-    });
-
-    function dragEnterLeave(evt) {
-        evt.stopPropagation();
-        evt.preventDefault();
-        $scope.$apply(function(){
-            $scope.dropText = 'Drop files here...';
-            $scope.dropClass = '';
-        });
-    }
 
     if(dropbox === null) {
         return console.log("no dropbox");
     } else {
-    dropbox.addEventListener("dragenter", dragEnterLeave, false);
-    dropbox.addEventListener("dragleave", dragEnterLeave, false);
-    dropbox.addEventListener("dragover", function(evt) {
-        evt.stopPropagation();
-        evt.preventDefault();
-        var clazz = 'not-available',
-            ok = evt.dataTransfer && evt.dataTransfer.types && evt.dataTransfer.types.indexOf('Files') >= 0;
-        $scope.$apply(function(){
-            $scope.dropText = ok ? 'Drop files here...' : 'Only files are allowed!';
-            $scope.dropClass = ok ? 'over' : 'not-available';
-        })
-    }, false);
-
-    dropbox.addEventListener("drop", function(evt) {
-        console.log('drop evt:', JSON.parse(JSON.stringify(evt.dataTransfer)));
-        evt.stopPropagation();
-        evt.preventDefault();
-        $scope.$apply(function(){
-            $scope.dropText = 'Drop files here...';
-            $scope.dropClass = '';
-        })
-        var files = evt.dataTransfer.files,
-            i;
-        if (files.length > 0) {
+        dropbox.addEventListener("dragenter", dragEnterLeave, false);
+        dropbox.addEventListener("dragleave", dragEnterLeave, false);
+        dropbox.addEventListener("dragover", function(evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+            var clazz = 'not-available',
+                ok = evt.dataTransfer && evt.dataTransfer.types && evt.dataTransfer.types.indexOf('Files') >= 0;
             $scope.$apply(function(){
-                $scope.files = [];
-                for (i = 0; i < files.length; i++) {
-                    $scope.files.push(files[i]);
-                }
-            });
-        }
-    }, false);
+                $scope.dropText = ok ? 'Drop files here...' : 'Only files are allowed!';
+                $scope.dropClass = ok ? 'over' : 'not-available';
+            })
+        }, false);
+
+        dropbox.addEventListener("drop", function(evt) {
+            console.log('drop evt:', JSON.parse(JSON.stringify(evt.dataTransfer)));
+            evt.stopPropagation();
+            evt.preventDefault();
+            $scope.$apply(function(){
+                $scope.dropText = 'Drop files here...';
+                $scope.dropClass = '';
+            })
+            var files = evt.dataTransfer.files,
+                i;
+            if (files.length > 0) {
+                $scope.$apply(function(){
+                    $scope.files = [];
+                    for (i = 0; i < files.length; i++) {
+                        $scope.files.push(files[i]);
+                    }
+                });
+            }
+        }, false);
     }
     //============== DRAG & DROP =============
 
@@ -422,7 +401,6 @@ function AddPostCtrl($scope, $http, $location, $routeParams) {
                 $("#btnSubmitPost").removeAttr('disabled');
             });
     }
-
     $scope.form = {};
     $scope.form.knownodeForm = {};
     $scope.form.knownodeRelation = {};
@@ -430,8 +408,8 @@ function AddPostCtrl($scope, $http, $location, $routeParams) {
     $scope.dropText = 'Drop files here...';
     $scope.form.originalPostId = $scope.form.knownodeRelation.originalPostId = $routeParams.id;
     $scope.errorMessage = null;
-
     $scope.tooltip = {title: "Hello Tooltip<br />This is a multiline message!", checked: false};
+
     $scope.submitPost = function (form) {
         $("#btnSubmitPost").attr('disabled', 'disabled');
         if($scope.files && $scope.files.length > 0) {
