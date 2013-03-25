@@ -2,21 +2,6 @@ div.subheader
     div.span23.offset1
         h2.subheader Add a new concept
         div(class="alert alert-error", ng-show="isError")
-        form(ng-submit='submitConcept()', ng-init="scope = { isDisabled: false }")
-            p
-                label(for='title') Title:
-                input(ng-model='form.concept.title', name='title', style='width:500px', type='text', autofocus, required, ng-maxlength="200")
-                span {{(140 - (form.concept.title.length))}} characters left
-
-            p
-                label(for='bodyText') Abstract:
-                textarea(ng-model='form.concept.bodyText', name='bodyText', required, style='width:500px; height:400px')
-            p
-                label(for='partner') Presented by:&nbsp;
-                    span #{userDisplayName} and &nbsp;
-                input(ng-model='form.concept.partner', name='partner', type='text', required, userAutoComplete)
-            p
-                label(for='presentationDate') Presentation Date:
-                input(ng-model='form.concept.presentationDate', name='presentationDate', type='text', data-date-format="dd/mm/yyyy", bs-datepicker, required)
+            include conceptForm
             p
                 button(type='submit', class='btn btn-primary', ng-disabled="form.concept.$invalid || {{scope.isDisabled}}") Add Concept

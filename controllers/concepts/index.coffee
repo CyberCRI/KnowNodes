@@ -29,6 +29,12 @@ module.exports =
 		cb = baseController.callBack response
 		concept.createNewConcept request.body.concept, cb
 
+	update: (request, response) ->
+		concept = new conceptModule request.user
+		cb = baseController.callBack response
+		id = request.params.concept.replace /:/g, ''
+		concept.saveConcept id, request.body.concept, cb
+
 	destroy: (request, response) ->
 		concept = new conceptModule request.user
 		cb = baseController.callBack response

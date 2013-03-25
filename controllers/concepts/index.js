@@ -42,6 +42,13 @@
       cb = baseController.callBack(response);
       return concept.createNewConcept(request.body.concept, cb);
     },
+    update: function(request, response) {
+      var cb, concept, id;
+      concept = new conceptModule(request.user);
+      cb = baseController.callBack(response);
+      id = request.params.concept.replace(/:/g, '');
+      return concept.saveConcept(id, request.body.concept, cb);
+    },
     destroy: function(request, response) {
       var cb, concept, id;
       concept = new conceptModule(request.user);

@@ -81,6 +81,20 @@ module.exports = class Concept extends DBModule
 		@relation.createOwnerRelationship concept
 		return concept
 
+	saveConcept: (conceptKNId, conceptObject, _) =>
+		# we'll set hard-coded the post type to be a concept
+		@logger.logDebug @currentModule, 'saveConcept'
+		params = where:
+			KN_ID: knownodeId
+
+		concept = @DB.Post.findOne(params, _)
+
+		concept.title = conceptObject.title
+		concept.url = conceptObject.url
+		concept.bodyText = conceptObject.bodyText
+
+		concept = concept.save _
+
 	deleteConcept: (conceptId, _) =>
 		@logger.logDebug @currentModule, "deleteConcept #{conceptId}"
 		concept = @DB.Post.find nodeId, _
