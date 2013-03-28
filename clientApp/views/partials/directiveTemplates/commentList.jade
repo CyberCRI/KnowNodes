@@ -22,7 +22,7 @@ div#CommentList
                 p
                     button(type='submit', class='btn btn-primary', ng-disabled="form.comment.$invalid || {{scope.isDisabled}}") Share your thoughts
 
-    h3 What do you think?
+    h3 What do you think of this connection?
     ul.media-list.well(ng-controller='commentCtrl', ng-show='comments')
         li.media(ng-repeat="comment in comments")
             a.pull-left(href="#")
