@@ -158,7 +158,9 @@ function ConceptListCtrl($scope, $http, $routeParams, userService) {
 ConceptListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
 
 
-function ArticleListCtrl($scope, $http, $routeParams, userService) {
+function ArticleListCtrl($scope, $http, $routeParams, userService, PassKnownode) {
+    $scope.currentKnownode = {};
+    $scope.passKnownode = PassKnownode;
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
     $scope.checkOwnership = function(userId) {
         if(userService.isUserLoggedIn()) {
@@ -488,3 +490,43 @@ function aboutCtrl($scope)
 {
 
 }
+
+function EdgeCtrl($scope, $http, $routeParams, userService, PassKnownode) {
+    var currentKnownode = PassKnownode.showCurrent();
+    if(currentKnownode) {
+        $scope.knownode = currentKnownode;
+    }
+    console.log($scope.knownode);
+    $scope.isUserLoggedIn = userService.isUserLoggedIn();
+    $scope.checkOwnership = function(userId) {
+        if(userService.isUserLoggedIn()) {
+            return userId == userService.getConnectedUser().id;
+        }
+        return false;
+    }
+    $scope.deleteNode = function(id, index) {
+        if(confirm("Are you sure you want to delete this post?")) {
+            $http.delete('/knownodes/:' + id).
+                success(function(){
+                    $scope.knownodeList.splice(index, 1);
+                });
+        }
+    };
+
+    $scope.isOwner = function(id) {
+        if(userService.isUserLoggedIn()) {
+            return userService.getConnectedUser().id === id;
+        }
+        return false;
+    }
+
+    var edgeId = $scope.edgeId = $routeParams.id;
+    $http.get('/edges/:' + edgeId).success(function(data, status, headers, config){
+        $scope.knownode = data.success;
+        console.log($scope.knownode + "knownode");
+        $scope.knownode = $scope.knownode[0];
+        console.log($scope.knownode);
+    });
+}
+
+EdgeCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'PassKnownode'];
