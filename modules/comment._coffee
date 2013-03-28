@@ -46,7 +46,7 @@ module.exports = class Comment extends DBModule
 		query = [
 			'START root=node(*) ',
 			'MATCH (root) <-[r:COMMENT_OF*]- (comment) -[u:CREATED_BY]-> (commentUser)',
-			'WHERE root.KN_ID = {KN_ID} '
+			'WHERE has(root.KN_ID) AND root.KN_ID = {KN_ID} '
 			'RETURN comment, r, commentUser'
 		].join('\n');
 
@@ -62,7 +62,7 @@ module.exports = class Comment extends DBModule
 
 		properties =
 			creationDate: new Date()
-		commentedObject = @neo4jDB.query "START node=node(*) WHERE node.KN_ID='#{commentedObjectId}' RETURN node", _
+		commentedObject = @neo4jDB.query "START node=node(*) WHERE has(node.KN_ID) AND node.KN_ID='#{commentedObjectId}' RETURN node", _
 		@relation.createRelation comment, 'COMMENT_OF', commentedObject[0].node, properties, _
 
 		comment

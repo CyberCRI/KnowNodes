@@ -71,6 +71,10 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['ui', 'ui.directives', 
                 templateUrl: 'partials/KnownodePost/knownodeList',
                 controller: ArticleListCtrl
             }).
+            when('/edge/:id', {
+                templateUrl: 'partials/KnownodePost/edgePage',
+                controller: EdgeCtrl
+            }).
             otherwise({
                 redirectTo: '/'
             });
