@@ -45,14 +45,13 @@
     Relation.prototype.createOwnerRelationshipToNode = function Relation_prototype_createOwnerRelationshipToNode__2(node, _) { var properties, __this = this; var __frame = { name: "Relation_prototype_createOwnerRelationshipToNode__2", line: 45 }; return __func(_, this, arguments, Relation_prototype_createOwnerRelationshipToNode__2, 1, __frame, function __$Relation_prototype_createOwnerRelationshipToNode__2() {
 
         __this.logger.logDebug(__this.currentModule, "createOwnerRelationshipToNode");
-        console.log(("createOwnerRelationshipToNode: user is " + __this.user.id));
         properties = {
           creationDate: new Date() };
 
-        return __this.createRelation(node, "CREATED_BY", __this.user, properties, __cb(_, __frame, 7, 13, _, true)); }); };
+        return __this.createRelation(node, "CREATED_BY", __this.user, properties, __cb(_, __frame, 6, 13, _, true)); }); };
 
 
-    Relation.prototype.getOwnerRelationship = function Relation_prototype_getOwnerRelationship__3(node, _) { var nodes, __this = this; var __frame = { name: "Relation_prototype_getOwnerRelationship__3", line: 55 }; return __func(_, this, arguments, Relation_prototype_getOwnerRelationship__3, 1, __frame, function __$Relation_prototype_getOwnerRelationship__3() {
+    Relation.prototype.getOwnerRelationship = function Relation_prototype_getOwnerRelationship__3(node, _) { var nodes, __this = this; var __frame = { name: "Relation_prototype_getOwnerRelationship__3", line: 54 }; return __func(_, this, arguments, Relation_prototype_getOwnerRelationship__3, 1, __frame, function __$Relation_prototype_getOwnerRelationship__3() {
 
         __this.logger.logDebug(__this.currentModule, "getOwnerRelationship"); return (function __$Relation_prototype_getOwnerRelationship__3(__then) {
           if ((typeof node === "number")) {
@@ -66,7 +65,7 @@
 
 
 
-    Relation.prototype.addKnownodeEdge = function Relation_prototype_addKnownodeEdge__4(fromKnownode, connectionData, toKnownode, _) { var edge, relationshipData, __this = this; var __frame = { name: "Relation_prototype_addKnownodeEdge__4", line: 69 }; return __func(_, this, arguments, Relation_prototype_addKnownodeEdge__4, 3, __frame, function __$Relation_prototype_addKnownodeEdge__4() {
+    Relation.prototype.addKnownodeEdge = function Relation_prototype_addKnownodeEdge__4(fromKnownode, connectionData, toKnownode, _) { var edge, relationshipData, __this = this; var __frame = { name: "Relation_prototype_addKnownodeEdge__4", line: 68 }; return __func(_, this, arguments, Relation_prototype_addKnownodeEdge__4, 3, __frame, function __$Relation_prototype_addKnownodeEdge__4() {
 
         __this.logger.logDebug(__this.currentModule, "addKnownodeEdge");
         relationshipData = {
