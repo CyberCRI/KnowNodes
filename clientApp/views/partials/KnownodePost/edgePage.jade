@@ -1,0 +1,14 @@
+div.subheader
+  div.span23.offset1
+    h2.subheader Showing knownode: {{knownode.connection.connectionType+" "+knownode.connection.title}} {{knownode.article.title}}
+    div.knownode.span11.shortKnownode
+      .movingEdge.left-align.span11
+        div(node)
+        div(full-edge)
+      div(target-article)
+      div(class="ui-icon ui-icon-trash", style="float:right", ng-click="deleteNode(knownode.article.id, $index)", ng-show="checkOwnership(knownode.article.user.id)")
+      div(ng-show="checkOwnership(knownode.article.user.id)", style="float:right")
+        a(class="ui-icon ui-icon-pencil", ng-href="", ng-show="false")
+    div.span11
+      p {{knownode.connection.KN_ID}}
+      div(comment-section='{{knownode.connection.KN_ID}}')

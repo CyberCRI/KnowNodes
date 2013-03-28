@@ -78,6 +78,7 @@ app.configure('production', function(){
 
 // routing
 app.resource('users');
+app.resource('edges');
 app.resource('comments', function() {
     this.member.get('getRelatedComments');
 });
