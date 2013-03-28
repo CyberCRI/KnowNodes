@@ -32,7 +32,8 @@ module.exports = class KnownodeFiles extends DBModule
 		db.on 'error', (err) ->
 			@logger.logError @currentModule, err
 			try
-				mongoose.connection.close()
+				mongoose.disconnect()
+				#mongoose.connection.close()
 				callback err
 			catch error
 				@logger.logError @currentModule, error
@@ -62,7 +63,8 @@ module.exports = class KnownodeFiles extends DBModule
 
 		#filepost = post.save _
 		post.addFile files.uploadedFile, opts, _
-		mongoose.connection.close()
+		mongoose.disconnect()
+		#mongoose.connection.close()
 
 		post
 
@@ -71,9 +73,11 @@ module.exports = class KnownodeFiles extends DBModule
 		Post = @initDB _
 		post = new Post()
 		post.getFile id, _
+		mongoose.connection.close()
 
 	deleteFile: (id, _) =>
 		@logger.logDebug @currentModule, "deleteFile #{id}"
 		Post = @initDB _
 		post = new Post()
 		post.deleteFile id, _
+		mongoose.connection.close()
