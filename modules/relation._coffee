@@ -27,7 +27,6 @@ module.exports = class Relation extends DBModule
 
 	createOwnerRelationshipToNode: (node, _) ->
 		@logger.logDebug @currentModule, 'createOwnerRelationshipToNode'
-		console.log 'createOwnerRelationshipToNode: user is ' + @user.id
 		properties =
 			creationDate: new Date()
 		@createRelation node, 'CREATED_BY', @user, properties, _
