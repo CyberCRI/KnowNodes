@@ -4,11 +4,11 @@ div.connection.span12
   div.content.span10
     div.ellipsis-title
       p
-        a((ng-href="/edge/:{{knownode.connection.KN_ID}}")
+        a(href="/edge/{{knownode.connection.KN_ID}}")
           span.connection-type.knowledgeDomain {{knownode.connection.connectionType}}
           span.knownode-title &nbsp;{{knownode.connection.title}}
     div.lineSeperator
-    div.body.ellipsis-edge(ng-show="knownode.connection.bodyText.length>0", tooltip-placement="right" , tooltip="{{knownode.connection.bodyText}}")
+    div.body.ellipsis-edge(ng-show="knownode.edge.bodyText.length>0")
       div.knownode-body {{knownode.connection.bodyText}}
     div.tagLine
       p.infoLine {{(knownode.connection.__CreatedOn__) | timeAgo}} by {{knownode.connection.user.firstName}} {{knownode.connection.user.lastName}}

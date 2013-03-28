@@ -30,6 +30,20 @@ angular.module('KnowNodesApp.services', [])
 
         return serviceReturned;
     })
+    .factory('PassKnownode', function() {
+        var currentEdge;
+        var PassKnownodeService = {};
+        PassKnownodeService.changeCurrent = function(data) {
+            currentEdge = data;
+            console.log(data);
+        };
+        PassKnownodeService.showCurrent = function() {
+            console.log("showCurrent "+currentEdge);
+            return currentEdge;
+
+        };
+        return PassKnownodeService;
+    })
     .factory('broadcastService', function($rootScope){
         var serviceReturned = {};
 

@@ -1,3 +1,7 @@
 node_modules/
 config/DB.conf.js
+config/settings.js
 .idea/
+*.js.map
+modules/*.js
+modules/email/email.js
