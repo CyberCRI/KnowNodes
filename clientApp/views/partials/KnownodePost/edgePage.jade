@@ -1,6 +1,6 @@
 div.subheader
   div.span23.offset1
-    h2.subheader Showing knownode: {{knownode.connection.connectionType+" "+knownode.connection.title}} {{knownode.article.title}}
+    h2.subheader {{knownode.article.title+" "+knownode.connection.connectionType+" "+knownode.connection.title+" "+knownode.targetArticle.title}}
     div.knownode.span11.shortKnownode
       .movingEdge.left-align.span11
         div(node)
