@@ -1,12 +1,12 @@
 div.subheader
     div.span23.offset1
-        h2.subheader Showing connections for: {{concept.title}}
-        div.well.knownode-body {{concept.bodyText}}
+        accordion-group(heading="Showing connection for: {{concept.title}}").accordion-title
+          div.knownode-body {{concept.bodyText}}
             p.bold(ng-show="concept.url") Check it out here:&nbsp;
-                a(ng-href="{{concept.url}}") {{concept.url}}
+              a(ng-href="{{concept.url}}") {{concept.url}}
             p(ng-show="videoLink")
-                include videoNode
-        div(ng-show="concept.fileName") Download:
+              include videoNode
+          div(ng-show="concept.fileName") Download:
             a(class="btn-info",href="/knownodeFiles/:{{concept.fileId}}", target="_blank", ng-show="concept.fileName") &nbsp;{{concept.fileName}}&nbsp;
 
   div(ng-show='knownodeList.length > 0')
