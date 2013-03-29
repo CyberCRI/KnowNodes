@@ -1,13 +1,9 @@
-.left-align.span12
-  div.map.span1#map
-    a(ng-href="/node/:{{knownode.targetArticle.KN_ID}}")
-      img(src="/img/node.png")
-  div.resourcecontent.span10#content
-    a.knownode-title(ng-href="/article/:{{knownode.targetArticle.KN_ID}}", title="{{knownode.targetArticle.title}}") {{knownode.targetArticle.title}}
-      a(ng-href="{{knownode.targetArticle.url}}", target="_blank")
-        img.open-in-new-window(src="/img/openInNewWindow.png", width="20px", ng-show="knownode.targetArticle.url")
-    div.lineSeperator
-    div.body.ellipsis-node(tooltip-placement="right" , tooltip="{{knownode.targetArticle.bodyText}}")
-      p.knownode-body {{knownode.targetArticle.bodyText}}
-    div.lineSeperator
-      a(class="btn-info",href="/knownodeFiles/:{{knownode.targetArticle.fileId}}", target="_blank", ng-show="knownode.targetArticle.fileName") &nbsp;{{knownode.targetArticle.fileName}}&nbsp;
+div.resourcecontent.span11#content
+  a.knownode-title(ng-href="/article/:{{knownode.targetArticle.KN_ID}}", title="{{knownode.targetArticle.title}}") {{knownode.targetArticle.title}}
+    a(ng-href="{{knownode.targetArticle.url}}", target="_blank")
+      img.open-in-new-window(src="/img/openInNewWindow.png", width="20px", ng-show="knownode.targetArticle.url")
+    a(href="/knownodeFiles/:{{knownode.targetArticle.fileId}}", target="_blank", ng-show="knownode.targetArticle.fileName", title="{{knownode.targetArticle.fileName}}")
+      i.open-in-new-window.icon-download
+  div.lineSeperator
+  p.knownode-body {{knownode.targetArticle.bodyText}}
+  //span {{knownode.edgeCount}}
