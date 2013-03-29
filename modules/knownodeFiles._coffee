@@ -73,7 +73,25 @@ module.exports = class KnownodeFiles extends DBModule
 		Post = @initDB _
 		post = new Post()
 		post.getFile id, _
-		mongoose.connection.close()
+
+	sendFileToStreamHandler: (response, id)->
+		@logger.logDebug @currentModule, "sendFileToStreamHandler #{id}"
+		@getFile id, (err, store)->
+			if err?
+				response.json error: err
+			else
+				response.writeHead 200,
+					'Content-Type': store.contentType,
+					'Content-Length': store.length,
+					'Content-disposition': 'attachment; filename=' + store.filename
+
+				fileStream = store.stream(false)
+				fileStream.pipe response,
+					end:false
+
+				fileStream.on "end", () ->
+					#fileStream.end()
+					mongoose.connection.close()
 
 	deleteFile: (id, _) =>
 		@logger.logDebug @currentModule, "deleteFile #{id}"
