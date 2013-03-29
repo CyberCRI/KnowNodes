@@ -19,6 +19,7 @@ module.exports = class Comment extends DBModule
 			commentUser.id = item.commentUser.id
 			item.comment.data.id = item.comment.id
 			item.comment.data.user = commentUser
+			item.comment.data.count =
 			comments.push item.comment.data
 		)
 
