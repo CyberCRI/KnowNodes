@@ -4,6 +4,8 @@ div.resourcecontent.span11#content
       img.open-in-new-window(src="/img/openInNewWindow.png", width="20px", ng-show="knownode.targetArticle.url")
     a(href="/knownodeFiles/:{{knownode.targetArticle.fileId}}", target="_blank", ng-show="knownode.targetArticle.fileName", title="{{knownode.targetArticle.fileName}}")
       i.open-in-new-window.icon-download
+  span.pull-right.node-count(ng-switch-when="0")
+  span.pull-right.node-count(ng-switch-default) {{knownode.edgeCount}}
   div.lineSeperator
   p.knownode-body {{knownode.targetArticle.bodyText}}
   //span {{knownode.edgeCount}}
