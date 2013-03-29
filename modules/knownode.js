@@ -36,7 +36,7 @@
 
         __this.logger.logDebug(__this.currentModule, ("getRelatedKnownodesToNodeId " + nodeId));
         nodes = [];
-        query = ["START firstNode=node({startNode})","MATCH (firstNode) -[:RELATED_TO]- (edge) -[:RELATED_TO]- (article) -[:CREATED_BY]- (articleUser),","(firstNode) -[:RELATED_TO]- (edge)-[?:RELATED_TO]-(article)-[?:RELATED_TO]-(edge2),","(edge) -[:CREATED_BY]- (edgeUser),","(edge) -[?:COMMENT_OF]- (comments)","WHERE article <> firstNode ","RETURN article, articleUser, edge, edgeUser, count(comments) AS commentCount, count(edge2) AS edgeCount",].join("\n");
+        query = ["START firstNode=node({startNode})","MATCH (firstNode) -[:RELATED_TO]- (edge) -[:RELATED_TO]- (article) -[:CREATED_BY]- (articleUser),","(edge2)-[?:RELATED_TO]-(article),","(edge) -[:CREATED_BY]- (edgeUser),","(edge) -[?:COMMENT_OF]- (comments)","WHERE article <> firstNode AND edge2 <> edge ","RETURN article, articleUser, edge, edgeUser, count(comments) AS commentCount, count(edge2) AS edgeCount",].join("\n");
         params = {
           startNode: nodeId };
 

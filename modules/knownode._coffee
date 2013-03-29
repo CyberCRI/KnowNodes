@@ -26,10 +26,10 @@ module.exports = class Knownode extends DBModule
 		query = [
 			'START firstNode=node({startNode})',
 			'MATCH (firstNode) -[:RELATED_TO]- (edge) -[:RELATED_TO]- (article) -[:CREATED_BY]- (articleUser),',
-			'(firstNode) -[:RELATED_TO]- (edge)-[?:RELATED_TO]-(article)-[?:RELATED_TO]-(edge2),',
+			'(edge2)-[?:RELATED_TO]-(article),',
 			'(edge) -[:CREATED_BY]- (edgeUser),',
 			'(edge) -[?:COMMENT_OF]- (comments)',
-			'WHERE article <> firstNode ',
+			'WHERE article <> firstNode AND edge2 <> edge ',
 			'RETURN article, articleUser, edge, edgeUser, count(comments) AS commentCount, count(edge2) AS edgeCount'
 		].join('\n');
 
