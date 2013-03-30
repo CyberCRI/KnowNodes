@@ -14,9 +14,11 @@ module.exports = class Edge extends BaseModule
     nodes = []
     query = [
       'START firstEdge=node(*)',
-      'MATCH (edgeUser)-[:CREATED_BY]-(firstEdge) -[:RELATED_TO]-> (targetNode), (firstEdge) <-[:RELATED_TO]-(startNode)'
-      'WHERE has(firstEdge.KN_ID) and firstEdge.KN_ID = {startEdge} AND targetNode <> firstEdge',
-      'RETURN startNode, targetNode, firstEdge, edgeUser'
+      'MATCH (edgeUser)-[:CREATED_BY]-(firstEdge) -[:RELATED_TO]-> (targetNode),',
+      '(firstEdge)<-[?:RELATED_TO]-(startNode)-[?:RELATED_TO]-(otherEdge)',
+      'WHERE has(firstEdge.KN_ID) and firstEdge.KN_ID = {startEdge}',
+      'AND targetNode <> firstEdge AND otherEdge <> firstEdge',
+      'RETURN startNode, targetNode, firstEdge, edgeUser, count(otherEdge) AS startEdgeCount'
     ].join('\n');
 
     params =
@@ -28,10 +30,9 @@ module.exports = class Edge extends BaseModule
     queryData.map_(_, (_, item) ->
       console.log JSON.stringify(item)
 
-      #reshaping node
-      item.firstEdge.data.id = item.firstEdge.id
-      item.targetNode.data.id = item.targetNode.id
+      #reshaping article
       item.startNode.data.id = item.startNode.id
+      item.startNode.data.edgeCount = item.startEdgeCount
 
       #reshaping connection
 
@@ -39,6 +40,12 @@ module.exports = class Edge extends BaseModule
       edgeUser.id = item.edgeUser.id
       item.firstEdge.data.id = item.firstEdge.id
       item.firstEdge.data.user = edgeUser
+      item.firstEdge.data.id = item.firstEdge.id
+
+      #reshaping targetNode
+
+      item.targetNode.data.id = item.targetNode.id
+      #item.targetNode.data.edgeCount = item.targetEdgeCount
 
       nodes.push
         article: item.startNode.data

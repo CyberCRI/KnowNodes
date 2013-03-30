@@ -1,15 +1,8 @@
-div.connection.span12
-  div.map.span1
-    img.edge-map-icon(src="/img/edgeBlock.png", width="20")
-  div.content.span10
+div.connection.span11
+  div.content.span11
     div.ellipsis-title
       p
-        a((ng-href="/edge/:{{knownode.connection.KN_ID}}")
-          span.connection-type.knowledgeDomain {{knownode.connection.connectionType}}
+        a(ng-href="/edge/:{{knownode.connection.KN_ID}}")
+          span.knownode-title {{knownode.connection.connectionType}}
           span.knownode-title &nbsp;{{knownode.connection.title}}
-    div.lineSeperator
-    div.body.ellipsis-edge(ng-show="knownode.connection.bodyText.length>0", tooltip-placement="right" , tooltip="{{knownode.connection.bodyText}}")
-      div.knownode-body {{knownode.connection.bodyText}}
-    div.tagLine
-      p.infoLine {{(knownode.connection.__CreatedOn__) | timeAgo}} by {{knownode.connection.user.firstName}} {{knownode.connection.user.lastName}}
 

@@ -208,15 +208,15 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 20px;
-  color: #717577;
+  color: #59595B;
   background-color: #ffffff;
 }
 a {
-  color: #59688B;
+  color: #59595B;
   text-decoration: none;
 }
 a:hover {
-  color: #27bdc3;
+  color: #505051;
   text-decoration: underline;
 }
 .img-rounded {
@@ -821,7 +821,7 @@ h6 {
   font-family: inherit;
   font-weight: bold;
   line-height: 20px;
-  color: inherit;
+  color: #59595B;
   text-rendering: optimizelegibility;
 }
 h1 small,
@@ -5280,7 +5280,7 @@ a.thumbnail:hover {
   min-height: 20px;
   padding: 19px;
   margin-bottom: 20px;
-  background-color: #f5f5f5;
+  background-color: white;
   border: 1px solid #e3e3e3;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;

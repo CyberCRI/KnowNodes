@@ -1,11 +1,8 @@
 div.knownode.span12
-  div.map.span1#map
-    a(href="/concept/{{concept.conceptId}}")
-      img(src="/img/node.png")
   div.resourcecontent.span10#content
     a.knownode-title(href="/concept/{{concept.conceptId}}") {{concept.title}}&nbsp;
     div.lineSeperator
-    div.ellipsis-concept.body(tooltip-placement="right" , tooltip="{{concept.content}}")
+    div.ellipsis-concept.body
       div.knownode-body {{concept.content}}
     //p.tagLine
       p.knowledgeDomain

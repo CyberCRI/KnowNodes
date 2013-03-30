@@ -75,6 +75,14 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     })
+    .directive('fullNode', function() {
+        return {
+            restrict: 'EAC',
+            transclude: true,
+            templateUrl: 'partials/directiveTemplates/fullNode',
+            replace: true
+        };
+    })
     .directive('targetArticle', function() {
         return {
             restrict: 'EAC',
@@ -88,14 +96,6 @@ angular.module('KnowNodesApp.directives', [])
             restrict: 'EAC',
             transclude: true,
             templateUrl: 'partials/directiveTemplates/edge',
-            replace: true
-        };
-    })
-    .directive('fullEdge', function() {
-        return {
-            restrict: 'EAC',
-            transclude: true,
-            templateUrl: 'partials/directiveTemplates/fullEdge',
             replace: true
         };
     })

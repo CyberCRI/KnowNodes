@@ -3,9 +3,9 @@ div.subheader
     h2.subheader Current Concepts
     //span.btn.btn-link.sort sort:
     //div.btn-group(data-toggle="buttons-radio")
-      button.btn.btn-link.active-red(type="button", ng-click="orderProp='date'") New
-      button.btn.btn-link(type="button", ng-click="orderProp='votes'") Popular
-      button.btn.btn-link(type="button", ng-click="orderProp='hotRank'") Hot
+    //  button.btn.btn-link.active-red(type="button", ng-click="orderProp='date'") New
+    //  button.btn.btn-link(type="button", ng-click="orderProp='votes'") Popular
+    //  button.btn.btn-link(type="button", ng-click="orderProp='hotRank'") Hot
   div(ng-repeat="concept in conceptList | orderBy:orderProp").span11.offset1
     div(concept)
     p &nbsp;
