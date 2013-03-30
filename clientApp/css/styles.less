@@ -11,10 +11,15 @@
 @moving-edge: #B0B3B3;
 @hover: #27bdc3;
 @link-color: #5D697F;
+@body-background:#F1F0F0;
+@connection-background: rgb(228, 223, 228);
+@dehiglighted:#BCBBBB;
 //mixins
 
 
-
+.main-body{
+background: @body-background;
+}
 
 .invertedBox(@box-color) {
   float:right;
@@ -185,18 +190,17 @@ span.login {
 }
 
 .headerLine{
-  margin:5px;
   margin-bottom:5px;
   vertical-align: top;
   height:1px;
-  background: #CBCBCD;
+  background: #D1D2D4;
   border-bottom:1px solid rgba(173, 174, 177, 0.29);
 
 }
 
 
 .knownode {
-  border: 1px solid @knownode-border-c;
+//  border: 1px solid @knownode-border-c;
   padding:10px;
   margin-left:5px;
   margin-bottom: 10px;
@@ -205,12 +209,9 @@ span.login {
   .box-sizing(border-box);
 
     .resourcecontent {
-      background-color:@background-c;
+      background-color:white;
       padding:8px;
       padding-bottom: 0px;
-      border-radius: 7px;
-      border: 0px solid @knownode-border-c;
-      border-right: 1px solid @knownode-border-c;
       .box-sizing(border-box);
       margin-left: 5px;
 
@@ -241,6 +242,7 @@ span.login {
 
     .connection {
       margin-left: 0px;
+      background: @connection-background;
       .map {
         img{ float:right;}
 
@@ -253,9 +255,7 @@ span.login {
       div.content {
         padding:8px;
         border-radius: 7px;
-        border: 0px solid @border-connection-c;
-        border-left: 1px solid @border-connection-c;
-        border-right: 1px solid @border-connection-c;
+
         .box-sizing(border-box);
         margin-left:0px;
 
@@ -265,13 +265,14 @@ span.login {
           padding-top: 0px;
         }
 
-        .tagLine {
+
           .connection-type {
           .invertedBox(@biology-c);
             float:left;
           }
 
           .infoLine {float:right;
+            margin-left:0px;
             margin-top: 3px;
             padding-top: 0px;
             font-style:italic;
@@ -281,8 +282,10 @@ span.login {
         }
       }
       .buttons{ }
-    }
 
+.node-count{
+  color: @dehiglighted;
+}
 //addIcon
 .add {
   float:left;
@@ -468,7 +471,7 @@ button.knowledgeButton{
 }
 
 .shortKnownode {
-  height: 320px;
+  height: 200px;
 }
 
 img.inputPopup{
@@ -481,6 +484,7 @@ img.inputPopup{
 }
 
 .topbar{
+  background:white;
   .btn{
   padding: 0;
   }
@@ -634,4 +638,12 @@ img.open-in-new-window {
 
 #dropbox {
   height:6em;
+}
+
+.accordion-title {
+  width: 50%;
+  background: white;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }

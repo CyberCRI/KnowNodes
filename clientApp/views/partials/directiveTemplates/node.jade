@@ -1,29 +1,10 @@
-.left-align.span12
-  div.map.span1#map
-    a(ng-href="/article/:{{knownode.article.KN_ID}}")
-      img(src="/img/node.png")
-  div.resourcecontent.span10#content
-    a.knownode-title(ng-href="/article/:{{knownode.article.KN_ID}}", title="{{knownode.article.title}}") {{knownode.article.title}}
-      a(ng-href="{{knownode.article.url}}", target="_blank")
-        img.open-in-new-window(src="/img/openInNewWindow.png", width="20px", ng-show="knownode.article.url")
-    div.lineSeperator
-    div.body.ellipsis-node(tooltip-placement="right" , tooltip="{{knownode.article.bodyText}}")
-      p.knownode-body {{knownode.article.bodyText}}
-    div.lineSeperator
-      a(class="btn-info",href="/knownodeFiles/:{{knownode.article.fileId}}", target="_blank", ng-show="knownode.article.fileName") &nbsp;{{knownode.article.fileName}}&nbsp;
-    //p.tagLine
-      p.knowledgeDomain
-        small ?? {{}}
-      span.resourceType
-        small [ ?? {{}} ]&nbsp;
-  //div.span1.buttonhack
-    a.addButton.clicker(href="javascript:void(0);", ng-click="showtoggle2 = plusToggle('show')")
-      img(src="/img/addIcon.png", class="example")
-    div.popover.fade.right.in.hide(id="popover", ng-class="showtoggle2")
-      div.arrow
-      div.popover-inner
-        h3.popover-title Input as
-        img(src="img/inputAsNodes.png", style="float:left; margin-top:6px;")
-        div.popover-content.hover(ng-click="inputNode(1)") Node1
-        div.popover-content.hover(ng-click="inputNode(2)") Node2
-        div.popover-content.hover(ng-click="inputNode(3)") Set a parallel link
+div.resourcecontent.span11#content(ng-switch on="knownode.edgeCount")
+  a.knownode-title(ng-href="/article/:{{knownode.article.KN_ID}}", title="{{knownode.article.title}}") {{knownode.article.title}} &nbsp
+    a(ng-href="{{knownode.article.url}}", target="_blank") &nbsp
+      img.open-in-new-window(src="/img/openInNewWindow.png", width="20px", ng-show="knownode.article.url")
+    a(href="/knownodeFiles/:{{knownode.article.fileId}}", target="_blank", ng-show="knownode.article.fileName", title="{{knownode.article.fileName}}")
+      i.open-in-new-window.icon-download
+  span.pull-right.node-count(ng-switch-when="0") no nodes yet
+  span.pull-right.node-count(ng-switch-default) {{knownode.edgeCount}}
+
+

@@ -1,25 +1,33 @@
 div.subheader
-    div.span23.offset1
-        h2.subheader Showing connections for: {{concept.title}}
-        div.well.knownode-body {{concept.bodyText}}
-            p.bold(ng-show="concept.url") Check it out here:&nbsp;
-                a(ng-href="{{concept.url}}") {{concept.url}}
-            p(ng-show="videoLink")
-                include videoNode
+  div.span23.offset1
+    accordion
+      accordion-group(heading="Showing connection for: {{concept.title}}").accordion-title
+        div.knownode-body {{concept.bodyText}}
+          p.bold(ng-show="concept.url") Check it out here:&nbsp;
+            a(ng-href="{{concept.url}}") {{concept.url}}
+          p(ng-show="videoLink")
+            include videoNode
         div(ng-show="concept.fileName") Download:
-            a(class="btn-info",href="/knownodeFiles/:{{concept.fileId}}", target="_blank", ng-show="concept.fileName") &nbsp;{{concept.fileName}}&nbsp;
-
+          a(class="btn-info",href="/knownodeFiles/:{{concept.fileId}}", target="_blank", ng-show="concept.fileName") &nbsp;{{concept.fileName}}&nbsp;
+  //div.btn.btn-link.sort.span23.offset1 sort:
+    span.btn-group(data-toggle="buttons-radio")
+      button.btn.btn-link.active-red(type="button", ng-click="orderProp='date'") New
+      button.btn.btn-link(type="button", ng-click="orderProp='votes'") Popular
+      button.btn.btn-link(type="button", ng-click="orderProp='hotRank'") Hot
   div(ng-show='knownodeList.length > 0')
         div(ng-repeat="knownode in knownodeList | orderBy:orderProp").span11.offset1
             div.knownode.span12.shortKnownode
-                .movingEdge.left-align.span12
-                    div(edge)
+                div(edge)
                 div(node)
+                p.infoLine.span11(style="margin:0px;")
+                    em {{(knownode.connection.__CreatedOn__) | timeAgo}} by {{knownode.connection.user.firstName}} {{knownode.connection.user.lastName}}
+                    span
+                        a(ng-href="/edge/:{{knownode.connection.KN_ID}}", ng-switch on="knownode.commentCount").pull-right
+                            span(ng-switch-default) {{knownode.commentCount}} comments
+                            span(ng-switch-when="0") comment
                 div(class="ui-icon ui-icon-trash", style="float:right", ng-click="deleteArticle(knownode.article.id, $index)", ng-show="checkOwnership(knownode.article.user.id)")
                 div(ng-show="checkOwnership(knownode.article.user.id)", style="float:right")
                     a(class="ui-icon ui-icon-pencil", ng-href="", ng-show="false")
 
     p.span23.offset1
         a(ng-show='isUserLoggedIn', class='btn btn-success', href='/addKnownodeTo/{{conceptId}}') Connect a new resource
-    div.span23.offset1
-        div(comment-section='{{concept.KN_ID}}')

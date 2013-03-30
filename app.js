@@ -86,7 +86,6 @@ app.resource('concepts', function() {
     //this.collection.get('getRelatedKnownodes');
     this.member.get('getRelatedKnownodes');
     this.member.get('getRelatedComments');
-
     this.resource('knownodes', function() {
     });
 });
