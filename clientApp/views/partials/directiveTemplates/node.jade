@@ -1,11 +1,10 @@
-div.resourcecontent.span11#content
+div.resourcecontent.span11#content(ng-switch on="knownode.edgeCount")
   a.knownode-title(ng-href="/article/:{{knownode.article.KN_ID}}", title="{{knownode.article.title}}") {{knownode.article.title}} &nbsp
     a(ng-href="{{knownode.article.url}}", target="_blank") &nbsp
       img.open-in-new-window(src="/img/openInNewWindow.png", width="20px", ng-show="knownode.article.url")
     a(href="/knownodeFiles/:{{knownode.article.fileId}}", target="_blank", ng-show="knownode.article.fileName", title="{{knownode.article.fileName}}")
       i.open-in-new-window.icon-download
-  span(ng-switch on="knownode.edgeCount")
-    span(ng-switch-default).pull-right.node-count {{knownode.edgeCount}}
-    span(ng-switch-when="0").pull-right.node-count
+  span.pull-right.node-count(ng-switch-when="0") no nodes yet
+  span.pull-right.node-count(ng-switch-default) {{knownode.edgeCount}}
 
 
