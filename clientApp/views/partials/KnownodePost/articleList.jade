@@ -1,7 +1,7 @@
 div.subheader
   div.span23.offset1
     accordion
-      accordion-group(heading="Showing connection for: {{concept.title}}").accordion-title
+      accordion-group(heading="{{concept.title}}").accordion-title
         div.knownode-body {{concept.bodyText}}
           p.bold(ng-show="concept.url") Check it out here:&nbsp;
             a(ng-href="{{concept.url}}") {{concept.url}}

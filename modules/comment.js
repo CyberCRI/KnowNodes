@@ -39,7 +39,7 @@
 
 
 
-            return _(null, comments); }, true), function __1(_, item) { var commentUser; var __frame = { name: "__1", line: 34 }; return __func(_, this, arguments, __1, 0, __frame, function __$__1() { commentUser = user.formatUser(item.commentUser.data); commentUser.id = item.commentUser.id; item.comment.data.id = item.comment.id; item.comment.data.user = commentUser; return _(null, item.comment.data.count = comments.push(item.comment.data)); }); }); }, true)); }); };
+            return _(null, comments); }, true), function __1(_, item) { var commentUser; var __frame = { name: "__1", line: 34 }; return __func(_, this, arguments, __1, 0, __frame, function __$__1() { commentUser = user.formatUser(item.commentUser.data); commentUser.id = item.commentUser.id; item.comment.data.id = item.comment.id; item.comment.data.user = commentUser; return _(null, comments.push(item.comment.data)); }); }); }, true)); }); };
 
 
     Comment.prototype.getAllComments = function Comment_prototype_getAllComments__2(nodeId, _) { var params, query, __this = this; var __frame = { name: "Comment_prototype_getAllComments__2", line: 45 }; return __func(_, this, arguments, Comment_prototype_getAllComments__2, 1, __frame, function __$Comment_prototype_getAllComments__2() {
