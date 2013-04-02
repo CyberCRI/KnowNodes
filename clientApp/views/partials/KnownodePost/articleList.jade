@@ -2,11 +2,12 @@ div.subheader
   div.span23.offset1
     accordion
       accordion-group(heading="{{concept.title}}").accordion-title
-        div.knownode-body {{concept.bodyText}}
+        div.knownode-body
           p.bold(ng-show="concept.url") Check it out here:&nbsp;
             a(ng-href="{{concept.url}}") {{concept.url}}
           p(ng-show="videoLink")
             include videoNode
+          p {{concept.bodyText}}
         div(ng-show="concept.fileName") Download:
           a(class="btn-info",href="/knownodeFiles/:{{concept.fileId}}", target="_blank", ng-show="concept.fileName") &nbsp;{{concept.fileName}}&nbsp;
   //div.btn.btn-link.sort.span23.offset1 sort:

@@ -173,7 +173,7 @@ span.login {
 }
 .connection {
   margin-left: 0px;
-  background: #e4dfe4;
+  background: #ebeaf7;
 }
 .connection .map img {
   float: right;
@@ -461,12 +461,12 @@ img.open-in-new-window {
   float: right;
   position: relative;
   width: 6em;
-  top: -1.3em;
+  top: -1.5em;
   left: 100%;
   margin-left: -6em;
   padding-right: 5px;
   text-align: right;
-  font-size: 13px;
+  font-size: 1em;
   background-size: 100% 100%;
   /* 512x1 image, gradient for IE9. Transparent at 0% -> white at 50% -> white at 100%.*/
 
@@ -501,12 +501,12 @@ img.open-in-new-window {
   float: right;
   position: relative;
   width: 6em;
-  top: -1.3em;
+  top: -1.5em;
   left: 100%;
   margin-left: -6em;
   padding-right: 5px;
   text-align: right;
-  font-size: 13px;
+  font-size: 1em;
   background-size: 100% 100%;
   /* 512x1 image, gradient for IE9. Transparent at 0% -> white at 50% -> white at 100%.*/
 
@@ -519,13 +519,13 @@ img.open-in-new-window {
 }
 .ellipsis-edge {
   overflow: hidden;
-  height: 4.2em;
+  height: 3em;
   width: 100%;
 }
 .ellipsis-edge:before {
   content: "";
   float: left;
-  height: 4.2em;
+  height: 3em;
   width: 5px;
 }
 .ellipsis-edge > *:first-child {
@@ -541,31 +541,31 @@ img.open-in-new-window {
   float: right;
   position: relative;
   width: 6em;
-  top: -1.3em;
+  top: -1.5em;
   left: 100%;
   margin-left: -6em;
   padding-right: 5px;
   text-align: right;
-  font-size: 13px;
+  font-size: 1em;
   background-size: 100% 100%;
   /* 512x1 image, gradient for IE9. Transparent at 0% -> white at 50% -> white at 100%.*/
 
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAABCAMAAACfZeZEAAAABGdBTUEAALGPC/xhBQAAAwBQTFRF////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////wDWRdwAAAP90Uk5TgsRjMZXhS30YrvDUP3Emow1YibnM9+ggOZxrBtpRRo94gxItwLOoX/vsHdA2yGgL8+TdKUK8VFufmHSGgAQWJNc9tk+rb5KMCA8aM0iwpWV6dwP9+fXuFerm3yMs0jDOysY8wr5FTldeoWKabgEJ8RATG+IeIdsn2NUqLjQ3OgBDumC3SbRMsVKsValZplydZpZpbJOQco2KdYeEe36BDAL8/vgHBfr2CvTyDu8R7esU6RcZ5ecc4+Af3iLcJSjZ1ivT0S/PMs3LNck4x8U7wz7Bv0G9RLtHuEq1TbJQr1OtVqqnWqRdoqBhnmSbZ5mXapRtcJGOc4t2eYiFfH9AS7qYlgAAARlJREFUKM9jqK9fEGS7VNrDI2+F/nyB1Z4Fa5UKN4TbbeLY7FW0Tatkp3jp7mj7vXzl+4yrDsYoVx+JYz7mXXNSp/a0RN25JMcLPP8umzRcTZW77tNyk63tdprzXdmO+2ZdD9MFe56Y9z3LUG96mcX02n/CW71JH6Qmf8px/cw77ZvVzB+BCj8D5vxhn/vXZh6D4uzf1rN+Cc347j79q/zUL25TPrJMfG/5LvuNZP8rixeZz/mf+vU+Vut+5NL5gPOeb/sd1dZbTs03hBuvmV5JuaRyMfk849nEM7qnEk6IHI8/qn049hB35QGHiv0yZXuMdkXtYC3ebrglcqvYxoj1muvC1nDlrzJYGbpcdHHIMo2FwYv+j3QAAOBSfkZYITwUAAAAAElFTkSuQmCC);
-  background: -webkit-gradient(linear, left top, right top, from(rgba(255, 255, 255, 0)), to(#ffffff), color-stop(50%, #ffffff));
-  background: -moz-linear-gradient(to right, rgba(255, 255, 255, 0), #ffffff 50%, #ffffff);
-  background: -o-linear-gradient(to right, rgba(255, 255, 255, 0), #ffffff 50%, #ffffff);
-  background: -ms-linear-gradient(to right, rgba(255, 255, 255, 0), #ffffff 50%, #ffffff);
-  background: linear-gradient(to right, rgba(255, 255, 255, 0), #ffffff 50%, #ffffff);
+  background: -webkit-gradient(linear, left top, right top, from(rgba(255, 255, 255, 0)), to(#ebeaf7), color-stop(50%, #ebeaf7));
+  background: -moz-linear-gradient(to right, rgba(255, 255, 255, 0), #ebeaf7 50%, #ebeaf7);
+  background: -o-linear-gradient(to right, rgba(255, 255, 255, 0), #ebeaf7 50%, #ebeaf7);
+  background: -ms-linear-gradient(to right, rgba(255, 255, 255, 0), #ebeaf7 50%, #ebeaf7);
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), #ebeaf7 50%, #ebeaf7);
 }
 .ellipsis-title {
   overflow: hidden;
-  height: 4.5em;
+  height: 3em;
   width: 100%;
 }
 .ellipsis-title:before {
   content: "";
   float: left;
-  height: 4.5em;
+  height: 3em;
   width: 5px;
 }
 .ellipsis-title > *:first-child {
@@ -581,21 +581,21 @@ img.open-in-new-window {
   float: right;
   position: relative;
   width: 6em;
-  top: -1.3em;
+  top: -1.5em;
   left: 100%;
   margin-left: -6em;
   padding-right: 5px;
   text-align: right;
-  font-size: 13px;
+  font-size: 1em;
   background-size: 100% 100%;
   /* 512x1 image, gradient for IE9. Transparent at 0% -> white at 50% -> white at 100%.*/
 
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAABCAMAAACfZeZEAAAABGdBTUEAALGPC/xhBQAAAwBQTFRF////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////wDWRdwAAAP90Uk5TgsRjMZXhS30YrvDUP3Emow1YibnM9+ggOZxrBtpRRo94gxItwLOoX/vsHdA2yGgL8+TdKUK8VFufmHSGgAQWJNc9tk+rb5KMCA8aM0iwpWV6dwP9+fXuFerm3yMs0jDOysY8wr5FTldeoWKabgEJ8RATG+IeIdsn2NUqLjQ3OgBDumC3SbRMsVKsValZplydZpZpbJOQco2KdYeEe36BDAL8/vgHBfr2CvTyDu8R7esU6RcZ5ecc4+Af3iLcJSjZ1ivT0S/PMs3LNck4x8U7wz7Bv0G9RLtHuEq1TbJQr1OtVqqnWqRdoqBhnmSbZ5mXapRtcJGOc4t2eYiFfH9AS7qYlgAAARlJREFUKM9jqK9fEGS7VNrDI2+F/nyB1Z4Fa5UKN4TbbeLY7FW0Tatkp3jp7mj7vXzl+4yrDsYoVx+JYz7mXXNSp/a0RN25JMcLPP8umzRcTZW77tNyk63tdprzXdmO+2ZdD9MFe56Y9z3LUG96mcX02n/CW71JH6Qmf8px/cw77ZvVzB+BCj8D5vxhn/vXZh6D4uzf1rN+Cc347j79q/zUL25TPrJMfG/5LvuNZP8rixeZz/mf+vU+Vut+5NL5gPOeb/sd1dZbTs03hBuvmV5JuaRyMfk849nEM7qnEk6IHI8/qn049hB35QGHiv0yZXuMdkXtYC3ebrglcqvYxoj1muvC1nDlrzJYGbpcdHHIMo2FwYv+j3QAAOBSfkZYITwUAAAAAElFTkSuQmCC);
-  background: -webkit-gradient(linear, left top, right top, from(rgba(255, 255, 255, 0)), to(#ffffff), color-stop(50%, #ffffff));
-  background: -moz-linear-gradient(to right, rgba(255, 255, 255, 0), #ffffff 50%, #ffffff);
-  background: -o-linear-gradient(to right, rgba(255, 255, 255, 0), #ffffff 50%, #ffffff);
-  background: -ms-linear-gradient(to right, rgba(255, 255, 255, 0), #ffffff 50%, #ffffff);
-  background: linear-gradient(to right, rgba(255, 255, 255, 0), #ffffff 50%, #ffffff);
+  background: -webkit-gradient(linear, left top, right top, from(rgba(255, 255, 255, 0)), to(#ebeaf7), color-stop(50%, #ebeaf7));
+  background: -moz-linear-gradient(to right, rgba(255, 255, 255, 0), #ebeaf7 50%, #ebeaf7);
+  background: -o-linear-gradient(to right, rgba(255, 255, 255, 0), #ebeaf7 50%, #ebeaf7);
+  background: -ms-linear-gradient(to right, rgba(255, 255, 255, 0), #ebeaf7 50%, #ebeaf7);
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), #ebeaf7 50%, #ebeaf7);
 }
 .btn:focus {
   outline: none;
@@ -651,4 +651,10 @@ img.open-in-new-window {
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+.deamphesize {
+  font-weight: normal;
+}
+a {
+  color: #213983;
 }
