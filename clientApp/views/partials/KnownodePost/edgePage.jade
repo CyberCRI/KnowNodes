@@ -1,6 +1,11 @@
 div.subheader
   div.span23.offset1
-    h2.subheader {{knownode.article.title+" "+knownode.connection.connectionType+" "+knownode.connection.title+" "+knownode.targetArticle.title}}
+    h2
+      span
+        a(ng-href="/article/:{{knownode.article.KN_ID}}", title="{{knownode.article.title}}") {{knownode.article.title+ " "}}
+        span.deamphesize {{knownode.connection.connectionType+" "+knownode.connection.title+" "}}
+        span
+          a(ng-href="/article/:{{knownode.targetArticle.KN_ID}}", title="{{knownode.targetArticle.title}}") {{knownode.targetArticle.title}}
   div.knownode.span11.offset1
     div.span11
       small edge description

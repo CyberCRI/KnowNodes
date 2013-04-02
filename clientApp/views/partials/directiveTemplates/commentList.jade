@@ -1,36 +1,15 @@
 div#CommentList
-    script(type="text/ng-template", id="internalCommentDiv.html")
-        div.media
-        a.pull-left(href="#")
-            div {{comment.user.displayName}}
+  ul.media-list.well(ng-controller='commentCtrl', ng-show='comments')
+    li.media(ng-repeat="comment in comments")
+        p.pull-left(href="#")
+          div {{comment.user.displayName}}
         div.media-body
-            h4.media-heading {{comment.title}}
-            pre {{comment.bodyText}}
-            div(ng-repeat="comment in comment.comments", ng-include="'internalCommentDiv.html'")
+            span {{comment.bodyText}}
+  h3 What do you think of this connection?
+  div(ng-show='isUserLoggedIn || true ', ng-controller='addCommentCtrl')
+    div(class="alert alert-error", ng-show="isError")
+    form(ng-submit='submitComment({{comment.parentKNID}})', ng-init="scope = { isDisabled: false }")
+      p
+        textarea(ng-model='form.comment.bodyText', name='bodyText', required, style='width:350px; height:150px')
 
-    script(type="text/ng-template", id="addCommentDiv.html")
-        div(ng-show='isUserLoggedIn || true ', ng-controller='addCommentCtrl')
-            h4 Comment on this
-            div(class="alert alert-error", ng-show="isError")
-            form(ng-submit='submitComment({{comment.parentKNID}})', ng-init="scope = { isDisabled: false }")
-                p
-                    label(for='title') Subject:
-                    input(ng-model='form.comment.title', name='title', autofocus, required, style='width:350px;')
-                p
-                    label(for='bodyText') Comment:
-                    textarea(ng-model='form.comment.bodyText', name='bodyText', required, style='width:350px; height:150px')
-                p
-                    button(type='submit', class='btn btn-primary', ng-disabled="form.comment.$invalid || {{scope.isDisabled}}") Share your thoughts
-
-    ul.media-list.well(ng-controller='commentCtrl', ng-show='comments')
-        li.media(ng-repeat="comment in comments")
-            a.pull-left(href="#")
-                div {{comment.user.displayName}}
-            div.media-body
-                h4.media-heading {{comment.title}}
-                span {{comment.bodyText}}
-                div
-                    //a(ng-click="addComment(comment)", href="#") Reply
-                    div(ng-repeat="comment in comment.comments", ng-include="'internalCommentDiv.html'")
-    h3 What do you think of this connection?
-    div(ng-include="'addCommentDiv.html'")
+      button(type='submit', class='btn btn-primary', ng-disabled="form.comment.$invalid || {{scope.isDisabled}}") Submit comment
