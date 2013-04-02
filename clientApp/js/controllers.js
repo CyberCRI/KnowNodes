@@ -474,13 +474,24 @@ function addCommentCtrl($scope, $http, $routeParams, userService, broadcastServi
     $scope.form.originalObject.id = objectId;
 
     $scope.submitComment = function(originalObjectId) {
+        $scope.submitMade=false;
+        $scope.submitNotMade=false;
+
         $scope.form.originalObject.id = originalObjectId || $scope.form.originalObject.id;
 
         $http.post('/comments', $scope.form).
             success(function(data, status, headers, config) {
-                var comment = data.success;
-                comment.user = userService.getConnectedUser();
-                broadcastService.prepForBroadcast(comment);
+                if(data.success) {
+                    var comment = data.success;
+                    comment.user = userService.getConnectedUser();
+                    broadcastService.prepForBroadcast(comment);
+                    $scope.submitMade=true;
+                } else {
+                    console.log(data.error);
+                    $scope.submitNotMade=false;
+                    $scope.error = data.error;
+
+                }
             });
     };
 }
