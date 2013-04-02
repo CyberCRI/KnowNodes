@@ -13,3 +13,6 @@ div#CommentList
         textarea(ng-model='form.comment.bodyText', name='bodyText', required, style='width:350px; height:150px')
 
       button(type='submit', class='btn btn-primary', ng-disabled="form.comment.$invalid || {{scope.isDisabled}}") Submit comment
+      h3.text-success(ng-show='submitMade') Comment sent!
+      h3.text-warning(ng-show='submitNotMade') Comment not sent! {{error}}
+
