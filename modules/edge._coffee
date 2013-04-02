@@ -38,7 +38,6 @@ module.exports = class Edge extends BaseModule
 
       edgeUser = user.formatUser item.edgeUser.data
       edgeUser.id = item.edgeUser.id
-      item.firstEdge.data.id = item.firstEdge.id
       item.firstEdge.data.user = edgeUser
       item.firstEdge.data.id = item.firstEdge.id
 

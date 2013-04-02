@@ -21,3 +21,5 @@ form(ng-submit='submitConcept()', ng-init="scope = { isDisabled: false }")
     p
         label(for='presentationDate') Presentation Date:
         input(ng-model='form.concept.presentationDate', name='presentationDate', type='text', data-date-format="dd/mm/yyyy", bs-datepicker, required)
+    p
+        button(type='submit', class='btn btn-primary', ng-disabled="form.concept.$invalid || {{scope.isDisabled}}") Add Concept
