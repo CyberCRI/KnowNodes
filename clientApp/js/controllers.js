@@ -159,6 +159,7 @@ ConceptListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
 
 
 function ArticleListCtrl($scope, $http, $routeParams, userService, PassKnownode) {
+    $scope.addNode=false;
     $scope.currentKnownode = {};
     $scope.passKnownode = PassKnownode;
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
