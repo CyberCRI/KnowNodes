@@ -412,8 +412,12 @@ function AddPostCtrl($scope, $http, $location, $routeParams) {
     $scope.form.originalPostId = $scope.form.knownodeRelation.originalPostId = $routeParams.id;
     $scope.errorMessage = null;
     $scope.tooltip = {title: "Hello Tooltip<br />This is a multiline message!", checked: false};
+    $scope.reversedDirection = false;
 
     $scope.submitPost = function (form) {
+        if($scope.reversedDirection) {
+            $scope.form.knownodeRelation.reversedDirection = true;
+        }
         $("#btnSubmitPost").attr('disabled', 'disabled');
         if($scope.files && $scope.files.length > 0) {
             uploadFile();

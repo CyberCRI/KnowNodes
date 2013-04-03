@@ -16,22 +16,22 @@
         code Evolution theory
     h3 Your turn:
     p
-      span(ng-show="reverseDirection")
+      span(ng-show="reversedDirection")
         code(ng-hide="form.knownodeForm.title") [Target resource]
         code(ng-show="form.knownodeForm.title") {{form.knownodeForm.title}}
-      span(ng-hide="reverseDirection")
+      span(ng-hide="reversedDirection")
         code {{concept.title}}
     p(edge-type-selector)
 
 
     p
-      span(ng-hide="reverseDirection")
+      span(ng-hide="reversedDirection")
         code(ng-hide="form.knownodeForm.title") [Target resource]
         code(ng-show="form.knownodeForm.title") {{form.knownodeForm.title}}
-      span(ng-show="reverseDirection")
+      span(ng-show="reversedDirection")
         code {{concept.title}}
-    a.btn.btn-inverse(ng-init="reverseDirection=false", ng-hide="reverseDirection", ng-click="reverseDirection=true") reverse direction
-    a.btn.btn-inverse(ng-show="reverseDirection", ng-click="reverseDirection=false") reverse direction
+    a.btn.btn-inverse(ng-hide="reversedDirection", ng-click="reversedDirection=true") reverse direction
+    a.btn.btn-inverse(ng-show="reversedDirection", ng-click="reversedDirection=false") reverse direction
 
 
 

@@ -113,7 +113,17 @@
               return _(null, knownode); }, true)); }, true)); }, true)); }); };
 
 
-    Knownode.prototype.destroy = function Knownode_prototype_destroy__7(id, _) { var kn_File, knownode, params, query, __this = this; var __frame = { name: "Knownode_prototype_destroy__7", line: 116 }; return __func(_, this, arguments, Knownode_prototype_destroy__7, 1, __frame, function __$Knownode_prototype_destroy__7() {
+    Knownode.prototype.createNewKnownodeWithReversedRelation = function Knownode_prototype_createNewKnownodeWithReversedRelation__7(existingNodeId, relationData, newKnownodeData, _) { var edge, existingNode, knownode, __this = this; var __frame = { name: "Knownode_prototype_createNewKnownodeWithReversedRelation__7", line: 116 }; return __func(_, this, arguments, Knownode_prototype_createNewKnownodeWithReversedRelation__7, 3, __frame, function __$Knownode_prototype_createNewKnownodeWithReversedRelation__7() {
+
+        __this.logger.logDebug(__this.currentModule, ("createNewKnownodeWithRelation " + existingNodeId));
+        return __this.createNewKnownode(newKnownodeData, __cb(_, __frame, 3, 17, function ___(__0, __1) { knownode = __1;
+          return __this.getKnownodeByKnownodeId(existingNodeId, __cb(_, __frame, 4, 21, function ___(__0, __2) { existingNode = __2;
+            return __this.relation.addKnownodeEdge(knownode, relationData, existingNode, __cb(_, __frame, 5, 13, function ___(__0, __3) { edge = __3;
+              knownode.edge = edge;
+              return _(null, knownode); }, true)); }, true)); }, true)); }); };
+
+
+    Knownode.prototype.destroy = function Knownode_prototype_destroy__8(id, _) { var kn_File, knownode, params, query, __this = this; var __frame = { name: "Knownode_prototype_destroy__8", line: 126 }; return __func(_, this, arguments, Knownode_prototype_destroy__8, 1, __frame, function __$Knownode_prototype_destroy__8() {
 
         __this.logger.logDebug(__this.currentModule, ("destroy " + id));
         query = ["START user=node({userId}), n=node({nodeId})","MATCH ()-[r]-n-[:CREATED_BY]-(user)","RETURN n",].join("\n");
@@ -125,7 +135,7 @@
         return __this.neo4jDB.query(query, params, __cb(_, __frame, 9, 17, function ___(__0, __1) { knownode = __1;
           console.log(("Deleting file " + knownode.fileId));
           kn_File = new knownodeFile(__this.user);
-          return kn_File.deleteFile(knownode.fileId, __cb(_, __frame, 12, 6, function __$Knownode_prototype_destroy__7() {
+          return kn_File.deleteFile(knownode.fileId, __cb(_, __frame, 12, 6, function __$Knownode_prototype_destroy__8() {
             console.log("File deleted");
             return _(null, query = ["START user=node({userId}), n=node({nodeId})","MATCH ()-[r]-n-[:CREATED_BY]-(user)","DELETE n",].join("\n")); }, true)); }, true)); }); };
 

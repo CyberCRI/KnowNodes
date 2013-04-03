@@ -18,12 +18,6 @@
   commentModule = require('../../modules/comment');
 
   module.exports = {
-    /*options:
-    		before:
-    			index: [baseController.isLoggedIn],
-    			destroy: [baseController.isLoggedIn]
-    */
-
     show: function(request, response) {
       var cb, id, modKnownode;
       cb = baseController.callBack(response);
@@ -35,7 +29,10 @@
       var cb, modKnownode, originalPostId;
       cb = baseController.callBack(response);
       modKnownode = new knownodeModule(request.user);
-      if (request.body.knownodeRelation) {
+      if (request.body.knownodeRelation && request.body.knownodeRelation.reversedDirection) {
+        originalPostId = request.body.originalPostId.replace(/:/g, '');
+        return modKnownode.createNewKnownodeWithReversedRelation(originalPostId, request.body.knownodeRelation, request.body.knownodeForm, cb);
+      } else if (request.body.knownodeRelation.reversedDirection) {
         originalPostId = request.body.originalPostId.replace(/:/g, '');
         return modKnownode.createNewKnownodeWithRelation(originalPostId, request.body.knownodeRelation, request.body.knownodeForm, cb);
       } else {
