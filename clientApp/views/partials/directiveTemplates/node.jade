@@ -1,9 +1,12 @@
-div.resourcecontent.span11#content
+div.resourcecontent.span11#content(ng-mouseenter="addNode=true", ng-mouseleave="addNode=false")
   a.knownode-title(ng-href="/article/:{{knownode.article.KN_ID}}", title="{{knownode.article.title}}") {{knownode.article.title}} &nbsp
-    a(ng-href="{{knownode.article.url}}", target="_blank") &nbsp
-      img.open-in-new-window(src="/img/openInNewWindow.png", width="20px", ng-show="knownode.article.url")
-    a(href="/knownodeFiles/:{{knownode.article.fileId}}", target="_blank", ng-show="knownode.article.fileName", title="{{knownode.article.fileName}}")
+    a(ng-href="{{knownode.article.url}}", target="_blank").titleIcon
+      img.open-in-new-window(src="/img/openInNewWindow.png", title="{{knownode.article.url}}", width="20px", ng-show="knownode.article.url")
+    a(href="/knownodeFiles/:{{knownode.article.fileId}}", target="_blank", ng-show="knownode.article.fileName", title="{{knownode.article.fileName}}").titleIcon
       i.open-in-new-window.icon-download
+    span(ng-show="addNode").titleIcon
+      a(ng-show='isUserLoggedIn', title="Connect a new resource to {{knownode.article.title}}", ng-href='/addKnownodeTo/{{knownode.article.KN_ID}}')
+        i.icon-plus
   span(ng-switch on="knownode.edgeCount")
     span(ng-switch-default).pull-right.node-count {{knownode.edgeCount}}
     span(ng-switch-when="0").pull-right.node-count
