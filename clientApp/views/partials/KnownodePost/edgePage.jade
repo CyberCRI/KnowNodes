@@ -7,7 +7,7 @@ div.subheader
         span
           a(ng-href="/article/:{{knownode.targetArticle.KN_ID}}", title="{{knownode.targetArticle.title}}") {{knownode.targetArticle.title}}
   div.knownode.span11.offset1
-    div.span11
+    div(ng-show="knownode.connection.bodyText").span11
       small edge description
       p.resourcecontent#content {{knownode.connection.bodyText}}
     div.span11.with-margin
