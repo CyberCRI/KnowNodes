@@ -83,6 +83,14 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     })
+    .directive('conceptNode', function() {
+        return {
+            restrict: 'EAC',
+            transclude: true,
+            templateUrl: 'partials/directiveTemplates/conceptNode',
+            replace: true
+        };
+    })
     .directive('targetArticle', function() {
         return {
             restrict: 'EAC',

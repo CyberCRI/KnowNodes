@@ -30,10 +30,6 @@
         code(ng-show="form.knownodeForm.title") {{form.knownodeForm.title}}
       span(ng-show="reversedDirection")
         code {{concept.title}}
-    a.btn.btn-inverse(ng-hide="reversedDirection", ng-click="reversedDirection=true") reverse direction
-    a.btn.btn-inverse(ng-show="reversedDirection", ng-click="reversedDirection=false") reverse direction
-
-
 
     p
       label(for='bodyText') Body: Additional thoughts and information about the connection go here&nbsp;&nbsp;(optional):

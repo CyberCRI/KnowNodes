@@ -17,16 +17,7 @@ div.subheader
           div(ng-switch-when="true").knownode.span12.shortKnownode
             div(node)
             div(edge)
-            accordion
-              accordion-group(heading="{{concept.title}}").accordion-node
-                div.knownode-body
-                  p.bold(ng-show="concept.url")
-                    a(ng-href="{{concept.url}}") {{concept.url}}
-                  p(ng-show="concept.fileName") Download:
-                    a(class="btn-info",href="/knownodeFiles/:{{concept.fileId}}", target="_blank", ng-show="concept.fileName") &nbsp;{{concept.fileName}}&nbsp;
-                  p(ng-show="videoLink")
-                    include videoNode
-                  p {{concept.bodyText}}
+            div(concept-node)
             p.infoLine.span11(style="margin:0px;")
               em {{(knownode.connection.__CreatedOn__) | timeAgo}} by {{knownode.connection.user.firstName}} {{knownode.connection.user.lastName}}
               span
