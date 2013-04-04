@@ -11,7 +11,7 @@
  }]);
  */
 // Declare app level module which depends on filters, and services
-var KnowNodesAppModule = angular.module('KnowNodesApp', ['ui', 'ui.directives', '$strap', 'KnowNodesApp.filters', 'KnowNodesApp.services', 'KnowNodesApp.directives', 'ui.bootstrap']).
+var KnowNodesAppModule = angular.module('KnowNodesApp', ['ngSanitize', 'ui', 'ui.directives', '$strap', 'KnowNodesApp.filters', 'KnowNodesApp.services', 'KnowNodesApp.directives', 'ui.bootstrap']).
     config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
         $routeProvider.
             when('/', {
@@ -97,5 +97,23 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['ui', 'ui.directives', 
 KnowNodesAppModule.value('ui.config', {
     select2: {
         allowClear: true
+    },
+    tinymce: {
+        theme : "advanced",
+        theme_advanced_toolbar_location : "top",
+        theme_advanced_buttons1 : "bold,italic,underline,link,unlink,",
+        theme_advanced_buttons2 : "",
+        theme_advanced_buttons3 : "",
+        theme_advanced_statusbar_location : "none",
+        setup : function(ed) {
+            ed.onInit.add(function(ed)
+            {
+                var e = ed.getBody();
+                e.style.fontSize='14px';
+                e.style.fontFamily="Helvetica Neue, Helvetica, Arial, sans-serif";
+                e.style.fontWeight='normal';
+            });
+        }
+
     }
 });

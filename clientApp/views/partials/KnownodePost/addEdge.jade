@@ -34,7 +34,7 @@
     p
       label(for='bodyText') Body: Additional thoughts and information about the connection go here&nbsp;&nbsp;(optional):
 
-      textarea(ng-model='form.knownodeRelation.bodyText', name='bodyText', rows='5', ng-maxlength='2000', data-trigger="focus", data-unique="1").span11
+      textarea(ui-tinymce, ng-model='form.knownodeRelation.bodyText', name='bodyText', rows='5', ng-maxlength='2000', data-trigger="focus", data-unique="1").span11
 
 
             //label(for='title') Title: in one sentence: How is connected to {{concept.title}}?

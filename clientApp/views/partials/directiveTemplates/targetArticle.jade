@@ -11,6 +11,6 @@ div.resourcecontent.span11#content(ng-init="addNode=false", ng-mouseenter="addNo
     span.pull-right.node-count(ng-switch-when="0")
     span.pull-right.node-count(ng-switch-default) {{knownode.targetArticle.edgeCount}}
   div.lineSeperator
-  p.knownode-body {{knownode.targetArticle.bodyText}}
+  p.knownode-body(ng-bind-html-unsafe="knownode.targetArticle.bodyText")
   //span {{knownode.edgeCount}}
 
