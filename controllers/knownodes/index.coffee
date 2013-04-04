@@ -20,10 +20,9 @@ module.exports =
     if request.body.knownodeRelation and request.body.knownodeRelation.reversedDirection
       originalPostId = request.body.originalPostId.replace /:/g, ''
       modKnownode.createNewKnownodeWithReversedRelation originalPostId, request.body.knownodeRelation, request.body.knownodeForm, cb
-    else if request.body.knownodeRelation.reversedDirection
+    else if request.body.knownodeRelation
       originalPostId = request.body.originalPostId.replace /:/g, ''
       modKnownode.createNewKnownodeWithRelation originalPostId, request.body.knownodeRelation, request.body.knownodeForm, cb
-
     else
       modKnownode.createNewKnownode request.body.knownodeForm, cb
 

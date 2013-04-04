@@ -32,7 +32,7 @@
       if (request.body.knownodeRelation && request.body.knownodeRelation.reversedDirection) {
         originalPostId = request.body.originalPostId.replace(/:/g, '');
         return modKnownode.createNewKnownodeWithReversedRelation(originalPostId, request.body.knownodeRelation, request.body.knownodeForm, cb);
-      } else if (request.body.knownodeRelation.reversedDirection) {
+      } else if (request.body.knownodeRelation) {
         originalPostId = request.body.originalPostId.replace(/:/g, '');
         return modKnownode.createNewKnownodeWithRelation(originalPostId, request.body.knownodeRelation, request.body.knownodeForm, cb);
       } else {
