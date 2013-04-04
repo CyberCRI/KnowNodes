@@ -14,6 +14,7 @@
 @body-background:#F1F0F0;
 @connection-background: rgb(235, 234, 247);
 @dehiglighted:#BCBBBB;
+@titleSize: 1.2em;
 //mixins
 
 
@@ -516,7 +517,7 @@ img.inputPopup{
 }
 
 .knownode-title {
-  font-size: 1.2em;
+  font-size:  @titleSize;
 }
 
 div.knownode-body {
@@ -646,6 +647,7 @@ img.open-in-new-window {
   display: block;
   margin-left: auto;
   margin-right: auto;
+  font-size: @titleSize;
 }
 
 .accordion-node {
@@ -663,4 +665,9 @@ a {
 
 .titleIcon {
   margin-left: 0.5em;
+}
+
+.edge-page-node-title{
+  font-weight: bold;
+  font-size: @titleSize;
 }
