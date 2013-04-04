@@ -99,6 +99,9 @@ div.input-prepend.input-append
             a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is refuted'") is refuted
 
   input#appendedPrependedDropdownButton.span6(type="text", ng-model='form.knownodeRelation.title', name='title', required, ng-maxlength='250', placeholder="continue the sentence to make it specific")
-  div.btn-group
-   p.btn.btn-link {{(140 -(form.knownodeRelation.title.length))}}
+  a.btn.btm-small(ng-hide="reversedDirection", ng-click="reversedDirection=true")
+    i.icon-retweet
+  a.btn(ng-show="reversedDirection", ng-click="reversedDirection=false")
+    i.icon-retweet
+  p.btn.btn-link {{(140 -(form.knownodeRelation.title.length))}}
 
