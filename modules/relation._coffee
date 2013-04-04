@@ -1,4 +1,4 @@
-§###
+###
 * User: Liad Magen
 * Date: 16/01/13
 * Time: 00:30
