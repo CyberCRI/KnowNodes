@@ -14,7 +14,7 @@ div.subheader
                     input(class="input-xxlarge", placeholder="Add Source URL here", ng-model='form.knownodeForm.url', name='url', style="width:100%;")
                 p
                     label(for='bodyText') Text body (abstract, summery or additional information): &nbsp;(optional)
-                    textarea(class="input-xxlarge", placeholder="Abstract or summery of the resource", ng-model='form.knownodeForm.bodyText', name='bodyText', rows='5', style='width:100%')
+                    textarea(ui-tinymce, class="input-xxlarge", placeholder="Abstract or summery of the resource", ng-model='form.knownodeForm.bodyText', name='bodyText', rows='5', style='width:100%')
                 p
                     label(for='articleFile') PDF File:
                     input(nclass="input-xxlarge", placeholder="Attach a file", g-model='file', name='file', type='file', ng-model-instant, multiple, onchange="angular.element(this).scope().setFiles(this)")

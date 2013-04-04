@@ -9,7 +9,7 @@ div.subheader
   div.knownode.span11.offset1
     div(ng-show="knownode.connection.bodyText").span11
       small edge description
-      p.resourcecontent#content {{knownode.connection.bodyText}}
+      p.resourcecontent#content(ng-bind-html-unsafe="knownode.connection.bodyText")
     div.span11.with-margin
       small original knownode
       div(full-node)

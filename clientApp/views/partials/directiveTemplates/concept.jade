@@ -3,7 +3,7 @@ div.knownode.span12
     a.knownode-title(href="/concept/{{concept.conceptId}}") {{concept.title}}&nbsp;
     div.lineSeperator
     div.ellipsis-concept.body
-      div.knownode-body {{concept.content}}
+      div.knownode-body(ng-bind-html-unsafe="concept.content") 
     //p.tagLine
       p.knowledgeDomain
         small ?? {{}}
