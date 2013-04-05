@@ -670,3 +670,10 @@ a {
   font-weight: bold;
   font-size: 1.2em;
 }
+.reverse-direction {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+.dissapear {
+  opacity: 0;
+}
