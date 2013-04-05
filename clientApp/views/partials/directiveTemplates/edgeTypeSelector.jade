@@ -1,6 +1,12 @@
 div.input-prepend.input-append
 
   div.btn-group(style="display:inline;", ng-model='form.knownodeRelation.connectionType', name="connectionType")
+    a.btn.reverse-direction(ng-hide="reversedDirection", ng-click="reversedDirection=true", title="reverse connection   direction")
+      i.icon-arrow-up
+      i.icon-arrow-down
+    a.btn.reverse-direction(ng-show="reversedDirection", ng-click="reversedDirection=false", title="reverse connection direction")
+      i.icon-arrow-down
+      i.icon-arrow-up
     a.btn.dropdown-toggle(href="javascript:void(0);", data-toggle="dropdown") &nbsp;{{form.knownodeRelation.connectionType}}
       span.caret(style="float:left;")
 
@@ -99,9 +105,5 @@ div.input-prepend.input-append
             a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='is refuted'") is refuted
 
   input#appendedPrependedDropdownButton.span6(type="text", ng-model='form.knownodeRelation.title', name='title', required, ng-maxlength='250', placeholder="continue the sentence to make it specific")
-  a.btn.btm-small(ng-hide="reversedDirection", ng-click="reversedDirection=true")
-    i.icon-retweet
-  a.btn(ng-show="reversedDirection", ng-click="reversedDirection=false")
-    i.icon-retweet
   p.btn.btn-link {{(140 -(form.knownodeRelation.title.length))}}
 

@@ -15,7 +15,14 @@
       p
         code Evolution theory
     h3 Your turn:
-    p
+
+    a.btn.reverse-direction.dissapear(ng-hide="reversedDirection", ng-click="reversedDirection=true", title="reverse connection direction")
+      i.icon-arrow-up
+      i.icon-arrow-down
+    a.btn.reverse-direction.dissapear(ng-show="reversedDirection", ng-click="reversedDirection=false", title="reverse connection direction")
+      i.icon-arrow-down
+      i.icon-arrow-up
+    span
       span(ng-show="reversedDirection")
         code(ng-hide="form.knownodeForm.title") [Target resource]
         code(ng-show="form.knownodeForm.title") {{form.knownodeForm.title}}
@@ -23,8 +30,13 @@
         code {{concept.title}}
     p(edge-type-selector)
 
-
-    p
+    a.btn.reverse-direction.dissapear(ng-hide="reversedDirection", ng-click="reversedDirection=true", title="reverse connection   direction")
+      i.icon-arrow-up
+      i.icon-arrow-down
+    a.btn.reverse-direction.dissapear(ng-show="reversedDirection", ng-click="reversedDirection=false", title="reverse connection direction")
+      i.icon-arrow-down
+      i.icon-arrow-up
+    span
       span(ng-hide="reversedDirection")
         code(ng-hide="form.knownodeForm.title") [Target resource]
         code(ng-show="form.knownodeForm.title") {{form.knownodeForm.title}}
