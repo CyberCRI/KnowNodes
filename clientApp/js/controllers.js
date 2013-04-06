@@ -1,6 +1,6 @@
 'use strict';
 //Dor experiments
-function TopBarCtrl($scope) {
+function TopBarCtrl($scope, $timeout, $rootScope, angularFireCollection) {
     var result = false;
     $scope.toggle = function(classToToggle) {
         if(result) {
@@ -10,6 +10,19 @@ function TopBarCtrl($scope) {
         }
         return result;
     };
+    var el = document.getElementById("messagesDiv");
+    var url = 'https://knownodes.firebaseIO.com/'
+    $scope.messages = angularFireCollection(url, function() {
+        $timeout(function() { el.scrollTop = el.scrollHeight; });
+    });
+    $scope.addMessage = function() {
+        console.log($scope.message);
+        $scope.messages.add({from: $rootScope.userDisplayName, content:$scope.message}, function() {
+            el.scrollTop = el.scrollHeight;
+        });
+        $scope.message = "";
+    }
+
 }
 
 /* Controllers */

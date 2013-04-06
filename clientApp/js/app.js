@@ -11,7 +11,7 @@
  }]);
  */
 // Declare app level module which depends on filters, and services
-var KnowNodesAppModule = angular.module('KnowNodesApp', ['ngSanitize', 'ui', 'ui.directives', '$strap', 'KnowNodesApp.filters', 'KnowNodesApp.services', 'KnowNodesApp.directives', 'ui.bootstrap']).
+var KnowNodesAppModule = angular.module('KnowNodesApp', ['firebase','ngSanitize', 'ui', 'ui.directives', '$strap', 'KnowNodesApp.filters', 'KnowNodesApp.services', 'KnowNodesApp.directives', 'ui.bootstrap']).
     config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
         $routeProvider.
             when('/', {

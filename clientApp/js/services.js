@@ -30,15 +30,27 @@ angular.module('KnowNodesApp.services', [])
 
         return serviceReturned;
     })
+    .factory('PassUserLocation', function() {
+        var currentLocation;
+        var PassUserLocationService = {};
+        PassUserLocationService.changeCurrent = function(data) {
+            currentLocation = data;
+            console.log(data);
+        };
+        PassKnownodeService.showCurrent = function() {
+            console.log("showCurrent "+currentEdge);
+            return currentLocation;
+
+        };
+        return PassKnownodeService;
+    })
     .factory('PassKnownode', function() {
         var currentEdge;
         var PassKnownodeService = {};
         PassKnownodeService.changeCurrent = function(data) {
             currentEdge = data;
-            console.log(data);
         };
         PassKnownodeService.showCurrent = function() {
-            console.log("showCurrent "+currentEdge);
             return currentEdge;
 
         };
