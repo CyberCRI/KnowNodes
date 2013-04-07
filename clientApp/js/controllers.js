@@ -1,6 +1,6 @@
 'use strict';
 //Dor experiments
-function TopBarCtrl($scope, $timeout, $rootScope, angularFireCollection) {
+function TopBarCtrl($scope) {
     var result = false;
     $scope.toggle = function(classToToggle) {
         if(result) {
@@ -10,21 +10,23 @@ function TopBarCtrl($scope, $timeout, $rootScope, angularFireCollection) {
         }
         return result;
     };
+}
+
+function ChatCtrl($scope, $timeout, $rootScope, angularFireCollection) {
     var el = document.getElementById("messagesDiv");
     var url = 'https://knownodes.firebaseIO.com/chat'
     $scope.messages = angularFireCollection(url, function() {
         $timeout(function() { el.scrollTop = el.scrollHeight; });
     });
     $scope.addMessage = function() {
-        console.log($scope.message);
+        if(!$rootScope.userDisplayName){
+            window.alert("you must be logged in to do that");
+        }
         $scope.messages.add({from: $rootScope.userDisplayName, content:$scope.message}, function() {
             el.scrollTop = el.scrollHeight;
         });
         $scope.message = "";
-    }
-
-
-
+    };
 }
 
 /* Controllers */
