@@ -180,6 +180,14 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     }])
+    .directive('chat', ['$http', function($http) {
+        return {
+            restrict: 'EAC',
+            templateUrl: 'partials/directiveTemplates/chat',
+            controller: ChatCtrl,
+            replace: true
+        };
+    }])
     .directive('ngFocus', function($timeout) {
         return {
             link: function ( scope, element, attrs ) {
@@ -198,6 +206,7 @@ angular.module('KnowNodesApp.directives', [])
             }
         };
     })
+
     .directive('userAutoComplete', ['$http', function($http) {
         return function(scope, element, attrs) {
             element.userAutoComplete({
