@@ -11,7 +11,7 @@ function TopBarCtrl($scope, $timeout, $rootScope, angularFireCollection) {
         return result;
     };
     var el = document.getElementById("messagesDiv");
-    var url = 'https://knownodes.firebaseIO.com/'
+    var url = 'https://knownodes.firebaseIO.com/chat'
     $scope.messages = angularFireCollection(url, function() {
         $timeout(function() { el.scrollTop = el.scrollHeight; });
     });
@@ -22,6 +22,8 @@ function TopBarCtrl($scope, $timeout, $rootScope, angularFireCollection) {
         });
         $scope.message = "";
     }
+
+
 
 }
 

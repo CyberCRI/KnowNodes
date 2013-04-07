@@ -15,23 +15,29 @@ div.header.row.topbar
     span
         a.btn.btn-link.info(href="/about") About
 
-        div(ng-hide="chat", style='width:20%; height:40px; background:white; position:fixed; right:5%; bottom:0px; z-index:10; overflow:auto; border:solid; border-width:1px; border-color:grey; padding-left: 10px;')
-          div
-            span(style="position:fixed; background:white;")
-              a(ng-init="isFocused=false", ng-click="chat=true; isFocused=true")
-                h5 Chat about {{concept.title}}
-        div(ng-show="chat", style='height: 400px; width:25%; background:white; position:fixed; right:0px; bottom:0px; z-index:10; overflow:auto; border:solid; border-width:1px; border-color:grey; padding-left: 10px;')
-          div
-            span(style="position:fixed; background:white;")
-              a(ng-init="chat=true", ng-click="chat=false; isFocused=false")
-                h5 Chat about Paper prototyping
-            form(ng-submit='addMessage()', style="position:fixed; bottom:0%; margin:0; background;white; width:25%;")
-              input(type='text', ng-model='message', ng-focus="isFocused", ng-focus-lost="loseFocus()", placeholder='Message...', style="width:95%;")
+    div(ng-hide="chat", style='width:20%; height:40px; background:white; position:fixed; right:5%; bottom:0px; z-index:10; overflow:auto; border:solid; border-width:1px; border-color:grey; padding-left: 10px;')
+      div
+        span(style="position:fixed; background:white;")
+          a(ng-init="isFocused=false", ng-click="chat=true; isFocused=true")
+            span
+              h5 Chat with fellow knownoders!
+                i.icon-user.pull-left
 
-          div#messagesDiv(style="position: relative; top: 3em; overflow: auto; height: 320px;")
-            div(ng-cloak='ng-cloak', ng-repeat='message in messages')
-              em {{message.from}}:
-              | {{message.content}}
+    div(ng-show="chat", style='height: 400px; width:25%; background:white; position:fixed; right:0px; bottom:0px; z-index:10; overflow:auto; border:solid; border-width:1px; border-color:grey; padding-left: 10px;')
+      div
+        span(style="position:fixed; background:white;")
+          a(ng-init="chat=true", ng-click="chat=false; isFocused=false")
+            span
+              h5 Chat with fellow knownoders!
+                i.icon-user.pull-left
+
+        form(ng-submit='addMessage()', style="position:fixed; bottom:0%; margin:0; background;white; width:25%;")
+          input(type='text', ng-model='message', ng-focus="isFocused", ng-focus-lost="loseFocus()", placeholder='Message...', style="width:95%;")
+
+      div#messagesDiv(style="position: relative; top: 3em; overflow: auto; height: 320px;")
+        div(ng-cloak='ng-cloak', ng-repeat='message in messages')
+          em {{message.from}}:
+          | {{message.content}}
 
 
 div.headerLine.row
