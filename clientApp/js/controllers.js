@@ -559,10 +559,17 @@ function EdgeCtrl($scope, $http, $routeParams, userService, PassKnownode) {
     var edgeId = $scope.edgeId = $routeParams.id;
     $http.get('/edges/:' + edgeId).success(function(data, status, headers, config){
         $scope.knownode = data.success;
-        console.log($scope.knownode + "knownode");
         $scope.knownode = $scope.knownode[0];
-        console.log($scope.knownode);
     });
 }
 
 EdgeCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'PassKnownode'];
+
+function SearchCtrl($scope, $http, $rootScope){
+    $scope.keyword="";
+    $scope.searchByKeyword = function(){
+        $http.get('/knownodes/:' + $scope.keyword + '/getNodesByKeyword').success(function(data, status, headers, config){
+        $scope.searchResults = data.success;
+        })};
+    }
+

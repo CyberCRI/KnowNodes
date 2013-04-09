@@ -92,6 +92,7 @@ app.resource('concepts', function() {
 app.resource('knownodes', function(){
     this.member.get('getRelatedKnownodes');
     this.member.get('getRelatedComments');
+    this.member.get('getNodesByKeyword');
 
     this.resource('knownodes', { id: 'related' });
     this.resource('files');

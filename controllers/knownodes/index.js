@@ -69,6 +69,13 @@
       comment = new commentModule(request.user);
       id = request.params.knownode.replace(/:/g, '');
       return comment.getAllComments(id, cb);
+    },
+    getNodesByKeyword: function(request, response) {
+      var cb, modKnownode;
+      cb = baseController.callBack(response);
+      modKnownode = new knownodeModule(request.user);
+      id = request.params.knownode.replace(/:/g, '');
+      return modKnownode.getNodesToKeyword(id, cb);
     }
   };
 

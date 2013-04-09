@@ -18,6 +18,31 @@ module.exports = class Knownode extends DBModule
 		@relation = new relationModule user
 		@currentModule = 'module/Knownode'
 
+	# return nodes that have user-inputted keywork in title
+
+	getNodesToKeyword: (UserKeyword, _) ->
+
+		@logger.logDebug @currentModule, "getNodesToKeyword #{UserKeyword}"
+		nodes = []
+		query = [
+			'START results=node(*)',
+			'Where has(results.title)',
+			'and results.nodeType="kn_Post"',
+			'and results.title =~ {keyword}',
+			'RETURN results'
+		].join('\n');
+
+		UserKeyword = '(?i).*' + UserKeyword + '.*'
+		params =
+		    keyword: UserKeyword
+
+		@neo4jDB.query(query, params, _).map_(_, (_, item) ->
+			item.results.data.id = item.results.id
+
+			nodes.push
+				results: item.results.data
+		)
+		return nodes;
 	# return the related knownodes to a specific node according to the node neo4j id
 	# @param nodeId the id of the original node in a numeric format (not knownodeId)
 	getRelatedKnownodesToNodeId: (nodeId, _) ->
@@ -148,3 +173,5 @@ module.exports = class Knownode extends DBModule
 			'MATCH ()-[r]-n-[:CREATED_BY]-(user)',
 			'DELETE n'
 		].join('\n');
+
+
