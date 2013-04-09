@@ -1,0 +1,7 @@
+div
+  input.search-query(type="text", ng-model="keyword", placeholder="Search")
+  a.btn.btn-inverse(ng-click="searchByKeyword()") submit
+  h5 search results
+  div(ng-repeat="item in searchResults")
+    div {{item.results.title}}
+

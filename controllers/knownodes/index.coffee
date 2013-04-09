@@ -51,3 +51,8 @@ module.exports =
     comment = new commentModule request.user
     id = request.params.knownode.replace /:/g, ''
     comment.getAllComments id, cb
+
+  getNodesByKeyword: (request, response) ->
+    cb = baseController.callBack response
+    modKnownode = new knownodeModule request.user
+    modKnownode.getNodesToKeyword id, cb

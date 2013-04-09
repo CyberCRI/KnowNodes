@@ -188,6 +188,14 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     }])
+    .directive('search', ['$http', function($http) {
+        return {
+            restrict: 'EAC',
+            templateUrl: 'partials/directiveTemplates/search',
+            controller: SearchCtrl,
+            replace: true
+        };
+    }])
     .directive('ngFocus', function($timeout) {
         return {
             link: function ( scope, element, attrs ) {
