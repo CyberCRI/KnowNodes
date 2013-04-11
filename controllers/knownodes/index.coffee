@@ -17,12 +17,22 @@ module.exports =
   create: (request, response) ->
     cb = baseController.callBack response
     modKnownode = new knownodeModule request.user
-    if request.body.knownodeRelation and request.body.knownodeRelation.reversedDirection
+    if request.body.knownodeRelation and request.body.knownodeRelation.reversedDirection and request.body.existingNode
+      originalPostId = request.body.originalPostId.replace /:/g, ''
+      modKnownode.createNewReversedRelationBetweenExistingNodes originalPostId, request.body.knownodeRelation, request.body.existingNode, cb
+
+    else if request.body.knownodeRelation and request.body.existingNode
+      originalPostId = request.body.originalPostId.replace /:/g, ''
+      modKnownode.createNewRelationBetweenExistingNodes originalPostId, request.body.knownodeRelation, request.body.existingNode, cb
+
+    else if request.body.knownodeRelation and request.body.knownodeRelation.reversedDirection
       originalPostId = request.body.originalPostId.replace /:/g, ''
       modKnownode.createNewKnownodeWithReversedRelation originalPostId, request.body.knownodeRelation, request.body.knownodeForm, cb
+
     else if request.body.knownodeRelation
       originalPostId = request.body.originalPostId.replace /:/g, ''
       modKnownode.createNewKnownodeWithRelation originalPostId, request.body.knownodeRelation, request.body.knownodeForm, cb
+
     else
       modKnownode.createNewKnownode request.body.knownodeForm, cb
 
@@ -55,4 +65,5 @@ module.exports =
   getNodesByKeyword: (request, response) ->
     cb = baseController.callBack response
     modKnownode = new knownodeModule request.user
+    id = request.params.knownode.replace /:/g, ''
     modKnownode.getNodesToKeyword id, cb

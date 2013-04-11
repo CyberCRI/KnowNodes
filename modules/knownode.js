@@ -141,7 +141,29 @@
               return _(null, knownode); }, true)); }, true)); }, true)); }); };
 
 
-    Knownode.prototype.destroy = function Knownode_prototype_destroy__9(id, _) { var kn_File, knownode, params, query, __this = this; var __frame = { name: "Knownode_prototype_destroy__9", line: 144 }; return __func(_, this, arguments, Knownode_prototype_destroy__9, 1, __frame, function __$Knownode_prototype_destroy__9() {
+    Knownode.prototype.createNewRelationBetweenExistingNodes = function Knownode_prototype_createNewRelationBetweenExistingNodes__9(startNodeId, relationData, targetNodeId, _) { var edge, startNode, targetNode, __this = this; var __frame = { name: "Knownode_prototype_createNewRelationBetweenExistingNodes__9", line: 144 }; return __func(_, this, arguments, Knownode_prototype_createNewRelationBetweenExistingNodes__9, 3, __frame, function __$Knownode_prototype_createNewRelationBetweenExistingNodes__9() {
+
+        __this.logger.logDebug(__this.currentModule, ("createNewKnownodeWithRelation " + targetNodeId));
+        return __this.getKnownodeByKnownodeId(startNodeId, __cb(_, __frame, 3, 18, function ___(__0, __1) { startNode = __1;
+          return __this.getKnownodeByKnownodeId(targetNodeId, __cb(_, __frame, 4, 19, function ___(__0, __2) { targetNode = __2;
+            return __this.relation.addKnownodeEdge(startNode, relationData, targetNode, __cb(_, __frame, 5, 13, function ___(__0, __3) { edge = __3;
+              edge.startNode = startNode;
+              edge.targetNode = targetNode;
+              return _(null, edge); }, true)); }, true)); }, true)); }); };
+
+
+    Knownode.prototype.createNewReversedRelationBetweenExistingNodes = function Knownode_prototype_createNewReversedRelationBetweenExistingNodes__10(startNodeId, relationData, targetNodeId, _) { var edge, startNode, targetNode, __this = this; var __frame = { name: "Knownode_prototype_createNewReversedRelationBetweenExistingNodes__10", line: 155 }; return __func(_, this, arguments, Knownode_prototype_createNewReversedRelationBetweenExistingNodes__10, 3, __frame, function __$Knownode_prototype_createNewReversedRelationBetweenExistingNodes__10() {
+
+        __this.logger.logDebug(__this.currentModule, ("createNewKnownodeWithRelation " + targetNodeId));
+        return __this.getKnownodeByKnownodeId(startNodeId, __cb(_, __frame, 3, 18, function ___(__0, __1) { startNode = __1;
+          return __this.getKnownodeByKnownodeId(targetNodeId, __cb(_, __frame, 4, 19, function ___(__0, __2) { targetNode = __2;
+            return __this.relation.addKnownodeEdge(targetNode, relationData, startNode, __cb(_, __frame, 5, 13, function ___(__0, __3) { edge = __3;
+              edge.startNode = startNode;
+              edge.targetNode = targetNode;
+              return _(null, edge); }, true)); }, true)); }, true)); }); };
+
+
+    Knownode.prototype.destroy = function Knownode_prototype_destroy__11(id, _) { var kn_File, knownode, params, query, __this = this; var __frame = { name: "Knownode_prototype_destroy__11", line: 166 }; return __func(_, this, arguments, Knownode_prototype_destroy__11, 1, __frame, function __$Knownode_prototype_destroy__11() {
 
         __this.logger.logDebug(__this.currentModule, ("destroy " + id));
         query = ["START user=node({userId}), n=node({nodeId})","MATCH ()-[r]-n-[:CREATED_BY]-(user)","RETURN n",].join("\n");
@@ -153,7 +175,7 @@
         return __this.neo4jDB.query(query, params, __cb(_, __frame, 9, 17, function ___(__0, __1) { knownode = __1;
           console.log(("Deleting file " + knownode.fileId));
           kn_File = new knownodeFile(__this.user);
-          return kn_File.deleteFile(knownode.fileId, __cb(_, __frame, 12, 6, function __$Knownode_prototype_destroy__9() {
+          return kn_File.deleteFile(knownode.fileId, __cb(_, __frame, 12, 6, function __$Knownode_prototype_destroy__11() {
             console.log("File deleted");
             return _(null, query = ["START user=node({userId}), n=node({nodeId})","MATCH ()-[r]-n-[:CREATED_BY]-(user)","DELETE n",].join("\n")); }, true)); }, true)); }); };
 

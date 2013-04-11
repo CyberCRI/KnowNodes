@@ -144,6 +144,23 @@ module.exports = class Knownode extends DBModule
 		knownode.edge = edge
 		knownode
 
+	createNewRelationBetweenExistingNodes: (startNodeId, relationData, targetNodeId, _) ->
+			@logger.logDebug @currentModule, "createNewKnownodeWithRelation #{targetNodeId}"
+			startNode = @getKnownodeByKnownodeId startNodeId, _
+			targetNode = @getKnownodeByKnownodeId targetNodeId, _
+			edge = @relation.addKnownodeEdge startNode, relationData, targetNode, _
+			edge.startNode = startNode
+			edge.targetNode = targetNode
+			edge
+
+	createNewReversedRelationBetweenExistingNodes: (startNodeId, relationData, targetNodeId, _) ->
+			@logger.logDebug @currentModule, "createNewKnownodeWithRelation #{targetNodeId}"
+			startNode = @getKnownodeByKnownodeId startNodeId, _
+			targetNode = @getKnownodeByKnownodeId targetNodeId, _
+			edge = @relation.addKnownodeEdge targetNode, relationData, startNode, _
+			edge.startNode = startNode
+			edge.targetNode = targetNode
+			edge
 
 	# destroy is delete node
 	destroy: (id, _) ->

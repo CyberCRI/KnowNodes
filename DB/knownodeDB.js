@@ -127,7 +127,7 @@ kn_User.validatesPresenceOf('email', 'firstName', 'lastName');
 kn_User.validatesUniquenessOf('email', {message: 'email is not unique'});
 //kn_User.validatesLengthOf('password', {min: 5, message: {min: 'Password is too short'}});
 
-kn_Post.validatesPresenceOf('title', 'bodyText');
+kn_Post.validatesPresenceOf('title');
 
 
 // DAL Methods
