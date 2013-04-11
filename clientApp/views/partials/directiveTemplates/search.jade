@@ -3,5 +3,5 @@ div
   a.btn.btn-inverse(ng-click="searchByKeyword()") submit
   h5 search results
   div(ng-repeat="item in searchResults")
-    div {{item.results.title}}
+    a.btn.btn-link(ng-click="addAsNode(item.results.KN_ID)") {{item.results.title}}
 

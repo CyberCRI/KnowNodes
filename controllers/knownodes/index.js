@@ -29,7 +29,13 @@
       var cb, modKnownode, originalPostId;
       cb = baseController.callBack(response);
       modKnownode = new knownodeModule(request.user);
-      if (request.body.knownodeRelation && request.body.knownodeRelation.reversedDirection) {
+      if (request.body.knownodeRelation && request.body.knownodeRelation.reversedDirection && request.body.existingNode) {
+        originalPostId = request.body.originalPostId.replace(/:/g, '');
+        return modKnownode.createNewReversedRelationBetweenExistingNodes(originalPostId, request.body.knownodeRelation, request.body.existingNode, cb);
+      } else if (request.body.knownodeRelation && request.body.existingNode) {
+        originalPostId = request.body.originalPostId.replace(/:/g, '');
+        return modKnownode.createNewRelationBetweenExistingNodes(originalPostId, request.body.knownodeRelation, request.body.existingNode, cb);
+      } else if (request.body.knownodeRelation && request.body.knownodeRelation.reversedDirection) {
         originalPostId = request.body.originalPostId.replace(/:/g, '');
         return modKnownode.createNewKnownodeWithReversedRelation(originalPostId, request.body.knownodeRelation, request.body.knownodeForm, cb);
       } else if (request.body.knownodeRelation) {
@@ -71,7 +77,7 @@
       return comment.getAllComments(id, cb);
     },
     getNodesByKeyword: function(request, response) {
-      var cb, modKnownode;
+      var cb, id, modKnownode;
       cb = baseController.callBack(response);
       modKnownode = new knownodeModule(request.user);
       id = request.params.knownode.replace(/:/g, '');

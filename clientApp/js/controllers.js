@@ -11,6 +11,7 @@ function TopBarCtrl($scope) {
         return result;
     };
 }
+TopBarCtrl.$inject['$scope'];
 
 function ChatCtrl($scope, $timeout, $rootScope, angularFireCollection) {
     var el = document.getElementById("messagesDiv");
@@ -30,7 +31,7 @@ function ChatCtrl($scope, $timeout, $rootScope, angularFireCollection) {
         $scope.message = "";
     };
 }
-
+ChatCtrl.$inject['$scope', '$timeout', '$rootScope', 'angularFireCollection'];
 /* Controllers */
 function AppCtrl($scope, $http) {
   $http({method: 'GET', url: '/api/name'}).
@@ -41,6 +42,7 @@ function AppCtrl($scope, $http) {
     $scope.name = 'Error!';
   });
 }
+AppCtrl.$inject['$scope', '$http'];
 
 /***
  * knownode users
@@ -54,6 +56,8 @@ function AddUserCtrl($scope, $http, $location) {
             });
     };
 }
+
+AddUserCtrl.$inject['$scope', '$http', '$location'];
 
 function LoginCtrl($scope, $http, $location, $rootScope) {
     $scope.loginForm = {};
@@ -69,6 +73,7 @@ function LoginCtrl($scope, $http, $location, $rootScope) {
             });
     };
 }
+LoginCtrl.$inject['$scope', '$http', '$location'];
 
 function LogoutCtrl($http, $location, $rootScope) {
     $http.post('/logout').
@@ -81,6 +86,7 @@ function LogoutCtrl($http, $location, $rootScope) {
         });
 }
 
+LoginCtrl.$inject['$scope', '$http', '$location', '$rootScope'];
 /***
  * knownode concepts
  */
@@ -229,7 +235,7 @@ function ArticleListCtrl($scope, $http, $routeParams, userService, PassKnownode)
     $scope.start = +new Date();
 
 }
-ArticleListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
+ArticleListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'passKnownode'];
 
 //knownode Post:
 function KnownodeCtrl($scope, $http, $routeParams, userService) {
@@ -250,12 +256,15 @@ function KnownodeCtrl($scope, $http, $routeParams, userService) {
         $scope.knownodeList = data.success;
     });
 }
+KnownodeCtrl.$inject['$scope', '$http', '$routeParams', 'userService'];
+
 
 function EditPostCtrl($scope, $http, $location, $routeParams) {
 
 }
+EditPostCtrl.inject['$scope', '$http', '$location', '$routeParams'];
 
-function AddPostCtrl($scope, $http, $location, $routeParams) {
+function AddPostCtrl($scope, $http, $location, $routeParams, $rootScope) {
     var dropbox = document.getElementById("dropbox");
     var conceptId = $scope.conceptId = $routeParams.id;
 
@@ -422,6 +431,7 @@ function AddPostCtrl($scope, $http, $location, $routeParams) {
                     $scope.errorMessage = data.error
                 }
                 $("#btnSubmitPost").removeAttr('disabled');
+                $scope.existingNode= false;
             });
     }
     $scope.form = {};
@@ -433,8 +443,14 @@ function AddPostCtrl($scope, $http, $location, $routeParams) {
     $scope.errorMessage = null;
     $scope.tooltip = {title: "Hello Tooltip<br />This is a multiline message!", checked: false};
     $scope.reversedDirection = false;
+    $scope.existingNode;
 
     $scope.submitPost = function (form) {
+        $scope.existingNode = $rootScope.existingNode;
+
+        if($scope.existingNode){
+            $scope.form.existingNode = $scope.existingNode;
+        }
         if($scope.reversedDirection) {
             $scope.form.knownodeRelation.reversedDirection = true;
         }
@@ -447,9 +463,11 @@ function AddPostCtrl($scope, $http, $location, $routeParams) {
         }
     };
 }
+AddPostCtrl.$inject['$scope', '$http', '$location', '$routeParams', '$rootScope'];
 
 function IndexCtrl($scope, $http, $location) {
 }
+IndexCtrl.$inject['$scope', '$http', '$location'];
 
 function DeleteUserCtrl($scope, $http, $location, $routeParams) {
     $http.get('/users/' + $routeParams.id).
@@ -468,6 +486,7 @@ function DeleteUserCtrl($scope, $http, $location, $routeParams) {
         $location.url('/');
     };
 }
+DeleteUserCtrl.$inject = ['$scope', '$http', '$location', '$routeParams'];
 
 function commentCtrl($scope, $http, $routeParams, userService, broadcastService)
 {
@@ -526,6 +545,7 @@ function aboutCtrl($scope)
 {
 
 }
+aboutCtrl.$inject['$scope'];
 
 function EdgeCtrl($scope, $http, $routeParams, userService, PassKnownode) {
     var currentKnownode = PassKnownode.showCurrent();
@@ -570,6 +590,14 @@ function SearchCtrl($scope, $http, $rootScope){
     $scope.searchByKeyword = function(){
         $http.get('/knownodes/:' + $scope.keyword + '/getNodesByKeyword').success(function(data, status, headers, config){
         $scope.searchResults = data.success;
+
         })};
+
+    $scope.addAsNode = function(nodeId) {
+        $rootScope.existingNode = nodeId;
+        console.log("rootscope updated");
     }
+
+    }
+SearchCtrl.$inject = ['$scope', '$http', '$rootScope'];
 
