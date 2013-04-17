@@ -29,10 +29,10 @@
       var cb, modKnownode, originalPostId;
       cb = baseController.callBack(response);
       modKnownode = new knownodeModule(request.user);
-      if (request.body.knownodeRelation && request.body.knownodeRelation.reversedDirection && request.body.existingNode) {
+      if (request.body.knownodeRelation && request.body.knownodeRelation.reversedDirection && (request.body.existingNode != null)) {
         originalPostId = request.body.originalPostId.replace(/:/g, '');
         return modKnownode.createNewReversedRelationBetweenExistingNodes(originalPostId, request.body.knownodeRelation, request.body.existingNode, cb);
-      } else if (request.body.knownodeRelation && request.body.existingNode) {
+      } else if (request.body.knownodeRelation && (request.body.existingNode != null)) {
         originalPostId = request.body.originalPostId.replace(/:/g, '');
         return modKnownode.createNewRelationBetweenExistingNodes(originalPostId, request.body.knownodeRelation, request.body.existingNode, cb);
       } else if (request.body.knownodeRelation && request.body.knownodeRelation.reversedDirection) {

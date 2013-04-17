@@ -25,25 +25,6 @@ body {
 .clicker {
   position: relative;
 }
-.popup {
-  position: relative;
-  top: 20px;
-  display: none;
-  border: solid 1px #cecfd1;
-  background: #ffffff;
-}
-.popover {
-  left: 20px;
-  top: -65px;
-}
-.popover2 {
-  left: 20px;
-  top: -85px;
-}
-.movingEdge {
-  background: transparent url('/img/lineGrey.png') repeat-y 9px 0;
-  margin: 0;
-}
 .tab-content {
   padding: 0;
   margin: 0;

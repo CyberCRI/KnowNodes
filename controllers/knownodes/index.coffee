@@ -17,11 +17,11 @@ module.exports =
   create: (request, response) ->
     cb = baseController.callBack response
     modKnownode = new knownodeModule request.user
-    if request.body.knownodeRelation and request.body.knownodeRelation.reversedDirection and request.body.existingNode
+    if request.body.knownodeRelation and request.body.knownodeRelation.reversedDirection and request.body.existingNode?
       originalPostId = request.body.originalPostId.replace /:/g, ''
       modKnownode.createNewReversedRelationBetweenExistingNodes originalPostId, request.body.knownodeRelation, request.body.existingNode, cb
 
-    else if request.body.knownodeRelation and request.body.existingNode
+    else if request.body.knownodeRelation and request.body.existingNode?
       originalPostId = request.body.originalPostId.replace /:/g, ''
       modKnownode.createNewRelationBetweenExistingNodes originalPostId, request.body.knownodeRelation, request.body.existingNode, cb
 

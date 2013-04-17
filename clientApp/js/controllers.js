@@ -431,7 +431,7 @@ function AddPostCtrl($scope, $http, $location, $routeParams, $rootScope) {
                     $scope.errorMessage = data.error
                 }
                 $("#btnSubmitPost").removeAttr('disabled');
-                $scope.existingNode= false;
+                $scope.existingNode= null;
             });
     }
     $scope.form = {};
