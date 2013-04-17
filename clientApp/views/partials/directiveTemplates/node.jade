@@ -5,10 +5,13 @@ div.resourcecontent.span11#content(ng-mouseenter="addNode=true", ng-mouseleave="
     a(href="/knownodeFiles/:{{knownode.article.fileId}}", target="_blank", ng-show="knownode.article.fileName", title="{{knownode.article.fileName}}").titleIcon
       i.open-in-new-window.icon-download
     span(ng-show="addNode").titleIcon
-      a(ng-show='isUserLoggedIn', title="Connect a new resource to {{knownode.article.title}}", ng-href='/addKnownodeTo/{{knownode.article.KN_ID}}')
+      a(ng-show='isUserLoggedIn', title="Connect a new resource to {{knownode.article.title}}", ng-click="inputNode=!inputNode")
         i.icon-plus
   span(ng-switch on="knownode.edgeCount")
     span(ng-switch-default).pull-right.node-count {{knownode.edgeCount}}
     span(ng-switch-when="0").pull-right.node-count
+  div(ui-toggle="inputNode", input-node)
+
+
 
 

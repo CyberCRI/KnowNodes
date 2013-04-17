@@ -18,6 +18,14 @@ angular.module('KnowNodesApp.directives', [])
                 replace: true
             };
         })
+    .directive('inputNode', function() {
+        return {
+            restrict: 'EAC',
+            transclude: true,
+            templateUrl: 'partials/directiveTemplates/inputNode',
+            replace: true
+        };
+    })
     .directive('edgeTypeSelector', function() {
         return {
             restrict: 'EAC',
