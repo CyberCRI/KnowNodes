@@ -11,7 +11,7 @@ function TopBarCtrl($scope) {
         return result;
     };
 }
-TopBarCtrl.$inject['$scope'];
+TopBarCtrl.$inject = ['$scope'];
 
 function ChatCtrl($scope, $timeout, $rootScope, angularFireCollection) {
     var el = document.getElementById("messagesDiv");
@@ -31,7 +31,7 @@ function ChatCtrl($scope, $timeout, $rootScope, angularFireCollection) {
         $scope.message = "";
     };
 }
-ChatCtrl.$inject['$scope', '$timeout', '$rootScope', 'angularFireCollection'];
+ChatCtrl.$inject = ['$scope', '$timeout', '$rootScope', 'angularFireCollection'];
 /* Controllers */
 function AppCtrl($scope, $http) {
   $http({method: 'GET', url: '/api/name'}).
@@ -42,7 +42,7 @@ function AppCtrl($scope, $http) {
     $scope.name = 'Error!';
   });
 }
-AppCtrl.$inject['$scope', '$http'];
+AppCtrl.$inject = ['$scope', '$http'];
 
 /***
  * knownode users
@@ -57,7 +57,7 @@ function AddUserCtrl($scope, $http, $location) {
     };
 }
 
-AddUserCtrl.$inject['$scope', '$http', '$location'];
+AddUserCtrl.$inject = ['$scope', '$http', '$location'];
 
 function LoginCtrl($scope, $http, $location, $rootScope) {
     $scope.loginForm = {};
@@ -73,7 +73,7 @@ function LoginCtrl($scope, $http, $location, $rootScope) {
             });
     };
 }
-LoginCtrl.$inject['$scope', '$http', '$location'];
+LoginCtrl.$inject = ['$scope', '$http', '$location'];
 
 function LogoutCtrl($http, $location, $rootScope) {
     $http.post('/logout').
@@ -86,7 +86,7 @@ function LogoutCtrl($http, $location, $rootScope) {
         });
 }
 
-LoginCtrl.$inject['$scope', '$http', '$location', '$rootScope'];
+LoginCtrl.$inject = ['$scope', '$http', '$location', '$rootScope'];
 /***
  * knownode concepts
  */
@@ -184,10 +184,10 @@ function ConceptListCtrl($scope, $http, $routeParams, userService) {
 ConceptListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
 
 
-function ArticleListCtrl($scope, $http, $routeParams, userService, PassKnownode) {
+function ArticleListCtrl($scope, $http, $routeParams, userService) {
     $scope.addNode=false;
     $scope.currentKnownode = {};
-    $scope.passKnownode = PassKnownode;
+    //$scope.passKnownode = PassKnownode;
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
     $scope.checkOwnership = function(userId) {
         if(userService.isUserLoggedIn()) {
@@ -235,7 +235,7 @@ function ArticleListCtrl($scope, $http, $routeParams, userService, PassKnownode)
     $scope.start = +new Date();
 
 }
-ArticleListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'passKnownode'];
+ArticleListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
 
 //knownode Post:
 function KnownodeCtrl($scope, $http, $routeParams, userService) {
@@ -256,13 +256,13 @@ function KnownodeCtrl($scope, $http, $routeParams, userService) {
         $scope.knownodeList = data.success;
     });
 }
-KnownodeCtrl.$inject['$scope', '$http', '$routeParams', 'userService'];
+KnownodeCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
 
 
 function EditPostCtrl($scope, $http, $location, $routeParams) {
 
 }
-EditPostCtrl.inject['$scope', '$http', '$location', '$routeParams'];
+EditPostCtrl.inject = ['$scope', '$http', '$location', '$routeParams'];
 
 function AddPostCtrl($scope, $http, $location, $routeParams, $rootScope) {
     var dropbox = document.getElementById("dropbox");
@@ -463,11 +463,11 @@ function AddPostCtrl($scope, $http, $location, $routeParams, $rootScope) {
         }
     };
 }
-AddPostCtrl.$inject['$scope', '$http', '$location', '$routeParams', '$rootScope'];
+AddPostCtrl.$inject = ['$scope', '$http', '$location', '$routeParams', '$rootScope'];
 
 function IndexCtrl($scope, $http, $location) {
 }
-IndexCtrl.$inject['$scope', '$http', '$location'];
+IndexCtrl.$inject = ['$scope', '$http', '$location'];
 
 function DeleteUserCtrl($scope, $http, $location, $routeParams) {
     $http.get('/users/' + $routeParams.id).
@@ -545,7 +545,7 @@ function aboutCtrl($scope)
 {
 
 }
-aboutCtrl.$inject['$scope'];
+aboutCtrl.$inject = ['$scope'];
 
 function EdgeCtrl($scope, $http, $routeParams, userService, PassKnownode) {
     var currentKnownode = PassKnownode.showCurrent();
