@@ -1,41 +1,37 @@
 BaseModule = require './baseModule'
 LogDB = require '../DB/LogDB'
-loggly = require('loggly')
 
 module.exports = class Log extends BaseModule
 
-    constructor: (user) ->
-        super user
-        @currentStage = 3
-        config =
-        auth: 
-            username: "dorgarbash"
-            password: "dorIsGarbash1"
-        subdomain: "knownodes"
+	constructor: (user) ->
+		super user
+		@currentStage = 3
 
-        @client = loggly.createClient config
+	logActivity: (title, content, _) =>
+	    title = "Activity: #{title}"
+	    console.log title + '-' + content
+	    if @currentStage > 2
+            log = new LogDB.Log
+            log.user = if @user and @user.id then @user.id else "anonymous"
+            log.title = title
+            log.content = content
+            log.save console.log
 
-    saveLogToDB: (title, content) =>
-        #log = new LogDB.Log
-        #log.user = if @user and @user.id then @user.id else "anonymous"
-        #log.title = title
-        #log.content = content
-        #log.save console.log
-        @client.log '0bf69f08-e6f2-4c42-8f39-4b5a606c8c90', "#{title}: #{content}"
-
-    logActivity: (title, content, _) =>
-        title = "Activity: #{title}"
-        console.log title + '-' + content
-        if @currentStage > 2
-            @saveLogToDB title, content
-
-    logError: (title, content, _) =>
+	logError: (title, content, _) =>
         title = "ERROR: #{title}"
         console.log title + '-' + content
-        @saveLogToDB title, content
+        log = new LogDB.Log
+        log.user = if @user and @user.id then @user.id else "anonymous"
+        log.title = title
+        log.content = content
+        log.save console.log
 
-    logDebug: (title, content, _) =>
-        title = "DEBUG: #{title}"
-        console.log title + '-' + content
-        if @currentStage > 1
-            @saveLogToDB title, content
+	logDebug: (title, content, _) =>
+	    title = "DEBUG: #{title}"
+	    console.log title + '-' + content
+	    if @currentStage > 1
+            log = new LogDB.Log
+            log.user = if @user and @user.id then @user.id else "anonymous"
+            log.title = title
+            log.content = content
+            log.save console.log
