@@ -162,6 +162,14 @@ module.exports = class Knownode extends DBModule
 			edge.targetNode = targetNode
 			edge
 
+	getKnownodeByUrl: (url, _) ->
+		@logger.logDebug @currentModule, "getKnownodeByUrl #{url}"
+		params = where:
+			url: url
+		knownode = @DB.Post.findOne params, _
+		console.log("matching knownodes for url", knownode)
+		return knownode
+
 	# destroy is delete node
 	destroy: (id, _) ->
 		@logger.logDebug @currentModule, "destroy #{id}"

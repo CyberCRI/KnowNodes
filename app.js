@@ -39,7 +39,6 @@ app.configure(function(){
     app.set('views', path.join(__dirname, 'clientApp/views'));
     app.set('view engine', 'jade');
     app.set('controllers', path.join(__dirname, 'controllers'));
-    app.set('controllers', path.join(__dirname, 'controllers'));
 
     app.use(express.favicon());
     app.use(express.logger('dev'));
@@ -93,6 +92,8 @@ app.resource('knownodes', function(){
     this.member.get('getRelatedKnownodes');
     this.member.get('getRelatedComments');
     this.member.get('getNodesByKeyword');
+
+    this.collection.post("wikinode");
 
     this.resource('knownodes', { id: 'related' });
     this.resource('files');

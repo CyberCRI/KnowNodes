@@ -6,6 +6,17 @@ knownodeModule = require('../../modules/knownode')
 relationModule = require('../../modules/relation')
 baseController = require('../baseController')
 commentModule = require('../../modules/comment')
+txtwiki = require('../../modules/txtwiki.js')
+bot = require('nodemw');
+
+client = new bot
+  server: 'en.wikipedia.org', # host name of MediaWiki-powered site
+  path: '/w',                 # path to api.php script
+  debug: false                # is more verbose when set to true
+
+getFirstParagraph = (title, callback) ->
+  client.getArticle title, (data) ->
+    callback(txtwiki.parseWikitext(data.substring(0,data.indexOf("\n\n"))))
 
 module.exports =
   show: (request, response) ->
@@ -67,3 +78,24 @@ module.exports =
     modKnownode = new knownodeModule request.user
     id = request.params.knownode.replace /:/g, ''
     modKnownode.getNodesToKeyword id, cb
+
+  # Takes a "title" form parameter
+  wikinode: (request, response) ->
+    cb = baseController.callBack response
+    modKnownode = new knownodeModule request.user
+    console.log("Making wikinode")
+
+    url = "http://en.wikipedia.org/wiki/" + request.body.title.replace(" ", "_")
+    modKnownode.getKnownodeByUrl url, (err, existingNode) ->
+      console.log("modKnownode.getKnownodeByUrl", existingNode)
+      if existingNode 
+        console.log("Wikinode already exists")
+        return cb(null, existingNode)
+
+      getFirstParagraph request.body.title, (description) ->
+        knownodeData = 
+          title: request.body.title
+          bodyText: description
+          url: url
+        console.log("wikinode data", knownodeData)
+        modKnownode.createNewKnownode knownodeData, cb

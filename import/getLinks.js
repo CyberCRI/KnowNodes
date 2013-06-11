@@ -18,6 +18,7 @@ function getLinks(title, callback) {
     action: 'query',
     prop: 'links',
     titles: title,
+    pllimit: 5000
   };
 
   function makeCall() {
@@ -28,10 +29,10 @@ function getLinks(title, callback) {
           callback(getFirstItem(data.pages).links[i]);
         }
 
-        if(next && next["query-continue"]) {
+        /*if(next && next["query-continue"]) {
           query.plcontinue = next["query-continue"].links.plcontinue;
           makeCall();
-        }
+        }*/
       }
     );
   }
