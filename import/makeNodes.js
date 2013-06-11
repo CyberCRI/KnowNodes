@@ -54,7 +54,7 @@ login(function(err) {
     lineNumber++;
 
     // Skip lines before start
-    if(lineNumber < count) return cb(true); 
+    if(lineNumber < start) return cb(true); 
 
     // Expecting a CSV format with the article title first
     var array = line.toString().split(',');
