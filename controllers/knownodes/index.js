@@ -6,7 +6,7 @@
 
 
 (function() {
-  var baseController, bot, client, commentModule, getFirstItem, getFirstParagraph, getInternalLinks, knownodeModule, makeWikipediaUrl, relationModule, txtwiki;
+  var baseController, bot, client, commentModule, getFirstItem, getFirstParagraph, getInternalLinks, knownodeModule, makeLinksToUrls, makeWikipediaUrl, relationModule, txtwiki;
 
   knownodeModule = require('../../modules/knownode');
 
@@ -43,6 +43,29 @@
 
   makeWikipediaUrl = function(title) {
     return "http://en.wikipedia.org/wiki/" + title.replace(" ", "_");
+  };
+
+  makeLinksToUrls = function(modKnownode, nodeId, urls, relationData) {
+    var url, _i, _len, _results;
+
+    _results = [];
+    for (_i = 0, _len = urls.length; _i < _len; _i++) {
+      url = urls[_i];
+      _results.push(modKnownode.getKnownodeByUrl(url, function(err, otherNode) {
+        if (!otherNode) {
+          return;
+        }
+        console.log("Creating link from node " + nodeId + " to " + otherNode.KN_ID);
+        return modKnownode.createNewRelationBetweenExistingNodes(nodeId, relationData, otherNode.KN_ID, function(err, link) {
+          if (err) {
+            return console.log("Error creating link", err);
+          } else {
+            return console.log("Created link", link.KN_ID);
+          }
+        });
+      }));
+    }
+    return _results;
   };
 
   getInternalLinks = function(title, callback) {
@@ -175,21 +198,19 @@
           console.log("wikinode data", knownodeData);
           return modKnownode.createNewKnownode(knownodeData, function(err, newNode) {
             getInternalLinks(request.body.title, function(linkedTitles) {
-              var linkedTitle, _i, _len, _results;
+              var linkedTitle, urls;
 
-              _results = [];
-              for (_i = 0, _len = linkedTitles.length; _i < _len; _i++) {
-                linkedTitle = linkedTitles[_i];
-                _results.push(modKnownode.getKnownodeByUrl(makeWikipediaUrl(linkedTitle), function(err, otherNode) {
-                  if (otherNode) {
-                    console.log("Creating link to node...", otherNode.url, otherNode.KN_ID);
-                    return modKnownode.createNewRelationBetweenExistingNodes(newNode.KN_ID, RELATION_DATA, otherNode.KN_ID, function(err, link) {
-                      return console.log("Created link", link);
-                    });
-                  }
-                }));
-              }
-              return _results;
+              urls = (function() {
+                var _i, _len, _results;
+
+                _results = [];
+                for (_i = 0, _len = linkedTitles.length; _i < _len; _i++) {
+                  linkedTitle = linkedTitles[_i];
+                  _results.push(makeWikipediaUrl(linkedTitle));
+                }
+                return _results;
+              })();
+              return makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA);
             });
             return cb(null, newNode);
           });
