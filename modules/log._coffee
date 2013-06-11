@@ -21,7 +21,7 @@ module.exports = class Log extends BaseModule
         #log.title = title
         #log.content = content
         #log.save console.log
-        @client.log '0bf69f08-e6f2-4c42-8f39-4b5a606c8c90', "#{title}: ${content}"
+        @client.log '0bf69f08-e6f2-4c42-8f39-4b5a606c8c90', "#{title}: #{content}"
 
     logActivity: (title, content, _) =>
         title = "Activity: #{title}"
