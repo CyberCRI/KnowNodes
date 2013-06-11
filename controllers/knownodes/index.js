@@ -212,6 +212,23 @@
               })();
               return makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA);
             });
+            client.getExternalLinks(request.body.title, function(externalLinks) {
+              var link, urls;
+
+              urls = (function() {
+                var _i, _len, _results;
+
+                _results = [];
+                for (_i = 0, _len = externalLinks.length; _i < _len; _i++) {
+                  link = externalLinks[_i];
+                  if (link["*"].indexOf("http://") === 0) {
+                    _results.push(link["*"]);
+                  }
+                }
+                return _results;
+              })();
+              return makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA);
+            });
             return cb(null, newNode);
           });
         });

@@ -133,6 +133,9 @@ module.exports =
           getInternalLinks request.body.title, (linkedTitles) ->
             urls = (makeWikipediaUrl(linkedTitle) for linkedTitle in linkedTitles)
             makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA)
+          client.getExternalLinks request.body.title, (externalLinks) ->
+            urls = (link["*"] for link in externalLinks when link["*"].indexOf("http://") == 0)
+            makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA)
 
           return cb(null, newNode)
 
