@@ -1,0 +1,23 @@
+div
+    div.connection.span11
+        div.content.span11
+            div.input-prepend.input-append
+
+                div.btn-group(style="display:inline;", ng-model='relation.type', name="connectionType")
+                    a.btn.dropdown-toggle(href="javascript:void(0);", data-toggle="dropdown") &nbsp;{{relation.type}}
+                        span.caret(style="float:left;")
+
+                    ul.dropdown-menu(role="menu", aria-labelledby="dropdownMenu")
+                        li.dropdown
+                            a(tabindex='-1', href="javascript:void(0);", ng-click="relation.type='understanding'") understanding
+                        li.dropdown
+                            a(tabindex='-1', href="javascript:void(0);", ng-click="relation.type='inspiring'") inspiring
+                        li.dropdown
+                            a(tabindex='-1', href="javascript:void(0);", ng-click="relation.type='questioning'") questioning
+
+                input#appendedPrependedDropdownButton.span6(type="text", ng-model='relation.title', name='title', required, ng-maxlength='250', placeholder="why are they connected?")
+                p.btn.btn-link {{(80 -(relation.title.length))}}
+
+    div.resourcecontent.span11#content
+        p
+            input(ng-model="searchInput.query", ng-change="search()", placeholder="Enter concept to link", style="width:100%").knownode-title Other Node
