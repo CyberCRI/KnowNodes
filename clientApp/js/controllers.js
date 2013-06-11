@@ -603,6 +603,8 @@ SearchCtrl.$inject = ['$scope', '$http', '$rootScope'];
 
 function KnownodeInputCtrl($scope, hybridSearch) {
 
+    $scope.relation = {type: 'understanding', title: ''};
+
     $scope.searchInput = {};
 
     $scope.search = function () {
