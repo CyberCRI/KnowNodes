@@ -259,7 +259,7 @@ angular.module('KnowNodesApp.directives', [])
     .directive('knownodeInput', ['$http', function ($http) {
         return {
             restrict: 'A',
-            templateUrl: 'partials/KnownodePost/knownodeInput',
+            templateUrl: 'partials/directiveTemplates/knownodeInput',
             controller: KnownodeInputCtrl,
             replace: true
         };
