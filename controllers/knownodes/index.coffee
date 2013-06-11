@@ -24,6 +24,16 @@ getFirstItem = (object) -> for key, value of object then return value
 makeWikipediaUrl = (title) -> 
  return "http://en.wikipedia.org/wiki/" + title.replace(" ", "_")
 
+makeLinksToUrls = (modKnownode, nodeId, urls, relationData) ->
+  for url in urls
+    modKnownode.getKnownodeByUrl url, (err, otherNode) ->
+      if not otherNode then return
+
+      console.log("Creating link from node #{nodeId} to #{otherNode.KN_ID}")
+      modKnownode.createNewRelationBetweenExistingNodes nodeId, relationData, otherNode.KN_ID, (err, link) ->
+        if err then console.log("Error creating link", err) 
+        else console.log("Created link", link.KN_ID) 
+
 getInternalLinks = (title, callback) ->
   query =
     action: 'query'
@@ -121,12 +131,9 @@ module.exports =
         console.log("wikinode data", knownodeData)
         modKnownode.createNewKnownode knownodeData, (err, newNode) ->
           getInternalLinks request.body.title, (linkedTitles) ->
-            for linkedTitle in linkedTitles
-              modKnownode.getKnownodeByUrl makeWikipediaUrl(linkedTitle), (err, otherNode) ->
-                if(otherNode)
-                  console.log("Creating link to node...", otherNode.url, otherNode.KN_ID)
-                  modKnownode.createNewRelationBetweenExistingNodes newNode.KN_ID, RELATION_DATA, otherNode.KN_ID, (err, link) ->
-                    console.log("Created link", link) 
+            urls = (makeWikipediaUrl(linkedTitle) for linkedTitle in linkedTitles)
+            makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA)
+
           return cb(null, newNode)
 
 
