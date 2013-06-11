@@ -8,6 +8,7 @@ baseController = require('../baseController')
 commentModule = require('../../modules/comment')
 txtwiki = require('../../bundledModules/txtwiki.js')
 bot = require('../../bundledModules/nodemw')
+_ = require("underscore")
 
 client = new bot
   server: 'en.wikipedia.org', # host name of MediaWiki-powered site
