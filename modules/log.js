@@ -32,7 +32,7 @@
 
 
     Log.prototype.saveLogToDB = function(title, content) {
-      return this.client.log("0bf69f08-e6f2-4c42-8f39-4b5a606c8c90", (("" + title) + ": ${content}")); };
+      return this.client.log("0bf69f08-e6f2-4c42-8f39-4b5a606c8c90", ((("" + title) + ": ") + content)); };
 
 
     Log.prototype.logActivity = function Log_prototype_logActivity__1(title, content, _) { var __this = this; var __frame = { name: "Log_prototype_logActivity__1", line: 38 }; return __func(_, this, arguments, Log_prototype_logActivity__1, 2, __frame, function __$Log_prototype_logActivity__1() {
