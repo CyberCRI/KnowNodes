@@ -1,0 +1,19 @@
+div.connection.span11
+  div.content.span11
+    div.input-prepend.input-append
+
+      div.btn-group(style="display:inline;", ng-model='form.knownodeRelation.connectionType', name="connectionType")
+        a.btn.dropdown-toggle(href="javascript:void(0);", data-toggle="dropdown") &nbsp;{{form.knownodeRelation.connectionType}}
+          span.caret(style="float:left;")
+
+        span(ng-transclude)
+        ul.dropdown-menu(role="menu", aria-labelledby="dropdownMenu")
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='understanding'") understanding
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='inspiring'") inspiring
+          li.dropdown
+            a(tabindex='-1', href="javascript:void(0);", ng-click="form.knownodeRelation.connectionType='questioning'") questioning
+
+      input#appendedPrependedDropdownButton.span6(type="text", ng-model='form.knownodeRelation.title', name='title', required, ng-maxlength='250', placeholder="why are they connected?")
+      p.btn.btn-link {{(80 -(form.knownodeRelation.title.length))}}

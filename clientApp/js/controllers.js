@@ -600,4 +600,3 @@ function SearchCtrl($scope, $http, $rootScope){
 
     }
 SearchCtrl.$inject = ['$scope', '$http', '$rootScope'];
-
