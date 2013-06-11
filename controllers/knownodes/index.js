@@ -6,7 +6,7 @@
 
 
 (function() {
-  var baseController, bot, client, commentModule, getFirstParagraph, knownodeModule, relationModule, txtwiki;
+  var baseController, bot, client, commentModule, getFirstItem, getFirstParagraph, getInternalLinks, knownodeModule, makeWikipediaUrl, relationModule, txtwiki;
 
   knownodeModule = require('../../modules/knownode');
 
@@ -29,6 +29,46 @@
   getFirstParagraph = function(title, callback) {
     return client.getArticle(title, function(data) {
       return callback(txtwiki.parseWikitext(data.substring(0, data.indexOf("\n\n"))));
+    });
+  };
+
+  getFirstItem = function(object) {
+    var key, value;
+
+    for (key in object) {
+      value = object[key];
+      return value;
+    }
+  };
+
+  makeWikipediaUrl = function(title) {
+    return "http://en.wikipedia.org/wiki/" + title.replace(" ", "_");
+  };
+
+  getInternalLinks = function(title, callback) {
+    var query;
+
+    query = {
+      action: 'query',
+      prop: 'links',
+      titles: title,
+      pllimit: 5000
+    };
+    return client.api.call(query, function(data) {
+      var link, titles;
+
+      titles = (function() {
+        var _i, _len, _ref, _results;
+
+        _ref = getFirstItem(data.pages).links;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          link = _ref[_i];
+          _results.push(link.title);
+        }
+        return _results;
+      })();
+      return callback(titles);
     });
   };
 
@@ -107,12 +147,17 @@
       return modKnownode.getNodesToKeyword(id, cb);
     },
     wikinode: function(request, response) {
-      var cb, modKnownode, url;
+      var RELATION_DATA, cb, modKnownode, url;
 
+      RELATION_DATA = {
+        connectionType: "Wikipedia Link"
+      };
       cb = baseController.callBack(response);
       modKnownode = new knownodeModule(request.user);
       console.log("Making wikinode");
-      url = "http://en.wikipedia.org/wiki/" + request.body.title.replace(" ", "_");
+      console.log("title = ", request.body.title);
+      url = makeWikipediaUrl(request.body.title);
+      console.log("url = ", url);
       return modKnownode.getKnownodeByUrl(url, function(err, existingNode) {
         console.log("modKnownode.getKnownodeByUrl", existingNode);
         if (existingNode) {
@@ -128,7 +173,26 @@
             url: url
           };
           console.log("wikinode data", knownodeData);
-          return modKnownode.createNewKnownode(knownodeData, cb);
+          return modKnownode.createNewKnownode(knownodeData, function(err, newNode) {
+            getInternalLinks(request.body.title, function(linkedTitles) {
+              var linkedTitle, _i, _len, _results;
+
+              _results = [];
+              for (_i = 0, _len = linkedTitles.length; _i < _len; _i++) {
+                linkedTitle = linkedTitles[_i];
+                _results.push(modKnownode.getKnownodeByUrl(makeWikipediaUrl(linkedTitle), function(err, otherNode) {
+                  if (otherNode) {
+                    console.log("Creating link to node...", otherNode.url, otherNode.KN_ID);
+                    return modKnownode.createNewRelationBetweenExistingNodes(newNode.KN_ID, RELATION_DATA, otherNode.KN_ID, function(err, link) {
+                      return console.log("Created link", link);
+                    });
+                  }
+                }));
+              }
+              return _results;
+            });
+            return cb(null, newNode);
+          });
         });
       });
     }

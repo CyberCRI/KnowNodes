@@ -18,6 +18,22 @@ getFirstParagraph = (title, callback) ->
   client.getArticle title, (data) ->
     callback(txtwiki.parseWikitext(data.substring(0,data.indexOf("\n\n"))))
 
+# Get the object being the first key/value entry of a given object
+getFirstItem = (object) -> for key, value of object then return value
+
+makeWikipediaUrl = (title) -> 
+ return "http://en.wikipedia.org/wiki/" + title.replace(" ", "_")
+
+getInternalLinks = (title, callback) ->
+  query =
+    action: 'query'
+    prop: 'links'
+    titles: title
+    pllimit: 5000
+  client.api.call query, (data) -> 
+    titles = (link.title for link in getFirstItem(data.pages).links)
+    callback(titles)
+
 module.exports =
   show: (request, response) ->
     cb = baseController.callBack response
@@ -81,11 +97,16 @@ module.exports =
 
   # Takes a "title" form parameter
   wikinode: (request, response) ->
+    RELATION_DATA = 
+      connectionType: "Wikipedia Link"
+
     cb = baseController.callBack response
     modKnownode = new knownodeModule request.user
     console.log("Making wikinode")
 
-    url = "http://en.wikipedia.org/wiki/" + request.body.title.replace(" ", "_")
+    console.log("title = ", request.body.title)
+    url = makeWikipediaUrl(request.body.title)
+    console.log("url = ", url)
     modKnownode.getKnownodeByUrl url, (err, existingNode) ->
       console.log("modKnownode.getKnownodeByUrl", existingNode)
       if existingNode 
@@ -98,4 +119,14 @@ module.exports =
           bodyText: description
           url: url
         console.log("wikinode data", knownodeData)
-        modKnownode.createNewKnownode knownodeData, cb
+        modKnownode.createNewKnownode knownodeData, (err, newNode) ->
+          getInternalLinks request.body.title, (linkedTitles) ->
+            for linkedTitle in linkedTitles
+              modKnownode.getKnownodeByUrl makeWikipediaUrl(linkedTitle), (err, otherNode) ->
+                if(otherNode)
+                  console.log("Creating link to node...", otherNode.url, otherNode.KN_ID)
+                  modKnownode.createNewRelationBetweenExistingNodes newNode.KN_ID, RELATION_DATA, otherNode.KN_ID, (err, link) ->
+                    console.log("Created link", link) 
+          return cb(null, newNode)
+
+
