@@ -4,9 +4,6 @@
  * that's why the getParameters is here, with the user and title
  */
 
-var neo4j = require('neo4j'),
-    DBData = require('../config/DB.conf.js');
-
 function getParameters(req) {
     var displayName = '';
     if(req.user) {

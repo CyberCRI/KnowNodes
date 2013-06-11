@@ -131,7 +131,7 @@
 
     Knownode.prototype.createNewKnownodeWithReversedRelation = function Knownode_prototype_createNewKnownodeWithReversedRelation__8(existingNodeId, relationData, newKnownodeData, _) { var edge, existingNode, knownode, __this = this; var __frame = { name: "Knownode_prototype_createNewKnownodeWithReversedRelation__8", line: 132 }; return __func(_, this, arguments, Knownode_prototype_createNewKnownodeWithReversedRelation__8, 3, __frame, function __$Knownode_prototype_createNewKnownodeWithReversedRelation__8() {
 
-        __this.logger.logDebug(__this.currentModule, ("createNewKnownodeWithRelation " + existingNodeId));
+        __this.logger.logDebug(__this.currentModule, ("createNewKnownodeWithReversedRelation " + existingNodeId));
         return __this.createNewKnownode(newKnownodeData, __cb(_, __frame, 3, 17, function ___(__0, __1) { knownode = __1;
           return __this.getKnownodeByKnownodeId(existingNodeId, __cb(_, __frame, 4, 21, function ___(__0, __2) { existingNode = __2;
             return __this.relation.addKnownodeEdge(knownode, relationData, existingNode, __cb(_, __frame, 5, 13, function ___(__0, __3) { edge = __3;
@@ -141,7 +141,7 @@
 
     Knownode.prototype.createNewRelationBetweenExistingNodes = function Knownode_prototype_createNewRelationBetweenExistingNodes__9(startNodeId, relationData, targetNodeId, _) { var edge, startNode, targetNode, __this = this; var __frame = { name: "Knownode_prototype_createNewRelationBetweenExistingNodes__9", line: 142 }; return __func(_, this, arguments, Knownode_prototype_createNewRelationBetweenExistingNodes__9, 3, __frame, function __$Knownode_prototype_createNewRelationBetweenExistingNodes__9() {
 
-        __this.logger.logDebug(__this.currentModule, ("createNewKnownodeWithRelation " + targetNodeId));
+        __this.logger.logDebug(__this.currentModule, ((("createNewRelationBetweenExistingNodes " + startNodeId) + " -> ") + targetNodeId));
         return __this.getKnownodeByKnownodeId(startNodeId, __cb(_, __frame, 3, 18, function ___(__0, __1) { startNode = __1;
           return __this.getKnownodeByKnownodeId(targetNodeId, __cb(_, __frame, 4, 19, function ___(__0, __2) { targetNode = __2;
             return __this.relation.addKnownodeEdge(startNode, relationData, targetNode, __cb(_, __frame, 5, 13, function ___(__0, __3) { edge = __3;
@@ -152,7 +152,7 @@
 
     Knownode.prototype.createNewReversedRelationBetweenExistingNodes = function Knownode_prototype_createNewReversedRelationBetweenExistingNodes__10(startNodeId, relationData, targetNodeId, _) { var edge, startNode, targetNode, __this = this; var __frame = { name: "Knownode_prototype_createNewReversedRelationBetweenExistingNodes__10", line: 153 }; return __func(_, this, arguments, Knownode_prototype_createNewReversedRelationBetweenExistingNodes__10, 3, __frame, function __$Knownode_prototype_createNewReversedRelationBetweenExistingNodes__10() {
 
-        __this.logger.logDebug(__this.currentModule, ("createNewKnownodeWithRelation " + targetNodeId));
+        __this.logger.logDebug(__this.currentModule, ("createNewReversedRelationBetweenExistingNodes " + targetNodeId));
         return __this.getKnownodeByKnownodeId(startNodeId, __cb(_, __frame, 3, 18, function ___(__0, __1) { startNode = __1;
           return __this.getKnownodeByKnownodeId(targetNodeId, __cb(_, __frame, 4, 19, function ___(__0, __2) { targetNode = __2;
             return __this.relation.addKnownodeEdge(targetNode, relationData, startNode, __cb(_, __frame, 5, 13, function ___(__0, __3) { edge = __3;
@@ -170,11 +170,10 @@
 
 
         return __this.DB.Post.findOne(params, __cb(_, __frame, 8, 17, function ___(__0, __1) { knownode = __1;
-          console.log("matching knownodes for url", knownode);
           return _(null, knownode); }, true)); }); };
 
 
-    Knownode.prototype.destroy = function Knownode_prototype_destroy__12(id, _) { var kn_File, knownode, params, query, __this = this; var __frame = { name: "Knownode_prototype_destroy__12", line: 177 }; return __func(_, this, arguments, Knownode_prototype_destroy__12, 1, __frame, function __$Knownode_prototype_destroy__12() {
+    Knownode.prototype.destroy = function Knownode_prototype_destroy__12(id, _) { var kn_File, knownode, params, query, __this = this; var __frame = { name: "Knownode_prototype_destroy__12", line: 176 }; return __func(_, this, arguments, Knownode_prototype_destroy__12, 1, __frame, function __$Knownode_prototype_destroy__12() {
 
         __this.logger.logDebug(__this.currentModule, ("destroy " + id));
         query = ["START user=node({userId}), n=node({nodeId})","MATCH ()-[r]-n-[:CREATED_BY]-(user)","RETURN n",].join("\n");

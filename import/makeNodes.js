@@ -43,5 +43,5 @@ login(function(err) {
   if(err) return;
 
   console.log("Done.")
-  createWikiNode("Computer science");
+  createWikiNode(process.argv[2]);
 });

@@ -135,7 +135,7 @@ module.exports = class Knownode extends DBModule
 		knownode
 
 	createNewKnownodeWithReversedRelation: (existingNodeId, relationData, newKnownodeData, _) ->
-		@logger.logDebug @currentModule, "createNewKnownodeWithRelation #{existingNodeId}"
+		@logger.logDebug @currentModule, "createNewKnownodeWithReversedRelation #{existingNodeId}"
 		knownode = @createNewKnownode newKnownodeData, _
 		existingNode = @getKnownodeByKnownodeId existingNodeId, _
 
@@ -145,7 +145,7 @@ module.exports = class Knownode extends DBModule
 		knownode
 
 	createNewRelationBetweenExistingNodes: (startNodeId, relationData, targetNodeId, _) ->
-			@logger.logDebug @currentModule, "createNewKnownodeWithRelation #{targetNodeId}"
+			@logger.logDebug @currentModule, "createNewRelationBetweenExistingNodes #{startNodeId} -> #{targetNodeId}"
 			startNode = @getKnownodeByKnownodeId startNodeId, _
 			targetNode = @getKnownodeByKnownodeId targetNodeId, _
 			edge = @relation.addKnownodeEdge startNode, relationData, targetNode, _
@@ -154,7 +154,7 @@ module.exports = class Knownode extends DBModule
 			edge
 
 	createNewReversedRelationBetweenExistingNodes: (startNodeId, relationData, targetNodeId, _) ->
-			@logger.logDebug @currentModule, "createNewKnownodeWithRelation #{targetNodeId}"
+			@logger.logDebug @currentModule, "createNewReversedRelationBetweenExistingNodes #{targetNodeId}"
 			startNode = @getKnownodeByKnownodeId startNodeId, _
 			targetNode = @getKnownodeByKnownodeId targetNodeId, _
 			edge = @relation.addKnownodeEdge targetNode, relationData, startNode, _
@@ -167,7 +167,6 @@ module.exports = class Knownode extends DBModule
 		params = where:
 			url: url
 		knownode = @DB.Post.findOne params, _
-		console.log("matching knownodes for url", knownode)
 		return knownode
 
 	# destroy is delete node
