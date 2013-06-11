@@ -4,7 +4,7 @@ var Schema = require('jugglingdb').Schema,
 var schema = new Schema('mysql', DBData.getDBDetails('mysql'));
 
 var kn_log = exports.Log = schema.define('Log', {
-    __CreatedOn__:  { type: Date,    default: Date.now },
+    __CreatedOn__:  { type: Date,   default: Date.now },
     user:           { type: String, length: 255 },
     title:          { type: String, length: 255 },
     content:        { type: Schema.Text }
