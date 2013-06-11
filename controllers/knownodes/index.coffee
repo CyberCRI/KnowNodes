@@ -22,12 +22,19 @@ getFirstParagraph = (title, callback) ->
 getFirstItem = (object) -> for key, value of object then return value
 
 makeWikipediaUrl = (title) -> 
- return "http://en.wikipedia.org/wiki/" + title.replace(" ", "_")
+  return "http://en.wikipedia.org/wiki/" + title.replace(/\ /g, "_")
 
-makeLinksToUrls = (modKnownode, nodeId, urls, relationData, reverseDirection = false) ->
+makeCallbackJoin = (count, onDone) -> 
+  counter = 0
+  return -> if ++counter == count then onDone()
+
+makeLinksToUrls = (modKnownode, nodeId, urls, relationData, reverseDirection, callback) ->
+  if urls.length == 0 then return callback()
+
+  onDone = makeCallbackJoin urls.length, callback
   for url in urls
     modKnownode.getKnownodeByUrl url, (err, otherNode) ->
-      if not otherNode then return
+      if not otherNode then return onDone()
 
       startNodeId = if reverseDirection then otherNode.KN_ID else nodeId
       endNodeId = if reverseDirection then nodeId else otherNode.KN_ID 
@@ -35,6 +42,7 @@ makeLinksToUrls = (modKnownode, nodeId, urls, relationData, reverseDirection = f
       modKnownode.createNewRelationBetweenExistingNodes startNodeId, relationData, endNodeId, (err, link) ->
         if err then console.log("Error creating link", err) 
         else console.log("Created link", link.KN_ID) 
+        onDone()
 
 getInternalLinks = (title, callback) ->
   query =
@@ -131,16 +139,16 @@ module.exports =
           url: url
         console.log("wikinode data", knownodeData)
         modKnownode.createNewKnownode knownodeData, (err, newNode) ->
+          onDone = makeCallbackJoin 3, -> cb(null, newNode)
+
           getInternalLinks request.body.title, (linkedTitles) ->
             urls = (makeWikipediaUrl(linkedTitle) for linkedTitle in linkedTitles)
-            makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA)
+            makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA, false, onDone)
           client.getExternalLinks request.body.title, (externalLinks) ->
             urls = (link["*"] for link in externalLinks when link["*"].indexOf("http://") == 0)
-            makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA)
+            makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA, false, onDone)
           client.getBacklinks request.body.title, (backlinks) ->
             urls = (makeWikipediaUrl(link.title) for link in backlinks)
-            makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA, true)
-
-          return cb(null, newNode)
+            makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA, true, onDone)
 
 
