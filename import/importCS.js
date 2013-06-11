@@ -26,6 +26,12 @@ function isRegularPage(pageData)
   return pageData.ns == 0;
 }
 
+
+var pageCount = 0;
+
 getAllPages("Computer_science", function(pageData) { 
-  if(isRegularPage(pageData)) console.log(pageData);
+  if(isRegularPage(pageData)) {
+    pageCount++;
+    console.log("page count", pageCount);
+  }
 }); 
