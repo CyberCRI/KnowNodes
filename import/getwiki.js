@@ -17,6 +17,7 @@ function getLinks(title, callback) {
     action: 'query',
     prop: 'links',
     titles: title,
+    pllimit:5000
   };
 
   function makeCall() {
@@ -27,10 +28,6 @@ function getLinks(title, callback) {
           callback(getFirstItem(data.pages).links[i]);
         }
 
-        if(next && next["query-continue"]) {
-          query.plcontinue = next["query-continue"].links.plcontinue;
-          makeCall();
-        }
       }
     );
   }
@@ -79,12 +76,12 @@ function getFirstParagraph(title,callback){
 }
 
 
-//@todo get all pages
+//import  pages and cat within 7 level
 	var pageCount=0;
 	var catCount=0;
 	var existingCategories = {};
 	var fs=require('fs');
-function writeAllPagesAndCat(catagory,callback){
+function writeAllPagesAndCat(catagory,level,callback){
 	getSubCategories(catagory,function(data){
 		for(var i in data){
 			if(data[i].ns===0){
@@ -105,16 +102,37 @@ function writeAllPagesAndCat(catagory,callback){
                	  existingCategories[data[i].title]=true;
                   fs.appendFile("catagory.txt",data[i].title+","+catagory+"\n",function(){});
                   // get it's subcatagories
-                  writeAllPagesAndCat(data[i].title,callback);
+                  if(level<7){
+                  	writeAllPagesAndCat(data[i].title,level+1,callback);
+                  }                  
+                  
                   catCount++;
                }
 			}
 		}
-		callback(catagory);
+		callback(level,catagory);
 	})
 }
 
-writeAllPagesAndCat('Category:Computer_science',function(catagory){
-	console.log(catagory,pageCount,catCount);
+/*
+import all the datas 
+writeAllPagesAndCat('Category:Computer_science',1,function(level,catagory){
+	console.log(level,catagory,pageCount,catCount);
 });
+*/
+// read the file and save it into the other new files
+
+var lazy=require('lazy');
+// read all the txt and convert it with title, 
+new lazy(fs.createReadStream('article.txt'))
+	.lines
+	.forEach(function(line){
+		var array=line.toString().split(',');
+		var title=array[0].replace(" ","_");
+		var catagory=array[1].replace("Category:","");
+		var url="http://en.wikipedia.org/wiki/"+title;
+		//console.log(title,url,catagory);
+	})
+
+
 
