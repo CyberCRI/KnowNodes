@@ -6,7 +6,7 @@
 
 
 (function() {
-  var baseController, bot, client, commentModule, getFirstItem, getFirstParagraph, getInternalLinks, knownodeModule, makeLinksToUrls, makeWikipediaUrl, relationModule, txtwiki;
+  var baseController, bot, client, commentModule, getFirstItem, getFirstParagraph, getInternalLinks, knownodeModule, makeCallbackJoin, makeLinksToUrls, makeWikipediaUrl, relationModule, txtwiki;
 
   knownodeModule = require('../../modules/knownode');
 
@@ -42,15 +42,27 @@
   };
 
   makeWikipediaUrl = function(title) {
-    return "http://en.wikipedia.org/wiki/" + title.replace(" ", "_");
+    return "http://en.wikipedia.org/wiki/" + title.replace(/\ /g, "_");
   };
 
-  makeLinksToUrls = function(modKnownode, nodeId, urls, relationData, reverseDirection) {
-    var url, _i, _len, _results;
+  makeCallbackJoin = function(count, onDone) {
+    var counter;
 
-    if (reverseDirection == null) {
-      reverseDirection = false;
+    counter = 0;
+    return function() {
+      if (++counter === count) {
+        return onDone();
+      }
+    };
+  };
+
+  makeLinksToUrls = function(modKnownode, nodeId, urls, relationData, reverseDirection, callback) {
+    var onDone, url, _i, _len, _results;
+
+    if (urls.length === 0) {
+      return callback();
     }
+    onDone = makeCallbackJoin(urls.length, callback);
     _results = [];
     for (_i = 0, _len = urls.length; _i < _len; _i++) {
       url = urls[_i];
@@ -58,17 +70,18 @@
         var endNodeId, startNodeId;
 
         if (!otherNode) {
-          return;
+          return onDone();
         }
         startNodeId = reverseDirection ? otherNode.KN_ID : nodeId;
         endNodeId = reverseDirection ? nodeId : otherNode.KN_ID;
         console.log("Creating link from node " + startNodeId + " to " + endNodeId);
         return modKnownode.createNewRelationBetweenExistingNodes(startNodeId, relationData, endNodeId, function(err, link) {
           if (err) {
-            return console.log("Error creating link", err);
+            console.log("Error creating link", err);
           } else {
-            return console.log("Created link", link.KN_ID);
+            console.log("Created link", link.KN_ID);
           }
+          return onDone();
         });
       }));
     }
@@ -203,6 +216,11 @@
           };
           console.log("wikinode data", knownodeData);
           return modKnownode.createNewKnownode(knownodeData, function(err, newNode) {
+            var onDone;
+
+            onDone = makeCallbackJoin(3, function() {
+              return cb(null, newNode);
+            });
             getInternalLinks(request.body.title, function(linkedTitles) {
               var linkedTitle, urls;
 
@@ -216,7 +234,7 @@
                 }
                 return _results;
               })();
-              return makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA);
+              return makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA, false, onDone);
             });
             client.getExternalLinks(request.body.title, function(externalLinks) {
               var link, urls;
@@ -233,9 +251,9 @@
                 }
                 return _results;
               })();
-              return makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA);
+              return makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA, false, onDone);
             });
-            client.getBacklinks(request.body.title, function(backlinks) {
+            return client.getBacklinks(request.body.title, function(backlinks) {
               var link, urls;
 
               urls = (function() {
@@ -248,9 +266,8 @@
                 }
                 return _results;
               })();
-              return makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA, true);
+              return makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA, true, onDone);
             });
-            return cb(null, newNode);
           });
         });
       });

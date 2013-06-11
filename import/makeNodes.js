@@ -1,5 +1,5 @@
 var request = require("request");
-var lazy =  require('lazy');
+var lineReader =  require('line-reader');
 var fs = require("fs");
 
 var HOST = "http://localhost:3000";
@@ -24,7 +24,7 @@ function createWikiNode(title, callback) {
     responseObj = JSON.parse(body);
     if(responseObj.success.KN_ID) {
       console.log("Created Wikinode " + responseObj.success.KN_ID + " (" + title + ")");
-      if(callback) callback(NULL);
+      if(callback) callback(null);
     }
     else {
       console.log("Error creating Wikinode");
@@ -33,12 +33,15 @@ function createWikiNode(title, callback) {
   });
 }
 
-
+// Read command-line arguments
 if(process.argv.length < 3) 
 {
   console.log("usage: node makeNodes.js <file> [start] [count]");
   process.exit(1);
 }
+
+var start = process.argv.length > 3 ? parseInt(process.argv[3]) : 0;
+var count = process.argv.length > 4 ? parseInt(process.argv[4]) : Number.MAX_VALUE;
 
 console.log("Logging in...")
 login(function(err) {
@@ -46,13 +49,29 @@ login(function(err) {
 
   console.log("Logged in");
 
-  var list = new lazy(fs.createReadStream(process.argv[2])).lines;
-  if(process.argv.length > 3) list = list.skip(process.argv[3]);
-  if(process.argv.length > 4) list = list.take(process.argv[4]);
+  var lineNumber = 0;
+  lineReader.eachLine(process.argv[2], function(line, last, cb) {
+    lineNumber++;
 
-  list = list.forEach(function(line){
-      var array = line.toString().split(',');
-      console.log("Creating Wikinode for " + array[0]);
-      createWikiNode(array[0]);
+    // Skip lines before start
+    if(lineNumber < count) return cb(true); 
+
+    // Expecting a CSV format with the article title first
+    var array = line.toString().split(',');
+    // HACK: avoid two many commas 
+    if(array.length > 2) 
+    {
+      console.log("ERROR: TWO MANY COMMAS", line);
+      return cb(true)
+    }
+
+    console.log("Creating Wikinode for " + array[0]);
+    createWikiNode(array[0], function(err) { 
+      if(err) return cb(false); 
+
+      cb(lineNumber < start + count); 
+    });
+  }).then(function() { 
+      console.log("Processed up to line " + lineNumber);
     });
 });
