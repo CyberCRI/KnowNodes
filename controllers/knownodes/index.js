@@ -16,9 +16,9 @@
 
   commentModule = require('../../modules/comment');
 
-  txtwiki = require('../../modules/txtwiki.js');
+  txtwiki = require('../../bundledModules/txtwiki.js');
 
-  bot = require('nodemw');
+  bot = require('../../bundledModules/nodemw');
 
   client = new bot({
     server: 'en.wikipedia.org',
@@ -45,18 +45,25 @@
     return "http://en.wikipedia.org/wiki/" + title.replace(" ", "_");
   };
 
-  makeLinksToUrls = function(modKnownode, nodeId, urls, relationData) {
+  makeLinksToUrls = function(modKnownode, nodeId, urls, relationData, reverseDirection) {
     var url, _i, _len, _results;
 
+    if (reverseDirection == null) {
+      reverseDirection = false;
+    }
     _results = [];
     for (_i = 0, _len = urls.length; _i < _len; _i++) {
       url = urls[_i];
       _results.push(modKnownode.getKnownodeByUrl(url, function(err, otherNode) {
+        var endNodeId, startNodeId;
+
         if (!otherNode) {
           return;
         }
-        console.log("Creating link from node " + nodeId + " to " + otherNode.KN_ID);
-        return modKnownode.createNewRelationBetweenExistingNodes(nodeId, relationData, otherNode.KN_ID, function(err, link) {
+        startNodeId = reverseDirection ? otherNode.KN_ID : nodeId;
+        endNodeId = reverseDirection ? nodeId : otherNode.KN_ID;
+        console.log("Creating link from node " + startNodeId + " to " + endNodeId);
+        return modKnownode.createNewRelationBetweenExistingNodes(startNodeId, relationData, endNodeId, function(err, link) {
           if (err) {
             return console.log("Error creating link", err);
           } else {
@@ -182,7 +189,6 @@
       url = makeWikipediaUrl(request.body.title);
       console.log("url = ", url);
       return modKnownode.getKnownodeByUrl(url, function(err, existingNode) {
-        console.log("modKnownode.getKnownodeByUrl", existingNode);
         if (existingNode) {
           console.log("Wikinode already exists");
           return cb(null, existingNode);
@@ -228,6 +234,21 @@
                 return _results;
               })();
               return makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA);
+            });
+            client.getBacklinks(request.body.title, function(backlinks) {
+              var link, urls;
+
+              urls = (function() {
+                var _i, _len, _results;
+
+                _results = [];
+                for (_i = 0, _len = backlinks.length; _i < _len; _i++) {
+                  link = backlinks[_i];
+                  _results.push(makeWikipediaUrl(link.title));
+                }
+                return _results;
+              })();
+              return makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA, true);
             });
             return cb(null, newNode);
           });
