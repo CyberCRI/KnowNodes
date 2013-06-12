@@ -187,6 +187,7 @@ ConceptListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
 
 
 function ArticleListCtrl($scope, $http, $routeParams, userService) {
+
     $scope.addNode = false;
     $scope.currentKnownode = {};
     //$scope.passKnownode = PassKnownode;
@@ -197,6 +198,7 @@ function ArticleListCtrl($scope, $http, $routeParams, userService) {
         }
         return false;
     }
+    $scope.$broadcast("rootNodeExists", {rootNodeExists:true});
 
     $scope.deleteArticle = function (id, index) {
         if (confirm("Are you sure you want to delete this post?")) {
@@ -215,8 +217,11 @@ function ArticleListCtrl($scope, $http, $routeParams, userService) {
     }
 
     var conceptId = $scope.conceptId = $routeParams.id;
+    var conceptId = $scope.conceptId = $routeParams.id;
     $http.get('/knownodes/:' + conceptId).success(function (data, status, headers, config) {
         $scope.concept = data.success;
+
+        $scope.$broadcast("rootNodeExists");
         if ($scope.concept.url.match(/youtube.com/ig)) {
             var search = $scope.concept.url.split('?')[1];
             var video_id = search.split('v=')[1];
@@ -601,12 +606,14 @@ function SearchCtrl($scope, $http, $rootScope) {
 }
 SearchCtrl.$inject = ['$scope', '$http', '$rootScope'];
 
-function KnownodeInputCtrl($scope, hybridSearch) {
-
+function KnownodeInputCtrl($scope, hybridSearch, $routeParams) {
+    $scope.bgColor="";
+    $scope.$on("rootNodeExists", function(){
+        $scope.rootNodeExists="True";
+    });
     $scope.relation = {type: 'understanding', title: ''};
 
     $scope.searchInput = {};
-
     $scope.search = function () {
         if ($scope.searchInput.query.length > 2) {
             hybridSearch.search($scope.searchInput.query).then(function (results) {
@@ -617,7 +624,18 @@ function KnownodeInputCtrl($scope, hybridSearch) {
         }
 
     }
-
+    $scope.form = {};
+    $scope.form.knownodeForm = {};
+    $scope.form.knownodeRelation = {};
+    $scope.form.knownodeRelation.connectionType = "Why?";
+    $scope.dropText = 'Drop files here...';
+    //$scope.form.originalPostId = $scope.form.knownodeRelation.originalPostId = $routeParams.id;
+    $scope.errorMessage = null;
+    $scope.reversedDirection = false;
+    $scope.categoryClick = function( category ){
+        $scope.bgColor=category;
+        $scope.form.knownodeRelation.connectionType = category;
+    };
 }
-KnownodeInputCtrl.$inject = ['$scope', 'hybridSearch'];
+KnownodeInputCtrl.$inject = ['$scope', 'hybridSearch', '$routeParams'];
 

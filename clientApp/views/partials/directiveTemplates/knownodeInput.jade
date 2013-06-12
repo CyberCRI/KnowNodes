@@ -1,23 +1,41 @@
 div
-    div.connection.span11
+    div.resourcecontent.span11#content(ng-hide="reversedDirection", ng-show="rootNodeExists",style="padding:0px")
+        accordion
+            accordion-group(heading="{{concept.title}}")
+                div.knownode-body
+                    p.bold(ng-show="concept.url")
+                        a(ng-href="{{concept.url}}") {{concept.url}}
+                    p(ng-show="concept.fileName") Download:
+                        a(class="btn-info",href="/knownodeFiles/:{{concept.fileId}}", target="_blank", ng-show="concept.fileName") &nbsp;{{concept.fileName}}&nbsp;
+                    //p(ng-show="videoLink")
+                        //include videoNode
+                    div(ng-bind-html-unsafe="concept.bodyText")
+    div(ng-hide="reversedDirection")
+        div.resourcecontent.span11#content(ng-hide="rootNodeExists")
+            p
+                input(ng-model="searchInput.query", ng-change="search()", placeholder="Enter concept to link", style="width:100%").knownode-title Start Node
+
+    div(ng-show="reversedDirection")
+        div.resourcecontent.span11#content(ng-show="rootNodeExists")
+            p
+              input(ng-model="searchInput.query", ng-change="search()", placeholder="Enter concept to link", style="width:100%").knownode-title Start Node
+
+    div.connection.span11(ng-class="bgColor")
         div.content.span11
-            div.input-prepend.input-append
+            div(edge-type-selector)
+    div(ng-hide="reversedDirection")
+        div.resourcecontent.span11#content
+            p
+                input(ng-model="searchInput.query", ng-change="search()", placeholder="Enter concept to link", style="width:100%").knownode-title Other Node
 
-                div.btn-group(style="display:inline;", ng-model='relation.type', name="connectionType")
-                    a.btn.dropdown-toggle(href="javascript:void(0);", data-toggle="dropdown") &nbsp;{{relation.type}}
-                        span.caret(style="float:left;")
-
-                    ul.dropdown-menu(role="menu", aria-labelledby="dropdownMenu")
-                        li.dropdown
-                            a(tabindex='-1', href="javascript:void(0);", ng-click="relation.type='understanding'") understanding
-                        li.dropdown
-                            a(tabindex='-1', href="javascript:void(0);", ng-click="relation.type='inspiring'") inspiring
-                        li.dropdown
-                            a(tabindex='-1', href="javascript:void(0);", ng-click="relation.type='questioning'") questioning
-
-                input#appendedPrependedDropdownButton.span6(type="text", ng-model='relation.title', name='title', required, ng-maxlength='250', placeholder="why are they connected?")
-                p.btn.btn-link {{(80 -(relation.title.length))}}
-
-    div.resourcecontent.span11#content
-        p
-            input(ng-model="searchInput.query", ng-change="search()", placeholder="Enter concept to link", style="width:100%").knownode-title Other Node
+    div(ng-show="reversedDirection", style="padding:0px").resourcecontent.span11#content
+        accordion
+            accordion-group(heading="{{concept.title}}")
+                div.knownode-body
+                    p.bold(ng-show="concept.url")
+                        a(ng-href="{{concept.url}}") {{concept.url}}
+                    p(ng-show="concept.fileName") Download:
+                       a(class="btn-info",href="/knownodeFiles/:{{concept.fileId}}", target="_blank", ng-show="concept.fileName") &nbsp;{{concept.fileName}}&nbsp;
+                  //p(ng-show="videoLink")
+                            //include videoNode
+                    div(ng-bind-html-unsafe="concept.bodyText")
