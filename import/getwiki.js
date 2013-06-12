@@ -54,7 +54,7 @@ function getInternalLinks(title,callback){
 					action: 'query',
 					prop: 'links',
 					titles: title,
-					ellimit: 5000
+					pllimit: 5000
 
 				}, function(data) {
 					callback && callback((data && getFirstItem(data.pages).links) || []);
@@ -63,17 +63,8 @@ function getInternalLinks(title,callback){
 
 
 
-/*
- get first Paragraph
- require the txtjs module
- */
 
-function getFirstParagraph(title,callback){
-	var txtwiki=require('./txtwiki');
-	client.getArticle(title,function(data){
-		callback(txtwiki.parseWikitext(data.substring(0,data.indexOf("\n\n"))));
-	});
-}
+
 
 
 //import  pages and cat within 7 level
@@ -121,7 +112,7 @@ writeAllPagesAndCat('Category:Computer_science',1,function(level,catagory){
 });
 */
 // read the file and save it into the other new files
-
+/*
 var lazy=require('lazy');
 // read all the txt and convert it with title, 
 new lazy(fs.createReadStream('article.txt'))
@@ -133,6 +124,46 @@ new lazy(fs.createReadStream('article.txt'))
 		var url="http://en.wikipedia.org/wiki/"+title;
 		//console.log(title,url,catagory);
 	})
+*/
+
+
+function calculateStrength(startingNode,endingnode,callback)  {
+   var connected=0;
+	getInternalLinks(startingNode,function(datas){
+		
+        getInternalLinks(endingnode,function(endNodeDatas){
+           var titles=[];
+           for(var i in endNodeDatas){
+               titles[i]=endNodeDatas[i].title;
+           }
+
+            for(var i=0;i<datas.length;i++){
+		       	 if(titles.indexOf(datas[i].title)!=-1){
+                   connected++ ;
+		       	 	 
+		       	 }
+		    }
+		      callback(connected/datas.length,connected,connected/endNodeDatas.length);
+        })
+        
+    });  
+}
+
+
+
+function getFirstParagraph(title,callback){
+	
+	client.api.call({
+		action: 'parse',
+		page:title,
+		prop: 'text',
+		},function(data){
+		var regex = /<p>.+<\/p>/;
+		match = regex.exec(data.text['*']);
+         callback(match[0]);
+	})
+}
+getFirstParagraph("Python (programming language)",console.log);
 
 
 
