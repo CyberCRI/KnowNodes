@@ -7,10 +7,15 @@ div.input-prepend.input-append
     a.btn.reverse-direction(ng-show="reversedDirection", ng-click="reversedDirection=false", title="reverse connection direction")
       i.icon-arrow-down
       i.icon-arrow-up
-    input#appendedPrependedDropdownButton.span6(type="text", ng-model='form.knownodeRelation.title', name='title', required, ng-maxlength='250', placeholder="Why are they connected?")
+    input#appendedPrependedDropdownButton.span6(type="text", ng-model='form.knownodeRelation.title', name='title', required, ng-maxlength='250', placeholder="What is their relationship?")
 
     a.btn.dropdown-toggle(href="javascript:void(0);", data-toggle="dropdown") &nbsp; {{form.knownodeRelation.connectionType}}
-      span.caret(style="float:left;")
+        span.caret(style="float:left;")
+        span(ng-switch on='form.knownodeRelation.connectionType')
+            img(src="img/robot.png", ng-switch-default)
+            img(src="img/robot_yeah.png", ng-switch-when="explain")
+            img(src="img/robot_yeah.png", ng-switch-when="inspire")
+            img(src="img/robot_yeah.png", ng-switch-when="question")
 
     ul.dropdown-menu(role="menu", aria-labelledby="dropdownMenu", style="left:50%")
         li.dropdown
