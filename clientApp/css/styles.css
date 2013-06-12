@@ -635,7 +635,10 @@ img.open-in-new-window {
   font-size: 1.2em;
 }
 .accordion-node {
+  padding: 0;
+  margin-bottom: 0px;
   background: white;
+  border: none;
   z-index: 10;
 }
 .deamphesize {
@@ -678,4 +681,8 @@ div.inspire {
 }
 div.question {
   background: #B0E1B7;
+}
+.input-node-box {
+  border: none;
+  width: 99%;
 }

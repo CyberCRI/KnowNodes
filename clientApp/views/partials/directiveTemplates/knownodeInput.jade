@@ -13,29 +13,60 @@ div
     div(ng-hide="reversedDirection")
         div.resourcecontent.span11#content(ng-hide="rootNodeExists")
             p
-                input(ng-model="searchInput.query", ng-change="search()", placeholder="Enter concept to link", style="width:100%").knownode-title Start Node
+                input.input-node-box.knownode-title(ng-model="searchInput.query", ng-change="search()", placeholder="Enter concept to link", style="width:100%") Start Node
 
     div(ng-show="reversedDirection")
-        div.resourcecontent.span11#content(ng-show="rootNodeExists")
+        div.span11#content(ng-show="rootNodeExists")
             p
-              input(ng-model="searchInput.query", ng-change="search()", placeholder="Enter concept to link", style="width:100%").knownode-title Start Node
+              input.input-node-box.knownode-title(ng-model="searchInput.query", ng-change="search()", placeholder="Enter concept to link", style="width:100%") Start Node
 
     div.connection.span11(ng-class="bgColor")
         div.content.span11
             div(edge-type-selector)
     div(ng-hide="reversedDirection")
-        div.resourcecontent.span11#content
+        div.span11#content(ng-hide="userGenNode")
             p
-                input(ng-model="searchInput.query", ng-change="search()", placeholder="Enter concept to link", style="width:100%").knownode-title Other Node
+                input.input-node-box.knownode-title(ng-model="searchInput.query", ng-change="search()", placeholder="Enter concept to link", style="width:100%") Other Node
+
+        div.span11#content(ng-show="userGenNode")
+            p add new node
+                p
+                    label(for='title') Title:
+                    input(placeholder="The title of the resource - just copy paste", ng-model='form.knownodeForm.title', ng-maxlength='350', name='title', required, autofocus, style="width:100%;").input_xxlarge
+                    span {{(350 -(form.knownodeForm.title.length))}}
+                p
+                    label(for='bodyText') Text body (abstract, summery or additional information): &nbsp;(optional)
+                    textarea(ui-tinymce, class="input-xxlarge", placeholder="Abstract or summery of the resource", ng-model='form.knownodeForm.bodyText', name='bodyText', rows='5', style='width:100%')
+                p
+                    label(for='articleFile') PDF File:
+                    input(nclass="input-xxlarge", placeholder="Attach a file", g-model='file', name='file', type='file', ng-model-instant, multiple, onchange="angular.element(this).scope().setFiles(this)")
+                div(id="dropbox", class="dropbox", ng-class="dropClass")
+                    span
+                        p {{dropText}}
+                span.label.label-info .PDF Files - up to 16Mb
+                div(ng-show="files.length")
+                div(ng-repeat="file in files.slice(0)")
+                     span
+                         p {{file.webkitRelativePath || file.name}}
+                     span(ng-switch="file.size > 1024*1024")
+                     span(ng-switch-when="true")
+                         p {{file.size / 1024 / 1024 | number:2}} MB
+                     span(ng-switch-default)
+                         p {{file.size / 1024 | number:2}} kB
+                div(ng-show="progressVisible")
+                    div(class="percent")
+                         p {{progress}}%
+                    div(class="progress-bar")
+                        div(class="uploaded", ng-style="{'width': progress+'%'}")
 
     div(ng-show="reversedDirection", style="padding:0px").resourcecontent.span11#content
-        accordion
-            accordion-group(heading="{{concept.title}}")
-                div.knownode-body
-                    p.bold(ng-show="concept.url")
-                        a(ng-href="{{concept.url}}") {{concept.url}}
-                    p(ng-show="concept.fileName") Download:
-                       a(class="btn-info",href="/knownodeFiles/:{{concept.fileId}}", target="_blank", ng-show="concept.fileName") &nbsp;{{concept.fileName}}&nbsp;
-                  //p(ng-show="videoLink")
-                            //include videoNode
-                    div(ng-bind-html-unsafe="concept.bodyText")
+          accordion
+              accordion-group(heading="{{concept.title}}")
+                  div.knownode-body
+                      p.bold(ng-show="concept.url")
+                          a(ng-href="{{concept.url}}") {{concept.url}}
+                      p(ng-show="concept.fileName") Download:
+                         a(class="btn-info",href="/knownodeFiles/:{{concept.fileId}}", target="_blank", ng-show="concept.fileName") &nbsp;{{concept.fileName}}&nbsp;
+                    //p(ng-show="videoLink")
+                              //include videoNode
+                      div(ng-bind-html-unsafe="concept.bodyText")

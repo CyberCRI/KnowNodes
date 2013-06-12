@@ -624,6 +624,7 @@ function KnownodeInputCtrl($scope, hybridSearch, $routeParams) {
         }
 
     }
+    $scope.userGenNode=false;
     $scope.form = {};
     $scope.form.knownodeForm = {};
     $scope.form.knownodeRelation = {};
