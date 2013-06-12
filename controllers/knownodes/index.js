@@ -6,7 +6,7 @@
 
 
 (function() {
-  var baseController, bot, client, commentModule, getFirstItem, getFirstParagraph, getInternalLinks, knownodeModule, makeCallbackJoin, makeLinksToUrls, makeWikipediaUrl, relationModule, txtwiki, _;
+  var baseController, bot, client, commentModule, getFirstItem, getFirstParagraph, getInternalLinks, knownodeModule, makeCallbackJoin, makeLinksToUrls, makeWikipediaUrl, relationModule, txtwiki;
 
   knownodeModule = require('../../modules/knownode');
 
@@ -19,8 +19,6 @@
   txtwiki = require('../../bundledModules/txtwiki.js');
 
   bot = require('../../bundledModules/nodemw');
-
-  _ = require("underscore");
 
   client = new bot({
     server: 'en.wikipedia.org',
