@@ -63,17 +63,15 @@ login(function(err) {
     // HACK: avoid two many commas 
     if(array.length > 2) 
     {
-      console.log("ERROR: TWO MANY COMMAS", line);
+      console.log(line + ": ERROR: TWO MANY COMMAS");
       return cb(true)
     }
 
-    console.log("Creating Wikinode for " + array[0]);
+    console.log(line + ": Creating Wikinode for " + array[0]);
     createWikiNode(array[0], function(err) { 
       if(err) console.log("ERROR: Skipping", array[0]); 
 
       cb(lineNumber < start + count); 
     });
-  }).then(function() { 
-      console.log("Processed up to line " + lineNumber);
-    });
+  });
 });
