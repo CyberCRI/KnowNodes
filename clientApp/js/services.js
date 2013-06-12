@@ -80,7 +80,9 @@ angular.module('KnowNodesApp.services', [])
                 };
 
                 var handleResultsFromWikipedia = function (result) {
-                    return result.data.query.search;
+                    if (result.data.query != null)
+                        return result.data.query.search;
+                    else return {};
                 };
 
                 console.log('Searching KnowNodes And Wikipedia...');

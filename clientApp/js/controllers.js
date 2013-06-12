@@ -605,18 +605,23 @@ function KnownodeInputCtrl($scope, hybridSearch) {
 
     $scope.relation = {type: 'understanding', title: ''};
 
-    $scope.searchInput = {};
-
-    $scope.search = function () {
-        if ($scope.searchInput.query.length > 2) {
-            hybridSearch.search($scope.searchInput.query).then(function (results) {
+    $scope.inputOptions = {
+        minimumInputLength: 3,
+        query: function (query) {
+            hybridSearch.search(query.term).then(function (results) {
                 console.log('Got ' + results.nodes.length + ' nodes');
                 console.log('Got ' + results.articles.length + ' articles');
-
+                var data = {results: []}, i;
+                for (i = 0; i < results.nodes.length; i++) {
+                    data.results.push({id: results.nodes[i].results.KN_ID, text: results.nodes[i].results.title});
+                }
+                for (i = 0; i < results.articles.length; i++) {
+                    data.results.push({id: results.articles[i].title, text: results.articles[i].title.toUpperCase()});
+                }
+                query.callback(data);
             });
         }
-
-    }
+    };
 
 }
 KnownodeInputCtrl.$inject = ['$scope', 'hybridSearch'];
