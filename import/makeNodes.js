@@ -63,11 +63,11 @@ login(function(err) {
     // HACK: avoid two many commas 
     if(array.length > 2) 
     {
-      console.log(line + ": ERROR: TWO MANY COMMAS");
+      console.log(lineNumber + ". ERROR: TWO MANY COMMAS- " + line);
       return cb(true)
     }
 
-    console.log(line + ": Creating Wikinode for " + array[0]);
+    console.log(lineNumber + ": Creating Wikinode for " + array[0]);
     createWikiNode(array[0], function(err) { 
       if(err) console.log("ERROR: Skipping", array[0]); 
 
