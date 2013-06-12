@@ -15,8 +15,14 @@ client = new bot
   debug: false                # is more verbose when set to true
 
 getFirstParagraph = (title, callback) ->
-  client.getArticle title, (data) ->
-    callback(txtwiki.parseWikitext(data.substring(0,data.indexOf("\n\n"))))
+  params = 
+    action: 'parse'
+    page:title
+    prop: 'text'
+  client.api.call params, (data)->
+    regex = /<p>.+<\/p>/
+    match = regex.exec data.text['*']
+    callback match[0]
 
 # Get the object being the first key/value entry of a given object
 getFirstItem = (object) -> for key, value of object then return value
