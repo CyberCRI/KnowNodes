@@ -21,15 +21,17 @@ function login(callback) {
 
 function createWikiNode(title, callback) {
   request.post(HOST + "/knownodes/wikinode", { form: { title: title } }, function(error, response, body) {
-    responseObj = JSON.parse(body);
-    if(responseObj.success.KN_ID) {
-      console.log("Created Wikinode " + responseObj.success.KN_ID + " (" + title + ")");
-      if(callback) callback(null);
+    try {
+      responseObj = JSON.parse(body);
+      if(responseObj.success.KN_ID) {
+        console.log("Created Wikinode " + responseObj.success.KN_ID + " (" + title + ")");
+        return callback && callback(null);
+      }      
+    } catch(err) { 
+      return callback && callback(err)
     }
-    else {
-      console.log("Error creating Wikinode");
-      if(callback) callback("Error creating Wikinode");
-    }
+
+    return callback && callback("Unknown error")
   });
 }
 
@@ -67,7 +69,7 @@ login(function(err) {
 
     console.log("Creating Wikinode for " + array[0]);
     createWikiNode(array[0], function(err) { 
-      if(err) return cb(false); 
+      if(err) console.log("ERROR: Skipping", array[0]); 
 
       cb(lineNumber < start + count); 
     });
