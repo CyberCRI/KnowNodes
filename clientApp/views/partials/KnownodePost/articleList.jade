@@ -1,17 +1,4 @@
 div.subheader
-    span
-        div.span23.offset1
-            accordion
-                accordion-group(heading="{{concept.title}}").accordion-title
-                    div.knownode-body
-                        p.bold(ng-show="concept.url")
-                            a(ng-href="{{concept.url}}") {{concept.url}}
-                        p(ng-show="concept.fileName") Download:
-                            a(class="btn-info",href="/knownodeFiles/:{{concept.fileId}}", target="_blank", ng-show="concept.fileName") &nbsp;{{concept.fileName}}&nbsp;
-                        p(ng-show="videoLink")
-                            include videoNode
-                        div(ng-bind-html-unsafe="concept.bodyText")
-
     div
         div.span11.offset1
             div.knownode.span12.shortKnownode
