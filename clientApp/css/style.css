@@ -1,0 +1,26 @@
+.suggestion td {
+    vertical-align: top
+}
+
+.select2-results .select2-highlighted .select2-result-label table {
+    background-color: #3875d7;
+}
+
+.suggestion-image {
+    width: 16px;
+}
+
+.suggestion-image img {
+    height: 16px;
+    width: 16px;
+}
+
+.suggestion-info {
+    padding-left: 10px;
+    vertical-align: top;
+}
+
+.suggestion-title {
+    font-size: 1.2em;
+    padding-bottom: 15px;
+}
