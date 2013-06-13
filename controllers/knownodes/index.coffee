@@ -6,7 +6,6 @@ knownodeModule = require('../../modules/knownode')
 relationModule = require('../../modules/relation')
 baseController = require('../baseController')
 commentModule = require('../../modules/comment')
-txtwiki = require('../../bundledModules/txtwiki.js')
 bot = require('../../bundledModules/nodemw')
 
 client = new bot
@@ -19,7 +18,7 @@ getFirstParagraph = (title, callback) ->
     action: 'parse'
     page:title
     prop: 'text'
-  client.api.call params, (data)->
+  client.api.call params, (data) ->
     regex = /<p>.+<\/p>/
     match = regex.exec data.text['*']
     callback match[0]
