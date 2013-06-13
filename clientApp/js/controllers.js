@@ -185,6 +185,41 @@ function ConceptListCtrl($scope, $http, $routeParams, userService) {
 }
 ConceptListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
 
+function ConceptGraphCtrl($scope, $http, $routeParams, userService) {
+    /*
+    $scope.isUserLoggedIn = userService.isUserLoggedIn();
+    var showtoggle2 = false;
+    $scope.plusToggle = function (classToToggle) {
+        if (showtoggle2) {
+            showtoggle2 = false;
+        } else {
+            showtoggle2 = classToToggle;
+        }
+        return showtoggle2;
+    };
+
+    angular.forEach($scope.edges, function (value, id) {
+        if ($routeParams.id === value.source1.id) {
+            $scope.subtitletest = value.source1.title;
+        }
+        if ($routeParams.id === value.source2.id) {
+            $scope.subtitletest = value.source2.title;
+        }
+    });
+
+    $http.get('/concepts').success(function (data, status, headers, config) {
+        if (data.error) {
+            alert(data.error);
+            return;
+        }
+        $scope.conceptList = data.success;
+    });
+
+    $scope.orderProp = "date";
+    */
+}
+ConceptGraphCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
+
 
 function ArticleListCtrl($scope, $http, $routeParams, userService) {
     $scope.addNode = false;
