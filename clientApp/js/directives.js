@@ -3,22 +3,22 @@
 /* Directives */
 
 angular.module('KnowNodesApp.directives', [])
-    .directive('subtitle', function() {
+    .directive('subtitle', function () {
         return {
             restrict: "A",
             templateUrl: 'partials/directiveTemplates/subtitle',
             replace: true
         };
     })
-    .directive('concept', function() {
-            return {
-                restrict: 'EAC',
-                transclude: true,
-                templateUrl: 'partials/directiveTemplates/concept',
-                replace: true
-            };
-        })
-    .directive('inputNode', function() {
+    .directive('concept', function () {
+        return {
+            restrict: 'EAC',
+            transclude: true,
+            templateUrl: 'partials/directiveTemplates/concept',
+            replace: true
+        };
+    })
+    .directive('inputNode', function () {
         return {
             restrict: 'EAC',
             transclude: true,
@@ -26,7 +26,7 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     })
-    .directive('edgeTypeSelector', function() {
+    .directive('edgeTypeSelector', function () {
         return {
             restrict: 'EAC',
             transclude: true,
@@ -34,7 +34,7 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     })
-    .directive('formatSelector', function() {
+    .directive('formatSelector', function () {
         return {
             compile: function compile(tElement, tAttrs, transclude) {
                 return {
@@ -45,7 +45,7 @@ angular.module('KnowNodesApp.directives', [])
                             'File'];
                     },
                     post: function postLink(scope, iElement, iAttrs, controller) {
-                        $(function() {
+                        $(function () {
                             $('#createResourceTabs_' + iAttrs.direction + ' a:first').tab('show');
                         });
                     }
@@ -59,7 +59,7 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     })
-    .directive('resourceTypeSelector', function() {
+    .directive('resourceTypeSelector', function () {
         return {
             restrict: 'EAC',
             transclude: true,
@@ -67,7 +67,7 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     })
-    .directive('knowledgeDomainSelector', function() {
+    .directive('knowledgeDomainSelector', function () {
         return {
             restrict: 'EAC',
             transclude: true,
@@ -75,7 +75,7 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     })
-    .directive('node', function() {
+    .directive('node', function () {
         return {
             restrict: 'EAC',
             transclude: true,
@@ -83,7 +83,7 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     })
-    .directive('fullNode', function() {
+    .directive('fullNode', function () {
         return {
             restrict: 'EAC',
             transclude: true,
@@ -91,7 +91,7 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     })
-    .directive('conceptNode', function() {
+    .directive('conceptNode', function () {
         return {
             restrict: 'EAC',
             transclude: true,
@@ -99,7 +99,7 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     })
-    .directive('targetArticle', function() {
+    .directive('targetArticle', function () {
         return {
             restrict: 'EAC',
             transclude: true,
@@ -107,7 +107,7 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     })
-    .directive('edge', function() {
+    .directive('edge', function () {
         return {
             restrict: 'EAC',
             transclude: true,
@@ -115,7 +115,7 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     })
-    .directive('navBarTop', function() {
+    .directive('navBarTop', function () {
         return {
             restrict: 'AC',
             transclude: true,
@@ -127,7 +127,7 @@ angular.module('KnowNodesApp.directives', [])
         };
     })
 
-    .directive('navLocation', function($location) {
+    .directive('navLocation', function ($location) {
         return {
             restrict: 'AC',
             transclude: true,
@@ -144,7 +144,7 @@ angular.module('KnowNodesApp.directives', [])
         };
     })
 
-    .directive('topBarLogin', function($location, $rootScope) {
+    .directive('topBarLogin', function ($location, $rootScope) {
         return {
             restrict: 'AC',
             transclude: true,
@@ -156,39 +156,38 @@ angular.module('KnowNodesApp.directives', [])
                     return href.substr(1) === $location.url().substr(1);
                 };
 
-                scope.isLoggedIn = function() {
+                scope.isLoggedIn = function () {
                     return $rootScope.user;
-                }
+                };
 
-                scope.userDisplayName = function() {
+                scope.userDisplayName = function () {
                     return $rootScope.userDisplayName;
-                }
+                };
             },
             templateUrl: 'partials/directiveTemplates/topBarLogin',
             replace: true
         };
     })
-    .directive('appVersion', ['version', function(version)
-    {
-        return function(scope, elm, attrs) {
-          elm.text(version);
+    .directive('appVersion', ['version', function (version) {
+        return function (scope, elm, attrs) {
+            elm.text(version);
         };
     }])
 
-    .directive('commentSection', ['$http', function($http) {
+    .directive('commentSection', ['$http', function ($http) {
         return {
             restrict: 'EAC',
             scope: {
                 'knownodeId': '='
             },
             templateUrl: 'partials/directiveTemplates/commentList',
-            link: function(scope, iElement, iAttrs, controller) {
+            link: function (scope, iElement, iAttrs, controller) {
 
             },
             replace: true
         };
     }])
-    .directive('chat', ['$http', function($http) {
+    .directive('chat', ['$http', function ($http) {
         return {
             restrict: 'EAC',
             templateUrl: 'partials/directiveTemplates/chat',
@@ -196,7 +195,7 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     }])
-    .directive('search', ['$http', function($http) {
+    .directive('search', ['$http', function ($http) {
         return {
             restrict: 'EAC',
             templateUrl: 'partials/directiveTemplates/search',
@@ -204,18 +203,20 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     }])
-    .directive('ngFocus', function($timeout) {
+    .directive('ngFocus', function ($timeout) {
         return {
-            link: function ( scope, element, attrs ) {
-                scope.$watch( attrs.ngFocus, function ( val ) {
-                    if ( angular.isDefined( val ) && val ) {
-                        $timeout( function () { element[0].focus(); } );
+            link: function (scope, element, attrs) {
+                scope.$watch(attrs.ngFocus, function (val) {
+                    if (angular.isDefined(val) && val) {
+                        $timeout(function () {
+                            element[0].focus();
+                        });
                     }
                 }, true);
 
                 element.bind('blur', function () {
-                    if ( angular.isDefined( attrs.ngFocusLost ) ) {
-                        scope.$apply( attrs.ngFocusLost );
+                    if (angular.isDefined(attrs.ngFocusLost)) {
+                        scope.$apply(attrs.ngFocusLost);
 
                     }
                 });
@@ -223,25 +224,25 @@ angular.module('KnowNodesApp.directives', [])
         };
     })
 
-    .directive('userAutoComplete', ['$http', function($http) {
-        return function(scope, element, attrs) {
+    .directive('userAutoComplete', ['$http', function ($http) {
+        return function (scope, element, attrs) {
             element.userAutoComplete({
-                minLength:3,
-                source:function (request, response) {
-                    $http.get('/api/users/' + request.term).success( function(data) {
+                minLength: 3,
+                source: function (request, response) {
+                    $http.get('/api/users/' + request.term).success(function (data) {
                         response(data.results);
                     });
                 },
-                focus:function (event, ui) {
+                focus: function (event, ui) {
                     element.val(ui.item.label);
                     return false;
                 },
-                select:function (event, ui) {
+                select: function (event, ui) {
                     scope.myModelId.selected = ui.item.value;
                     scope.$apply;
                     return false;
                 },
-                change:function (event, ui) {
+                change: function (event, ui) {
                     if (ui.item === null) {
                         scope.myModelId.selected = null;
                     }
@@ -252,5 +253,14 @@ angular.module('KnowNodesApp.directives', [])
                     .append("<a>" + item.label + "</a>")
                     .appendTo(ul);
             };
-            };
+        };
+    }])
+
+    .directive('knownodeInput', ['$http', function ($http) {
+        return {
+            restrict: 'A',
+            templateUrl: 'partials/directiveTemplates/knownodeInput',
+            controller: KnownodeInputCtrl,
+            replace: true
+        };
     }]);
