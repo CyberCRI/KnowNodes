@@ -711,7 +711,7 @@ function KnownodeInputCtrl($scope, hybridSearch, $routeParams) {
     $scope.form = {};
     $scope.form.knownodeForm = {};
     $scope.form.knownodeRelation = {};
-    $scope.form.knownodeRelation.connectionType = 'Computer asks why?';
+    $scope.form.knownodeRelation.connectionType = 'Choose link type';
     $scope.dropText = 'Drop files here...';
 //$scope.form.originalPostId = $scope.form.knownodeRelation.originalPostId = $routeParams.id;
     $scope.errorMessage = null;
