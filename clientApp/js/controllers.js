@@ -185,6 +185,41 @@ function ConceptListCtrl($scope, $http, $routeParams, userService) {
 }
 ConceptListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
 
+function ConceptGraphCtrl($scope, $http, $routeParams, userService) {
+    /*
+    $scope.isUserLoggedIn = userService.isUserLoggedIn();
+    var showtoggle2 = false;
+    $scope.plusToggle = function (classToToggle) {
+        if (showtoggle2) {
+            showtoggle2 = false;
+        } else {
+            showtoggle2 = classToToggle;
+        }
+        return showtoggle2;
+    };
+
+    angular.forEach($scope.edges, function (value, id) {
+        if ($routeParams.id === value.source1.id) {
+            $scope.subtitletest = value.source1.title;
+        }
+        if ($routeParams.id === value.source2.id) {
+            $scope.subtitletest = value.source2.title;
+        }
+    });
+
+    $http.get('/concepts').success(function (data, status, headers, config) {
+        if (data.error) {
+            alert(data.error);
+            return;
+        }
+        $scope.conceptList = data.success;
+    });
+
+    $scope.orderProp = "date";
+    */
+}
+ConceptGraphCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
+
 
 function ArticleListCtrl($scope, $http, $routeParams, userService) {
     $scope.addNode = false;
@@ -197,7 +232,7 @@ function ArticleListCtrl($scope, $http, $routeParams, userService) {
         }
         return false;
     }
-    $scope.$broadcast("rootNodeExists", {rootNodeExists:true});
+    $scope.$broadcast('rootNodeExists', {rootNodeExists: true});
 
     $scope.deleteArticle = function (id, index) {
         if (confirm("Are you sure you want to delete this post?")) {
@@ -219,8 +254,8 @@ function ArticleListCtrl($scope, $http, $routeParams, userService) {
     $http.get('/knownodes/:' + conceptId).success(function (data, status, headers, config) {
         $scope.concept = data.success;
 
-        $scope.$broadcast("rootNodeExists");
-        if ($scope.concept.url.match(/youtube.com/ig)) {
+        $scope.$broadcast('rootNodeExists');
+        if ($scope.concept.url != null && $scope.concept.url.match(/youtube.com/ig)) {
             var search = $scope.concept.url.split('?')[1];
             var video_id = search.split('v=')[1];
             var ampersandPosition = video_id.indexOf('&');
@@ -606,11 +641,10 @@ SearchCtrl.$inject = ['$scope', '$http', '$rootScope'];
 
 function KnownodeInputCtrl($scope, hybridSearch, $routeParams) {
 
-    $scope.bgColor="";
-    $scope.$on("rootNodeExists", function(){
-        $scope.rootNodeExists="True";
+    $scope.bgColor = '';
+    $scope.$on('rootNodeExists', function () {
+        $scope.rootNodeExists = true;
     });
-    $scope.relation = {type: 'understanding', title: ''};
 
     $scope.inputOptions = {
         minimumInputLength: 3,
@@ -623,24 +657,67 @@ function KnownodeInputCtrl($scope, hybridSearch, $routeParams) {
                     data.results.push({id: results.nodes[i].results.KN_ID, text: results.nodes[i].results.title});
                 }
                 for (i = 0; i < results.articles.length; i++) {
-                    data.results.push({id: results.articles[i].title, text: results.articles[i].title.toUpperCase()});
+                    data.results.push({id: results.articles[i].title, text: results.articles[i].title, wiki: true});
                 }
                 query.callback(data);
             });
+        },
+        formatResult: function movieFormatResult(node) {
+            var markup = "<table class='suggestion'><tr>";
+            markup += "<td class='suggestion-info'><div class='suggestion-title'>" + node.text + "</div></td>";
+            if (node.wiki) {
+                markup += "<td class='suggestion-image'><img src='img/wikipedia-icon.png'/></td>";
+            }
+            markup += "</tr></table>"
+            return markup;
         }
+    }
+
+    $scope.isNodeSelected = function () {
+        return $scope.selectedNode != null;
     };
-    
-    $scope.userGenNode=false;
+
+    $scope.$watch('selectedSuggestions', function () {
+        if (isSuggestionSelected()) {
+            $scope.selectedNode = getSelectedSuggestion();
+            $('.select2-container').hide();
+        }
+        else {
+            $scope.selectedNode = null;
+            $('.select2-container').show();
+        }
+    });
+
+    $scope.selectedSuggestions = null;
+
+    var isSuggestionSelected = function () {
+        return $scope.selectedSuggestions != null && $scope.selectedSuggestions.length > 0;
+    }
+
+    var getSelectedSuggestion = function () {
+        if (!isSuggestionSelected()) throw 'No Selected Suggestion';
+        return $scope.selectedSuggestions[0];
+    }
+
+    $scope.isFormValid = function () {
+        return $scope.isNodeSelected()
+            && $scope.form.knownodeRelation.text != null
+            && $scope.form.knownodeRelation.text.length > 5
+            && $scope.form.knownodeRelation.connectionType != null
+            && $scope.form.knownodeRelation.connectionType.length > 5;
+    }
+
+    $scope.userGenNode = false;
     $scope.form = {};
     $scope.form.knownodeForm = {};
     $scope.form.knownodeRelation = {};
-    $scope.form.knownodeRelation.connectionType = "Computer asks why?";
+    $scope.form.knownodeRelation.connectionType = 'Choose link type';
     $scope.dropText = 'Drop files here...';
-    //$scope.form.originalPostId = $scope.form.knownodeRelation.originalPostId = $routeParams.id;
+//$scope.form.originalPostId = $scope.form.knownodeRelation.originalPostId = $routeParams.id;
     $scope.errorMessage = null;
     $scope.reversedDirection = false;
-    $scope.categoryClick = function( category ){
-        $scope.bgColor=category;
+    $scope.categoryClick = function (category) {
+        $scope.bgColor = category;
         $scope.form.knownodeRelation.connectionType = category;
     };
 }
