@@ -1,5 +1,5 @@
 /*
-Version: 3.4.0 Timestamp: Tue May 14 08:27:33 PDT 2013
+Version: @@ver@@ Timestamp: @@timestamp@@
 */
 .select2-container {
     margin: 0;
@@ -124,7 +124,22 @@ Version: 3.4.0 Timestamp: Tue May 14 08:27:33 PDT 2013
     cursor: pointer;
 }
 
+.select2-drop-undermask {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 9998;
+    background-color: transparent;
+    filter: alpha(opacity=0);
+}
+
 .select2-drop-mask {
+    border: 0;
+    margin: 0;
+    padding: 0;
     position: absolute;
     left: 0;
     top: 0;
