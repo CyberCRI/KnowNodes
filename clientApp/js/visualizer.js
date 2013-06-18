@@ -115,9 +115,38 @@ var Renderer = function(canvasId, centralNode, relatedNodes){
                 ctx.stroke();
 
                 //Label the edge
-                ctx.fillStyle = "rgba(255,255,255, "+edge.target.data.alpha+")";
+                ctx.fillStyle = "rgba(255,255,255, "+edgeAlpha+")";
                 ctx.font = "bold 12px Roboto";
                 ctx.fillText (edge.data.connectionType, (pt1.x + pt2.x) / 2, (pt1.y + pt2.y) / 2);
+
+                //Put arrow
+                var wt = 3;
+                var offset = -30;
+                var arrowWidth = 10;
+                var arrowLength = 20;
+                var head = pt2;
+                var tail = pt1;
+
+                if(edge.data.toNodeId === centralNode.success.id){
+                    head = pt1;
+                    tail = pt2;
+                }
+                ctx.save();
+                ctx.translate(head.x, head.y);
+                ctx.rotate(Math.atan2(head.y - tail.y, head.x - tail.x));
+
+                // delete some of the edge that's already there (so the point isn't hidden)
+                //ctx.clearRect(-arrowLength/2,-wt/2, arrowLength/2,wt)
+
+                // draw the chevron
+                ctx.beginPath();
+                ctx.moveTo(offset-arrowLength, arrowWidth);
+                ctx.lineTo(offset, 0);
+                ctx.lineTo(offset-arrowLength, -arrowWidth);
+                ctx.lineTo(offset-arrowLength * 0.8, -0);
+                ctx.closePath();
+                ctx.fill();
+                ctx.restore();
             });
 
             sys.eachNode(function(node, pt){
