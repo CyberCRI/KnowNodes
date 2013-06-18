@@ -634,7 +634,7 @@ function SearchCtrl($scope, $http, $rootScope) {
 }
 SearchCtrl.$inject = ['$scope', '$http', '$rootScope'];
 
-function KnownodeInputCtrl($scope, hybridSearch, $routeParams) {
+function KnownodeInputCtrl($scope, $http, $route, $routeParams, hybridSearch) {
 
     $scope.bgColor = '';
     $scope.$on('rootNodeExists', function () {
@@ -648,6 +648,8 @@ function KnownodeInputCtrl($scope, hybridSearch, $routeParams) {
                 console.log('Got ' + results.nodes.length + ' nodes');
                 console.log('Got ' + results.articles.length + ' articles');
                 var data = {results: []}, i;
+                // First item is the create node option
+                data.results.push({id: 'create_data_option_id', text: 'Create Resource', create: true});
                 for (i = 0; i < results.nodes.length; i++) {
                     data.results.push({id: results.nodes[i].results.KN_ID, text: results.nodes[i].results.title});
                 }
@@ -676,6 +678,11 @@ function KnownodeInputCtrl($scope, hybridSearch, $routeParams) {
         if (isSuggestionSelected()) {
             $scope.selectedNode = getSelectedSuggestion();
             $('.select2-container').hide();
+            if ($scope.selectedNode.create) {
+                $scope.userGenNode = true;
+                // TODO Initialize the form title with the user input
+//                $scope.form.knownodeForm.title =
+            }
         }
         else {
             $scope.selectedNode = null;
@@ -697,7 +704,7 @@ function KnownodeInputCtrl($scope, hybridSearch, $routeParams) {
     $scope.isFormValid = function () {
         return $scope.isNodeSelected()
             && $scope.form.knownodeRelation.text != null
-            && $scope.form.knownodeRelation.text.length > 5
+            && $scope.form.knownodeRelation.text.length > 3
             && $scope.form.knownodeRelation.connectionType != null
             && $scope.form.knownodeRelation.connectionType.length > 5;
     }
@@ -708,13 +715,50 @@ function KnownodeInputCtrl($scope, hybridSearch, $routeParams) {
     $scope.form.knownodeRelation = {};
     $scope.form.knownodeRelation.connectionType = 'Choose link type';
     $scope.dropText = 'Drop files here...';
-//$scope.form.originalPostId = $scope.form.knownodeRelation.originalPostId = $routeParams.id;
     $scope.errorMessage = null;
     $scope.reversedDirection = false;
     $scope.categoryClick = function (category) {
         $scope.bgColor = category;
         $scope.form.knownodeRelation.connectionType = category;
     };
-}
-KnownodeInputCtrl.$inject = ['$scope', 'hybridSearch'];
 
+    $scope.submit = function () {
+        $scope.form.originalPostId = $scope.form.knownodeRelation.originalPostId = $routeParams.id;
+        if (!$scope.isNodeSelected()) return;
+        if ($scope.selectedNode.create) {
+            createWithNewResource();
+        } else if ($scope.selectedNode.wiki) {
+            // TODO Create/Get Wiki Node
+        }
+        else {
+            createWithExistingResource();
+        }
+    }
+
+    var createWithNewResource = function () {
+        saveForm();
+    };
+
+    var createWithExistingResource = function () {
+        $scope.form.existingNode = $scope.selectedNode.id;
+        saveForm();
+    };
+
+    var saveForm = function () {
+        if ($scope.reversedDirection) {
+            $scope.form.knownodeRelation.reversedDirection = true;
+        }
+        $http.post('/knownodes', $scope.form).
+            success(function (data, status, headers, config) {
+                if (data.success) {
+                    $route.reload();
+                }
+                if (data.error) {
+                    $scope.errorMessage = data.error
+                }
+                $("#btnSubmitPost").removeAttr('disabled');
+                $scope.existingNode = null;
+            });
+    }
+}
+KnownodeInputCtrl.$inject = ['$scope', '$http', '$route', '$routeParams', 'hybridSearch'];
