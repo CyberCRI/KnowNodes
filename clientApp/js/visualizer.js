@@ -113,6 +113,11 @@ var Renderer = function(canvasId, centralNode, relatedNodes){
                 ctx.moveTo(pt1.x, pt1.y);
                 ctx.lineTo(pt2.x, pt2.y);
                 ctx.stroke();
+
+                //Label the edge
+                ctx.fillStyle = "white";
+                ctx.font = "bold 12px Roboto";
+                ctx.fillText (edge.data.connectionType, (pt1.x + pt2.x) / 2, (pt1.y + pt2.y) / 2);
             });
 
             sys.eachNode(function(node, pt){
