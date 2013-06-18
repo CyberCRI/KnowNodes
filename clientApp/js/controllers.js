@@ -1,6 +1,7 @@
 'use strict';
 //Dor experiments
 function TopBarCtrl($scope) {
+    $scope.mapButton = false;
     var result = false;
     $scope.toggle = function (classToToggle) {
         if (result) {
@@ -10,6 +11,7 @@ function TopBarCtrl($scope) {
         }
         return result;
     };
+
 }
 TopBarCtrl.$inject = ['$scope'];
 
