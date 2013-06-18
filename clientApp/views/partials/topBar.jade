@@ -11,7 +11,9 @@ div.header.row.topbar
     span
         a.btn.btn-link.info(href="/conceptList") View concepts
     span
-        a.btn.btn-link.info(href="/conceptGraph") View map
+        a.btn.btn-link.info(href="/conceptGraph", ng-click="mapButton=true", ng-hide="mapButton") View map
+        a.btn.btn-link.info(href="javascript:history.go(-1)", ng-click="mapButton=false", ng-show="mapButton") View list
+
     span
         a.btn.btn-link.info(href="/addConcept", ng-show="isLoggedIn()") Add new concept
     span
