@@ -1,6 +1,6 @@
-var NODES_PER_LAYER = 6;
+var NODES_PER_LAYER = 3;
 
-var Renderer = function(canvasId){
+var Renderer = function(canvasId, centralNode, relatedNodes){
     var canvas = $(canvasId).get(0);
     var ctx = canvas.getContext("2d");
     var sys = null;
@@ -42,68 +42,10 @@ var Renderer = function(canvasId){
         initData: function(){
             //console.log("initData");
 
-            var data = {
-                "success":
-                {
-                    "KN_ID":"233e18f7-01a1-4acb-83b2-4adeedd276fd",
-                    "__CreatedOn__":"2013-03-02T00:09:45.433Z",
-                    "title":"Prospects of mammalian synthetic biology in therapeutic innovation",
-                    "url":null,
-                    "bodyText":"For a decade Synthetic biology has tried to bring engineering approaches into classic molecular biology. Many hopes are now placed on this new field to tackle some of the challenges 21st century medicine is facing. In particular synthetic gene networks in human cells could revolutionize treatment strategy of a lot of diseases ranging from cancer to metabolic disorders. However this emerging field still needs to overcome legal, ethical and scientific difficulties before saving its first human life.",
-                    "postType":"Concept",
-                    "active":true,
-                    "fileId":null,
-                    "fileName":null,
-                    "fileData":null,
-                    "id":15
-                }
-            };
+            centralNode.success.alpha = 1;
+            sys.addNode('centerNode', centralNode.success);
 
-            data.alpha = 1;
-            sys.addNode('centerNode', data);
-
-            that.jsonData = {"success": [
-                {
-                    "article": {
-                        "KN_ID": "329a7b94-ddb5-4b12-b298-1e34ec21f875",
-                        "url": "http://www.ucl.ac.uk/systems-biology/journalclub/2009_Fusseneger_nature07616.pdf",
-                        "title": "A tunable synthetic mammalian oscillator",
-                        "__CreatedOn__": 1362514509022,
-                        "nodeType": "kn_Post",
-                        "active": true,
-                        "bodyText": "Autonomous and self-sustained oscillator circuits mediating the periodic induction of specific target genes are minimal genetic time-keeping devices found in the central and peripheral circadian clocks1,2. They have attracted significant attention because of their intriguing dynamics and their importance in controlling critical repair3, metabolic4 and signalling pathways5. The precise molecular mechanism and expression dynamics of this mammalian circadian clock are still not fully understood. Here we describe a synthetic mammalian oscillator based on an auto-regulated sense–antisense transcription control circuit encoding a positive and a time-delayed negative feedback loop, enabling autonomous, self-sustained and tunable oscillatory gene expression. After detailed systems design with experimental analyses and mathematical modelling, we moni- tored oscillating concentrations of green fluorescent protein with tunable frequency and amplitude by time-lapse microscopy in real time in individual Chinese hamster ovary cells. The synthetic mam- malian clock may provide an insight into the dynamics of natural periodic processes and foster advances in the design of prosthetic networks in future gene and cell therapies.",
-                        "id": 108,
-                        "user": {
-                            "id": 104,
-                            "KN_ID": "3fd9419e-46fa-42f7-8ac4-3ce43847a56b",
-                            "email": "ophelie.foubet@gmail.com",
-                            "firstName": "Ophélie",
-                            "lastName": "Foubet",
-                            "displayName": "Ophélie Foubet"
-                        }
-                    },
-                    "connection": {
-                        "KN_ID": "d7d6756f-492a-4a40-96cb-ab0552244c82",
-                        "bodyText": "This is a letter  published in Nature in 2009 by Marcel Tigges, Tatiana T. Marquez-Lago, Jo ̈rg Stelling and Martin Fussenegger.\n\nThis article is about the circandians circles in mammalians. Their dynamics are not fully understood, either their molecular pathways.\n\nThus, they tried to reproduce a  synthetic mammalian oscillator, autonomous and tunable, to undersand the dynamic of genes transcription into a cell, using a novel network design combining an autoregulated positive transcription feedback with a two-step transcription cascade producing non-coding antisense RNA for translation control.\n\nThey tried their system on Chinese hamster ovary cells and observed some oscillations of UbV76–GFP fluorescence. These were spontaneous, autonomous, self-sustained and robust. They could disturbed the oscillations deliberately by adding antibiotics. \nThe frequency of the oscillations were found by Fast Fourier transformation-based analysis. They found a frequency of 170 6 71 min, with an amplitude of 1.81 6 1.96 fluorescence units.\n\nFinally, this synthetic mammalian oscillator is very useful to continue on more therapeutic innovations, as, for example, the Huntington’s and Alzheimer’s diseases are related to circadians' clocks...",
-                        "title": "Provides bases for a better understanding of mammalians' clocks",
-                        "__CreatedOn__": 1362514510889,
-                        "fromNodeId": 15,
-                        "connectionType": "gives background to",
-                        "nodeType": "kn_Edge",
-                        "active": true,
-                        "toNodeId": 108,
-                        "user": {
-                            "id": 104,
-                            "KN_ID": "3fd9419e-46fa-42f7-8ac4-3ce43847a56b",
-                            "email": "ophelie.foubet@gmail.com",
-                            "firstName": "Ophélie",
-                            "lastName": "Foubet",
-                            "displayName": "Ophélie Foubet"
-                        }
-                    },
-                    "commentCount": 0,
-                    "edgeCount": 0
-                }]};
+            that.jsonData = relatedNodes;
 
             for ( var i=0; i < that.jsonData.success.length; i++){
                 that.jsonData.success[i].article.layer = Math.floor(i / NODES_PER_LAYER);
@@ -171,6 +113,40 @@ var Renderer = function(canvasId){
                 ctx.moveTo(pt1.x, pt1.y);
                 ctx.lineTo(pt2.x, pt2.y);
                 ctx.stroke();
+
+                //Label the edge
+                ctx.fillStyle = "rgba(255,255,255, "+edgeAlpha+")";
+                ctx.font = "bold 12px Roboto";
+                ctx.fillText (edge.data.connectionType, (pt1.x + pt2.x) / 2, (pt1.y + pt2.y) / 2);
+
+                //Put arrow
+                var wt = 3;
+                var offset = -30;
+                var arrowWidth = 10;
+                var arrowLength = 20;
+                var head = pt2;
+                var tail = pt1;
+
+                if(edge.data.toNodeId === centralNode.success.id){
+                    head = pt1;
+                    tail = pt2;
+                }
+                ctx.save();
+                ctx.translate(head.x, head.y);
+                ctx.rotate(Math.atan2(head.y - tail.y, head.x - tail.x));
+
+                // delete some of the edge that's already there (so the point isn't hidden)
+                //ctx.clearRect(-arrowLength/2,-wt/2, arrowLength/2,wt)
+
+                // draw the chevron
+                ctx.beginPath();
+                ctx.moveTo(offset-arrowLength, arrowWidth);
+                ctx.lineTo(offset, 0);
+                ctx.lineTo(offset-arrowLength, -arrowWidth);
+                ctx.lineTo(offset-arrowLength * 0.8, -0);
+                ctx.closePath();
+                ctx.fill();
+                ctx.restore();
             });
 
             sys.eachNode(function(node, pt){
@@ -286,24 +262,3 @@ var Renderer = function(canvasId){
 
     return that;
 };
-
-
-
-$(document).ready(function(){
-    var css = jQuery("<link>");
-    css.attr({
-        rel:  "stylesheet",
-        type: "text/css",
-        href: "http://fonts.googleapis.com/css?family=Roboto"
-    });
-    $("head").append(css);
-
-    var sys = arbor.ParticleSystem(1000, 600, 0.5); // create the system with sensible repulsion/stiffness/friction
-    sys.parameters({gravity:true}); // use center-gravity to make the graph settle nicely (ymmv)
-    sys.renderer = Renderer("#viewport"); // our newly created renderer will have its .init() method called shortly by sys...
-
-    $(sys.renderer).bind('layer', function(e){
-        sys.renderer.onLayerChange(e.layer);
-    })
-
-});
