@@ -185,43 +185,33 @@ function ConceptListCtrl($scope, $http, $routeParams, userService) {
 }
 ConceptListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
 
-function ConceptGraphCtrl($scope, $http, $routeParams, userService) {
-    /*
-    $scope.isUserLoggedIn = userService.isUserLoggedIn();
-    var showtoggle2 = false;
-    $scope.plusToggle = function (classToToggle) {
-        if (showtoggle2) {
-            showtoggle2 = false;
-        } else {
-            showtoggle2 = classToToggle;
-        }
-        return showtoggle2;
-    };
+function ConceptGraphCtrl($scope, $http, $routeParams, userService, PassKnownodeToGraph) {
+    //var conceptId = $scope.conceptId = $routeParams.id;
+    $(document).ready(function(){
+        var css = jQuery("<link>");
+        css.attr({
+            rel:  "stylesheet",
+            type: "text/css",
+            href: "http://fonts.googleapis.com/css?family=Roboto"
+        });
+        $("head").append(css);
 
-    angular.forEach($scope.edges, function (value, id) {
-        if ($routeParams.id === value.source1.id) {
-            $scope.subtitletest = value.source1.title;
-        }
-        if ($routeParams.id === value.source2.id) {
-            $scope.subtitletest = value.source2.title;
-        }
+        var sys = arbor.ParticleSystem(1000, 600, 0.5); // create the system with sensible repulsion/stiffness/friction
+        sys.parameters({gravity:true}); // use center-gravity to make the graph settle nicely (ymmv)
+
+        // our newly created renderer will have its .init() method called shortly by sys...
+        sys.renderer = Renderer("#viewport", PassKnownodeToGraph.getCentralNode(), PassKnownodeToGraph.getRelatedNodes());
+
+        $(sys.renderer).bind('layer', function(e){
+            sys.renderer.onLayerChange(e.layer);
+        })
+
     });
-
-    $http.get('/concepts').success(function (data, status, headers, config) {
-        if (data.error) {
-            alert(data.error);
-            return;
-        }
-        $scope.conceptList = data.success;
-    });
-
-    $scope.orderProp = "date";
-    */
 }
-ConceptGraphCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
+ConceptGraphCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'PassKnownodeToGraph'];
 
 
-function ArticleListCtrl($scope, $http, $routeParams, userService) {
+function ArticleListCtrl($scope, $http, $routeParams, userService, PassKnownodeToGraph) {
     $scope.addNode = false;
     $scope.currentKnownode = {};
     //$scope.passKnownode = PassKnownode;
@@ -253,6 +243,7 @@ function ArticleListCtrl($scope, $http, $routeParams, userService) {
     var conceptId = $scope.conceptId = $routeParams.id;
     $http.get('/knownodes/:' + conceptId).success(function (data, status, headers, config) {
         $scope.concept = data.success;
+        PassKnownodeToGraph.setCentralNode(data);
 
         $scope.$broadcast('rootNodeExists');
         if ($scope.concept.url != null && $scope.concept.url.match(/youtube.com/ig)) {
@@ -271,19 +262,22 @@ function ArticleListCtrl($scope, $http, $routeParams, userService) {
             return $scope.errorMessage = data.error;
         }
         $scope.knownodeList = data.success;
+        PassKnownodeToGraph.setRelatedNodes(data);
     });
+
     $scope.start = +new Date();
 
 }
-ArticleListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
+ArticleListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'PassKnownodeToGraph'];
 
 //knownode Post:
-function KnownodeCtrl($scope, $http, $routeParams, userService) {
+function KnownodeCtrl($scope, $http, $routeParams, userService, PassKnownodeToGraph) {
     var knownodeId = $scope.conceptId = $routeParams.id;
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
 
     $http.get('/knownodes/:' + knownodeId).success(function (data, status, headers, config) {
         $scope.knownode = data.success;
+        PassKnownodeToGraph.setCentralNode(data);
         if (data.success.fileData) {
             $scope.attachedFile = JSON.parse(data.success.fileData);
         }
@@ -294,9 +288,10 @@ function KnownodeCtrl($scope, $http, $routeParams, userService) {
             return $scope.errorMessage = data.error;
         }
         $scope.knownodeList = data.success;
+        PassKnownodeToGraph.setRelatedNodes(data);
     });
 }
-KnownodeCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
+KnownodeCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'PassKnownodeToGraph'];
 
 
 function EditPostCtrl($scope, $http, $location, $routeParams) {
