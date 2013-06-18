@@ -105,32 +105,10 @@ function writeAllPagesAndCat(catagory,level,callback){
 	})
 }
 
-/*
-import all the datas 
-writeAllPagesAndCat('Category:Computer_science',1,function(level,catagory){
-	console.log(level,catagory,pageCount,catCount);
-});
-*/
-// read the file and save it into the other new files
-/*
-var lazy=require('lazy');
-// read all the txt and convert it with title, 
-new lazy(fs.createReadStream('article.txt'))
-	.lines
-	.forEach(function(line){
-		var array=line.toString().split(',');
-		var title=array[0].replace(" ","_");
-		var catagory=array[1].replace("Category:","");
-		var url="http://en.wikipedia.org/wiki/"+title;
-		//console.log(title,url,catagory);
-	})
-*/
-
-
 function calculateStrength(startingNode,endingnode,callback)  {
    var connected=0;
-	getInternalLinks(startingNode,function(datas){
-		
+  getInternalLinks(startingNode,function(datas){
+    
         getInternalLinks(endingnode,function(endNodeDatas){
            var titles=[];
            for(var i in endNodeDatas){
@@ -138,12 +116,12 @@ function calculateStrength(startingNode,endingnode,callback)  {
            }
 
             for(var i=0;i<datas.length;i++){
-		       	 if(titles.indexOf(datas[i].title)!=-1){
+             if(titles.indexOf(datas[i].title)!=-1){
                    connected++ ;
-		       	 	 
-		       	 }
-		    }
-		      callback(connected/datas.length,connected,connected/endNodeDatas.length);
+               
+             }
+        }
+          callback(connected/datas.length,connected,connected/endNodeDatas.length);
         })
         
     });  
@@ -152,18 +130,23 @@ function calculateStrength(startingNode,endingnode,callback)  {
 
 
 function getFirstParagraph(title,callback){
-	
-	client.api.call({
-		action: 'parse',
-		page:title,
-		prop: 'text',
-		},function(data){
-		var regex = /<p>.+<\/p>/;
-		match = regex.exec(data.text['*']);
+  
+  client.api.call({
+    action: 'parse',
+    page:title,
+    prop: 'text',
+    },function(data){
+    var regex = /<p>.+<\/p>/;
+    match = regex.exec(data.text['*']);
          callback(match[0]);
-	})
+  })
 }
-getFirstParagraph("Python (programming language)",console.log);
+
+// import all the datas 
+writeAllPagesAndCat('Category:Computer_science',1,function(level,catagory){
+	console.log(level,catagory,pageCount,catCount);
+});
+
 
 
 
