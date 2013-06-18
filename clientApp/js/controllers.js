@@ -186,6 +186,7 @@ function ConceptListCtrl($scope, $http, $routeParams, userService) {
 ConceptListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
 
 function ConceptGraphCtrl($scope, $http, $routeParams, userService, PassKnownodeToGraph) {
+    //var conceptId = $scope.conceptId = $routeParams.id;
     $(document).ready(function(){
         var css = jQuery("<link>");
         css.attr({
