@@ -115,7 +115,7 @@ var Renderer = function(canvasId, centralNode, relatedNodes){
                 ctx.stroke();
 
                 //Label the edge
-                ctx.fillStyle = "white";
+                ctx.fillStyle = "rgba(255,255,255, "+edge.target.data.alpha+")";
                 ctx.font = "bold 12px Roboto";
                 ctx.fillText (edge.data.connectionType, (pt1.x + pt2.x) / 2, (pt1.y + pt2.y) / 2);
             });
