@@ -1,4 +1,4 @@
-var NODES_PER_LAYER = 6;
+var NODES_PER_LAYER = 3;
 
 var Renderer = function(canvasId, centralNode, relatedNodes){
     var canvas = $(canvasId).get(0);
@@ -42,8 +42,8 @@ var Renderer = function(canvasId, centralNode, relatedNodes){
         initData: function(){
             //console.log("initData");
 
-            centralNode.alpha = 1;
-            sys.addNode('centerNode', centralNode);
+            centralNode.success.alpha = 1;
+            sys.addNode('centerNode', centralNode.success);
 
             that.jsonData = relatedNodes;
 
