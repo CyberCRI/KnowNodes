@@ -9,7 +9,7 @@ div.connection.span11(ng-class="bgColor")
         a.btn.reverse-direction(ng-show="reversedDirection", ng-click="reversedDirection=false", title="reverse connection direction")
           i.icon-arrow-down
           i.icon-arrow-up
-        input#appendedPrependedDropdownButton.span6(type="text", ng-model='form.knownodeRelation.title', name='title', required, ng-maxlength='250', placeholder="What is their relationship?")
+        input#appendedPrependedDropdownButton.span6(ng-model='form.knownodeRelation.title', name='title', required, type="text", ng-maxlength='80', placeholder="What is their relationship?")
 
         a.btn.dropdown-toggle(href="javascript:void(0);", data-toggle="dropdown") &nbsp; {{form.knownodeRelation.connectionType}}
           span.caret(style="float:left;")
