@@ -107,12 +107,13 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     })
-    .directive('edge', function () {
+    .directive('relation', function () {
         return {
             restrict: 'EAC',
             transclude: true,
-            templateUrl: 'partials/directiveTemplates/edge',
-            replace: true
+            templateUrl: 'partials/directiveTemplates/relation',
+            replace: true,
+            controller: RelationCtrl
         };
     })
     .directive('navBarTop', function () {
