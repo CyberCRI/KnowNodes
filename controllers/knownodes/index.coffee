@@ -7,6 +7,7 @@ relationModule = require('../../modules/relation')
 baseController = require('../baseController')
 commentModule = require('../../modules/comment')
 bot = require('../../bundledModules/nodemw')
+request = require("request")
 
 client = new bot
   server: 'en.wikipedia.org', # host name of MediaWiki-powered site
@@ -121,39 +122,43 @@ module.exports =
     modKnownode.getNodesToKeyword id, cb
 
   # Takes a "title" form parameter
-  wikinode: (request, response) ->
+  wikinode: (req, resp) ->
     RELATION_DATA = 
       connectionType: "Wikipedia Link"
 
-    cb = baseController.callBack response
-    modKnownode = new knownodeModule request.user
+    cb = baseController.callBack resp
+    modKnownode = new knownodeModule req.user
     console.log("Making wikinode")
 
-    console.log("title = ", request.body.title)
-    url = makeWikipediaUrl(request.body.title)
+    console.log("title = ", req.body.title)
+    url = makeWikipediaUrl(req.body.title)
     console.log("url = ", url)
     modKnownode.getKnownodeByUrl url, (err, existingNode) ->
-      if existingNode 
+      if existingNode
         console.log("Wikinode already exists")
         return cb(null, existingNode)
 
-      getFirstParagraph request.body.title, (description) ->
-        knownodeData = 
-          title: request.body.title
-          bodyText: description
-          url: url
-        console.log("wikinode data", knownodeData)
-        modKnownode.createNewKnownode knownodeData, (err, newNode) ->
-          onDone = makeCallbackJoin 3, -> cb(null, newNode)
+      request.get url, (err, response) ->
+        if response.statusCode != 200
+          return cb("No such Wikipedia page")
+        else
+          console.log("Wikipedia page exists")
+          getFirstParagraph req.body.title, (description) ->
+            knownodeData =
+              title: req.body.title
+              bodyText: description
+              url: url
+            console.log("wikinode data", knownodeData)
+            modKnownode.createNewKnownode knownodeData, (err, newNode) ->
+              onDone = makeCallbackJoin 3, -> cb(null, newNode)
 
-          getInternalLinks request.body.title, (linkedTitles) ->
-            urls = (makeWikipediaUrl(linkedTitle) for linkedTitle in linkedTitles)
-            makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA, false, onDone)
-          client.getExternalLinks request.body.title, (externalLinks) ->
-            urls = (link["*"] for link in externalLinks when link["*"].indexOf("http://") == 0)
-            makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA, false, onDone)
-          client.getBacklinks request.body.title, (backlinks) ->
-            urls = (makeWikipediaUrl(link.title) for link in backlinks)
-            makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA, true, onDone)
-
+              getInternalLinks req.body.title, (linkedTitles) ->
+                urls = (makeWikipediaUrl(linkedTitle) for linkedTitle in linkedTitles)
+                makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA, false, onDone)
+              client.getExternalLinks req.body.title, (externalLinks) ->
+                urls = (link["*"] for link in externalLinks when link["*"].indexOf("http://") == 0)
+                makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA, false, onDone)
+              client.getBacklinks req.body.title, (backlinks) ->
+                urls = (makeWikipediaUrl(link.title) for link in backlinks)
+                makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA, true, onDone)
 

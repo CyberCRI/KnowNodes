@@ -1,6 +1,7 @@
 'use strict';
 //Dor experiments
 function TopBarCtrl($scope) {
+    $scope.mapButton = false;
     var result = false;
     $scope.toggle = function (classToToggle) {
         if (result) {
@@ -10,6 +11,7 @@ function TopBarCtrl($scope) {
         }
         return result;
     };
+
 }
 TopBarCtrl.$inject = ['$scope'];
 
@@ -185,8 +187,33 @@ function ConceptListCtrl($scope, $http, $routeParams, userService) {
 }
 ConceptListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
 
+function ConceptGraphCtrl($scope, $http, $routeParams, userService, PassKnownodeToGraph) {
+    //var conceptId = $scope.conceptId = $routeParams.id;
+    $(document).ready(function () {
+        var css = jQuery("<link>");
+        css.attr({
+            rel: "stylesheet",
+            type: "text/css",
+            href: "http://fonts.googleapis.com/css?family=Roboto"
+        });
+        $("head").append(css);
 
-function ArticleListCtrl($scope, $http, $routeParams, userService) {
+        var sys = arbor.ParticleSystem(1000, 600, 0.5); // create the system with sensible repulsion/stiffness/friction
+        sys.parameters({gravity: true}); // use center-gravity to make the graph settle nicely (ymmv)
+
+        // our newly created renderer will have its .init() method called shortly by sys...
+        sys.renderer = Renderer("#viewport", PassKnownodeToGraph.getCentralNode(), PassKnownodeToGraph.getRelatedNodes());
+
+        $(sys.renderer).bind('layer', function (e) {
+            sys.renderer.onLayerChange(e.layer);
+        })
+
+    });
+}
+ConceptGraphCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'PassKnownodeToGraph'];
+
+
+function ArticleListCtrl($scope, $http, $routeParams, userService, PassKnownodeToGraph) {
     $scope.addNode = false;
     $scope.currentKnownode = {};
     //$scope.passKnownode = PassKnownode;
@@ -218,6 +245,7 @@ function ArticleListCtrl($scope, $http, $routeParams, userService) {
     var conceptId = $scope.conceptId = $routeParams.id;
     $http.get('/knownodes/:' + conceptId).success(function (data, status, headers, config) {
         $scope.concept = data.success;
+        PassKnownodeToGraph.setCentralNode(data);
 
         $scope.$broadcast('rootNodeExists');
         if ($scope.concept.url != null && $scope.concept.url.match(/youtube.com/ig)) {
@@ -236,19 +264,22 @@ function ArticleListCtrl($scope, $http, $routeParams, userService) {
             return $scope.errorMessage = data.error;
         }
         $scope.knownodeList = data.success;
+        PassKnownodeToGraph.setRelatedNodes(data);
     });
+
     $scope.start = +new Date();
 
 }
-ArticleListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
+ArticleListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'PassKnownodeToGraph'];
 
 //knownode Post:
-function KnownodeCtrl($scope, $http, $routeParams, userService) {
+function KnownodeCtrl($scope, $http, $routeParams, userService, PassKnownodeToGraph) {
     var knownodeId = $scope.conceptId = $routeParams.id;
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
 
     $http.get('/knownodes/:' + knownodeId).success(function (data, status, headers, config) {
         $scope.knownode = data.success;
+        PassKnownodeToGraph.setCentralNode(data);
         if (data.success.fileData) {
             $scope.attachedFile = JSON.parse(data.success.fileData);
         }
@@ -259,9 +290,10 @@ function KnownodeCtrl($scope, $http, $routeParams, userService) {
             return $scope.errorMessage = data.error;
         }
         $scope.knownodeList = data.success;
+        PassKnownodeToGraph.setRelatedNodes(data);
     });
 }
-KnownodeCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
+KnownodeCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'PassKnownodeToGraph'];
 
 
 function EditPostCtrl($scope, $http, $location, $routeParams) {
@@ -604,7 +636,7 @@ function SearchCtrl($scope, $http, $rootScope) {
 }
 SearchCtrl.$inject = ['$scope', '$http', '$rootScope'];
 
-function KnownodeInputCtrl($scope, hybridSearch, $routeParams) {
+function KnownodeInputCtrl($scope, $http, $route, $routeParams, hybridSearch) {
 
     $scope.bgColor = '';
     $scope.$on('rootNodeExists', function () {
@@ -618,6 +650,8 @@ function KnownodeInputCtrl($scope, hybridSearch, $routeParams) {
                 console.log('Got ' + results.nodes.length + ' nodes');
                 console.log('Got ' + results.articles.length + ' articles');
                 var data = {results: []}, i;
+                // First item is the create node option
+                data.results.push({id: 'create_data_option_id', text: 'Create Resource', create: true});
                 for (i = 0; i < results.nodes.length; i++) {
                     data.results.push({id: results.nodes[i].results.KN_ID, text: results.nodes[i].results.title});
                 }
@@ -646,6 +680,11 @@ function KnownodeInputCtrl($scope, hybridSearch, $routeParams) {
         if (isSuggestionSelected()) {
             $scope.selectedNode = getSelectedSuggestion();
             $('.select2-container').hide();
+            if ($scope.selectedNode.create) {
+                $scope.userGenNode = true;
+                // TODO Initialize the form title with the user input
+//                $scope.form.knownodeForm.title =
+            }
         }
         else {
             $scope.selectedNode = null;
@@ -667,7 +706,7 @@ function KnownodeInputCtrl($scope, hybridSearch, $routeParams) {
     $scope.isFormValid = function () {
         return $scope.isNodeSelected()
             && $scope.form.knownodeRelation.text != null
-            && $scope.form.knownodeRelation.text.length > 5
+            && $scope.form.knownodeRelation.text.length > 3
             && $scope.form.knownodeRelation.connectionType != null
             && $scope.form.knownodeRelation.connectionType.length > 5;
     }
@@ -676,15 +715,61 @@ function KnownodeInputCtrl($scope, hybridSearch, $routeParams) {
     $scope.form = {};
     $scope.form.knownodeForm = {};
     $scope.form.knownodeRelation = {};
-    $scope.form.knownodeRelation.connectionType = 'Computer asks why?';
+    $scope.form.knownodeRelation.connectionType = 'Choose link type';
     $scope.dropText = 'Drop files here...';
-//$scope.form.originalPostId = $scope.form.knownodeRelation.originalPostId = $routeParams.id;
     $scope.errorMessage = null;
     $scope.reversedDirection = false;
     $scope.categoryClick = function (category) {
         $scope.bgColor = category;
         $scope.form.knownodeRelation.connectionType = category;
     };
-}
-KnownodeInputCtrl.$inject = ['$scope', 'hybridSearch'];
 
+    $scope.submit = function () {
+        $scope.form.originalPostId = $scope.form.knownodeRelation.originalPostId = $routeParams.id;
+        if (!$scope.isNodeSelected()) return;
+        if ($scope.selectedNode.create) {
+            createWithNewResource();
+        } else if ($scope.selectedNode.wiki) {
+            // Create Wiki Node
+            $http.post('http://localhost:3000/knownodes/wikinode', {title: $scope.selectedNode.id})
+                .success(function (data, status) {
+                    createWithExistingResource(data.success.KN_ID);
+                })
+                .error(function (data, status) {
+                    console.log('Wikinode creation failed with status : ' + status);
+                    console.log('Error message : ' + data.message);
+                });
+        }
+        else {
+            createWithExistingResource($scope.selectedNode.id);
+        }
+    }
+
+    var createWithNewResource = function () {
+        saveForm();
+    };
+
+    var createWithExistingResource = function (targetId) {
+        $scope.form.existingNode = targetId;
+        $scope.form.knownodeForm = {};
+        saveForm();
+    };
+
+    var saveForm = function () {
+        if ($scope.reversedDirection) {
+            $scope.form.knownodeRelation.reversedDirection = true;
+        }
+        $http.post('/knownodes', $scope.form).
+            success(function (data, status, headers, config) {
+                if (data.success) {
+                    $route.reload();
+                }
+                if (data.error) {
+                    $scope.errorMessage = data.error
+                }
+                $("#btnSubmitPost").removeAttr('disabled');
+                $scope.existingNode = null;
+            });
+    }
+}
+KnownodeInputCtrl.$inject = ['$scope', '$http', '$route', '$routeParams', 'hybridSearch'];

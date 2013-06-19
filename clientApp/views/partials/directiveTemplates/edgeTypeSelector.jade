@@ -1,4 +1,4 @@
-div.input-prepend.input-append
+div.input-prepend
 
   div.btn-group(style="display:inline;", ng-model='form.knownodeRelation.connectionType', name="connectionType")
     a.btn.reverse-direction(ng-hide="reversedDirection", ng-click="reversedDirection=true", title="reverse connection direction")
@@ -10,20 +10,17 @@ div.input-prepend.input-append
     input#appendedPrependedDropdownButton.span6(type="text", ng-model='form.knownodeRelation.title', name='title', required, ng-maxlength='250', placeholder="What is their relationship?")
 
     a.btn.dropdown-toggle(href="javascript:void(0);", data-toggle="dropdown") &nbsp; {{form.knownodeRelation.connectionType}}
-        span.caret(style="float:left;")
-        span(ng-switch on='form.knownodeRelation.connectionType')
-            img(src="img/robot.png", ng-switch-default)
-            img(src="img/robot_yeah.png", ng-switch-when="explain")
-            img(src="img/robot_yeah.png", ng-switch-when="inspire")
-            img(src="img/robot_yeah.png", ng-switch-when="question")
-
+      span.caret(style="float:left;")
     ul.dropdown-menu(role="menu", aria-labelledby="dropdownMenu", style="left:50%")
-        li.dropdown
-          a.explain(tabindex='-1', href="javascript:void(0);", ng-click="categoryClick('explain')") to explain
-        li.dropdown
-          a.inspire(tabindex='-1', href="javascript:void(0);", ng-click="categoryClick('inspire')") to inspire
-        li.dropdown
-          a.question(tabindex='-1', href="javascript:void(0);", ng-click="categoryClick('question')") to question
+      li.dropdown-submenu
+        a(tabindex='-1', href="javascript:void(0);", ng-click="categoryClick('explain')") explain
+        ul.dropdown-menu.dropdown-menu_explain connection to tutorials, learning resources, videos...
+      li.dropdown-submenu
+        a.inspire(tabindex='-1', href="javascript:void(0);", ng-click="categoryClick('inspire')") inspire
+        ui.dropdown-menu.dropdown-menu_explain connection to an Idea, open question, funny or interesting things
+      li.dropdown-submenu
+        a.question(tabindex='-1', href="javascript:void(0);", ng-click="categoryClick('question')") question
+        ui.dropdown-menu.dropdown-menu_explain connection to a critique, contradictions, or a problem
 
   p.btn.btn-link.counter {{(80 -(form.knownodeRelation.title.length))}}
   span(ng-transclude)

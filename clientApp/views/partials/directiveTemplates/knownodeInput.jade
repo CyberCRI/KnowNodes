@@ -14,7 +14,7 @@ div
     // ... reversed direction
     div.resourcecontent.span11#content(ng-show="reversedDirection && rootNodeExists")
         p
-            input(ui-select2="inputOptions", multiple, ng-model="selectedSuggestions", data-placeholder="Select a concept", type="hidden", style="width:100%").knownode-title
+            input(ui-select2="inputOptions", multiple, ng-model="selectedSuggestions", data-placeholder="Find or create a resource...", type="hidden", style="width:100%").knownode-title
             span#content(ng-show="isNodeSelected()") {{selectedNode.text}}
 
     // Connection between Nodes
@@ -25,9 +25,9 @@ div
     // Destination Node
     // ... default direction
     // ....... existing node
-    div.resourcecontent.span11#content(ng-hide="reversedDirection", ng-show="rootNodeExists")
+    div.resourcecontent.span11#content(ng-hide="reversedDirection || userGenNode", ng-show="rootNodeExists")
         p
-            input(ui-select2="inputOptions", multiple, ng-model="selectedSuggestions", data-placeholder="Select a concept", type="hidden", style="width:100%").knownode-title
+            input(ui-select2="inputOptions", multiple, ng-model="selectedSuggestions", data-placeholder="Find or create a resource...", type="hidden", style="width:100%").knownode-title
             span#content(ng-show="isNodeSelected()") {{selectedNode.text}}
 
     // ....... created node
@@ -75,4 +75,4 @@ div
                     div(ng-bind-html-unsafe="concept.bodyText")
 
     // Submit button
-    button#content(ng-click="submit()", ng-disabled="!isFormValid()") Submit
+    button#content(ng-click="submit()") Submit
