@@ -1,6 +1,6 @@
 'use strict';
 //Dor experiments
-function TopBarCtrl($scope) {
+function TopBarCtrl($scope, $http, $location) {
     $scope.mapButton = false;
     var result = false;
     $scope.toggle = function (classToToggle) {
@@ -12,8 +12,50 @@ function TopBarCtrl($scope) {
         return result;
     };
 
+    $scope.inputOptions = {
+        minimumInputLength: 3,
+        query: function (query) {
+            $http.get('/knownodes/:' + query.term + '/getNodesByKeyword')
+                .success(function (data) {
+                    var suggestData = {results: []}, i;
+                    var nodes = data.success;
+                    for (i = 0; i < nodes.length; i++) {
+                        suggestData.results.push({id: nodes[i].results.KN_ID, text: nodes[i].results.title});
+                    }
+                    query.callback(suggestData);
+                })
+                .error(function (data, status) {
+                    console.log('Resource search failed with status : ' + status);
+                    console.log('Error message : ' + data.message);
+                });
+        },
+        formatResult: function movieFormatResult(node) {
+            var markup = "<table class='suggestion'><tr>";
+            markup += "<td class='suggestion-info'><div class='suggestion-title'>" + node.text + "</div></td>";
+            markup += "</tr></table>"
+            return markup;
+        }
+    }
+
+    $scope.$watch('selectedResource', function () {
+        if (isResourceSelected()) {
+            $location.path('/concept/' + getSelectedResource().id);
+            $('#searchBox').select2('val', '');
+//            $scope.selectedResource.splice(0, $scope.selectedResource.length);
+        }
+    });
+
+    var isResourceSelected = function () {
+        return $scope.selectedResource != null && $scope.selectedResource.length > 0;
+    };
+
+    var getSelectedResource = function () {
+        if (!isResourceSelected()) throw 'No Selected Resource';
+        return $scope.selectedResource[0];
+    };
+
 }
-TopBarCtrl.$inject = ['$scope'];
+TopBarCtrl.$inject = ['$scope', '$http', '$location'];
 
 function ChatCtrl($scope, $timeout, $rootScope, angularFireCollection) {
     var el = document.getElementById("messagesDiv");
