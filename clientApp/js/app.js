@@ -50,6 +50,11 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['firebase','ngSanitize'
                 templateUrl: 'partials/KnownodePost/conceptList',
                 controller: ConceptListCtrl
             }).
+            when('/conceptGraph', {
+            //when('/conceptGraph/:id', {
+                templateUrl: 'partials/KnownodePost/conceptGraph',
+                controller: ConceptGraphCtrl
+            }).
             when('/concept/:id', {
                 templateUrl: 'partials/KnownodePost/articleList',
                 controller: ArticleListCtrl
