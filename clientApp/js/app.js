@@ -11,7 +11,7 @@
  }]);
  */
 // Declare app level module which depends on filters, and services
-var KnowNodesAppModule = angular.module('KnowNodesApp', ['firebase','ngSanitize', 'ui', 'ui.directives', '$strap', 'KnowNodesApp.filters', 'KnowNodesApp.services', 'KnowNodesApp.directives', 'ui.bootstrap']).
+var KnowNodesAppModule = angular.module('KnowNodesApp', ['firebase','ngSanitize', 'ui', 'ui.directives', '$strap', 'KnowNodesApp.filters', 'KnowNodesApp.services', 'KnowNodesApp.directives', 'ui.bootstrap', 'ui.select2']).
     config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
         $routeProvider.
             when('/', {
@@ -49,6 +49,11 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['firebase','ngSanitize'
             when('/conceptList', {
                 templateUrl: 'partials/KnownodePost/conceptList',
                 controller: ConceptListCtrl
+            }).
+            when('/conceptGraph', {
+            //when('/conceptGraph/:id', {
+                templateUrl: 'partials/KnownodePost/conceptGraph',
+                controller: ConceptGraphCtrl
             }).
             when('/concept/:id', {
                 templateUrl: 'partials/KnownodePost/articleList',

@@ -28,7 +28,9 @@
         "mysql": "~2.0.0-alpha7",
         "connect-mongo": "~0.3.2",
         "coffee-script": "1.6.3",
-        "iconv-lite": "0.2.10"
+        "iconv-lite": "0.2.10",
+        "request":"2.21.0",
+        "loggly": "0.3.11"
     },
     "engines": {
         "node": "0.8.x"
