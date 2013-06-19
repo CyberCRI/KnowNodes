@@ -18,9 +18,7 @@ div
             span#content(ng-show="isNodeSelected()") {{selectedNode.text}}
 
     // Connection between Nodes
-    div.connection.span11(ng-class="bgColor")
-        div.content.span11
-            div(edge-type-selector)
+    div(edge-type-selector)
 
     // Destination Node
     // ... default direction

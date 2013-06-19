@@ -638,7 +638,7 @@ SearchCtrl.$inject = ['$scope', '$http', '$rootScope'];
 
 function KnownodeInputCtrl($scope, $http, $route, $routeParams, hybridSearch) {
 
-    $scope.bgColor = '';
+    $scope.bgColor = 'auto-generated';
     $scope.$on('rootNodeExists', function () {
         $scope.rootNodeExists = true;
     });
@@ -773,3 +773,28 @@ function KnownodeInputCtrl($scope, $http, $route, $routeParams, hybridSearch) {
     }
 }
 KnownodeInputCtrl.$inject = ['$scope', '$http', '$route', '$routeParams', 'hybridSearch'];
+
+function RelationCtrl($scope) {
+    //define a way for a node to know color based on connectionType
+    $scope.BgColorClass = 'explain';
+    $scope.colorSwitcher = function() {
+        console.log($scope.knownode.connection.connectionType);
+        switch($scope.knownode.connection.connectionType)
+        {
+            case "explain":
+                return 'explain';
+                break;
+            case "question":
+                return 'question';
+                break;
+            case "inspire":
+                return 'inspire';
+                break;
+            case "Wikipedia Link":
+                return 'auto-generated';
+                break;
+            default:
+                return 'explain';
+        }
+    };
+}
