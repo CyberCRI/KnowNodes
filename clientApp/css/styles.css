@@ -109,16 +109,14 @@ span.login {
 .knownode {
   padding: 10px;
   margin-left: 5px;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
   border-radius: 15px;
-  /*height: 380px;*/
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 .knownode .resourcecontent {
   background-color: white;
-  padding: 8px;
   padding-bottom: 0px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -369,9 +367,6 @@ button.knowledgeButton:hover {
   position: absolute;
   bottom: 2%;
   right: 3%;
-}
-.shortKnownode {
-  /*height: 200px;*/
 }
 img.inputPopup {
   float: left;
