@@ -189,22 +189,22 @@ ConceptListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
 
 function ConceptGraphCtrl($scope, $http, $routeParams, userService, PassKnownodeToGraph) {
     //var conceptId = $scope.conceptId = $routeParams.id;
-    $(document).ready(function(){
+    $(document).ready(function () {
         var css = jQuery("<link>");
         css.attr({
-            rel:  "stylesheet",
+            rel: "stylesheet",
             type: "text/css",
             href: "http://fonts.googleapis.com/css?family=Roboto"
         });
         $("head").append(css);
 
         var sys = arbor.ParticleSystem(1000, 600, 0.5); // create the system with sensible repulsion/stiffness/friction
-        sys.parameters({gravity:true}); // use center-gravity to make the graph settle nicely (ymmv)
+        sys.parameters({gravity: true}); // use center-gravity to make the graph settle nicely (ymmv)
 
         // our newly created renderer will have its .init() method called shortly by sys...
         sys.renderer = Renderer("#viewport", PassKnownodeToGraph.getCentralNode(), PassKnownodeToGraph.getRelatedNodes());
 
-        $(sys.renderer).bind('layer', function(e){
+        $(sys.renderer).bind('layer', function (e) {
             sys.renderer.onLayerChange(e.layer);
         })
 
@@ -730,10 +730,18 @@ function KnownodeInputCtrl($scope, $http, $route, $routeParams, hybridSearch) {
         if ($scope.selectedNode.create) {
             createWithNewResource();
         } else if ($scope.selectedNode.wiki) {
-            // TODO Create/Get Wiki Node
+            // Create Wiki Node
+            $http.post('http://localhost:3000/knownodes/wikinode', {title: $scope.selectedNode.id})
+                .success(function (data, status) {
+                    createWithExistingResource(data.success.KN_ID);
+                })
+                .error(function (data, status) {
+                    console.log('Wikinode creation failed with status : ' + status);
+                    console.log('Error message : ' + data.message);
+                });
         }
         else {
-            createWithExistingResource();
+            createWithExistingResource($scope.selectedNode.id);
         }
     }
 
@@ -741,8 +749,9 @@ function KnownodeInputCtrl($scope, $http, $route, $routeParams, hybridSearch) {
         saveForm();
     };
 
-    var createWithExistingResource = function () {
-        $scope.form.existingNode = $scope.selectedNode.id;
+    var createWithExistingResource = function (targetId) {
+        $scope.form.existingNode = targetId;
+        $scope.form.knownodeForm = {};
         saveForm();
     };
 
