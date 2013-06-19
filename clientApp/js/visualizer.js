@@ -1,264 +1,285 @@
-var NODES_PER_LAYER = 3;
+var NODES_PER_LAYER = 6;
 
-var Renderer = function(canvasId, centralNode, relatedNodes){
-    var canvas = $(canvasId).get(0);
-    var ctx = canvas.getContext("2d");
-    var sys = null;
+var Renderer = {};
 
-    var hovered = null;
-    var nearest = null;
-    var _mouseP = null;
+Renderer.init = function(canvasId, centralNodeData, childrenNodesData){
+    Renderer.engine.initParticleSystem();
+    Renderer.canvas.init(canvasId);
 
-    var hexagonShape = [[26,15],[0,30],[-26,15],[-26,-15],[0,-30],[26,-15]];
+    Renderer.engine.jsonOriginData = centralNodeData.success;
+    Renderer.engine.jsonChildrenData = childrenNodesData.success;
 
-    var that = {
+    Renderer.layers.count = Math.ceil(Renderer.engine.jsonChildrenData.length / NODES_PER_LAYER);
 
-        jsonData: null,
-        layerCount: 0,
 
-        init:function(system){
-            sys = system;
+    Renderer.engine.particleSystem.renderer = Renderer.loop;
+    Renderer.canvas.resize();
+    Renderer.nodes.central = new Renderer.Node(Renderer.engine.jsonOriginData);
+    Renderer.layers.init();
+    Renderer.layers.display(0);
+};
 
-            that.resize();
+Renderer.engine = {};
+Renderer.engine.particleSystem = null;
+Renderer.engine.jsonOriginData = null;
+Renderer.engine.jsonChildrenData = null;
+Renderer.engine.isReady = function(){
+    return Renderer.engine.particleSystem !== null && Renderer.canvas.stage !== null;
+};
 
-            // set up some event handlers to allow for node-dragging
-            that.initMouseHandling()
-            that.initMouseHandling()
+Renderer.engine.initParticleSystem = function(){
+    this.particleSystem = arbor.ParticleSystem(1000, 600, 0.5);// create the system with sensible repulsion/stiffness/friction
+    this.particleSystem.parameters({gravity:true}); // use center-gravity to make the graph settle nicely (ymmv)
+    this.particleSystem.fps(40);
 
-            that.initLayers()
-            that.initData();
-            that.updateData();
-        },
+    this.particleSystem.originalPruneEdge = this.particleSystem.pruneEdge;
+    this.particleSystem.pruneEdge = function(e){e.data.edge.delete();};
+    this.particleSystem.originalPruneNode = this.particleSystem.pruneNode;
+    this.particleSystem.pruneNode = function(e){e.data.node.delete();};
+};
 
-        resize:function(){
-            var body = $("body");
-            canvas.width = body.width();
-            canvas.height = body.height();
-            sys.screenSize(canvas.width, canvas.height);
-            sys.screenPadding(80); // leave an extra 80px of whitespace per side
-            that.redraw();
-	},
+Renderer.canvas = {};
+Renderer.canvas.stage = null;
+Renderer.canvas.init = function(canvasId){
+    this.stage = new Kinetic.Stage({
+        container: canvasId,
+        width: 800,
+        height: 600,
+        fill: "black"
+    });
+    this.stage.add(Renderer.edges.layer);
+    this.stage.add(Renderer.nodes.layer);
+    this.stage.add(Renderer.layers.layer);
+};
+Renderer.canvas.resize = function(){
+    var div = $(".ui-layout-center");
+    Renderer.engine.particleSystem.screenSize(div.width(), div.height());
+    Renderer.engine.particleSystem.screenPadding(80,200,80,80);
+    this.stage.setSize(div.width(), div.height());
+    Renderer.loop.redraw();
+};
 
-        initData: function(){
-            //console.log("initData");
-
-            centralNode.success.alpha = 1;
-            sys.addNode('centerNode', centralNode.success);
-
-            that.jsonData = relatedNodes;
-
-            for ( var i=0; i < that.jsonData.success.length; i++){
-                that.jsonData.success[i].article.layer = Math.floor(i / NODES_PER_LAYER);
-            }
-
-            that.layerCount = Math.ceil(that.jsonData.success.length / NODES_PER_LAYER);
-        },
-
-        updateData:function(){
-            //console.log("updateData");
-            $.each(sys.getEdgesFrom('centerNode'), function(i, v){
-                if(v.data.layer !== that.layer) {
-                    sys.tweenNode(v.target, 1, {alpha: 0});
-                }
+Renderer.Layer = function(id){
+    this.id = id;
+    this.shape = new Kinetic.Rect({
+        width: this.width,
+        height: this.height,
+        x: 0,
+        y: id * (this.height + 3) + 20,
+        fill: "white"
+    });
+    this.checkAndSetColor();
+    this.shape.layer = this;
+    Renderer.layers.layer.add(this.shape);
+    this.bindEvents();
+    console.log(this.id);
+};
+Renderer.Layer.prototype = {
+    width: 50,
+    height: 20,
+    bindEvents: function(){
+        this.shape.on('click', this.mouseClick);
+        this.shape.on('mouseover', this.mouseOver);
+        this.shape.on('mouseout', this.mouseOut);
+    },
+    mouseOver: function(e){
+        new Kinetic.Tween({
+            node: this,
+            easing: Kinetic.Easings['StrongEaseOut'],
+            duration: 0.5,
+            scaleX: 1.3
+        }).play();
+    },
+    mouseOut: function(e){
+        new Kinetic.Tween({
+            node: this,
+            easing: Kinetic.Easings['StrongEaseOut'],
+            duration: 1,
+            scaleX: 1
+        }).play();
+    },
+    mouseClick: function(e){
+        Renderer.layers.display(this.layer.id);
+    },
+    checkAndSetColor: function(){
+        if(this.id === Renderer.layers.current)
+            this.shape.setAttrs({
+                fillR: 150,
+                fillG: 150,
+                fillB: 150
             });
-            that.displayLayer(that.layer);
-        },
+    }
+};
+Renderer.layers = {};
+Renderer.layers.count = 0;
+Renderer.layers.current = -1;
+Renderer.layers.layer = new Kinetic.Layer({});
+Renderer.layers.init = function(){
+    for(var i = 0; i < this.count; i++)
+        new Renderer.Layer(i);
+};
+Renderer.layers.display = function(layer){
+    if(layer !== this.current){
+        this.current = layer;
 
-        displayLayer: function(layer){
-            //console.log("addLayer("+layer+")");
-            for ( var i=layer*NODES_PER_LAYER; i < (layer+1)*NODES_PER_LAYER && i < that.jsonData.success.length; i++){
-                var newNode = sys.addNode(i, that.jsonData.success[i].article);
-                sys.addEdge('centerNode', i, that.jsonData.success[i].connection);
-                that.jsonData.success[i].article.alpha = 0.01;
-                sys.tweenNode(newNode, 0.5, {alpha: 1});
-            }
-        },
+        var edges = Renderer.engine.particleSystem.getEdgesFrom(Renderer.nodes.central.node);
+        for(var edge in edges)
+            Renderer.engine.particleSystem.pruneNode(edges[edge].target);
 
-        onLayerChange:function(layer){
-            //console.log("onLayerChange("+layer+"): old layer "+that.layer);
-            if(that.layer !== layer) {
-                //console.log("apply changes")
-                that.layer = layer;
-                that.updateData();
-            }
-        },
-
-        redraw:function(){
-            //
-            // redraw will be called repeatedly during the run whenever the node positions
-            // change. the new positions for the nodes can be accessed by looking at the
-            // .p attribute of a given node. however the p.x & p.y values are in the coordinates
-            // of the particle system rather than the screen. you can either map them to
-            // the screen yourself, or use the convenience iterators .eachNode (and .eachEdge)
-            // which allow you to step through the actual node objects but also pass an
-            // x,y point in the screen's coordinate system
-            //
-            ctx.fillStyle = "black";
-            ctx.fillRect(0,0, canvas.width, canvas.height);
-
-            sys.eachEdge(function(edge, pt1, pt2){
-                // edge: {source:Node, target:Node, length:#, data:{}}
-                // pt1:  {x:#, y:#}  source position in screen coords
-                // pt2:  {x:#, y:#}  target position in screen coords
-
-                var edgeAlpha = edge.source.data.alpha;
-                if(edge.target.data.alpha < edgeAlpha) {edgeAlpha = edge.target.data.alpha;}
-
-                if (edgeAlpha === 0) return
-
-                // draw a line from pt1 to pt2
-                ctx.strokeStyle = "rgba(255,255,255, "+edgeAlpha+")";
-                ctx.lineWidth = 2;
-                ctx.beginPath();
-                ctx.moveTo(pt1.x, pt1.y);
-                ctx.lineTo(pt2.x, pt2.y);
-                ctx.stroke();
-
-                //Label the edge
-                ctx.fillStyle = "rgba(255,255,255, "+edgeAlpha+")";
-                ctx.font = "bold 12px Roboto";
-                ctx.fillText (edge.data.connectionType, (pt1.x + pt2.x) / 2, (pt1.y + pt2.y) / 2);
-
-                //Put arrow
-                var wt = 3;
-                var offset = -30;
-                var arrowWidth = 10;
-                var arrowLength = 20;
-                var head = pt2;
-                var tail = pt1;
-
-                if(edge.data.toNodeId === centralNode.success.id){
-                    head = pt1;
-                    tail = pt2;
-                }
-                ctx.save();
-                ctx.translate(head.x, head.y);
-                ctx.rotate(Math.atan2(head.y - tail.y, head.x - tail.x));
-
-                // delete some of the edge that's already there (so the point isn't hidden)
-                //ctx.clearRect(-arrowLength/2,-wt/2, arrowLength/2,wt)
-
-                // draw the chevron
-                ctx.beginPath();
-                ctx.moveTo(offset-arrowLength, arrowWidth);
-                ctx.lineTo(offset, 0);
-                ctx.lineTo(offset-arrowLength, -arrowWidth);
-                ctx.lineTo(offset-arrowLength * 0.8, -0);
-                ctx.closePath();
-                ctx.fill();
-                ctx.restore();
-            });
-
-            sys.eachNode(function(node, pt){
-                // node: {mass:#, p:{x,y}, name:"", data:{}}
-                // pt:   {x:#, y:#}  node position in screen coords
-
-                if (node.data.alpha === 0){
-                    sys.pruneNode(node);
-                    return
-                };
-
-                //Draw Hexagon centered at pt
-                ctx.beginPath();
-                ctx.strokeStyle = "rgba(255,255,255, "+node.data.alpha+")";
-                ctx.lineWidth = 5;
-                var fillAlpha = 1;
-                if (node.data.alpha === 0) {fillAlpha = 0;}
-                ctx.fillStyle= "rgba(0,0,0, "+fillAlpha+")";
-                if(hovered !== null && hovered === node)
-                    ctx.fillStyle = "rgba(0,0,255, "+fillAlpha+")";
-                //Begin drawing
-                ctx.moveTo(hexagonShape[0][0] + pt.x, hexagonShape[0][1] + pt.y);
-                for(var i = 1; i < hexagonShape.length; i++)
-                    ctx.lineTo(hexagonShape[i][0] + pt.x, hexagonShape[i][1] + pt.y);
-                ctx.closePath();
-                ctx.fill();
-                ctx.stroke();
-
-                //Print text next to it
-                ctx.fillStyle = "rgba(255,255,255, "+node.data.alpha+")";
-                ctx.font = "bold 12px Roboto";
-                ctx.fillText(node.data.title, pt.x + 30, pt.y);
-            });
-        },
-
-        initMouseHandling:function(){
-            hovered = null;
-            nearest = null;
-            var dragged = null;
-            var oldmass = 1;
-
-            var handler = {
-                moved:function(e){
-                    var pos = $(canvas).offset();
-                    _mouseP = arbor.Point(e.pageX-pos.left, e.pageY-pos.top);
-                    nearest = sys.nearest(_mouseP);
-
-                    //In case no node was found
-                    if(nearest && !nearest.node) return false;
-
-                    //Find if nearest node is near enough
-                    if(nearest && nearest.node !== hovered && nearest.distance <= 30){
-                        console.log("Change nearest");
-                        hovered = nearest.node;
-                        that.redraw();
-                    }
-                    else if(hovered !== null && nearest.distance > 30){
-                        console.log("Nulled nearest");
-                        hovered = null;
-                        that.redraw();
-                    }
-
-                    return false;
-                },
-
-                clicked:function(e){
-
-                },
-                dragged:function(e){},
-                dropped:function(e){},
-
-                lastScrollTop: 0,
-                scrolled:function(e){
-                    var newLayer = 0;
-                    var st = $(this).scrollTop();
-                    //console.log("st="+st+",   lastScrollTop="+handler.lastScrollTop);
-                    var diff = handler.lastScrollTop - st;
-                    var absDiff = Math.abs(diff);
-                    if((absDiff < 20 && st < 20 && st >= -20)
-                        || (absDiff < 10 && (st >= 20 || st <= 20) )
-                        || ((diff > 0) && (st > 250)) //270 - 240 = +30
-                        || ((diff < 0) && (st < 0)) //-70 - -40 = -30
-                        ){
-                        //console.log("st="+st+",   lastScrollTop="+handler.lastScrollTop+", abort");
-                        return
-                    }
-                    //console.log("st="+st+",   lastScrollTop="+handler.lastScrollTop+", apply");
-
-                    if (st > handler.lastScrollTop){
-                        newLayer = Math.max(that.layer - 1, 0);
-                    } else {
-                        newLayer = Math.min(that.layer + 1,  that.layerCount-1);
-                    }
-                    handler.lastScrollTop = st;
-                    $(that).trigger({type:'layer', layer: newLayer});
-                    return false;
-                }
-            }
-
-            // start listening
-            $(canvas).mousedown(handler.clicked);
-            $(canvas).mousemove(handler.moved);
-            $(window).scroll(handler.scrolled);
-
-        },
-
-        layer: 0,
-        initLayers: function(){
-            layer = 0;
+        for(var i = this.current * NODES_PER_LAYER; i < (this.current + 1) * NODES_PER_LAYER && i < Renderer.engine.jsonChildrenData.length; i++){
+            var node = new Renderer.Node(Renderer.engine.jsonChildrenData[i].article);
+            new Renderer.Edge(Renderer.nodes.central, node, Renderer.engine.jsonChildrenData[i].connection);
         }
+    }
+};
 
-    };
+Renderer.Node = function(data){
+    this.data = data;
+    this.displayGroup = new  Kinetic.Group({x:-200, y:-200});
+    this.displayPolygon = this.newPolygon();
+    this.displayText = this.newText();
+    this.node =  Renderer.engine.particleSystem.addNode(this.data.id, {node: this});
+    this.displayPolygon.node = this;
+    Renderer.nodes.layer.add(this.displayGroup);
+    this.tweenPolygonHover = new Kinetic.Tween({
+        node: this.displayPolygon,
+        duration: 1,
+        easing: Kinetic.Easings['StrongEaseOut'],
+        fillB: 200,
+        scaleX: 2,
+        scaleY: 2,
+        strokeWidth: 5
+    });
+    this.tweenTextHover = new Kinetic.Tween({
+        node: this.displayText,
+        duration: 1,
+        easing: Kinetic.Easings['StrongEaseOut'],
+        fontSize: 18,
+        x: 80,
+        y: -20,
+        width: 300,
+    });
+    this.bindEvents();
+};
+Renderer.Node.prototype = {
+    shape: [[26,15],[0,30],[-26,15],[-26,-15],[0,-30],[26,-15]],
+    delete: function(){
+        this.displayGroup.destroy();
+        Renderer.engine.particleSystem.originalPruneNode(this.node);
+        delete this;
+    },
+    newPolygon: function(){
+        var polygon = new Kinetic.Polygon({
+            points: this.shape,
+            fill: "black",
+            stroke: "white",
+            strokeWidth: 3
+        });
+        polygon.node = this;
+        this.displayGroup.add(polygon);
+        return polygon;
+    },
+    newText: function(){
+        var text = new Kinetic.Text({
+            text: this.data.title,
+            fill: "white",
+            width: 120
+        });
+        text.node = this;
+        this.displayGroup.add(text);
+        text.setPosition(31, -5);
+        return text;
+    },
+    moveTo: function (pos){
+        this.displayGroup.setPosition(pos.x, pos.y);
+    },
+    bindEvents: function(){
+        this.displayPolygon.on('mouseover', this.mouseOver);
+        this.displayPolygon.on('mouseout', this.mouseOut);
+        this.displayPolygon.on('click', this.mouseClick);
+    },
+    mouseOver: function(){
+       this.node.tweenPolygonHover.play();
+       this.node.tweenTextHover.play();
+    },
+    mouseOut: function(){
+        this.node.tweenPolygonHover.reverse();
+        this.node.tweenTextHover.reverse();
+    },
+    mouseClick: function(){
+        Renderer.nodes.selected = this.node;
+        var data = this.node.data;
+        $("#node-link").attr('href', data.url).text(data.title);
+        $("#node-content").text(data.bodyText);
+        PanelsHandler.layout.open("west");
+    }
+};
 
-    return that;
+Renderer.nodes = {};
+Renderer.nodes.selected = null;
+Renderer.nodes.central = null;
+Renderer.nodes.layer = new Kinetic.Layer({});
+
+Renderer.Edge = function(from, to, data){
+    this.from = from;
+    this.to = to;
+    this.data = data;
+    this.edge = Renderer.engine.particleSystem.addEdge(from.node, to.node, {edge: this});
+    this.line = this.newLine();
+
+    this.bindEvents();
+};
+Renderer.Edge.prototype = {
+    delete: function(){
+        this.line.destroy();
+        Renderer.engine.particleSystem.originalPruneEdge(this.edge);
+        delete this;
+    },
+    newLine: function(){
+        var line =  new Kinetic.Line({
+            points: [0,0,0,0],
+            stroke: "gray",
+            strokeWidth: 2
+        });
+        line.edge = this;
+        Renderer.edges.layer.add(line);
+        return line;
+    },
+    bindEvents: function(){
+        this.line.on("mouseover", this.mouseOver);
+        this.line.on("mouseout", this.mouseOut);
+    },
+    moveTo: function(pos1, pos2){
+        this.line.setAttr('points',[pos1,pos2]);
+    },
+    mouseOver: function(){
+        new Kinetic.Tween({
+            node: this,
+            duration: 1,
+            easing: Kinetic.Easings['StrongEaseOut'],
+            strokeWidth: 5
+        }).play();
+    },
+    mouseOut: function(){
+        new Kinetic.Tween({
+            node: this,
+            duration: 1,
+            easing: Kinetic.Easings['StrongEaseOut'],
+            strokeWidth: 2
+        }).play();
+    }
+};
+Renderer.edges = {};
+Renderer.edges.layer = new Kinetic.Layer({});
+
+Renderer.loop = {}
+Renderer.loop.init = function(){};
+Renderer.loop.redraw = function(){
+    Renderer.engine.particleSystem.eachEdge(function(edge, pt1, pt2){
+        edge.data.edge.moveTo(pt1, pt2);
+    });
+    Renderer.engine.particleSystem.eachNode(function(node, pt){
+        node.data.node.moveTo(pt);
+    });
+    Renderer.canvas.stage.draw();
 };
