@@ -677,7 +677,7 @@ div.inspire {
 div.question {
   background: #B0E1B7;
 }
-.input-node-box {
+div.qa .input-node-box {
   border: none;
   width: 100%;
   margin-top: 8px;
