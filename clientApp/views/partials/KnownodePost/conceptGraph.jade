@@ -5,12 +5,25 @@
    Time: 11:31
    To change this template use File | Settings | File Templates.
 
+link(rel='stylesheet', href='/css/viewportStyle.css')
+link(rel='stylesheet', href='/css/bootstrap.css')
+link(rel='stylesheet', href='/css/layout-default-latest.css')
+
 script(type="text/javascript", src="js/lib/arbor/arbor.js")
 script(type="text/javascript", src="js/lib/arbor/arbor-tween.js")
+script(type="text/javascript", src="js/lib/kinetic/kinetic-v4.5.4.js")
+script(type="text/javascript", src="js/lib/jquery-plugins/jquery-ui-1.10.3.custom.js")
+script(type="text/javascript", src="js/lib/jquery-plugins/jquery.layout-latest.js")
+script(type="text/javascript", src="js/lib/jquery-plugins/jquery.mousewheel.js")
 script(type="text/javascript", src="js/visualizer.js")
+script(type="text/javascript", src="js/visualizerPanels.js")
 
-div.subheader
-    div.span23.offset1
-        h2.subheader Knownode Map
-            div(ng-controller="ConceptGraphCtrl")
-                canvas#viewport(width="800", height="600")
+#mapLayoutContainer.ui-layout-container
+    #leftTab.ui-layout-west
+        h2
+            a#node-link(href='') KnowNode
+        p#node-content Please click on a KNowNode to begin
+    #viewport.ui-layout-center
+    #rightTab.ui-layout-east
+        h2 Link Title
+

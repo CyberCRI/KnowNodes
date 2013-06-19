@@ -196,16 +196,8 @@ function ConceptGraphCtrl($scope, $http, $routeParams, userService, PassKnownode
         });
         $("head").append(css);
 
-        var sys = arbor.ParticleSystem(1000, 600, 0.5); // create the system with sensible repulsion/stiffness/friction
-        sys.parameters({gravity:true}); // use center-gravity to make the graph settle nicely (ymmv)
-
-        // our newly created renderer will have its .init() method called shortly by sys...
-        sys.renderer = Renderer("#viewport", PassKnownodeToGraph.getCentralNode(), PassKnownodeToGraph.getRelatedNodes());
-
-        $(sys.renderer).bind('layer', function(e){
-            sys.renderer.onLayerChange(e.layer);
-        })
-
+        PanelsHandler.initPanels();
+        Renderer.init("viewport", PassKnownodeToGraph.getCentralNode(), PassKnownodeToGraph.getRelatedNodes());
     });
 }
 ConceptGraphCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'PassKnownodeToGraph'];
