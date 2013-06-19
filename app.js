@@ -39,7 +39,6 @@ app.configure(function(){
     app.set('views', path.join(__dirname, 'clientApp/views'));
     app.set('view engine', 'jade');
     app.set('controllers', path.join(__dirname, 'controllers'));
-    app.set('controllers', path.join(__dirname, 'controllers'));
 
     app.use(express.favicon());
     app.use(express.logger('dev'));
@@ -79,20 +78,22 @@ app.configure('production', function(){
 // routing
 app.resource('users');
 app.resource('edges');
-app.resource('comments', function() {
+app.resource('comments', function () {
     this.member.get('getRelatedComments');
 });
-app.resource('concepts', function() {
+app.resource('concepts', function () {
     //this.collection.get('getRelatedKnownodes');
     this.member.get('getRelatedKnownodes');
     this.member.get('getRelatedComments');
     this.resource('knownodes', function() {
     });
 });
-app.resource('knownodes', function(){
+app.resource('knownodes', function () {
     this.member.get('getRelatedKnownodes');
     this.member.get('getRelatedComments');
     this.member.get('getNodesByKeyword');
+
+    this.collection.post("wikinode");
 
     this.resource('knownodes', { id: 'related' });
     this.resource('files');
@@ -106,43 +107,43 @@ app.post('/logout', function(req, res){
     res.json({ success: "Logout" });
 });
 
-app.post('/login', function(req, res, next) {
-    passport.authenticate('local', function(err, user, info) {
-        if (err) { return next(err) }
+app.post('/login', function (req, res, next) {
+    passport.authenticate('local', function (err, user, info) {
+        if (err) { return next(err); }
         if (!user) {
             //req.flash('error', info.message);
             //return res.redirect('/login')
             return res.send('ERROR');
         }
-        req.logIn(user, function(err) {
-            return (err) ? next(err) : res.send(user);
+        req.logIn(user, function (err) {
+            return err ? next(err) : res.send(user);
         });
     })(req, res, next);
 });
 
 app.get('/auth/facebook',
-    passport.authenticate('facebook'),
-    function(req, res){
+    passport.authenticate('facebook', {  scope: [ 'email' ] }),
+    function (req, res) {
         // The request will be redirected to Facebook for authentication, so this
         // function will not be called.
     });
 
 app.get('/auth/facebook/callback',
     passport.authenticate('facebook', { failureRedirect: '/login' }),
-    function(req, res) {
+    function (req, res) {
         res.redirect('/');
     });
 
 app.get('/auth/google',
     passport.authenticate('google', { failureRedirect: '/login' }),
-    function(req, res){
+    function (req, res) {
         // The request will be redirected to Google for authentication, so
         // this function will not be called.
     });
 
 app.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/login' }),
-    function(req, res) {
+    function (req, res) {
         // Successful authentication, redirect home.
         res.redirect('/');
     });
@@ -161,6 +162,6 @@ app.get('/', function(request, response) {
 */
 
 // let's do it!
-http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
+http.createServer(app).listen(app.get('port'), function () {
+    console.log("Express server listening on port " + app.get('port'));
 });
