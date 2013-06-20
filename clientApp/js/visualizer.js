@@ -11,9 +11,9 @@ Renderer.init = function(canvasId, centralNodeData, childrenNodesData){
 
     Renderer.layers.count = Math.ceil(Renderer.engine.jsonChildrenData.length / NODES_PER_LAYER);
 
+    Renderer.canvas.resize();
 
     Renderer.engine.particleSystem.renderer = Renderer.loop;
-    Renderer.canvas.resize();
     Renderer.nodes.central = new Renderer.Node(Renderer.engine.jsonOriginData);
     Renderer.layers.init();
     Renderer.layers.display(0);
@@ -115,8 +115,9 @@ Renderer.layers.count = 0;
 Renderer.layers.current = -1;
 Renderer.layers.layer = new Kinetic.Layer({});
 Renderer.layers.init = function(){
-    for(var i = 0; i < this.count; i++)
+    for(var i = 0; i < this.count; i++) {
         new Renderer.Layer(i);
+    }
 };
 Renderer.layers.display = function(layer){
     if(layer !== this.current){

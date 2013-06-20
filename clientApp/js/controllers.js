@@ -196,8 +196,9 @@ function ConceptGraphCtrl($scope, $http, $routeParams, userService, PassKnownode
         });
         $("head").append(css);
 
-        PanelsHandler.initPanels();
+
         Renderer.init("viewport", PassKnownodeToGraph.getCentralNode(), PassKnownodeToGraph.getRelatedNodes());
+        PanelsHandler.initPanels();
     });
 }
 ConceptGraphCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'PassKnownodeToGraph'];

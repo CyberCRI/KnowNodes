@@ -15,7 +15,6 @@ PanelsHandler = {
     },
 
     initPanels: function(){
-        /*
         this.layout =  $("#mapLayoutContainer").layout({
             defaults: {
                 fxName: "slide",
@@ -43,6 +42,5 @@ PanelsHandler = {
                 minSize: 400
             }
         });
-        */
     }
 }
