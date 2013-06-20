@@ -23,7 +23,7 @@ div.connection.span11(ng-class="bgColor")
           li.dropdown-submenu
             a.question(tabindex='-1', href="javascript:void(0);", ng-click="categoryClick('question')") question
             ui.dropdown-menu.dropdown-menu_explain connection to a critique, contradictions, or a problem
-
+      span(ng-show="relationErrorMessage") {{relationErrorMessage}}
       p.btn.btn-link.counter {{(80 -(form.knownodeRelation.title.length))}}
       span(ng-transclude)
 

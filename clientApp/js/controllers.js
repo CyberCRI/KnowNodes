@@ -704,11 +704,17 @@ function KnownodeInputCtrl($scope, $http, $route, $routeParams, hybridSearch) {
     }
 
     $scope.isFormValid = function () {
-        return $scope.isNodeSelected()
-            && $scope.form.knownodeRelation.text != null
-            && $scope.form.knownodeRelation.text.length > 3
-            && $scope.form.knownodeRelation.connectionType != null
-            && $scope.form.knownodeRelation.connectionType.length > 5;
+         if($scope.form.knownodeRelation === "Choose link type") {
+            $scope.relationErrorMessage = "you must define relation";
+            return false;
+         } else {
+             return true;
+         }
+            //&& $scope.form.knownodeRelation.text != null
+            //&& $scope.form.knownodeRelation.text.length > 3
+            //&& $scope.form.knownodeRelation.connectionType != null
+            //&& $scope.form.knownodeRelation.connectionType.length > 5;
+        //
     }
 
     $scope.userGenNode = false;
@@ -726,7 +732,10 @@ function KnownodeInputCtrl($scope, $http, $route, $routeParams, hybridSearch) {
 
     $scope.submit = function () {
         $scope.form.originalPostId = $scope.form.knownodeRelation.originalPostId = $routeParams.id;
-        if (!$scope.isNodeSelected()) return;
+        if (!$scope.isNodeSelected()) {
+            $scope.submitErrorMessage= "you must choose second resource";
+            return;
+        }
         if ($scope.selectedNode.create) {
             createWithNewResource();
         } else if ($scope.selectedNode.wiki) {
@@ -756,20 +765,24 @@ function KnownodeInputCtrl($scope, $http, $route, $routeParams, hybridSearch) {
     };
 
     var saveForm = function () {
-        if ($scope.reversedDirection) {
-            $scope.form.knownodeRelation.reversedDirection = true;
+        if($scope.isFormValid()) {
+            if ($scope.reversedDirection) {
+                $scope.form.knownodeRelation.reversedDirection = true;
+            }
+            $http.post('/knownodes', $scope.form).
+                success(function (data, status, headers, config) {
+                    if (data.success) {
+                        $route.reload();
+                    }
+                    if (data.error) {
+                        $scope.errorMessage = data.error
+                    }
+                    $("#btnSubmitPost").removeAttr('disabled');
+                    $scope.existingNode = null;
+                });
+        } else {
+            return $scope.submitErrorMessage = "Something went wrong"
         }
-        $http.post('/knownodes', $scope.form).
-            success(function (data, status, headers, config) {
-                if (data.success) {
-                    $route.reload();
-                }
-                if (data.error) {
-                    $scope.errorMessage = data.error
-                }
-                $("#btnSubmitPost").removeAttr('disabled');
-                $scope.existingNode = null;
-            });
     }
 }
 KnownodeInputCtrl.$inject = ['$scope', '$http', '$route', '$routeParams', 'hybridSearch'];
@@ -778,7 +791,6 @@ function RelationCtrl($scope) {
     //define a way for a node to know color based on connectionType
     $scope.BgColorClass = 'explain';
     $scope.colorSwitcher = function() {
-        console.log($scope.knownode.connection.connectionType);
         switch($scope.knownode.connection.connectionType)
         {
             case "explain":
