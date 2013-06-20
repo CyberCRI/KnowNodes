@@ -1,4 +1,4 @@
-div
+form(name="form", novalidate, ng-submit="submit();")
     // Source Node
     // ... default direction
     div.resourcecontent.span11#content(ng-hide="reversedDirection", ng-show="rootNodeExists",style="padding:0px")
@@ -14,8 +14,9 @@ div
     // ... reversed direction
     div.resourcecontent.span11#content(ng-show="reversedDirection && rootNodeExists")
         p
-            input(ui-select2="inputOptions", multiple, ng-model="selectedSuggestions", data-placeholder="Find or create a resource...", type="hidden", style="width:100%").knownode-title
+            input(ui-select2="inputOptions", multiple, ng-model="selectedSuggestions", data-placeholder="Find or create a resource...", type="hidden", name="startResource", style="width:100%", required).knownode-title
             span#content(ng-show="isNodeSelected()") {{selectedNode.text}}
+        span(ng-show="myForm.startResource.$error.required") you must choose a resource.
 
     // Connection between Nodes
     div(relation-input)
@@ -74,3 +75,4 @@ div
 
     // Submit button
     button#content(ng-click="submit()") Submit
+    span(ng-show="submitErrorMessage") {{submitErrorMessage}}
