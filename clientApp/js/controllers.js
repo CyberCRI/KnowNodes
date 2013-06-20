@@ -213,7 +213,7 @@ function ConceptGraphCtrl($scope, $http, $routeParams, userService, PassKnownode
 ConceptGraphCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'PassKnownodeToGraph'];
 
 
-function ArticleListCtrl($scope, $http, $routeParams, userService, PassKnownodeToGraph) {
+function KnownodeListCtrl($scope, $http, $routeParams, userService, PassKnownodeToGraph) {
     $scope.addNode = false;
     $scope.currentKnownode = {};
     //$scope.passKnownode = PassKnownode;
@@ -270,7 +270,7 @@ function ArticleListCtrl($scope, $http, $routeParams, userService, PassKnownodeT
     $scope.start = +new Date();
 
 }
-ArticleListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'PassKnownodeToGraph'];
+KnownodeListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'PassKnownodeToGraph'];
 
 //knownode Post:
 function KnownodeCtrl($scope, $http, $routeParams, userService, PassKnownodeToGraph) {
