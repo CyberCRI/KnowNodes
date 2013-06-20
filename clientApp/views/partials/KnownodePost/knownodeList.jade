@@ -1,14 +1,34 @@
 div.subheader
-  div.span23.offset1
-    h2.subheader Current Knownodes
-    p.btn.btn-link.sort sort:
-    div.btn-group(data-toggle="buttons-radio")
-      button.btn.btn-link.active-red(type="button", ng-click="orderProp='date'") New
-      button.btn.btn-link(type="button", ng-click="orderProp='votes'") Popular
-      button.btn.btn-link(type="button", ng-click="setMaster(subtitle)") Hot
-  div(ng-repeat="knownode in knownodeList | orderBy:orderProp").span11.offset1
-    div.knownode.span12.shortKnownode
-      .movingEdge.left-align.span12
-        connection
-      resource
-  a(ng-show='isUserLoggedIn', class='btn btn-success', href='/addKnownodeTo/{{conceptId}}') Add a new article knownode
+    div
+        div.span11.offset1
+            div.knownode.span12.shortKnownode
+                div(knownode-input)
+
+        div(ng-repeat="knownode in knownodeList | orderBy:orderProp", ng-switch on="knownode.article.id == knownode.connection.fromNodeId").span11.offset1
+            div(ng-switch-when="true").knownode.span12.shortKnownode
+                div(node)
+                div(relation)
+                div(concept-node)
+                p.infoLine.span11(style="margin:0px;")
+                    em {{(knownode.connection.__CreatedOn__) | timeAgo}} by {{knownode.connection.user.firstName}} {{knownode.connection.user.lastName}}
+                    span
+                        a(ng-href="/edge/:{{knownode.connection.KN_ID}}", ng-switch on="knownode.commentCount").pull-right
+                            span(ng-switch-default).text-warning {{knownode.commentCount}} comments
+                            span(ng-switch-when="0") comment
+                div(class="ui-icon ui-icon-trash", style="float:right", ng-click="deleteArticle(knownode.article.id, $index)", ng-show="checkOwnership(knownode.article.user.id)")
+                div(ng-show="checkOwnership(knownode.article.user.id)", style="float:right")
+                    a(class="ui-icon ui-icon-pencil", ng-href="", ng-show="false")
+
+            div(ng-switch-default).knownode.span12.shortKnownode
+                div(concept-node)
+                div(relation)
+                div(node)
+                p.infoLine.span11(style="margin:0px;")
+                    em {{(knownode.connection.__CreatedOn__) | timeAgo}} by {{knownode.connection.user.firstName}} {{knownode.connection.user.lastName}}
+                    span
+                        a(ng-href="/edge/:{{knownode.connection.KN_ID}}", ng-switch on="knownode.commentCount").pull-right
+                            span(ng-switch-default).text-warning {{knownode.commentCount}} comments
+                            span(ng-switch-when="0") comment
+                div(class="ui-icon ui-icon-trash", style="float:right", ng-click="deleteArticle(knownode.article.id, $index)", ng-show="checkOwnership(knownode.article.user.id)")
+                div(ng-show="checkOwnership(knownode.article.user.id)", style="float:right")
+                    a(class="ui-icon ui-icon-pencil", ng-href="", ng-show="false")
