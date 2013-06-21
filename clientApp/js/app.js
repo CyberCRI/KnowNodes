@@ -56,8 +56,8 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['firebase','ngSanitize'
                 controller: ConceptGraphCtrl
             }).
             when('/concept/:id', {
-                templateUrl: 'partials/KnownodePost/articleList',
-                controller: ArticleListCtrl
+                templateUrl: 'partials/KnownodePost/knownodeList',
+                controller: KnownodeListCtrl
                 //controller: ConceptListCtrl
             }).
             when('/addKnownodeTo/:id', {
@@ -69,12 +69,8 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['firebase','ngSanitize'
                 controller: EditPostCtrl
             }).
             when('/article/:id', {
-                templateUrl: 'partials/KnownodePost/articleList',
-                controller: ArticleListCtrl
-            }).
-            when('/knownodeList', {
                 templateUrl: 'partials/KnownodePost/knownodeList',
-                controller: ArticleListCtrl
+                controller: KnownodeListCtrl
             }).
             when('/edge/:id', {
                 templateUrl: 'partials/KnownodePost/edgePage',

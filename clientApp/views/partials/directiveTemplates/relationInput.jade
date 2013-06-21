@@ -1,76 +1,28 @@
-div
-    // Source Node
-    // ... default direction
-    div.resourcecontent.span11#content(ng-hide="reversedDirection", ng-show="rootNodeExists",style="padding:0px")
-        accordion
-            accordion-group(heading="{{concept.title}}")
-                div.knownode-body
-                    p.bold(ng-show="concept.url")
-                        a(ng-href="{{concept.url}}") {{concept.url}}
-                    p(ng-show="concept.fileName") Download:
-                        a(class="btn-info",href="/knownodeFiles/:{{concept.fileId}}", target="_blank", ng-show="concept.fileName") &nbsp;{{concept.fileName}}&nbsp;
-                    div(ng-bind-html-unsafe="concept.bodyText")
+div.connection.span11(ng-class="bgColor")
+    div.content.span11
+        div.input-prepend
 
-    // ... reversed direction
-    div.resourcecontent.span11#content(ng-show="reversedDirection && rootNodeExists")
-        p
-            search-box.knownode-title.target-resource-search-box
-            span#content(ng-show="targetResource != null") {{targetResource.title}}
+            div.btn-group(style="display:inline;", ng-model='form.knownodeRelation.connectionType', name="connectionType")
+                a.btn.reverse-direction(ng-hide="reversedDirection", ng-click="reversedDirection=true", title="reverse connection direction")
+                    i.icon-arrow-up
+                    i.icon-arrow-down
+                a.btn.reverse-direction(ng-show="reversedDirection", ng-click="reversedDirection=false", title="reverse connection direction")
+                    i.icon-arrow-down
+                    i.icon-arrow-up
+                input#appendedPrependedDropdownButton.span6(ng-model='form.knownodeRelation.title', name='title', required, type="text", ng-maxlength='80', placeholder="What is their relationship?")
 
-    // Connection between Nodes
-    div(edge-type-selector)
-
-    // Destination Node
-    // ... default direction
-    // ....... existing node
-    div.resourcecontent.span11#content(ng-hide="reversedDirection || userGenNode", ng-show="rootNodeExists")
-        p
-            search-box.knownode-title.target-resource-search-box
-            span#content(ng-show="targetResource != null") {{targetResource.title}}
-
-    // ....... created node
-    // TODO Encapsulate in a directive
-    div.resourcecontent.span11#content(ng-show="userGenNode && !reversedDirection")
-        p add new node
-            p
-                label(for='title') Title:
-                input(placeholder="The title of the resource - just copy paste", ng-model='form.knownodeForm.title', ng-maxlength='350', name='title', required, autofocus, style="width:100%;").input_xxlarge
-                span {{(350 -(form.knownodeForm.title.length))}}
-            p
-                label(for='bodyText') Text body (abstract, summery or additional information): &nbsp;(optional)
-                textarea(ui-tinymce, class="input-xxlarge", placeholder="Abstract or summery of the resource", ng-model='form.knownodeForm.bodyText', name='bodyText', rows='5', style='width:100%')
-            p
-                label(for='articleFile') PDF File:
-                input(nclass="input-xxlarge", placeholder="Attach a file", g-model='file', name='file', type='file', ng-model-instant, multiple, onchange="angular.element(this).scope().setFiles(this)")
-            div(id="dropbox", class="dropbox", ng-class="dropClass")
-                span
-                    p {{dropText}}
-            span.label.label-info .PDF Files - up to 16Mb
-            div(ng-show="files.length")
-            div(ng-repeat="file in files.slice(0)")
-                span
-                    p {{file.webkitRelativePath || file.name}}
-                span(ng-switch="file.size > 1024*1024")
-                span(ng-switch-when="true")
-                    p {{file.size / 1024 / 1024 | number:2}} MB
-                span(ng-switch-default)
-                    p {{file.size / 1024 | number:2}} kB
-            div(ng-show="progressVisible")
-                div(class="percent")
-                    p {{progress}}%
-                div(class="progress-bar")
-                    div(class="uploaded", ng-style="{'width': progress+'%'}")
-
-    // ... reversed direction
-    div.resourcecontent.span11#content(ng-show="reversedDirection", style="padding:0px")
-        accordion
-            accordion-group(heading="{{concept.title}}")
-                div.knownode-body
-                    p.bold(ng-show="concept.url")
-                        a(ng-href="{{concept.url}}") {{concept.url}}
-                    p(ng-show="concept.fileName") Download:
-                        a(class="btn-info",href="/knownodeFiles/:{{concept.fileId}}", target="_blank", ng-show="concept.fileName") &nbsp;{{concept.fileName}}&nbsp;
-                    div(ng-bind-html-unsafe="concept.bodyText")
-
-    // Submit button
-    button#content(ng-click="submit()") Submit
+                a.btn.dropdown-toggle(href="javascript:void(0);", data-toggle="dropdown") &nbsp; {{form.knownodeRelation.connectionType}}
+                    span.caret(style="float:left;")
+                ul.dropdown-menu(role="menu", aria-labelledby="dropdownMenu", style="left:50%")
+                    li.dropdown-submenu
+                        a(tabindex='-1', href="javascript:void(0);", ng-click="categoryClick('explain')") explain
+                        ul.dropdown-menu.dropdown-menu_explain connection to tutorials, learning resources, videos...
+                    li.dropdown-submenu
+                        a.inspire(tabindex='-1', href="javascript:void(0);", ng-click="categoryClick('inspire')") inspire
+                        ui.dropdown-menu.dropdown-menu_explain connection to an Idea, open question, funny or interesting things
+                    li.dropdown-submenu
+                        a.question(tabindex='-1', href="javascript:void(0);", ng-click="categoryClick('question')") question
+                        ui.dropdown-menu.dropdown-menu_explain connection to a critique, contradictions, or a problem
+            span(ng-show="relationErrorMessage") {{relationErrorMessage}}
+            p.btn.btn-link.counter {{(80 -(form.knownodeRelation.title.length))}}
+            span(ng-transclude)

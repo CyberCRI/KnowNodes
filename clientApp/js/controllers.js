@@ -1,6 +1,6 @@
 'use strict';
-
-function TopBarCtrl($scope, $location) {
+//Dor experiments
+function TopBarCtrl($scope) {
     $scope.mapButton = false;
     var result = false;
     $scope.toggle = function (classToToggle) {
@@ -203,22 +203,15 @@ function ConceptGraphCtrl($scope, $http, $routeParams, userService, PassKnownode
         });
         $("head").append(css);
 
-        var sys = arbor.ParticleSystem(1000, 600, 0.5); // create the system with sensible repulsion/stiffness/friction
-        sys.parameters({gravity: true}); // use center-gravity to make the graph settle nicely (ymmv)
 
-        // our newly created renderer will have its .init() method called shortly by sys...
-        sys.renderer = Renderer("#viewport", PassKnownodeToGraph.getCentralNode(), PassKnownodeToGraph.getRelatedNodes());
-
-        $(sys.renderer).bind('layer', function (e) {
-            sys.renderer.onLayerChange(e.layer);
-        })
-
+        Renderer.init("viewport", PassKnownodeToGraph.getCentralNode(), PassKnownodeToGraph.getRelatedNodes());
+        PanelsHandler.initPanels();
     });
 }
 ConceptGraphCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'PassKnownodeToGraph'];
 
 
-function ArticleListCtrl($scope, $http, $routeParams, userService, PassKnownodeToGraph) {
+function KnownodeListCtrl($scope, $http, $routeParams, userService, PassKnownodeToGraph) {
     $scope.addNode = false;
     $scope.currentKnownode = {};
     //$scope.passKnownode = PassKnownode;
@@ -275,7 +268,7 @@ function ArticleListCtrl($scope, $http, $routeParams, userService, PassKnownodeT
     $scope.start = +new Date();
 
 }
-ArticleListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'PassKnownodeToGraph'];
+KnownodeListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'PassKnownodeToGraph'];
 
 
 function KnownodeCtrl($scope, $http, $routeParams, userService, PassKnownodeToGraph) {
@@ -792,8 +785,9 @@ SearchCtrl.$inject = ['$scope', '$http', 'hybridSearch'];
 function RelationCtrl($scope) {
     //define a way for a node to know color based on connectionType
     $scope.BgColorClass = 'explain';
-    $scope.colorSwitcher = function () {
-        switch ($scope.knownode.connection.connectionType) {
+    $scope.colorSwitcher = function() {
+        switch($scope.knownode.connection.connectionType)
+        {
             case "explain":
                 return 'explain';
                 break;

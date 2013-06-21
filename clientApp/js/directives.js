@@ -26,11 +26,11 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     })
-    .directive('edgeTypeSelector', function () {
+    .directive('relationInput', function () {
         return {
             restrict: 'EAC',
             transclude: true,
-            templateUrl: 'partials/directiveTemplates/edgeTypeSelector',
+            templateUrl: 'partials/directiveTemplates/relationInput',
             replace: true
         };
     })
