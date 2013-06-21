@@ -16,7 +16,7 @@ form(name="form", novalidate, ng-submit="submit();")
         div.resourcecontent.span11#content(ng-show="reversedDirection && rootNodeExists")
             p
                 search-box.knownode-title.target-resource-search-box
-                span#content(ng-show="isNodeSelected()") {{selectedNode.text}}
+                span#content(ng-show="targetResource != null") {{targetResource.title}}
                 span.help-inline(ng-show="submitted && form.selectedSuggestion.$error.required") you must choose a resource.
 
         // Connection between Nodes
@@ -28,7 +28,7 @@ form(name="form", novalidate, ng-submit="submit();")
         div.resourcecontent.span11#content(ng-hide="reversedDirection || userGenNode", ng-show="rootNodeExists")
             p
                 search-box.knownode-title.target-resource-search-box
-                span#content(ng-show="isNodeSelected()") {{selectedNode.text}}
+                span#content(ng-show="targetResource != null") {{targetResource.title}}
                 span.help-inline(ng-show="submitted && form.selectedSuggestion.$error.required") you must choose a resource.
     
         // ....... created node
