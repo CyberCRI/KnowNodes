@@ -69,8 +69,7 @@ angular.module('KnowNodesApp.services', [])
     }])
 
     .factory('hybridSearch', ['$http', '$q', function ($http, $q) {
-
-        var wikiBaseUrl = 'https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srprop=&callback=JSON_CALLBACK&srsearch=';
+        var wikiBaseUrl = 'https://en.wikipedia.org/w/api.php?action=query&list=search&srprop=snippet&format=json&callback=JSON_CALLBACK&srsearch=';
 
         return {
             search: function (query) {
@@ -85,14 +84,13 @@ angular.module('KnowNodesApp.services', [])
                     else return {};
                 };
 
-                console.log('Searching KnowNodes And Wikipedia...');
                 var deferred = $q.defer();
                 $q.all([$http.get('/knownodes/:' + query + '/getNodesByKeyword'),
                         $http.jsonp(wikiBaseUrl + query)])
                     .then(function (results) {
-                        var nodes = handleResultsFromKnownodes(results[0]);
-                        var articles = handleResultsFromWikipedia(results[1]);
-                        deferred.resolve({nodes: nodes, articles: articles});
+                        var resources = handleResultsFromKnownodes(results[0]);
+                        var wikipediaArticles = handleResultsFromWikipedia(results[1]);
+                        deferred.resolve({resources: resources, wikipediaArticles: wikipediaArticles});
                     });
                 // TODO Handle Errors
                 return deferred.promise;
@@ -100,6 +98,7 @@ angular.module('KnowNodesApp.services', [])
             }
         };
     }])
+
     .factory('PassKnownodeToGraph', function () {
         var currentCentralKnownode;
         var currentRelatedKnownodes;

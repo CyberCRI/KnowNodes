@@ -1,6 +1,6 @@
 'use strict';
-//Dor experiments
-function TopBarCtrl($scope, $http, $location) {
+
+function TopBarCtrl($scope, $location) {
     $scope.mapButton = false;
     var result = false;
     $scope.toggle = function (classToToggle) {
@@ -12,50 +12,13 @@ function TopBarCtrl($scope, $http, $location) {
         return result;
     };
 
-    $scope.inputOptions = {
-        minimumInputLength: 3,
-        query: function (query) {
-            $http.get('/knownodes/:' + query.term + '/getNodesByKeyword')
-                .success(function (data) {
-                    var suggestData = {results: []}, i;
-                    var nodes = data.success;
-                    for (i = 0; i < nodes.length; i++) {
-                        suggestData.results.push({id: nodes[i].results.KN_ID, text: nodes[i].results.title});
-                    }
-                    query.callback(suggestData);
-                })
-                .error(function (data, status) {
-                    console.log('Resource search failed with status : ' + status);
-                    console.log('Error message : ' + data.message);
-                });
-        },
-        formatResult: function movieFormatResult(node) {
-            var markup = "<table class='suggestion'><tr>";
-            markup += "<td class='suggestion-info'><div class='suggestion-title'>" + node.text + "</div></td>";
-            markup += "</tr></table>"
-            return markup;
-        }
-    }
-
-    $scope.$watch('selectedResource', function () {
-        if (isResourceSelected()) {
-            $location.path('/concept/' + getSelectedResource().id);
-            $('#searchBox').select2('val', '');
-//            $scope.selectedResource.splice(0, $scope.selectedResource.length);
-        }
+    $scope.$on('searchResultSelected', function (event, result) {
+        event.stopPropagation();
+        $location.path('/concept/' + result.id);
     });
-
-    var isResourceSelected = function () {
-        return $scope.selectedResource != null && $scope.selectedResource.length > 0;
-    };
-
-    var getSelectedResource = function () {
-        if (!isResourceSelected()) throw 'No Selected Resource';
-        return $scope.selectedResource[0];
-    };
-
 }
-TopBarCtrl.$inject = ['$scope', '$http', '$location'];
+TopBarCtrl.$inject = ['$scope', '$location'];
+
 
 function ChatCtrl($scope, $timeout, $rootScope, angularFireCollection) {
     var el = document.getElementById("messagesDiv");
@@ -78,7 +41,8 @@ function ChatCtrl($scope, $timeout, $rootScope, angularFireCollection) {
     };
 }
 ChatCtrl.$inject = ['$scope', '$timeout', '$rootScope', 'angularFireCollection'];
-/* Controllers */
+
+
 function AppCtrl($scope, $http) {
     $http({method: 'GET', url: '/api/name'}).
         success(function (data, status, headers, config) {
@@ -90,9 +54,7 @@ function AppCtrl($scope, $http) {
 }
 AppCtrl.$inject = ['$scope', '$http'];
 
-/***
- * knownode users
- */
+
 function AddUserCtrl($scope, $http, $location) {
     $scope.userForm = {};
     $scope.submitUser = function (userForm) {
@@ -102,8 +64,8 @@ function AddUserCtrl($scope, $http, $location) {
             });
     };
 }
-
 AddUserCtrl.$inject = ['$scope', '$http', '$location'];
+
 
 function LoginCtrl($scope, $http, $location, $rootScope) {
     $scope.loginForm = {};
@@ -121,6 +83,7 @@ function LoginCtrl($scope, $http, $location, $rootScope) {
 }
 LoginCtrl.$inject = ['$scope', '$http', '$location'];
 
+
 function LogoutCtrl($http, $location, $rootScope) {
     $http.post('/logout').
         success(function (data) {
@@ -131,11 +94,9 @@ function LogoutCtrl($http, $location, $rootScope) {
             }
         });
 }
+LogoutCtrl.$inject = ['$scope', '$http', '$location', '$rootScope'];
 
-LoginCtrl.$inject = ['$scope', '$http', '$location', '$rootScope'];
-/***
- * knownode concepts
- */
+
 function AddConceptCtrl($scope, $http, $location) {
     var partnerList = document.getElementById('partner');
     $scope.userList = [];
@@ -159,6 +120,7 @@ function AddConceptCtrl($scope, $http, $location) {
     };
 }
 AddConceptCtrl.$inject = ['$scope', '$http', '$location'];
+
 
 function EditConceptCtrl($scope, $http, $location, $routeParams) {
     var partnerList = document.getElementById('partner'),
@@ -228,6 +190,7 @@ function ConceptListCtrl($scope, $http, $routeParams, userService) {
     $scope.orderProp = "date";
 }
 ConceptListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
+
 
 function ConceptGraphCtrl($scope, $http, $routeParams, userService, PassKnownodeToGraph) {
     //var conceptId = $scope.conceptId = $routeParams.id;
@@ -314,7 +277,7 @@ function ArticleListCtrl($scope, $http, $routeParams, userService, PassKnownodeT
 }
 ArticleListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'PassKnownodeToGraph'];
 
-//knownode Post:
+
 function KnownodeCtrl($scope, $http, $routeParams, userService, PassKnownodeToGraph) {
     var knownodeId = $scope.conceptId = $routeParams.id;
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
@@ -339,9 +302,9 @@ KnownodeCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'PassK
 
 
 function EditPostCtrl($scope, $http, $location, $routeParams) {
-
 }
 EditPostCtrl.inject = ['$scope', '$http', '$location', '$routeParams'];
+
 
 function AddPostCtrl($scope, $http, $location, $routeParams, $rootScope) {
     var dropbox = document.getElementById("dropbox");
@@ -543,9 +506,11 @@ function AddPostCtrl($scope, $http, $location, $routeParams, $rootScope) {
 }
 AddPostCtrl.$inject = ['$scope', '$http', '$location', '$routeParams', '$rootScope'];
 
+
 function IndexCtrl($scope, $http, $location) {
 }
 IndexCtrl.$inject = ['$scope', '$http', '$location'];
+
 
 function DeleteUserCtrl($scope, $http, $location, $routeParams) {
     $http.get('/users/' + $routeParams.id).
@@ -566,6 +531,7 @@ function DeleteUserCtrl($scope, $http, $location, $routeParams) {
 }
 DeleteUserCtrl.$inject = ['$scope', '$http', '$location', '$routeParams'];
 
+
 function commentCtrl($scope, $http, $routeParams, userService, broadcastService) {
     var objectId = $routeParams.id;
     $scope.comments = [];
@@ -584,6 +550,7 @@ function commentCtrl($scope, $http, $routeParams, userService, broadcastService)
     });
 }
 commentCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'broadcastService'];
+
 
 function addCommentCtrl($scope, $http, $routeParams, userService, broadcastService) {
     var objectId = $routeParams.id;
@@ -618,10 +585,11 @@ function addCommentCtrl($scope, $http, $routeParams, userService, broadcastServi
 }
 addCommentCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'broadcastService'];
 
-function aboutCtrl($scope) {
 
+function aboutCtrl($scope) {
 }
 aboutCtrl.$inject = ['$scope'];
+
 
 function EdgeCtrl($scope, $http, $routeParams, userService, PassKnownode) {
     var currentKnownode = PassKnownode.showCurrent();
@@ -658,8 +626,8 @@ function EdgeCtrl($scope, $http, $routeParams, userService, PassKnownode) {
         $scope.knownode = $scope.knownode[0];
     });
 }
-
 EdgeCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'PassKnownode'];
+
 
 function SearchCtrl($scope, $http, $rootScope) {
     $scope.keyword = "";
@@ -678,80 +646,30 @@ function SearchCtrl($scope, $http, $rootScope) {
 }
 SearchCtrl.$inject = ['$scope', '$http', '$rootScope'];
 
-function KnownodeInputCtrl($scope, $http, $route, $routeParams, hybridSearch) {
+
+function RelationInputCtrl($scope, $http, $route, $routeParams, hybridSearch) {
 
     $scope.bgColor = 'auto-generated';
     $scope.$on('rootNodeExists', function () {
         $scope.rootNodeExists = true;
     });
 
-    $scope.inputOptions = {
-        minimumInputLength: 3,
-        query: function (query) {
-            hybridSearch.search(query.term).then(function (results) {
-                console.log('Got ' + results.nodes.length + ' nodes');
-                console.log('Got ' + results.articles.length + ' articles');
-                var data = {results: []}, i;
-                // First item is the create node option
-                data.results.push({id: 'create_data_option_id', text: 'Create Resource', create: true});
-                for (i = 0; i < results.nodes.length; i++) {
-                    data.results.push({id: results.nodes[i].results.KN_ID, text: results.nodes[i].results.title});
-                }
-                for (i = 0; i < results.articles.length; i++) {
-                    data.results.push({id: results.articles[i].title, text: results.articles[i].title, wiki: true});
-                }
-                query.callback(data);
-            });
-        },
-        formatResult: function movieFormatResult(node) {
-            var markup = "<table class='suggestion'><tr>";
-            markup += "<td class='suggestion-info'><div class='suggestion-title'>" + node.text + "</div></td>";
-            if (node.wiki) {
-                markup += "<td class='suggestion-image'><img src='img/wikipedia-icon.png'/></td>";
-            }
-            markup += "</tr></table>"
-            return markup;
-        }
-    }
-
-    $scope.isNodeSelected = function () {
-        return $scope.selectedNode != null;
-    };
-
-    $scope.$watch('selectedSuggestions', function () {
-        if (isSuggestionSelected()) {
-            $scope.selectedNode = getSelectedSuggestion();
-            $('.select2-container').hide();
-            if ($scope.selectedNode.create) {
-                $scope.userGenNode = true;
-                // TODO Initialize the form title with the user input
-//                $scope.form.knownodeForm.title =
-            }
-        }
-        else {
-            $scope.selectedNode = null;
-            $('.select2-container').show();
-        }
-    });
-
-    $scope.selectedSuggestions = null;
-
-    var isSuggestionSelected = function () {
-        return $scope.selectedSuggestions != null && $scope.selectedSuggestions.length > 0;
-    }
-
-    var getSelectedSuggestion = function () {
-        if (!isSuggestionSelected()) throw 'No Selected Suggestion';
-        return $scope.selectedSuggestions[0];
-    }
-
     $scope.isFormValid = function () {
-        return $scope.isNodeSelected()
-            && $scope.form.knownodeRelation.text != null
-            && $scope.form.knownodeRelation.text.length > 3
-            && $scope.form.knownodeRelation.connectionType != null
-            && $scope.form.knownodeRelation.connectionType.length > 5;
+        return true;
+        // TODO
+//        return $scope.isNodeSelected()
+//            && $scope.form.knownodeRelation.text != null
+//            && $scope.form.knownodeRelation.text.length > 3
+//            && $scope.form.knownodeRelation.connectionType != null
+//            && $scope.form.knownodeRelation.connectionType.length > 5;
     }
+
+    $scope.$on('searchResultSelected', function (event, result) {
+        event.stopPropagation();
+        $scope.targetResource = result;
+        $scope.form.existingNode = result.id;
+        $('.target-resource-search-box').hide();
+    });
 
     $scope.userGenNode = false;
     $scope.form = {};
@@ -768,34 +686,11 @@ function KnownodeInputCtrl($scope, $http, $route, $routeParams, hybridSearch) {
 
     $scope.submit = function () {
         $scope.form.originalPostId = $scope.form.knownodeRelation.originalPostId = $routeParams.id;
-        if (!$scope.isNodeSelected()) return;
-        if ($scope.selectedNode.create) {
-            createWithNewResource();
-        } else if ($scope.selectedNode.wiki) {
-            // Create Wiki Node
-            $http.post('http://localhost:3000/knownodes/wikinode', {title: $scope.selectedNode.id})
-                .success(function (data, status) {
-                    createWithExistingResource(data.success.KN_ID);
-                })
-                .error(function (data, status) {
-                    console.log('Wikinode creation failed with status : ' + status);
-                    console.log('Error message : ' + data.message);
-                });
-        }
-        else {
-            createWithExistingResource($scope.selectedNode.id);
+        $scope.form.existingNode = $scope.targetResource.id;
+        if ($scope.isFormValid()) {
+            saveForm();
         }
     }
-
-    var createWithNewResource = function () {
-        saveForm();
-    };
-
-    var createWithExistingResource = function (targetId) {
-        $scope.form.existingNode = targetId;
-        $scope.form.knownodeForm = {};
-        saveForm();
-    };
 
     var saveForm = function () {
         if ($scope.reversedDirection) {
@@ -814,15 +709,91 @@ function KnownodeInputCtrl($scope, $http, $route, $routeParams, hybridSearch) {
             });
     }
 }
-KnownodeInputCtrl.$inject = ['$scope', '$http', '$route', '$routeParams', 'hybridSearch'];
+RelationInputCtrl.$inject = ['$scope', '$http', '$route', '$routeParams', 'hybridSearch'];
+
+
+function SearchBoxCtrl($scope, $http, hybridSearch) {
+
+    $scope.selectedResult = null;
+
+    $scope.searchBoxOptions = {
+        dropdownAutoWidth: true,
+        minimumInputLength: 3,
+        query: function (query) {
+            hybridSearch.search(query.term).then(function (results) {
+                console.log('Got ' + results.resources.length + ' nodes');
+                console.log('Got ' + results.wikipediaArticles.length + ' articles');
+                var suggestions = {results: []}, i;
+                // First item is the create resource option
+                suggestions.results.push({id: 'create_data_option_id', text: 'Create Resource...', type: 'Create'});
+                for (i = 0; i < results.resources.length; i++) {
+                    suggestions.results.push({id: results.resources[i].results.KN_ID, text: results.resources[i].results.title});
+                }
+                for (i = 0; i < results.wikipediaArticles.length; i++) {
+                    suggestions.results.push({id: results.wikipediaArticles[i].title, text: results.wikipediaArticles[i].title, type: 'Wikipedia Article'});
+                }
+                query.callback(suggestions);
+            });
+        },
+        formatResult: function movieFormatResult(node) {
+            var markup = "<table class='suggestion'><tr>";
+            markup += "<td class='suggestion-info'><div class='suggestion-title'>" + node.text + "</div></td>";
+            if (node.type == 'Wikipedia Article') {
+                markup += "<td class='suggestion-image'><img src='img/wikipedia-icon.png'/></td>";
+            }
+            markup += "</tr></table>"
+            return markup;
+        }
+    }
+
+    $scope.$watch('selectedResult', function () {
+        if (isResultSelected()) {
+            var result = getSelectedResult();
+            if (result.type == 'Create') {
+                // Create Resource
+            }
+            if (result.type == 'Wikipedia Article') {
+                // Create Wikinode
+                $http.post('http://localhost:3000/knownodes/wikinode', {title: result.id})
+                    .success(function (data, status) {
+                        var resource = data.success;
+                        notify(resource.KN_ID, resource.title);
+                    })
+                    .error(function (data, status) {
+                        console.log('Wikinode creation failed with status : ' + status);
+                        console.log('Error message : ' + data.message);
+                    });
+            } else {
+                notify(result.id, result.text);
+            }
+            $scope.clear();
+        }
+    });
+
+    var isResultSelected = function () {
+        return $scope.selectedResult != null && $scope.selectedResult.length > 0;
+    };
+
+    var getSelectedResult = function () {
+        if (!isResultSelected()) throw 'No Selected Resource';
+        return $scope.selectedResult[0];
+    };
+
+    var notify = function (id, title) {
+        $scope.$emit('searchResultSelected', {
+            id: id,
+            title: title
+        });
+    }
+}
+SearchCtrl.$inject = ['$scope', '$http', 'hybridSearch'];
+
 
 function RelationCtrl($scope) {
     //define a way for a node to know color based on connectionType
     $scope.BgColorClass = 'explain';
-    $scope.colorSwitcher = function() {
-        console.log($scope.knownode.connection.connectionType);
-        switch($scope.knownode.connection.connectionType)
-        {
+    $scope.colorSwitcher = function () {
+        switch ($scope.knownode.connection.connectionType) {
             case "explain":
                 return 'explain';
                 break;
