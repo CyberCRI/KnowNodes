@@ -1,6 +1,6 @@
 'use strict';
 //Dor experiments
-function TopBarCtrl($scope) {
+function TopBarCtrl($scope, $location) {
     $scope.mapButton = false;
     var result = false;
     $scope.toggle = function (classToToggle) {
@@ -640,7 +640,7 @@ function SearchCtrl($scope, $http, $rootScope) {
 SearchCtrl.$inject = ['$scope', '$http', '$rootScope'];
 
 
-function RelationInputCtrl($scope, $http, $route, $routeParams, hybridSearch) {
+function KnownodeInputCtrl($scope, $http, $route, $routeParams, hybridSearch) {
 
     $scope.bgColor = 'auto-generated';
     $scope.$on('rootNodeExists', function () {
@@ -678,6 +678,7 @@ function RelationInputCtrl($scope, $http, $route, $routeParams, hybridSearch) {
     };
 
     $scope.submit = function () {
+        $scope.submitted = true;
         $scope.form.originalPostId = $scope.form.knownodeRelation.originalPostId = $routeParams.id;
         $scope.form.existingNode = $scope.targetResource.id;
         if ($scope.isFormValid()) {
@@ -702,7 +703,7 @@ function RelationInputCtrl($scope, $http, $route, $routeParams, hybridSearch) {
             });
     }
 }
-RelationInputCtrl.$inject = ['$scope', '$http', '$route', '$routeParams', 'hybridSearch'];
+KnownodeInputCtrl.$inject = ['$scope', '$http', '$route', '$routeParams', 'hybridSearch'];
 
 
 function SearchBoxCtrl($scope, $http, hybridSearch) {
@@ -785,9 +786,8 @@ SearchCtrl.$inject = ['$scope', '$http', 'hybridSearch'];
 function RelationCtrl($scope) {
     //define a way for a node to know color based on connectionType
     $scope.BgColorClass = 'explain';
-    $scope.colorSwitcher = function() {
-        switch($scope.knownode.connection.connectionType)
-        {
+    $scope.colorSwitcher = function () {
+        switch ($scope.knownode.connection.connectionType) {
             case "explain":
                 return 'explain';
                 break;

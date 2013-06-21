@@ -257,11 +257,11 @@ angular.module('KnowNodesApp.directives', [])
         };
     }])
 
-    .directive('relationInput', ['$http', function ($http) {
+    .directive('knownodeInput', ['$http', function ($http) {
         return {
             restrict: 'A',
-            templateUrl: 'partials/directiveTemplates/relationInput',
-            controller: RelationInputCtrl,
+            templateUrl: 'partials/directiveTemplates/knownodeInput',
+            controller: KnownodeInputCtrl,
             replace: true
         };
     }])
