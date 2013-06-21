@@ -14,8 +14,8 @@ div
     // ... reversed direction
     div.resourcecontent.span11#content(ng-show="reversedDirection && rootNodeExists")
         p
-            input(ui-select2="inputOptions", multiple, ng-model="selectedSuggestions", data-placeholder="Find or create a resource...", type="hidden", style="width:100%").knownode-title
-            span#content(ng-show="isNodeSelected()") {{selectedNode.text}}
+            search-box.knownode-title.target-resource-search-box
+            span#content(ng-show="targetResource != null") {{targetResource.title}}
 
     // Connection between Nodes
     div(edge-type-selector)
@@ -25,8 +25,8 @@ div
     // ....... existing node
     div.resourcecontent.span11#content(ng-hide="reversedDirection || userGenNode", ng-show="rootNodeExists")
         p
-            input(ui-select2="inputOptions", multiple, ng-model="selectedSuggestions", data-placeholder="Find or create a resource...", type="hidden", style="width:100%").knownode-title
-            span#content(ng-show="isNodeSelected()") {{selectedNode.text}}
+            search-box.knownode-title.target-resource-search-box
+            span#content(ng-show="targetResource != null") {{targetResource.title}}
 
     // ....... created node
     // TODO Encapsulate in a directive

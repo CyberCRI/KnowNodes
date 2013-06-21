@@ -9,7 +9,7 @@ div.header.row.topbar
     //span
       a.btn.btn-link.info(href="/knownodeList") View knownodes
     span.btn.btn-link.info(style="width: 300px; margin-top: 0px")
-        input#searchBox(ui-select2="inputOptions", multiple, ng-model="selectedResource", data-placeholder="Find a resource...", type="hidden", style="width:100%").knownode-title
+        search-box
 
     span
         a.btn.btn-link.info(href="/conceptGraph", ng-click="mapButton=true", ng-hide="mapButton") View map

@@ -6,6 +6,14 @@
     background-color: #3875d7;
 }
 
+.select2-results {
+    max-height: 400px;
+}
+
+.select2-drop {
+    max-width: 600px;
+}
+
 .suggestion-image {
     width: 16px;
 }

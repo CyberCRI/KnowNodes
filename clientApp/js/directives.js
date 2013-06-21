@@ -257,11 +257,26 @@ angular.module('KnowNodesApp.directives', [])
         };
     }])
 
-    .directive('knownodeInput', ['$http', function ($http) {
+    .directive('relationInput', ['$http', function ($http) {
         return {
             restrict: 'A',
-            templateUrl: 'partials/directiveTemplates/knownodeInput',
-            controller: KnownodeInputCtrl,
+            templateUrl: 'partials/directiveTemplates/relationInput',
+            controller: RelationInputCtrl,
             replace: true
         };
-    }]);
+    }])
+
+    .directive('searchBox', ['$http', function ($http) {
+        return {
+            restrict: 'E',
+            template: '<input ui-select2="searchBoxOptions" ng-model="selectedResult" data-placeholder="Find or create a resource..." multiple type="hidden" style="width:100%" />',
+            controller: SearchBoxCtrl,
+            replace: true,
+            link: function (scope, element) {
+                scope.clear = function () {
+                    element.select2('val', '');
+                };
+            }
+        };
+    }])
+;
