@@ -724,6 +724,7 @@ function KnownodeInputCtrl($scope, $http, $route, $routeParams, hybridSearch) {
     };
 
     $scope.submit = function () {
+        $scope.submitted = true;
         $scope.form.originalPostId = $scope.form.knownodeRelation.originalPostId = $routeParams.id;
         if (!$scope.isNodeSelected()) {
             $scope.submitErrorMessage= "you must choose second resource";
