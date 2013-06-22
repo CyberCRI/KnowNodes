@@ -5,11 +5,11 @@ div.header.row.topbar
     div#logo
       a(href='#')
         img#logo(src="img/KnownodesLogo.jpg")
-    span.top-bar-login
+    span(top-bar-login)
     //span
       a.btn.btn-link.info(href="/knownodeList") View knownodes
     span.btn.btn-link.info(style="width: 300px; margin-top: 0px")
-        search-box
+        span(search-box)
 
     span
         a.btn.btn-link.info(href="/conceptGraph", ng-click="mapButton=true", ng-hide="mapButton") View map

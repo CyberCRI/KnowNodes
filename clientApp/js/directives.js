@@ -268,7 +268,7 @@ angular.module('KnowNodesApp.directives', [])
 
     .directive('searchBox', ['$http', function ($http) {
         return {
-            restrict: 'E',
+            restrict: 'EAC',
             template: '<input ui-select2="searchBoxOptions" ng-model="selectedResult" data-placeholder="Find or create a resource..." multiple type="hidden" style="width:100%" />',
             controller: SearchBoxCtrl,
             replace: true,

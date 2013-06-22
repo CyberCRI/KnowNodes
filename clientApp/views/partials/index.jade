@@ -1,13 +1,8 @@
-img(src="/img/frontPageTest.png", style="width:100%")
+div(ng-hide="userDisplayName")
+  img(src="/img/frontPageTest.png", ng-hide="userDisplayName", style="width:100%")
 div(class="hero-unit").span24
   div.span12
-    h2 Welcome to Knownodes
-    p A place to create and explore interesting connections between things.
-    br
-    small Please note that we're in prototype phase, and registration is invite only, do feel free to browse around!
-  - if (userDisplayName)
-    h2 Hello {{userDisplayName}}!
-  - else
-    div.span11
-      include User/login
-img(src="/img/edge_sketch.jpg", width="700px").offset1
+    div
+      h2 Hello {{userDisplayName}}!
+  div.span11(ng-hide="userDisplayName")
+    include User/login
