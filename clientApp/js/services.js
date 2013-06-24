@@ -99,6 +99,32 @@ angular.module('KnowNodesApp.services', [])
         };
     }])
 
+    .factory('wikipedia', ['$http', '$q', function ($http, $q) {
+
+        var baseUrl = 'http://en.wikipedia.org/w/api.php?action=query&prop=extracts|links&pllimit=500&format=json&callback=JSON_CALLBACK&titles=';
+
+        var getFirstParagraph = function (extract) {
+            var regex = /<p>.+<\/p>/;
+            return regex.exec(extract)[0];
+        }
+
+        return {
+            getArticle: function (query) {
+                var deferred = $q.defer();
+                $http.jsonp(baseUrl + query)
+                    .success(function (data) {
+                        var article = data.query.pages[Object.keys(data.query.pages)[0]];
+                        article.extract = getFirstParagraph(article.extract)
+                        deferred.resolve(article);
+                    }
+                );
+
+                // TODO Handle Errors
+                return deferred.promise;
+            }
+        };
+    }])
+
     .factory('PassKnownodeToGraph', function () {
         var currentCentralKnownode;
         var currentRelatedKnownodes;
