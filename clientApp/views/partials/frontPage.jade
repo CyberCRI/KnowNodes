@@ -1,32 +1,30 @@
 div(ng-hide="userDisplayName")
   img(src="/img/frontPageTest.png", ng-hide="userDisplayName", style="width:100%")
-div(class="hero-unit").span24
-  div.span12
-    div
-      p Welcome to Knownodes, a collaborative project that empowers you to teach and inspire others.
-      br
-      p Knownodes focuses on creating information rich connections between online resources and ideas.
-      br
-      p These connections can be created by anyone(including you). They contain a simple, jargon-less explanation of how two web resources are connected, and take less than two minutes to create.
-      br
-      p Once you have created a connection, it stays there, guiding others. It also becomes a center for discussion and feedback.
-      br
-      p We launched only two days ago, and we have already more than 300 connections made by over 30 people.
-      br
-      p Check out some of the projects started below, join or start your own knownode:
+div
+  img(src="/img/parallel_universe_small.png", style="width:100%")
+  h3.intro-image-label Welcome to Knownodes, a collaborative project that empowers you to teach and inspire others.
+  h3.intro-image-label Knownodes focuses on creating information rich connections between online resources and ideas.
+  h3.intro-image-label These connections can be created by anyone(including you). They contain a simple, jargon-less explanation of how two web resources are connected, and take less than two minutes to create.
+  h3.intro-image-label Once you have created a connection, it stays there, guiding others. It also becomes a center for discussion and feedback.
+  h3.intro-image-label We launched only two days ago, and we have already more than 300 connections made by over 30 people.
+  h3.intro-image-label Check out some of the projects started below, join or start your own knownode:
 
-      p
-        a Front end development
-        span - a knownodes adaptation of the great list by
+  h3.intro-image-label
+    a Front end development
+    span - a knownodes adaptation of this great collection
+      a(href="https://gist.github.com/dypsilon/5819504") this great collection
 
-      p
-        a Citizen science
+  h3.intro-image-label
+    a Citizen science
+    span - What is citizen science and it's applications
 
-      p
-        a Evolution
+  h3.intro-image-label
+    a Evolution
+    span - Learning materials about evolution
 
-      p
-        a Learning python
+  h3.intro-image-label
+    a Learning python
+    span - Some handy tutorials and books
 
   div.span11(ng-hide="userDisplayName")
     include User/login
