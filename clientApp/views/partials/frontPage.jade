@@ -1,0 +1,32 @@
+div(ng-hide="userDisplayName")
+  img(src="/img/frontPageTest.png", ng-hide="userDisplayName", style="width:100%")
+div(class="hero-unit").span24
+  div.span12
+    div
+      p Welcome to Knownodes, a collaborative project that empowers you to teach and inspire others.
+      br
+      p Knownodes focuses on creating information rich connections between online resources and ideas.
+      br
+      p These connections can be created by anyone(including you). They contain a simple, jargon-less explanation of how two web resources are connected, and take less than two minutes to create.
+      br
+      p Once you have created a connection, it stays there, guiding others. It also becomes a center for discussion and feedback.
+      br
+      p We launched only two days ago, and we have already more than 300 connections made by over 30 people.
+      br
+      p Check out some of the projects started below, join or start your own knownode:
+
+      p
+        a Front end development
+        span - a knownodes adaptation of the great list by
+
+      p
+        a Citizen science
+
+      p
+        a Evolution
+
+      p
+        a Learning python
+
+  div.span11(ng-hide="userDisplayName")
+    include User/login

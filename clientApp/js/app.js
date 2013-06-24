@@ -15,7 +15,7 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['firebase','ngSanitize'
     config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
         $routeProvider.
             when('/', {
-                templateUrl: 'partials/index',
+                templateUrl: 'partials/frontPage',
                 controller: IndexCtrl
             }).
             when('/about', {
