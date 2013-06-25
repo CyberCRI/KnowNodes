@@ -124,25 +124,4 @@ angular.module('KnowNodesApp.services', [])
             }
         };
     }])
-
-    .factory('PassKnownodeToGraph', function () {
-        var currentCentralKnownode;
-        var currentRelatedKnownodes;
-
-        var PassKnownodeToGraphService = {};
-        PassKnownodeToGraphService.setCentralNode = function (data) {
-            currentCentralKnownode = data;
-        };
-        PassKnownodeToGraphService.setRelatedNodes = function (data) {
-            currentRelatedKnownodes = data;
-        };
-
-        PassKnownodeToGraphService.getCentralNode = function () {
-            return currentCentralKnownode;
-        };
-        PassKnownodeToGraphService.getRelatedNodes = function () {
-            return currentRelatedKnownodes;
-        };
-        return PassKnownodeToGraphService;
-    })
     .value('version', '0.2');
