@@ -1,7 +1,12 @@
 'use strict';
 //Dor experiments
 function TopBarCtrl($scope, $location) {
-    $scope.mapButton = false;
+    $scope.$on('$routeChangeSuccess', function(event, current, previous) {
+        $scope.mapButton = (current.$route.controller.name === "KnownodeListCtrl");
+        $scope.resourceButton = (current.$route.controller.name === "MapCtrl");
+
+        $scope.resourceId = current.params.id;
+    });
     var result = false;
     $scope.toggle = function (classToToggle) {
         if (result) {
