@@ -6,8 +6,8 @@ Renderer.init = function(canvasId, centralNodeData, childrenNodesData){
     Renderer.engine.initParticleSystem();
     Renderer.canvas.init(canvasId);
 
-    Renderer.engine.jsonOriginData = centralNodeData.success;
-    Renderer.engine.jsonChildrenData = childrenNodesData.success;
+    Renderer.engine.jsonOriginData = centralNodeData;
+    Renderer.engine.jsonChildrenData = childrenNodesData;
 
     Renderer.layers.count = Math.ceil(Renderer.engine.jsonChildrenData.length / NODES_PER_LAYER);
 
@@ -158,7 +158,7 @@ Renderer.Node = function(data){
         fontSize: 18,
         x: 80,
         y: -20,
-        width: 300,
+        width: 300
     });
     this.bindEvents();
 };
