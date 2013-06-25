@@ -1,7 +1,9 @@
-apiKey = require('../config/settings')
-apiValue = apiKey.settings.url_scraper
+settings = require('../config/settings')
+key = settings.getSettings().url_scraper;
 
 pm = require('pagemunch')
-pm.set({key:'apiValue'})
+pm.set({key:key})
 
-pm.summary('http://www.youtube.com/watch?v=9bZkp7q19f0', _)
+pm.summary(process.argv[2], -> console.log(arguments))
+
+# http://www.youtube.com/watch?v=9bZkp7q19f0
