@@ -198,6 +198,11 @@ Renderer.Node.prototype = {
         this.displayPolygon.on('mouseover', this.mouseOver);
         this.displayPolygon.on('mouseout', this.mouseOut);
         this.displayPolygon.on('click', this.mouseClick);
+        this.displayPolygon.on('dblclick dbltap', this.mouseDblClick);
+    },
+    mouseDblClick: function(e) {
+        window.location = "/map/"+ this.node.data.KN_ID;
+        console.log(this.node.data);
     },
     mouseOver: function(){
        this.node.tweenPolygonHover.play();
