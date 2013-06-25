@@ -20,11 +20,15 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['firebase','ngSanitize'
             }).
             when('/about', {
                 templateUrl: 'partials/about',
-                controller: AboutCtrl
+                controller: StaticPageCtrl
             }).
             when('/terms', {
                 templateUrl: 'partials/terms',
-                controller: TermsCtrl
+                controller: StaticPageCtrl
+            }).
+            when('/newUserGuide', {
+                templateUrl: 'partials/newUserGuide',
+                controller: StaticPageCtrl
             }).
             when('/login', {
                 templateUrl: 'partials/User/login',
