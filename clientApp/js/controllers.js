@@ -592,14 +592,9 @@ function addCommentCtrl($scope, $http, $routeParams, userService, broadcastServi
 addCommentCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'broadcastService'];
 
 
-function AboutCtrl($scope) {
+function StaticPageCtrl($scope) {
 }
 AboutCtrl.$inject = ['$scope'];
-
-
-function TermsCtrl($scope) {
-}
-TermsCtrl.$inject = ['$scope'];
 
 
 function EdgeCtrl($scope, $http, $routeParams, userService, PassKnownode) {
