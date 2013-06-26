@@ -302,21 +302,22 @@ Renderer.Edge.prototype = {
         delete this;
     },
     newLine: function(connection){
-        var stroke = "white";
+        var color = "white";
         if (connection.connectionType === "explain") {
-            stroke = "blue";
+            color = '#1C75BC';
         } else if (connection.connectionType === "inspire") {
-            stroke = "yellow";
+            color = '#FFDE17';
         } else if (connection.connectionType === "question") {
-            stroke = "green";
+            color = '#39B5A4';
         } else if (connection.connectionType === "Wikipedia Link") {
-            stroke = "gray";
+            color = "gray";
         }
 
-        var line =  new Kinetic.Line({
+        var line =  new Kinetic.Polygon({
             points: [0,0,0,0],
-            stroke: stroke,
-            strokeWidth: 2
+            stroke: color,
+            strokeWidth: 2,
+            fill: color
         });
         line.edge = this;
         Renderer.edges.layer.add(line);
@@ -330,7 +331,7 @@ Renderer.Edge.prototype = {
 
         function generatePoints(fromx, fromy, tox, toy){
             var hexagon = 30;
-            var headlen = 10;
+            var headlen = 12;
             var angle = Math.atan2(toy-fromy,tox-fromx);
 
             var newTox = tox-hexagon*Math.cos(angle);
@@ -371,8 +372,13 @@ Renderer.edges.layer = new Kinetic.Layer({});
 Renderer.loop = {}
 Renderer.loop.init = function(){};
 Renderer.loop.redraw = function(){
+    //pt1 is centralNode
     Renderer.engine.particleSystem.eachEdge(function(edge, pt1, pt2){
-        edge.data.edge.moveTo(pt1, pt2);
+        if(edge.data.edge.data.fromNodeId === Renderer.engine.jsonOriginData.id) {
+            edge.data.edge.moveTo(pt1, pt2);
+        } else {
+            edge.data.edge.moveTo(pt2, pt1);
+        }
     });
     Renderer.engine.particleSystem.eachNode(function(node, pt){
         node.data.node.moveTo(pt);
