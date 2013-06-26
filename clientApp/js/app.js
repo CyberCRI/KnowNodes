@@ -58,7 +58,10 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['firebase','ngSanitize'
             when('/concept/:id', {
                 templateUrl: 'partials/KnownodePost/knownodeList',
                 controller: KnownodeListCtrl
-                //controller: ConceptListCtrl
+            }).
+            when('/wiki/:title', {
+                templateUrl: 'partials/KnownodePost/wikipediaArticle',
+                controller: WikipediaArticleCtrl
             }).
             when('/addKnownodeTo/:id', {
                 templateUrl: 'partials/KnownodePost/addPostURL',

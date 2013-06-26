@@ -32,3 +32,15 @@ div.subheader
                 div(class="ui-icon ui-icon-trash", style="float:right", ng-click="deleteArticle(knownode.article.id, $index)", ng-show="checkOwnership(knownode.article.user.id)")
                 div(ng-show="checkOwnership(knownode.article.user.id)", style="float:right")
                     a(class="ui-icon ui-icon-pencil", ng-href="", ng-show="false")
+
+        div(ng-repeat="link in concept.wikipediaLinks", ng-switch on="link.title != concept.title").span11.offset1
+            div(ng-switch-when="true").knownode.span12.shortKnownode
+                div.resourcecontent.span11#content
+                    a.knownode-title(ng-href="/wiki/{{concept.title}}", title="{{concept.title}}") {{concept.title}}
+                div.connection.span11(class="auto-generated")
+                    div.content.span11
+                        div.ellipsis-title
+                            p
+                                span.knownode-title &nbsp;Wikipedia Link
+                div.resourcecontent.span11#content
+                    a.knownode-title(ng-href="/wiki/{{link.title}}", title="{{link.title}}") {{link.title}}

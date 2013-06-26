@@ -4,7 +4,7 @@ form(name="form", novalidate, ng-submit="submit();")
         // ... default direction
         div.resourcecontent.span11#content(ng-hide="reversedDirection", ng-show="rootNodeExists",style="padding:0px")
             accordion
-                accordion-group(heading="{{concept.title}}")
+                accordion-group(heading="{{concept.title}}", is-open='true')
                     div.knownode-body
                         p.bold(ng-show="concept.url")
                             a(ng-href="{{concept.url}}") {{concept.url}}
@@ -67,7 +67,7 @@ form(name="form", novalidate, ng-submit="submit();")
         // ... reversed direction
         div.resourcecontent.span11#content(ng-show="reversedDirection", style="padding:0px")
             accordion
-                accordion-group(heading="{{concept.title}}")
+                accordion-group(heading="{{concept.title}}", is-open='true')
                     div.knownode-body
                         p.bold(ng-show="concept.url")
                             a(ng-href="{{concept.url}}") {{concept.url}}

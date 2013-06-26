@@ -149,16 +149,22 @@ module.exports =
               bodyText: description
               url: url
             console.log("wikinode data", knownodeData)
-            modKnownode.createNewKnownode knownodeData, (err, newNode) ->
-              onDone = makeCallbackJoin 3, -> cb(null, newNode)
 
-              getInternalLinks req.body.title, (linkedTitles) ->
-                urls = (makeWikipediaUrl(linkedTitle) for linkedTitle in linkedTitles)
-                makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA, false, onDone)
-              client.getExternalLinks req.body.title, (externalLinks) ->
-                urls = (link["*"] for link in externalLinks when link["*"].indexOf("http://") == 0)
-                makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA, false, onDone)
-              client.getBacklinks req.body.title, (backlinks) ->
-                urls = (makeWikipediaUrl(link.title) for link in backlinks)
-                makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA, true, onDone)
+            modKnownode.createNewKnownode knownodeData, (err, newNode) ->
+              return cb(null, newNode)
+
+
+#           VERSION WITH ACTIVE IMPORT OF LINKED WIKIPEDIA ARTICLES
+#            modKnownode.createNewKnownode knownodeData, (err, newNode) ->
+#              onDone = makeCallbackJoin 3, -> cb(null, newNode)
+#
+#              getInternalLinks req.body.title, (linkedTitles) ->
+#                urls = (makeWikipediaUrl(linkedTitle) for linkedTitle in linkedTitles)
+#                makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA, false, onDone)
+#              client.getExternalLinks req.body.title, (externalLinks) ->
+#                urls = (link["*"] for link in externalLinks when link["*"].indexOf("http://") == 0)
+#                makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA, false, onDone)
+#              client.getBacklinks req.body.title, (backlinks) ->
+#                urls = (makeWikipediaUrl(link.title) for link in backlinks)
+#                makeLinksToUrls(modKnownode, newNode.KN_ID, urls, RELATION_DATA, true, onDone)
 
