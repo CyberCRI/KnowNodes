@@ -1,21 +1,13 @@
 'use strict';
-//Dor experiments
+
 function TopBarCtrl($scope, $location) {
-    $scope.$on('$routeChangeSuccess', function(event, current, previous) {
+
+    $scope.$on('$routeChangeSuccess', function (event, current, previous) {
         $scope.mapButton = (current.$route.controller.name === "KnownodeListCtrl");
         $scope.resourceButton = (current.$route.controller.name === "MapCtrl");
 
         $scope.resourceId = current.params.id;
     });
-    var result = false;
-    $scope.toggle = function (classToToggle) {
-        if (result) {
-            result = false;
-        } else {
-            result = classToToggle;
-        }
-        return result;
-    };
 
     $scope.$on('searchResultSelected', function (event, result) {
         event.stopPropagation();
@@ -50,18 +42,6 @@ function ChatCtrl($scope, $timeout, $rootScope, angularFireCollection) {
     };
 }
 ChatCtrl.$inject = ['$scope', '$timeout', '$rootScope', 'angularFireCollection'];
-
-
-function AppCtrl($scope, $http) {
-    $http({method: 'GET', url: '/api/name'}).
-        success(function (data, status, headers, config) {
-            $scope.name = data.name;
-        }).
-        error(function (data, status, headers, config) {
-            $scope.name = 'Error!';
-        });
-}
-AppCtrl.$inject = ['$scope', '$http'];
 
 
 function AddUserCtrl($scope, $http, $location) {
@@ -673,7 +653,9 @@ function WikipediaArticleCtrl($scope, $routeParams, wikipedia) {
 WikipediaArticleCtrl.$inject = ['$scope', '$routeParams', 'wikipedia'];
 
 
-function KnownodeInputCtrl($scope, $http, $route, $routeParams, hybridSearch) {
+function KnownodeInputCtrl($scope, $http, $route, $routeParams, hybridSearch, wikinode, connection) {
+
+    var targetResource;
 
     $scope.bgColor = 'auto-generated';
     $scope.$on('rootNodeExists', function () {
@@ -681,81 +663,57 @@ function KnownodeInputCtrl($scope, $http, $route, $routeParams, hybridSearch) {
     });
 
     $scope.isFormValid = function () {
-        return true;
-        // TODO implement
-//        return $scope.isNodeSelected()
-//            && $scope.form.knownodeRelation.text != null
-//            && $scope.form.knownodeRelation.text.length > 3
-//            && $scope.form.knownodeRelation.connectionType != null
-//            && $scope.form.knownodeRelation.connectionType.length > 5;
+        return $scope.connectionTitle != null && $scope.connectionTitle.length > 2
+            && $scope.connectionType != 'Choose link type'
+            && targetResource != null;
     }
 
     $scope.$on('searchResultSelected', function (event, result) {
         event.stopPropagation();
-
-        var setForm = function (id, title) {
-            $scope.targetResource = result;
-            $scope.form.existingNode = result.id;
-            $('.target-resource-search-box').hide();
-        };
-
-        if (result.type == 'Wikipedia Article') {
-            // Create Wikinode
-            $http.post('/knownodes/wikinode', {title: result.id})
-                .success(function (data, status) {
-                    var resource = data.success;
-                    setForm(resource.KN_ID, resource.title);
-                })
-                .error(function (data, status) {
-                    console.log('Wikinode creation failed with status : ' + status);
-                    console.log('Error message : ' + data.message);
-                });
-        } else { // Resource
-            setForm(result.id, result.title);
-        }
-
+        targetResource = result;
+        $scope.targetResourceTitle = targetResource.title;
+        $('.target-resource-search-box').hide();
     });
 
     $scope.userGenNode = false;
-    $scope.form = {};
-    $scope.form.knownodeForm = {};
-    $scope.form.knownodeRelation = {};
-    $scope.form.knownodeRelation.connectionType = 'Choose link type';
+    $scope.connectionTitle = '';
+    $scope.connectionType = 'Choose link type';
     $scope.dropText = 'Drop files here...';
     $scope.errorMessage = null;
     $scope.reversedDirection = false;
     $scope.categoryClick = function (category) {
         $scope.bgColor = category;
-        $scope.form.knownodeRelation.connectionType = category;
+        $scope.connectionType = category;
     };
 
     $scope.submit = function () {
+        if (!$scope.isFormValid()) return;
         $scope.submitted = true;
-        $scope.form.originalPostId = $scope.form.knownodeRelation.originalPostId = $routeParams.id;
-        $scope.form.existingNode = $scope.targetResource.id;
-        if ($scope.isFormValid()) {
-            saveForm();
+        // TODO Handle case where displayed resource is actually a non-imported-yet wikipedia article
+        // TODO Handle case where connection direction is reversed
+        // TODO Use promises
+        if (targetResource.type == 'Wikipedia Article') {
+            wikinode.get(targetResource.title)
+                .then(function (result) {
+                    createConnection(result.data.success.KN_ID);
+                });
+        } else { // Resource
+            createConnection(targetResource.id);
         }
     }
 
-    var saveForm = function () {
-        if ($scope.reversedDirection) {
-            $scope.form.knownodeRelation.reversedDirection = true;
-        }
-        $http.post('/knownodes', $scope.form).
-            success(function (data, status, headers, config) {
-                if (data.success) {
-                    $route.reload();
-                }
-                if (data.error) {
-                    $scope.errorMessage = data.error
-                }
-                $("#btnSubmitPost").removeAttr('disabled');
-                $scope.existingNode = null;
+    var createConnection = function (targetResourceId) {
+        connection.create($scope.concept.KN_ID, $scope.connectionTitle, $scope.connectionType, targetResource.id)
+            .success(function (data, status) {
+                $route.reload();
+            })
+            .error(function (data, status) {
+                console.log('Connection creation failed with error : ' + status);
+                console.log('Error message : ' + data.message);
             });
     }
 }
-KnownodeInputCtrl.$inject = ['$scope', '$http', '$route', '$routeParams', 'hybridSearch'];
+KnownodeInputCtrl.$inject = ['$scope', '$http', '$route', '$routeParams', 'hybridSearch', 'wikinode', 'connection'];
 
 
 function SearchBoxCtrl($scope, $http, hybridSearch) {
@@ -767,8 +725,6 @@ function SearchBoxCtrl($scope, $http, hybridSearch) {
         minimumInputLength: 3,
         query: function (query) {
             hybridSearch.search(query.term).then(function (results) {
-                console.log('Got ' + results.resources.length + ' nodes');
-                console.log('Got ' + results.wikipediaArticles.length + ' articles');
                 var suggestions = {results: []}, i;
                 // First item is the create resource option
                 suggestions.results.push({id: 'create_data_option_id', text: 'Create Resource...', type: 'Create'});
@@ -850,3 +806,4 @@ function RelationCtrl($scope) {
         }
     };
 }
+RelationCtrl.$inject = ['$scope'];
