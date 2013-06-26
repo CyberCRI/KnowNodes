@@ -68,9 +68,11 @@ angular.module('KnowNodesApp.services', [])
     }])
 
     .factory('hybridSearch', ['$http', '$q', function ($http, $q) {
+
         var wikiBaseUrl = 'https://en.wikipedia.org/w/api.php?action=query&list=search&srprop=snippet&format=json&callback=JSON_CALLBACK&srsearch=';
 
         return {
+
             search: function (query) {
 
                 var handleResultsFromKnownodes = function (result) {
@@ -93,8 +95,8 @@ angular.module('KnowNodesApp.services', [])
                     });
                 // TODO Handle Errors
                 return deferred.promise;
-
             }
+
         };
     }])
 
@@ -124,13 +126,11 @@ angular.module('KnowNodesApp.services', [])
             var low = 0,
                 high = inputArray.length - 1,
                 mid;
-
             while (low <= high) {
                 mid = low + (high - low) / 2;
                 if ((mid % 1) > 0) {
                     mid = Math.ceil(mid);
                 }
-
                 if (title < inputArray[mid]) {
                     high = mid - 1;
                 }
@@ -141,11 +141,11 @@ angular.module('KnowNodesApp.services', [])
                     return mid;
                 }
             }
-
             return null;
         }
 
         return {
+
             get: function (id) {
                 var deferred = $q.defer();
 
@@ -160,6 +160,7 @@ angular.module('KnowNodesApp.services', [])
                 // TODO Handle Errors
                 return deferred.promise;
             }
+
         }
     }])
 
@@ -175,6 +176,7 @@ angular.module('KnowNodesApp.services', [])
         }
 
         return {
+
             getArticle: function (title) {
                 var deferred = $q.defer();
                 $http.jsonp(baseUrl + title)
@@ -189,6 +191,36 @@ angular.module('KnowNodesApp.services', [])
                     });
                 return deferred.promise;
             }
+
         };
     }])
+
+    .factory('wikinode', ['$http', function ($http) {
+        return {
+
+            get: function (title) {
+                return $http.post('/knownodes/wikinode', {title: title});
+            }
+
+        };
+    }])
+
+    .factory('connection', ['$http', '$q', function ($http, $q) {
+        return {
+
+            create: function (sourceId, connectionTitle, connectionType, targetId) {
+                var request = {
+                    originalPostId: sourceId,
+                    knownodeRelation: {
+                        title: connectionTitle,
+                        connectionType: connectionType
+                    },
+                    existingNode: targetId
+                };
+                return $http.post('/knownodes', request);
+            }
+
+        };
+    }])
+
     .value('version', '0.2');
