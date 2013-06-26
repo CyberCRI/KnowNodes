@@ -2,24 +2,44 @@ var NODES_PER_LAYER = 6;
 
 var Renderer = {};
 
-Renderer.init = function(canvasId, centralNodeData, childrenNodesData){
+Renderer.init = function(canvasId, resourceId, navigationListener){
     Renderer.engine.initParticleSystem();
     Renderer.canvas.init(canvasId);
 
-    Renderer.engine.jsonOriginData = centralNodeData;
-    Renderer.engine.jsonChildrenData = childrenNodesData;
+    Renderer.engine.centerOn(resourceId, function(centralNodeData, childrenNodesData) {
+        Renderer.engine.jsonOriginData = centralNodeData;
+        Renderer.engine.jsonChildrenData = childrenNodesData;
 
-    Renderer.layers.count = Math.ceil(Renderer.engine.jsonChildrenData.length / NODES_PER_LAYER);
+        Renderer.layers.count = Math.ceil(Renderer.engine.jsonChildrenData.length / NODES_PER_LAYER);
 
-    Renderer.canvas.resize();
+        Renderer.canvas.resize();
 
-    Renderer.engine.particleSystem.renderer = Renderer.loop;
-    Renderer.nodes.central = new Renderer.Node(Renderer.engine.jsonOriginData);
-    Renderer.layers.init();
-    Renderer.layers.display(0);
+        Renderer.engine.particleSystem.renderer = Renderer.loop;
+        Renderer.nodes.central = new Renderer.Node(Renderer.engine.jsonOriginData);
+        Renderer.layers.init();
+        Renderer.layers.display(0);
+        Renderer.navigation.navigationListener = navigationListener;
+    });
+};
+
+Renderer.navigation = {};
+
+Renderer.http = {
+    getData: function(resourceId, callback) {
+        $.get('/knownodes/:' + resourceId, function(centralNode) {
+            $.get('/concepts/:' + resourceId + '/getRelatedKnownodes', function(relatedNodes) {
+                callback(centralNode.success, relatedNodes.success);
+            });
+        });
+    }
 };
 
 Renderer.engine = {};
+Renderer.engine.centerOn = function(resourceId, callback) {
+    Renderer.http.getData(resourceId, function(centralNodeData, childrenNodesData) {
+        if(callback) callback(centralNodeData, childrenNodesData);
+    });
+}
 Renderer.engine.particleSystem = null;
 Renderer.engine.jsonOriginData = null;
 Renderer.engine.jsonChildrenData = null;
@@ -72,11 +92,15 @@ Renderer.Layer = function(id){
     this.shape.layer = this;
     Renderer.layers.layer.add(this.shape);
     this.bindEvents();
-    console.log(this.id);
+    Renderer.layers.list.push(this);
 };
 Renderer.Layer.prototype = {
     width: 50,
     height: 20,
+    delete: function(){
+        this.shape.destroy();
+        delete this;
+    },
     bindEvents: function(){
         this.shape.on('click', this.mouseClick);
         this.shape.on('mouseover', this.mouseOver);
@@ -111,10 +135,14 @@ Renderer.Layer.prototype = {
     }
 };
 Renderer.layers = {};
-Renderer.layers.count = 0;
+Renderer.layers.list = [];
 Renderer.layers.current = -1;
 Renderer.layers.layer = new Kinetic.Layer({});
 Renderer.layers.init = function(){
+    for(var layer in this.list){
+        this.list[layer].delete();
+    }
+    this.list = [];
     for(var i = 0; i < this.count; i++) {
         new Renderer.Layer(i);
     }
@@ -198,6 +226,37 @@ Renderer.Node.prototype = {
         this.displayPolygon.on('mouseover', this.mouseOver);
         this.displayPolygon.on('mouseout', this.mouseOut);
         this.displayPolygon.on('click', this.mouseClick);
+        this.displayPolygon.on('dblclick dbltap', this.mouseDblClick);
+    },
+    mouseDblClick: function() {
+        var id = this.node.data.KN_ID;
+        Renderer.engine.centerOn(id, function(centralNodeData, childrenNodesData) {
+
+            Renderer.engine.jsonOriginData = centralNodeData;
+            Renderer.engine.jsonChildrenData = childrenNodesData;
+            Renderer.navigation.navigationListener(id);
+
+            var edges = Renderer.engine.particleSystem.getEdgesFrom(Renderer.nodes.central.node);
+            var newCentral;
+            for(var edge in edges) {
+                var node = edges[edge].target;
+                if(node.data.node.data.KN_ID !== id) {
+                    Renderer.engine.particleSystem.pruneNode(node);
+                } else {
+                    newCentral = node.data.node;
+                }
+            }
+
+            Renderer.nodes.central.delete();
+
+            Renderer.nodes.central = newCentral;
+
+            Renderer.layers.count = Math.ceil(Renderer.engine.jsonChildrenData.length / NODES_PER_LAYER);
+
+            Renderer.layers.init();
+            Renderer.layers.current = -1;
+            Renderer.layers.display(0);
+        });
     },
     mouseOver: function(){
        this.node.tweenPolygonHover.play();
@@ -211,7 +270,7 @@ Renderer.Node.prototype = {
         Renderer.nodes.selected = this.node;
         var data = this.node.data;
         $("#node-link").attr('href', data.url).text(data.title);
-        $("#node-content").text(data.bodyText);
+        $("#node-content").html(data.bodyText);
         PanelsHandler.layout.open("west");
     }
 };

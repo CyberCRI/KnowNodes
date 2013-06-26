@@ -17,6 +17,11 @@ function TopBarCtrl($scope, $location) {
             $location.path('/concept/' + result.id);
         }
     });
+
+    $scope.$on('mapNavigated', function (event, result) {
+        event.stopPropagation();
+        $scope.resourceId = result;
+    });
 }
 TopBarCtrl.$inject = ['$scope', '$location'];
 
@@ -181,9 +186,7 @@ function ConceptListCtrl($scope, $http, $routeParams, userService) {
 ConceptListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
 
 
-function MapCtrl($scope, $http, $routeParams, userService) {
-    var resourceId = $routeParams.id;
-    //TODO: use promises
+function MapCtrl($scope, $routeParams) {
     $(document).ready(function () {
         var css = jQuery("<link>");
         css.attr({
@@ -193,24 +196,15 @@ function MapCtrl($scope, $http, $routeParams, userService) {
         });
         $("head").append(css);
 
-        var centralNode, relatedNodes;
+        function navigationListener(resourceId) {
+            $scope.$emit("mapNavigated", resourceId);
+        };
 
-        $http.get('/knownodes/:' + resourceId).success(function (data, status, headers, config) {
-            centralNode = data.success;
-            $http.get('/concepts/:' + resourceId + '/getRelatedKnownodes').success(function (data, status, headers, config) {
-                if (data.error) {
-                    console.log("getRelatedKnownodes: data error");
-                    console.log(data.error);
-                }
-                relatedNodes = data.success;
-
-                Renderer.init("viewport", centralNode, relatedNodes);
-                PanelsHandler.initPanels();
-            });
-        });
+        Renderer.init("viewport", $routeParams.id, navigationListener);
+        PanelsHandler.initPanels();
     });
 }
-MapCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
+MapCtrl.$inject = ['$scope', '$routeParams'];
 
 
 function KnownodeListCtrl($scope, $http, $routeParams, userService, resource) {
