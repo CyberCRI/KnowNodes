@@ -5,23 +5,13 @@ html(ng-app="KnowNodesApp")
     base(href='/')
     title= title
     link(href='http://fonts.googleapis.com/css?family=Roboto', rel='stylesheet', type='text/css')
-    link(rel='stylesheet', href='/css/angular-ui.min.css')
-    link(rel='stylesheet', href='/css/smoothness/jquery-ui-1.9.2.custom.min.css')
-    //link(rel='stylesheet', href='//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/css/bootstrap.min.css')
-    //link(rel='stylesheet', href='//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/css/bootstrap-responsive.min.css')
-    link(rel='stylesheet', href='/css/bootstrap.css')
-    //link(rel='stylesheet', href='/css/bootstrap.min.css')
-    link(rel='stylesheet', href='/css/bootstrap-datepicker.css')
-    link(rel='stylesheet', href='/css/bootstrap-timepicker.css')
-    link(rel='stylesheet', href='/js/lib/select2/select2.css')
-    link(rel='stylesheet/less', href='/css/styles.less')
-    link(rel='stylesheet/less', href='/css/colorschema.less')
+    link(rel='stylesheet', href='/css/theme.css', type="text/css")
 
-    link(rel='stylesheet', href='/css/style.css')
 //if lte IE 8
         script(src='js/lib/angular-ui/angular-ui-ieshiv.min.js')
 
-    body(ng-controller="TopBarCtrl").main-body
+    body(ng-controller="TopBarCtrl").background-color
       include partials/topBar
       //div(chat)
       block content
+      include partials/footer

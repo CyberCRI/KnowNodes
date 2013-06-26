@@ -15,12 +15,20 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['firebase','ngSanitize'
     config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
         $routeProvider.
             when('/', {
-                templateUrl: 'partials/index',
+                templateUrl: 'partials/frontPage',
                 controller: IndexCtrl
             }).
             when('/about', {
                 templateUrl: 'partials/about',
-                controller: aboutCtrl
+                controller: StaticPageCtrl
+            }).
+            when('/terms', {
+                templateUrl: 'partials/terms',
+                controller: StaticPageCtrl
+            }).
+            when('/newUserGuide', {
+                templateUrl: 'partials/newUserGuide',
+                controller: StaticPageCtrl
             }).
             when('/login', {
                 templateUrl: 'partials/User/login',
@@ -50,10 +58,9 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['firebase','ngSanitize'
                 templateUrl: 'partials/KnownodePost/conceptList',
                 controller: ConceptListCtrl
             }).
-            when('/conceptGraph', {
-            //when('/conceptGraph/:id', {
-                templateUrl: 'partials/KnownodePost/conceptGraph',
-                controller: ConceptGraphCtrl
+            when('/map/:id', {
+                templateUrl: 'partials/KnownodePost/map',
+                controller: MapCtrl
             }).
             when('/concept/:id', {
                 templateUrl: 'partials/KnownodePost/knownodeList',
