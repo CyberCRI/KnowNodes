@@ -171,7 +171,7 @@ angular.module('KnowNodesApp.services', [])
         var getFirstParagraph = function (extract) {
             var regex = /<p>.+<\/p>/;
             var split = regex.exec(extract);
-            if (split == null || split.length == 0) return '';
+            if (split === null || split.length === 0) return '';
             else return split[0];
         }
 

@@ -11,7 +11,7 @@ function TopBarCtrl($scope, $location) {
 
     $scope.$on('searchResultSelected', function (event, result) {
         event.stopPropagation();
-        if (result.type == 'Wikipedia Article') {
+        if (result.type === 'Wikipedia Article') {
             $location.path('/wiki/' + result.id);
         } else { // Resource
             $location.path('/concept/' + result.id);
@@ -67,7 +67,7 @@ function LoginCtrl($scope, $http, $location, $rootScope) {
     $scope.performLogin = function () {
         $http.post('/login', $scope.loginForm).
             success(function (data, status, headers, config) {
-                if (data == 'ERROR') {
+                if (data === 'ERROR') {
                     return $scope.loginerror = true;
                 }
                 $rootScope.user = data;
@@ -207,7 +207,7 @@ function MapCtrl($scope, $routeParams) {
 MapCtrl.$inject = ['$scope', '$routeParams'];
 
 
-function KnownodeListCtrl($scope, $http, $routeParams, userService, resource) {
+function KnownodeListCtrl($scope, $http, $routeParams, userService, resource, wikipedia) {
 
     // First, check whether the resource is a KN Resource or a Wikipedia Article
     if ($routeParams.id != null) {
@@ -215,7 +215,7 @@ function KnownodeListCtrl($scope, $http, $routeParams, userService, resource) {
         resource.get($routeParams.id).then(function (resource) {
             $scope.concept = resource;
 
-            $scope.$broadcast('rootNodeExists');
+            $scope.rootNodeExists = true;
             if ($scope.concept.url != null && $scope.concept.url.match(/youtube.com/ig)) {
                 var search = $scope.concept.url.split('?')[1];
                 var video_id = search.split('v=')[1];
@@ -230,17 +230,23 @@ function KnownodeListCtrl($scope, $http, $routeParams, userService, resource) {
         });
     } else if ($routeParams.title != null) {
         // Wikipedia Article
-        // TODO Load Wikipedia Article
-        // TODO Transform data into generic format
-    } else throw Exception('No id nor title found in URL');
-
+        wikipedia.getArticle($routeParams.title).then(function (article) {
+            $scope.concept = {
+                type: 'Wikipedia Article',
+                title: article.title,
+                bodyText: article.extract,
+                wikipediaLinks: article.links
+            };
+            $scope.rootNodeExists = true;
+        });
+    } else throw 'No id nor title found in URL';
 
     $scope.addNode = false;
     $scope.currentKnownode = {};
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
     $scope.checkOwnership = function (userId) {
         if (userService.isUserLoggedIn()) {
-            return userId == userService.getConnectedUser().id;
+            return userId === userService.getConnectedUser().id;
         }
         return false;
     }
@@ -265,7 +271,7 @@ function KnownodeListCtrl($scope, $http, $routeParams, userService, resource) {
     $scope.start = +new Date();
 
 }
-KnownodeListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'resource'];
+KnownodeListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'resource', 'wikipedia'];
 
 
 function KnownodeCtrl($scope, $http, $routeParams, userService) {
@@ -588,7 +594,7 @@ function EdgeCtrl($scope, $http, $routeParams, userService, PassKnownode) {
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
     $scope.checkOwnership = function (userId) {
         if (userService.isUserLoggedIn()) {
-            return userId == userService.getConnectedUser().id;
+            return userId === userService.getConnectedUser().id;
         }
         return false;
     };
@@ -647,14 +653,11 @@ function WikipediaArticleCtrl($scope, $routeParams, wikipedia) {
 WikipediaArticleCtrl.$inject = ['$scope', '$routeParams', 'wikipedia'];
 
 
-function KnownodeInputCtrl($scope, $http, $route, $routeParams, hybridSearch, wikinode, connection) {
+function KnownodeInputCtrl($scope, $http, $route, $routeParams, $q, $location, wikipedia, hybridSearch, wikinode, connection) {
 
     var targetResource;
 
     $scope.bgColor = 'auto-generated';
-    $scope.$on('rootNodeExists', function () {
-        $scope.rootNodeExists = true;
-    });
 
     $scope.isFormValid = function () {
         return $scope.connectionTitle != null && $scope.connectionTitle.length > 2
@@ -683,23 +686,39 @@ function KnownodeInputCtrl($scope, $http, $route, $routeParams, hybridSearch, wi
     $scope.submit = function () {
         if (!$scope.isFormValid()) return;
         $scope.submitted = true;
-        // TODO Handle case where displayed resource is actually a non-imported-yet wikipedia article
         // TODO Handle case where connection direction is reversed
-        // TODO Use promises
-        if (targetResource.type == 'Wikipedia Article') {
-            wikinode.get(targetResource.title)
-                .then(function (result) {
-                    createConnection(result.data.success.KN_ID);
+        // TODO Cleanup
+        if ($scope.concept.type === 'Wikipedia Article' && targetResource.type === 'Wikipedia Article') {
+            // Get both wikinodes and create connection
+            $q.all([wikinode.get($scope.concept.title),
+                    wikinode.get(targetResource.title)])
+                .then(function (results) {
+                    $scope.concept = results[0].data.success;
+                    targetResource = results[1].data.success;
+                    createConnection($scope.concept.KN_ID, targetResource.KN_ID)
                 });
-        } else { // Resource
-            createConnection(targetResource.id);
+        } else if ($scope.concept.type === 'Wikipedia Article') {
+            // Get source wikinode and create connection
+            wikinode.get($scope.concept.title).then(function (result) {
+                $scope.concept = result.data.success;
+                createConnection($scope.concept.KN_ID, targetResource.id);
+            });
+        }
+        else if (targetResource.type === 'Wikipedia Article') {
+            // Get target wikinode and create connection
+            wikinode.get(targetResource.title).then(function (result) {
+                targetResource = result.data.success;
+                createConnection($scope.concept.KN_ID, targetResource.KN_ID);
+            });
+        } else {
+            createConnection($scope.concept.KN_ID, targetResource.id)
         }
     }
 
-    var createConnection = function (targetResourceId) {
-        connection.create($scope.concept.KN_ID, $scope.connectionTitle, $scope.connectionType, targetResource.id)
+    var createConnection = function (sourceId, targetId) {
+        connection.create(sourceId, $scope.connectionTitle, $scope.connectionType, targetId)
             .success(function (data, status) {
-                $route.reload();
+                $location.path('/concept/' + sourceId);
             })
             .error(function (data, status) {
                 console.log('Connection creation failed with error : ' + status);
@@ -707,7 +726,7 @@ function KnownodeInputCtrl($scope, $http, $route, $routeParams, hybridSearch, wi
             });
     }
 }
-KnownodeInputCtrl.$inject = ['$scope', '$http', '$route', '$routeParams', 'hybridSearch', 'wikinode', 'connection'];
+KnownodeInputCtrl.$inject = ['$scope', '$http', '$route', '$routeParams', '$q', '$location', 'wikipedia', 'hybridSearch', 'wikinode', 'connection'];
 
 
 function SearchBoxCtrl($scope, $http, hybridSearch) {
@@ -734,7 +753,7 @@ function SearchBoxCtrl($scope, $http, hybridSearch) {
         formatResult: function movieFormatResult(node) {
             var markup = "<table class='suggestion'><tr>";
             markup += "<td class='suggestion-info'><div class='suggestion-title'>" + node.text + "</div></td>";
-            if (node.type == 'Wikipedia Article') {
+            if (node.type === 'Wikipedia Article') {
                 markup += "<td class='suggestion-image'><img src='img/wikipedia-icon.png'/></td>";
             }
             markup += "</tr></table>"
@@ -745,10 +764,10 @@ function SearchBoxCtrl($scope, $http, hybridSearch) {
     $scope.$watch('selectedResult', function () {
         if (isResultSelected()) {
             var result = getSelectedResult();
-            if (result.type == 'Create') {
+            if (result.type === 'Create') {
                 // Create Resource
             }
-            if (result.type == 'Wikipedia Article') {
+            if (result.type === 'Wikipedia Article') {
                 $scope.$emit('searchResultSelected', {
                     id: result.id,
                     title: result.id,

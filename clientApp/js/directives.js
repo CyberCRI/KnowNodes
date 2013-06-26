@@ -1,7 +1,5 @@
 'use strict';
 
-/* Directives */
-
 angular.module('KnowNodesApp.directives', [])
     .directive('subtitle', function () {
         return {
