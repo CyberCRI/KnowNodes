@@ -5946,12 +5946,6 @@ img.inputPopup {
   text-align: center;
   color: #BBB;
 }
-.logout {
-  width: none;
-  float: left;
-  margin-top: 11px;
-  margin-right: 25px;
-}
 .hello-user {
   width: none;
   float: left;
@@ -6260,11 +6254,15 @@ div.auto-generated {
 .topbar-login {
   text-align: none;
 }
+.topbar-logout {
+  color: lightgrey;
+  margin-left: 5px;
+}
 .topbar-logo {
   height: 40px;
   padding: 10px;
 }
 .topbar-search {
   width: 50%;
-  margin-left: 5px;
+  margin-right: 5px;
 }

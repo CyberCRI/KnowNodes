@@ -3,4 +3,4 @@ span
     a(href="/login") Login
   span.topbar-login(ng-show="isLoggedIn()") Hello {{userDisplayName()}}!
     span
-      a(ng-show="isLoggedIn()", href="/logout") &nbsp;Logout
+      a.topbar-logout(ng-show="isLoggedIn()", href="/logout") Logout
