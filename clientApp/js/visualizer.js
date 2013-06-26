@@ -237,6 +237,7 @@ Renderer.Node.prototype = {
     },
     mouseDblClick: function() {
         var id = this.node.data.KN_ID;
+        if(id === Renderer.nodes.central.data.KN_ID) return;
         Renderer.engine.centerOn(id, function(centralNodeData, childrenNodesData) {
 
             Renderer.engine.jsonOriginData = centralNodeData;
