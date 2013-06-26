@@ -594,7 +594,7 @@ addCommentCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'bro
 
 function StaticPageCtrl($scope) {
 }
-AboutCtrl.$inject = ['$scope'];
+StaticPageCtrl.$inject = ['$scope'];
 
 
 function EdgeCtrl($scope, $http, $routeParams, userService, PassKnownode) {
