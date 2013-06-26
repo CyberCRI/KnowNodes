@@ -178,20 +178,20 @@ Renderer.Node = function(data){
     Renderer.nodes.layer.add(this.displayGroup);
     this.tweenPolygonHover = new Kinetic.Tween({
         node: this.displayPolygon,
-        duration: 1,
+        duration: 0.3,
         easing: Kinetic.Easings['StrongEaseOut'],
         fillB: 200,
-        scaleX: 2,
-        scaleY: 2,
+        scaleX: 1.1,
+        scaleY: 1.1,
         strokeWidth: 5
     });
     this.tweenTextHover = new Kinetic.Tween({
         node: this.displayText,
-        duration: 1,
+        duration: 0.3,
         easing: Kinetic.Easings['StrongEaseOut'],
-        fontSize: 18,
-        x: 80,
-        y: -20,
+        fontSize: 20,
+        x: 38,
+        y: -6,
         width: 300
     });
     this.bindEvents();
@@ -218,7 +218,8 @@ Renderer.Node.prototype = {
         var text = new Kinetic.Text({
             text: this.data.title,
             fill: "white",
-            width: 120
+            width: 120,
+            fontSize: 16
         });
         text.node = this;
         this.displayGroup.add(text);
@@ -308,7 +309,7 @@ Renderer.Edge.prototype = {
         } else if (connection.connectionType === "inspire") {
             color = '#FFDE17';
         } else if (connection.connectionType === "question") {
-            color = '#39B5A4';
+            color = '#39B54A';
         } else if (connection.connectionType === "Wikipedia Link") {
             color = "gray";
         }
