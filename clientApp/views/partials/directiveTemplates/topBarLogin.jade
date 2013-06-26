@@ -1,5 +1,6 @@
 span
   span(ng-hide="isLoggedIn()")
-    a.btn.btn-link.info(href="/login") Login
-  span.hello-user(ng-show="isLoggedIn()") Hello {{userDisplayName()}}!
-  a.btn.btn-link.logout(ng-show="isLoggedIn()", href="/logout") &nbsp;Logout
+    a(href="/login") Login
+  span.topbar-login(ng-show="isLoggedIn()") Hello {{userDisplayName()}}!
+    span
+      a(ng-show="isLoggedIn()", href="/logout") &nbsp;Logout
