@@ -1,5 +1,5 @@
-.main-body {
-  background: #f1f0f0;
+.background-color {
+  background: #f1eeee;
 }
 body a {
   font-size: 14;
@@ -65,7 +65,7 @@ img#logo {
 #github {
   position: absolute;
   display: inline;
-  top: 11px;
+  down: 11px;
   right: 2%;
 }
 span.login {
@@ -100,10 +100,8 @@ span.login {
   margin-bottom: 20px;
 }
 .headerLine {
-  margin-bottom: 5px;
   vertical-align: top;
   height: 1px;
-  background: #D1D2D4;
   border-bottom: 1px solid rgba(173, 174, 177, 0.29);
 }
 .knownode {
@@ -677,9 +675,20 @@ div.inspire {
 div.question {
   background: #B0E1B7;
 }
-div.qa .input-node-box {
+div.auto-generated {
+  background: #d3d3d3;
+}
+.input-node-box {
   border: none;
   width: 100%;
   margin-top: 8px;
   margin-right: 5px;
+}
+.footer {
+  background: white;
+}
+.intro-image-label {
+  text-align: center;
+  background: white;
+  margin: 0px;
 }
