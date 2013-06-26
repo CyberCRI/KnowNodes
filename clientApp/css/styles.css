@@ -373,12 +373,6 @@ img.inputPopup {
 .hover:hover {
   color: #27bdc3;
 }
-.topbar {
-  background: white;
-}
-.topbar .btn {
-  padding: 0;
-}
 .hero-unit {
   color: #464646;
 }
