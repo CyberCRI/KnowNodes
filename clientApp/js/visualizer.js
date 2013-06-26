@@ -330,14 +330,17 @@ Renderer.Edge.prototype = {
 
         function generatePoints(fromx, fromy, tox, toy){
             var hexagon = 30;
-            var headlen = 60;
+            var headlen = 10;
             var angle = Math.atan2(toy-fromy,tox-fromx);
 
-            return [fromx, fromy,
-                    tox-hexagon*Math.cos(angle),toy-hexagon*Math.sin(angle),
-                    tox-headlen*Math.cos(angle-Math.PI/6),toy-headlen*Math.sin(angle-Math.PI/6),
-                    tox-headlen*Math.cos(angle+Math.PI/6),toy-headlen*Math.sin(angle+Math.PI/6),
-                    tox-hexagon*Math.cos(angle),toy-hexagon*Math.sin(angle)
+            var newTox = tox-hexagon*Math.cos(angle);
+            var newToy = toy-hexagon*Math.sin(angle);
+
+            return [fromx, fromy
+                    ,newTox,newToy
+                    ,newTox-headlen*Math.cos(angle-Math.PI/6),newToy-headlen*Math.sin(angle-Math.PI/6)
+                    ,newTox-headlen*Math.cos(angle+Math.PI/6),newToy-headlen*Math.sin(angle+Math.PI/6)
+                    ,newTox,newToy
                     ];
         }
 
