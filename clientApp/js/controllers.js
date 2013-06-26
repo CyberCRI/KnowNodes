@@ -14,7 +14,11 @@ function TopBarCtrl($scope, $location) {
 
     $scope.$on('searchResultSelected', function (event, result) {
         event.stopPropagation();
-        $location.path('/concept/' + result.id);
+        if (result.type == 'Wikipedia Article') {
+            $location.path('/wiki/' + result.id);
+        } else { // Resource
+            $location.path('/concept/' + result.id);
+        }
     });
 }
 TopBarCtrl.$inject = ['$scope', '$location'];
@@ -211,7 +215,34 @@ function ConceptGraphCtrl($scope, $http, $routeParams, userService, PassKnownode
 ConceptGraphCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'PassKnownodeToGraph'];
 
 
-function KnownodeListCtrl($scope, $http, $routeParams, userService, PassKnownodeToGraph) {
+function KnownodeListCtrl($scope, $http, $routeParams, userService, PassKnownodeToGraph, resource) {
+
+    // First, check whether the resource is a KN Resource or a Wikipedia Article
+    if ($routeParams.id != null) {
+        // KN Resource
+        resource.get($routeParams.id).then(function (resource) {
+            $scope.concept = resource;
+
+            $scope.$broadcast('rootNodeExists');
+            if ($scope.concept.url != null && $scope.concept.url.match(/youtube.com/ig)) {
+                var search = $scope.concept.url.split('?')[1];
+                var video_id = search.split('v=')[1];
+                var ampersandPosition = video_id.indexOf('&');
+                if (ampersandPosition != -1) {
+                    video_id = video_id.substring(0, ampersandPosition);
+                }
+                $scope.videoLink = video_id;
+            }
+
+            $scope.knownodeList = resource.relations;
+        });
+    } else if ($routeParams.title != null) {
+        // Wikipedia Article
+        // TODO Load Wikipedia Article
+        // TODO Transform data into generic format
+    } else throw Exception('No id nor title found in URL');
+
+
     $scope.addNode = false;
     $scope.currentKnownode = {};
     //$scope.passKnownode = PassKnownode;
@@ -240,35 +271,10 @@ function KnownodeListCtrl($scope, $http, $routeParams, userService, PassKnownode
         return false;
     }
 
-    var conceptId = $scope.conceptId = $routeParams.id;
-    $http.get('/knownodes/:' + conceptId).success(function (data, status, headers, config) {
-        $scope.concept = data.success;
-        PassKnownodeToGraph.setCentralNode(data);
-
-        $scope.$broadcast('rootNodeExists');
-        if ($scope.concept.url != null && $scope.concept.url.match(/youtube.com/ig)) {
-            var search = $scope.concept.url.split('?')[1];
-            var video_id = search.split('v=')[1];
-            var ampersandPosition = video_id.indexOf('&');
-            if (ampersandPosition != -1) {
-                video_id = video_id.substring(0, ampersandPosition);
-            }
-            $scope.videoLink = video_id;
-        }
-    });
-
-    $http.get('/concepts/:' + conceptId + '/getRelatedKnownodes').success(function (data, status, headers, config) {
-        if (data.error) {
-            return $scope.errorMessage = data.error;
-        }
-        $scope.knownodeList = data.success;
-        PassKnownodeToGraph.setRelatedNodes(data);
-    });
-
     $scope.start = +new Date();
 
 }
-KnownodeListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'PassKnownodeToGraph'];
+KnownodeListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'PassKnownodeToGraph', 'resource'];
 
 
 function KnownodeCtrl($scope, $http, $routeParams, userService, PassKnownodeToGraph) {
@@ -640,6 +646,18 @@ function SearchCtrl($scope, $http, $rootScope) {
 SearchCtrl.$inject = ['$scope', '$http', '$rootScope'];
 
 
+function WikipediaArticleCtrl($scope, $routeParams, wikipedia) {
+
+    var articleTitle = $routeParams.title;
+
+    wikipedia.getArticle(articleTitle).then(function (article) {
+        $scope.article = article;
+    });
+
+}
+WikipediaArticleCtrl.$inject = ['$scope', '$routeParams', 'wikipedia'];
+
+
 function KnownodeInputCtrl($scope, $http, $route, $routeParams, hybridSearch) {
 
     $scope.bgColor = 'auto-generated';
@@ -649,7 +667,7 @@ function KnownodeInputCtrl($scope, $http, $route, $routeParams, hybridSearch) {
 
     $scope.isFormValid = function () {
         return true;
-        // TODO
+        // TODO implement
 //        return $scope.isNodeSelected()
 //            && $scope.form.knownodeRelation.text != null
 //            && $scope.form.knownodeRelation.text.length > 3
@@ -659,9 +677,28 @@ function KnownodeInputCtrl($scope, $http, $route, $routeParams, hybridSearch) {
 
     $scope.$on('searchResultSelected', function (event, result) {
         event.stopPropagation();
-        $scope.targetResource = result;
-        $scope.form.existingNode = result.id;
-        $('.target-resource-search-box').hide();
+
+        var setForm = function (id, title) {
+            $scope.targetResource = result;
+            $scope.form.existingNode = result.id;
+            $('.target-resource-search-box').hide();
+        };
+
+        if (result.type == 'Wikipedia Article') {
+            // Create Wikinode
+            $http.post('/knownodes/wikinode', {title: result.id})
+                .success(function (data, status) {
+                    var resource = data.success;
+                    setForm(resource.KN_ID, resource.title);
+                })
+                .error(function (data, status) {
+                    console.log('Wikinode creation failed with status : ' + status);
+                    console.log('Error message : ' + data.message);
+                });
+        } else { // Resource
+            setForm(result.id, result.title);
+        }
+
     });
 
     $scope.userGenNode = false;
@@ -747,18 +784,17 @@ function SearchBoxCtrl($scope, $http, hybridSearch) {
                 // Create Resource
             }
             if (result.type == 'Wikipedia Article') {
-                // Create Wikinode
-                $http.post('http://localhost:3000/knownodes/wikinode', {title: result.id})
-                    .success(function (data, status) {
-                        var resource = data.success;
-                        notify(resource.KN_ID, resource.title);
-                    })
-                    .error(function (data, status) {
-                        console.log('Wikinode creation failed with status : ' + status);
-                        console.log('Error message : ' + data.message);
-                    });
-            } else {
-                notify(result.id, result.text);
+                $scope.$emit('searchResultSelected', {
+                    id: result.id,
+                    title: result.id,
+                    type: 'Wikipedia Article'
+                });
+            } else { // Resource
+                $scope.$emit('searchResultSelected', {
+                    id: result.id,
+                    title: result.text,
+                    type: 'Resource'
+                });
             }
             $scope.clear();
         }
@@ -773,14 +809,8 @@ function SearchBoxCtrl($scope, $http, hybridSearch) {
         return $scope.selectedResult[0];
     };
 
-    var notify = function (id, title) {
-        $scope.$emit('searchResultSelected', {
-            id: id,
-            title: title
-        });
-    }
 }
-SearchCtrl.$inject = ['$scope', '$http', 'hybridSearch'];
+SearchBoxCtrl.$inject = ['$scope', '$http', 'hybridSearch'];
 
 
 function RelationCtrl($scope) {

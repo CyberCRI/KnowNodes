@@ -1,11 +1,7 @@
 'use strict';
 
-/* Services */
-
-
-// Demonstrate how to register services
-// In this case it is a simple value service.
 angular.module('KnowNodesApp.services', [])
+
     .factory('userService', function ($rootScope) {
         var serviceReturned = {};
 
@@ -29,6 +25,7 @@ angular.module('KnowNodesApp.services', [])
 
         return serviceReturned;
     })
+
     .factory('PassKnownode', function () {
         var currentEdge;
         var PassKnownodeService = {};
@@ -41,6 +38,7 @@ angular.module('KnowNodesApp.services', [])
         };
         return PassKnownodeService;
     })
+
     .factory('broadcastService', function ($rootScope) {
         var serviceReturned = {};
 
@@ -57,6 +55,7 @@ angular.module('KnowNodesApp.services', [])
 
         return serviceReturned;
     })
+
     .factory('nowTime', ['$timeout', function ($timeout) {
         var nowTime;
         (function updateTime() {
@@ -99,27 +98,95 @@ angular.module('KnowNodesApp.services', [])
         };
     }])
 
-    .factory('wikipedia', ['$http', '$q', function ($http, $q) {
+    .factory('resource', ['$http', '$q', 'wikipedia', function ($http, $q, wikipedia) {
 
-        var baseUrl = 'http://en.wikipedia.org/w/api.php?action=query&prop=extracts|links&pllimit=500&format=json&callback=JSON_CALLBACK&titles=';
+        var getResourceWithWikipediaLinks = function (id) {
+            return $http.get('/knownodes/' + id).then(addWikipediaLinks);
+        }
 
-        var getFirstParagraph = function (extract) {
-            var regex = /<p>.+<\/p>/;
-            return regex.exec(extract)[0];
+        var addWikipediaLinks = function (result) {
+            var resource = result.data.success;
+            var deferred = $q.defer();
+            wikipedia.getArticle(resource.title).then(function (article) {
+                if (article != null) {
+                    resource.wikipediaLinks = article.links;
+                }
+                deferred.resolve(resource);
+            });
+            return deferred.promise;
+        }
+
+        var getRelations = function (id) {
+            return $http.get('/concepts/:' + id + '/getRelatedKnownodes');
+        }
+
+        function binarySearch(title, inputArray) {
+            var low = 0,
+                high = inputArray.length - 1,
+                mid;
+
+            while (low <= high) {
+                mid = low + (high - low) / 2;
+                if ((mid % 1) > 0) {
+                    mid = Math.ceil(mid);
+                }
+
+                if (title < inputArray[mid]) {
+                    high = mid - 1;
+                }
+                else if (title < inputArray[mid]) {
+                    low = mid + 1;
+                }
+                else {
+                    return mid;
+                }
+            }
+
+            return null;
         }
 
         return {
-            getArticle: function (query) {
+            get: function (id) {
                 var deferred = $q.defer();
-                $http.jsonp(baseUrl + query)
+
+                $q.all([getResourceWithWikipediaLinks(id),
+                        getRelations(id)])
+                    .then(function (results) {
+                        var resource = results[0];
+                        var relations = results[1].data.success;
+                        resource.relations = relations;
+                        deferred.resolve(resource);
+                    });
+                // TODO Handle Errors
+                return deferred.promise;
+            }
+        }
+    }])
+
+    .factory('wikipedia', ['$http', '$q', function ($http, $q) {
+
+        var baseUrl = 'http://en.wikipedia.org/w/api.php?action=query&prop=extracts|links&pllimit=500&format=json&redirects&callback=JSON_CALLBACK&titles=';
+
+        var getFirstParagraph = function (extract) {
+            var regex = /<p>.+<\/p>/;
+            var split = regex.exec(extract);
+            if (split == null || split.length == 0) return '';
+            else return split[0];
+        }
+
+        return {
+            getArticle: function (title) {
+                var deferred = $q.defer();
+                $http.jsonp(baseUrl + title)
                     .success(function (data) {
                         var article = data.query.pages[Object.keys(data.query.pages)[0]];
                         article.extract = getFirstParagraph(article.extract)
                         deferred.resolve(article);
-                    }
-                );
-
-                // TODO Handle Errors
+                    })
+                    .error(function (data, status, headers) {
+                        // TODO explicit
+                        deferred.resolve(null);
+                    });
                 return deferred.promise;
             }
         };
