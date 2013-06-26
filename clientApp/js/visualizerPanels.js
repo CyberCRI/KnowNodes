@@ -34,12 +34,6 @@ PanelsHandler = {
             center: {
                 onresize_start: function(){},
                 onresize: function(){Renderer.canvas.resize();}
-            },
-
-            east: {
-                spacing_closed: 8,
-                togglerLength_closed: "100%",
-                minSize: 400
             }
         });
     }
