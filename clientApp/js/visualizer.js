@@ -126,12 +126,15 @@ Renderer.Layer.prototype = {
         Renderer.layers.display(this.layer.id);
     },
     checkAndSetColor: function(){
+        var intensity = 255;
         if(this.id === Renderer.layers.current)
-            this.shape.setAttrs({
-                fillR: 150,
-                fillG: 150,
-                fillB: 150
-            });
+            intensity = 150;
+
+        this.shape.setAttrs({
+            fillR: intensity,
+            fillG: intensity,
+            fillB: intensity
+        });
     }
 };
 Renderer.layers = {};
@@ -150,6 +153,9 @@ Renderer.layers.init = function(){
 Renderer.layers.display = function(layer){
     if(layer !== this.current){
         this.current = layer;
+        for (var layerId in this.list) {
+            this.list[layerId].checkAndSetColor();
+        }
 
         var edges = Renderer.engine.particleSystem.getEdgesFrom(Renderer.nodes.central.node);
         for(var edge in edges)
