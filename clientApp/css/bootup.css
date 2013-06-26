@@ -22,11 +22,15 @@
 .topbar-login {
   text-align: none;
 }
+.topbar-logout {
+  color: lightgrey;
+  margin-left: 5px;
+}
 .topbar-logo {
   height: 40px;
   padding: 10px;
 }
 .topbar-search {
   width: 50%;
-  margin-left: 5px;
+  margin-right: 5px;
 }

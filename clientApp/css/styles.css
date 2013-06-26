@@ -383,12 +383,6 @@ img.inputPopup {
   text-align: center;
   color: #BBB;
 }
-.logout {
-  width: none;
-  float: left;
-  margin-top: 11px;
-  margin-right: 25px;
-}
 .hello-user {
   width: none;
   float: left;
