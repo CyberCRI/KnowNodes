@@ -270,7 +270,7 @@ Renderer.Node.prototype = {
         Renderer.nodes.selected = this.node;
         var data = this.node.data;
         $("#node-link").attr('href', data.url).text(data.title);
-        $("#node-content").text(data.bodyText);
+        $("#node-content").html(data.bodyText);
         PanelsHandler.layout.open("west");
     }
 };
