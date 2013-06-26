@@ -291,7 +291,7 @@ Renderer.Edge = function(from, to, data){
     this.to = to;
     this.data = data;
     this.edge = Renderer.engine.particleSystem.addEdge(from.node, to.node, {edge: this});
-    this.line = this.newLine();
+    this.line = this.newLine(data);
 
     this.bindEvents();
 };
@@ -301,10 +301,21 @@ Renderer.Edge.prototype = {
         Renderer.engine.particleSystem.originalPruneEdge(this.edge);
         delete this;
     },
-    newLine: function(){
+    newLine: function(connection){
+        var stroke = "white";
+        if (connection.connectionType === "explain") {
+            stroke = "blue";
+        } else if (connection.connectionType === "inspire") {
+            stroke = "yellow";
+        } else if (connection.connectionType === "question") {
+            stroke = "green";
+        } else if (connection.connectionType === "Wikipedia Link") {
+            stroke = "gray";
+        }
+
         var line =  new Kinetic.Line({
             points: [0,0,0,0],
-            stroke: "gray",
+            stroke: stroke,
             strokeWidth: 2
         });
         line.edge = this;
@@ -316,7 +327,23 @@ Renderer.Edge.prototype = {
         this.line.on("mouseout", this.mouseOut);
     },
     moveTo: function(pos1, pos2){
-        this.line.setAttr('points',[pos1,pos2]);
+
+        function generatePoints(fromx, fromy, tox, toy){
+            var hexagon = 30;
+            var headlen = 60;
+            var angle = Math.atan2(toy-fromy,tox-fromx);
+
+            return [fromx, fromy,
+                    tox-hexagon*Math.cos(angle),toy-hexagon*Math.sin(angle),
+                    tox-headlen*Math.cos(angle-Math.PI/6),toy-headlen*Math.sin(angle-Math.PI/6),
+                    tox-headlen*Math.cos(angle+Math.PI/6),toy-headlen*Math.sin(angle+Math.PI/6),
+                    tox-hexagon*Math.cos(angle),toy-hexagon*Math.sin(angle)
+                    ];
+        }
+
+        var points = generatePoints(pos1.x, pos1.y, pos2.x, pos2.y);
+
+        this.line.setAttr('points',points);
     },
     mouseOver: function(){
         new Kinetic.Tween({
