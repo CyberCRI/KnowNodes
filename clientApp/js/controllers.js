@@ -3,7 +3,8 @@
 function TopBarCtrl($scope, $location) {
 
     $scope.$on('$routeChangeSuccess', function (event, current, previous) {
-        $scope.mapButton = (current.$route.controller.name === "KnownodeListCtrl");
+        var path = $location.path().split('/')[1];
+        $scope.mapButton = (path === 'concept' || path === 'article' || path === 'resource');
         $scope.resourceButton = (current.$route.controller.name === "MapCtrl");
 
         $scope.resourceId = current.params.id;
@@ -207,7 +208,7 @@ function MapCtrl($scope, $routeParams) {
 MapCtrl.$inject = ['$scope', '$routeParams'];
 
 
-function KnownodeListCtrl($scope, $http, $routeParams, userService, resource, wikipedia) {
+function KnownodeListCtrl($scope, $http, $routeParams, $location, userService, resource, wikipedia, wikinode) {
 
     // First, check whether the resource is a KN Resource or a Wikipedia Article
     if ($routeParams.id != null) {
@@ -229,15 +230,22 @@ function KnownodeListCtrl($scope, $http, $routeParams, userService, resource, wi
             $scope.knownodeList = resource.relations;
         });
     } else if ($routeParams.title != null) {
-        // Wikipedia Article
-        wikipedia.getArticle($routeParams.title).then(function (article) {
-            $scope.concept = {
-                type: 'Wikipedia Article',
-                title: article.title,
-                bodyText: article.extract,
-                wikipediaLinks: article.links
-            };
-            $scope.rootNodeExists = true;
+        // Check if a Wikinode exists for this Wikipedia article
+        wikinode.get($routeParams.title).then(function (wikinode) {
+            if (wikinode != null) {
+                $location.path('/concept/' + wikinode.KN_ID);
+            } else {
+                // No Wikinode, just a plain Wikipedia article
+                wikipedia.getArticle($routeParams.title).then(function (article) {
+                    $scope.concept = {
+                        type: 'Wikipedia Article',
+                        title: article.title,
+                        bodyText: article.extract,
+                        wikipediaLinks: article.links
+                    };
+                    $scope.rootNodeExists = true;
+                });
+            }
         });
     } else throw 'No id nor title found in URL';
 
@@ -271,7 +279,7 @@ function KnownodeListCtrl($scope, $http, $routeParams, userService, resource, wi
     $scope.start = +new Date();
 
 }
-KnownodeListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'resource', 'wikipedia'];
+KnownodeListCtrl.$inject = ['$scope', '$http', '$routeParams', '$location', 'userService', 'resource', 'wikipedia', 'wikinode'];
 
 
 function KnownodeCtrl($scope, $http, $routeParams, userService) {
@@ -653,7 +661,7 @@ function WikipediaArticleCtrl($scope, $routeParams, wikipedia) {
 WikipediaArticleCtrl.$inject = ['$scope', '$routeParams', 'wikipedia'];
 
 
-function KnownodeInputCtrl($scope, $http, $route, $routeParams, $q, $location, wikipedia, hybridSearch, wikinode, connection) {
+function KnownodeInputCtrl($scope, $q, $location, wikinode, connection) {
 
     var targetResource;
 
@@ -690,8 +698,8 @@ function KnownodeInputCtrl($scope, $http, $route, $routeParams, $q, $location, w
         // TODO Cleanup
         if ($scope.concept.type === 'Wikipedia Article' && targetResource.type === 'Wikipedia Article') {
             // Get both wikinodes and create connection
-            $q.all([wikinode.get($scope.concept.title),
-                    wikinode.get(targetResource.title)])
+            $q.all([wikinode.getOrCreate($scope.concept.title),
+                    wikinode.getOrCreate(targetResource.title)])
                 .then(function (results) {
                     $scope.concept = results[0].data.success;
                     targetResource = results[1].data.success;
@@ -699,14 +707,14 @@ function KnownodeInputCtrl($scope, $http, $route, $routeParams, $q, $location, w
                 });
         } else if ($scope.concept.type === 'Wikipedia Article') {
             // Get source wikinode and create connection
-            wikinode.get($scope.concept.title).then(function (result) {
+            wikinode.getOrCreate($scope.concept.title).then(function (result) {
                 $scope.concept = result.data.success;
                 createConnection($scope.concept.KN_ID, targetResource.id);
             });
         }
         else if (targetResource.type === 'Wikipedia Article') {
             // Get target wikinode and create connection
-            wikinode.get(targetResource.title).then(function (result) {
+            wikinode.getOrCreate(targetResource.title).then(function (result) {
                 targetResource = result.data.success;
                 createConnection($scope.concept.KN_ID, targetResource.KN_ID);
             });
@@ -726,7 +734,7 @@ function KnownodeInputCtrl($scope, $http, $route, $routeParams, $q, $location, w
             });
     }
 }
-KnownodeInputCtrl.$inject = ['$scope', '$http', '$route', '$routeParams', '$q', '$location', 'wikipedia', 'hybridSearch', 'wikinode', 'connection'];
+KnownodeInputCtrl.$inject = ['$scope', '$q', '$location', 'wikinode', 'connection'];
 
 
 function SearchBoxCtrl($scope, $http, hybridSearch) {

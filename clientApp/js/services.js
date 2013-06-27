@@ -186,7 +186,8 @@ angular.module('KnowNodesApp.services', [])
                         deferred.resolve(article);
                     })
                     .error(function (data, status, headers) {
-                        // TODO explicit
+                        console.log('Fetching Wikipedia article failed with error code : ' + status);
+                        console.log('Error message : ' + data.message);
                         deferred.resolve(null);
                     });
                 return deferred.promise;
@@ -195,10 +196,29 @@ angular.module('KnowNodesApp.services', [])
         };
     }])
 
-    .factory('wikinode', ['$http', function ($http) {
+    .factory('wikinode', ['$http', '$q', function ($http, $q) {
         return {
 
             get: function (title) {
+                var deferred = $q.defer();
+                $http.post('/knownodes/wikinodeIfExists', {title: title})
+                    .success(function (data) {
+                        if (data.error != null) {
+                            console.log(data.error);
+                            deferred.resolve(null);
+                        } else {
+                            deferred.resolve(data.success);
+                        }
+                    })
+                    .error(function (data, status, headers) {
+                        console.log('Fetching Wikinode failed with error code : ' + status);
+                        console.log('Error message : ' + data.message);
+                        deferred.resolve(null);
+                    });
+                return deferred.promise;
+            },
+
+            getOrCreate: function (title) {
                 return $http.post('/knownodes/wikinode', {title: title});
             }
 
