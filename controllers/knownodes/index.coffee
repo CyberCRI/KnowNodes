@@ -7,7 +7,7 @@ relationModule = require('../../modules/relation')
 baseController = require('../baseController')
 commentModule = require('../../modules/comment')
 bot = require('../../bundledModules/nodemw')
-request = require("request")
+request = require('request')
 
 client = new bot
   server: 'en.wikipedia.org', # host name of MediaWiki-powered site
@@ -120,6 +120,17 @@ module.exports =
     modKnownode = new knownodeModule request.user
     id = request.params.knownode.replace /:/g, ''
     modKnownode.getNodesToKeyword id, cb
+
+  # Takes a "title" form parameter
+  wikinodeIfExists: (req, resp) ->
+    cb = baseController.callBack resp
+    modKnownode = new knownodeModule req.user
+    url = makeWikipediaUrl(req.body.title)
+    modKnownode.getKnownodeByUrl url, (err, existingNode) ->
+      if existingNode
+        return cb(null, existingNode)
+      else
+        return cb("No wikinode for this Wikipedia article")
 
   # Takes a "title" form parameter
   wikinode: (req, resp) ->

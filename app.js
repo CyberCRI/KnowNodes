@@ -93,7 +93,8 @@ app.resource('knownodes', function () {
     this.member.get('getRelatedComments');
     this.member.get('getNodesByKeyword');
 
-    this.collection.post("wikinode");
+    this.collection.post('wikinodeIfExists');
+    this.collection.post('wikinode');
 
     this.resource('knownodes', { id: 'related' });
     this.resource('files');
