@@ -723,7 +723,15 @@ function KnownodeInputCtrl($scope, $q, $location, wikinode, connection) {
         }
     }
 
-    var createConnection = function (sourceId, targetId) {
+    var createConnection = function (currentResource, otherResource) {
+        var sourceId, targetId;
+        if ($scope.reversedDirection) {
+            sourceId = otherResource;
+            targetId = currentResource;
+        } else {
+            sourceId = currentResource;
+            targetId = otherResource;
+        }
         connection.create(sourceId, $scope.connectionTitle, $scope.connectionType, targetId)
             .success(function (data, status) {
                 $location.path('/concept/' + sourceId);
