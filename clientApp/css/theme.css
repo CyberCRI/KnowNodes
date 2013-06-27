@@ -6278,3 +6278,7 @@ div.auto-generated {
   width: 50%;
   margin-right: 5px;
 }
+.footer {
+  background: white;
+  height: 100px;
+}
