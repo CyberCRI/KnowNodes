@@ -16,6 +16,7 @@ Renderer.init = function(canvasId, resourceId, navigationListener){
 
         Renderer.engine.particleSystem.renderer = Renderer.loop;
         Renderer.nodes.central = new Renderer.Node(Renderer.engine.jsonOriginData);
+        Renderer.nodes.selectNode(Renderer.nodes.central);
         Renderer.pages.init();
         Renderer.pages.display(0);
         Renderer.navigation.navigationListener = navigationListener;
@@ -277,11 +278,7 @@ Renderer.Node.prototype = {
         this.node.tweenTextHover.reverse();
     },
     mouseClick: function(){
-        Renderer.nodes.selected = this.node;
-        var data = this.node.data;
-        $("#node-link").attr('href', data.url).text(data.title);
-        $("#node-content").html(data.bodyText);
-        PanelsHandler.layout.open("west");
+        Renderer.nodes.selectNode(this.node);
     }
 };
 
@@ -289,6 +286,13 @@ Renderer.nodes = {};
 Renderer.nodes.selected = null;
 Renderer.nodes.central = null;
 Renderer.nodes.layer = new Kinetic.Layer({});
+Renderer.nodes.selectNode = function(node){
+    Renderer.nodes.selected = node;
+    var data = node.data;
+    $("#node-link").attr('href', data.url).text(data.title);
+    $("#node-content").html(data.bodyText);
+    PanelsHandler.layout.open("west");
+}
 
 Renderer.Edge = function(from, to, data){
     this.fromNode = from;
@@ -336,6 +340,7 @@ Renderer.Edge.prototype = {
         function generatePoints(fromx, fromy, tox, toy){
             var hexagon = 30;
             var headlen = 12;
+            var headlen2 = 6;
             var angle = Math.atan2(toy-fromy,tox-fromx);
 
             var newTox = tox-hexagon*Math.cos(angle);
@@ -344,6 +349,7 @@ Renderer.Edge.prototype = {
             return [fromx, fromy
                 ,newTox,newToy
                 ,newTox-headlen*Math.cos(angle-Math.PI/6),newToy-headlen*Math.sin(angle-Math.PI/6)
+                ,newTox-headlen2*Math.cos(angle),newToy-headlen2*Math.sin(angle)
                 ,newTox-headlen*Math.cos(angle+Math.PI/6),newToy-headlen*Math.sin(angle+Math.PI/6)
                 ,newTox,newToy
             ];
@@ -381,7 +387,7 @@ Renderer.loop.redraw = function(){
         if(aEdge.data.edge.data.fromNodeId === Renderer.engine.jsonOriginData.id) {
             aEdge.data.edge.moveTo(pt1, pt2);
         } else {
-            aEdge.data.edge.moveTo(pt1, pt2);
+            aEdge.data.edge.moveTo(pt2, pt1);
         }
     });
     Renderer.engine.particleSystem.eachNode(function(aNode, pt){
