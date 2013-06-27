@@ -16,6 +16,7 @@ Renderer.init = function(canvasId, resourceId, navigationListener){
 
         Renderer.engine.particleSystem.renderer = Renderer.loop;
         Renderer.nodes.central = new Renderer.Node(Renderer.engine.jsonOriginData);
+        Renderer.nodes.selectNode(Renderer.nodes.central);
         Renderer.pages.init();
         Renderer.pages.display(0);
         Renderer.navigation.navigationListener = navigationListener;
@@ -277,11 +278,7 @@ Renderer.Node.prototype = {
         this.node.tweenTextHover.reverse();
     },
     mouseClick: function(){
-        Renderer.nodes.selected = this.node;
-        var data = this.node.data;
-        $("#node-link").attr('href', data.url).text(data.title);
-        $("#node-content").html(data.bodyText);
-        PanelsHandler.layout.open("west");
+        Renderer.nodes.selectNode(this.node);
     }
 };
 
@@ -289,6 +286,13 @@ Renderer.nodes = {};
 Renderer.nodes.selected = null;
 Renderer.nodes.central = null;
 Renderer.nodes.layer = new Kinetic.Layer({});
+Renderer.nodes.selectNode = function(node){
+    Renderer.nodes.selected = node;
+    var data = node.data;
+    $("#node-link").attr('href', data.url).text(data.title);
+    $("#node-content").html(data.bodyText);
+    PanelsHandler.layout.open("west");
+}
 
 Renderer.Edge = function(from, to, data){
     this.fromNode = from;
