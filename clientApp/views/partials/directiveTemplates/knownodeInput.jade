@@ -15,7 +15,7 @@ form(name="form", novalidate, ng-submit="submit()")
         // ... reversed direction
         div.resourcecontent.span11#content(ng-show="reversedDirection && rootNodeExists")
             p
-                search-box.knownode-title.target-resource-search-box
+                search-box.knownode-title.target-resource-search-box(style="width:100%")
                 span#content(ng-show="targetResourceTitle != null") {{targetResourceTitle}}
                 span.help-inline(ng-show="submitted && form.selectedSuggestion.$error.required") you must choose a resource.
 
@@ -27,10 +27,10 @@ form(name="form", novalidate, ng-submit="submit()")
         // ....... existing node
         div.resourcecontent.span11#content(ng-hide="reversedDirection || userGenNode", ng-show="rootNodeExists")
             p
-                search-box.knownode-title.target-resource-search-box
+                search-box.knownode-title.target-resource-search-box(style="width:100%")
                 span#content(ng-show="targetResourceTitle != null") {{targetResourceTitle}}
                 span.help-inline(ng-show="submitted && form.selectedSuggestion.$error.required") you must choose a resource.
-    
+
         // ....... created node
         // TODO Encapsulate in a directive
         div.resourcecontent.span11#content(ng-show="userGenNode && !reversedDirection")
