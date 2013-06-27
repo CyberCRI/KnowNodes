@@ -6255,7 +6255,7 @@ div.auto-generated {
 }
 .topbar {
   position: fixed;
-  min-width: 650px;
+  min-width: 800px;
   left: 5px;
   top: 5px;
   background: white;
@@ -6267,6 +6267,7 @@ div.auto-generated {
 .topbar-logout {
   color: lightgrey;
   margin-left: 5px;
+  margin-right: 5px;
 }
 .topbar-logo {
   height: 40px;
