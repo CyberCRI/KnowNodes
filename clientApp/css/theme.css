@@ -2859,7 +2859,7 @@ table th[class*="span"],
   -moz-border-radius: 5px 5px 5px 0;
   border-radius: 5px 5px 5px 0;
 }
-.dropdown-submenu > a:after {
+Caret to indicate there is a submenu .dropdown-submenu > a:after {
   display: block;
   content: " ";
   float: right;
@@ -6196,9 +6196,6 @@ a {
 .dissapear {
   opacity: 0;
 }
-.counter:hover {
-  color: #717577;
-}
 .dropdown-menu li > a.explain:hover {
   color: #1C75BC;
 }
@@ -6251,6 +6248,7 @@ div.auto-generated {
   text-align: none;
 }
 .frontpage__first-timer {
+  background-color: yellow;
   text-align: center;
   margin-top: 3em;
   margin-bottom: 3em;
@@ -6277,4 +6275,28 @@ div.auto-generated {
 .topbar-search {
   width: 50%;
   margin-right: 5px;
+}
+.footer {
+  background: white;
+  height: 100px;
+}
+.dropdown-submenu > a:after {
+  display: none;
+  content: " ";
+  float: none;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: none;
+  border-width: none;
+  margin-top: none;
+  margin-right: none;
+}
+.counter {
+  color: #717577;
+  cursor: default;
+}
+.counter:hover {
+  color: #717577;
+  cursor: default;
 }
