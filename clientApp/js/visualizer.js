@@ -340,6 +340,7 @@ Renderer.Edge.prototype = {
         function generatePoints(fromx, fromy, tox, toy){
             var hexagon = 30;
             var headlen = 12;
+            var headlen2 = 6;
             var angle = Math.atan2(toy-fromy,tox-fromx);
 
             var newTox = tox-hexagon*Math.cos(angle);
@@ -348,6 +349,7 @@ Renderer.Edge.prototype = {
             return [fromx, fromy
                 ,newTox,newToy
                 ,newTox-headlen*Math.cos(angle-Math.PI/6),newToy-headlen*Math.sin(angle-Math.PI/6)
+                ,newTox-headlen2*Math.cos(angle),newToy-headlen2*Math.sin(angle)
                 ,newTox-headlen*Math.cos(angle+Math.PI/6),newToy-headlen*Math.sin(angle+Math.PI/6)
                 ,newTox,newToy
             ];
@@ -385,7 +387,7 @@ Renderer.loop.redraw = function(){
         if(aEdge.data.edge.data.fromNodeId === Renderer.engine.jsonOriginData.id) {
             aEdge.data.edge.moveTo(pt1, pt2);
         } else {
-            aEdge.data.edge.moveTo(pt1, pt2);
+            aEdge.data.edge.moveTo(pt2, pt1);
         }
     });
     Renderer.engine.particleSystem.eachNode(function(aNode, pt){
