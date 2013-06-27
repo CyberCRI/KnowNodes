@@ -1,26 +1,8 @@
-div.header.row.topbar
-  div.span23.offset1
-
-    div#logo
-      a(href='#')
-        img#logo(src="img/KnownodesLogo.jpg")
-    span(top-bar-login)
-    //span
-      a.btn.btn-link.info(href="/knownodeList") View knownodes
-    span.btn.btn-link.info(style="width: 300px; margin-top: 0px")
-        span(search-box)
-
-    span
-        a.btn.btn-link.info(ng-href="/map/{{resourceId}}", ng-show="mapButton") View map
-        a.btn.btn-link.info(ng-href="/article/{{resourceId}}", ng-show="resourceButton") View resource
-
-    span
-        a.btn.btn-link.info(href="/addConcept", ng-show="isLoggedIn()") Add new concept
-    // span a.btn.btn-link.info(href="/about") About
-    // span a.btn.btn-link.info(href="http://knownodes.tumblr.com/") Blog
-
-
-
-
-div.headerLine.row
-  div.line.span24
+div.topbar
+  a(href='#')
+    img.topbar-logo(src="img/KnownodesLogo.png")
+  span.topbar-search(search-box)
+  span
+      a.btn.btn-link(ng-href="/map/{{resourceId}}", ng-show="mapButton") View map
+      a.btn.btn-link(ng-href="/article/{{resourceId}}", ng-show="resourceButton") View list
+      span(top-bar-login)

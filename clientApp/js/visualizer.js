@@ -1,4 +1,4 @@
-var NODES_PER_LAYER = 6;
+var NODES_PER_PAGE = 6;
 
 var Renderer = {};
 
@@ -10,14 +10,14 @@ Renderer.init = function(canvasId, resourceId, navigationListener){
         Renderer.engine.jsonOriginData = centralNodeData;
         Renderer.engine.jsonChildrenData = childrenNodesData;
 
-        Renderer.layers.count = Math.ceil(Renderer.engine.jsonChildrenData.length / NODES_PER_LAYER);
+        Renderer.pages.count = Math.ceil(Renderer.engine.jsonChildrenData.length / NODES_PER_PAGE);
 
         Renderer.canvas.resize();
 
         Renderer.engine.particleSystem.renderer = Renderer.loop;
         Renderer.nodes.central = new Renderer.Node(Renderer.engine.jsonOriginData);
-        Renderer.layers.init();
-        Renderer.layers.display(0);
+        Renderer.pages.init();
+        Renderer.pages.display(0);
         Renderer.navigation.navigationListener = navigationListener;
     });
 };
@@ -69,7 +69,7 @@ Renderer.canvas.init = function(canvasId){
     });
     this.stage.add(Renderer.edges.layer);
     this.stage.add(Renderer.nodes.layer);
-    this.stage.add(Renderer.layers.layer);
+    this.stage.add(Renderer.pages.layer);
 };
 Renderer.canvas.resize = function(){
     var div = $(".ui-layout-center");
@@ -79,7 +79,7 @@ Renderer.canvas.resize = function(){
     Renderer.loop.redraw();
 };
 
-Renderer.Layer = function(id){
+Renderer.Page = function(id){
     this.id = id;
     this.shape = new Kinetic.Rect({
         width: this.width,
@@ -89,12 +89,12 @@ Renderer.Layer = function(id){
         fill: "white"
     });
     this.checkAndSetColor();
-    this.shape.layer = this;
-    Renderer.layers.layer.add(this.shape);
+    this.shape.page = this;
+    Renderer.pages.layer.add(this.shape);
     this.bindEvents();
-    Renderer.layers.list.push(this);
+    Renderer.pages.list.push(this);
 };
-Renderer.Layer.prototype = {
+Renderer.Page.prototype = {
     width: 50,
     height: 20,
     delete: function(){
@@ -123,39 +123,45 @@ Renderer.Layer.prototype = {
         }).play();
     },
     mouseClick: function(e){
-        Renderer.layers.display(this.layer.id);
+        Renderer.pages.display(this.page.id);
     },
     checkAndSetColor: function(){
-        if(this.id === Renderer.layers.current)
-            this.shape.setAttrs({
-                fillR: 150,
-                fillG: 150,
-                fillB: 150
-            });
+        var intensity = 255;
+        if(this.id === Renderer.pages.current)
+            intensity = 150;
+
+        this.shape.setAttrs({
+            fillR: intensity,
+            fillG: intensity,
+            fillB: intensity
+        });
     }
 };
-Renderer.layers = {};
-Renderer.layers.list = [];
-Renderer.layers.current = -1;
-Renderer.layers.layer = new Kinetic.Layer({});
-Renderer.layers.init = function(){
-    for(var layer in this.list){
-        this.list[layer].delete();
+Renderer.pages = {};
+Renderer.pages.list = [];
+Renderer.pages.current = -1;
+Renderer.pages.layer = new Kinetic.Layer({});
+Renderer.pages.init = function(){
+    for(var page in this.list){
+        this.list[page].delete();
     }
     this.list = [];
     for(var i = 0; i < this.count; i++) {
-        new Renderer.Layer(i);
+        new Renderer.Page(i);
     }
 };
-Renderer.layers.display = function(layer){
-    if(layer !== this.current){
-        this.current = layer;
+Renderer.pages.display = function(page){
+    if(page !== this.current){
+        this.current = page;
+        for (var pageId in this.list) {
+            this.list[pageId].checkAndSetColor();
+        }
 
-        var edges = Renderer.engine.particleSystem.getEdgesFrom(Renderer.nodes.central.node);
-        for(var edge in edges)
-            Renderer.engine.particleSystem.pruneNode(edges[edge].target);
+        var aEdges = Renderer.engine.particleSystem.getEdgesFrom(Renderer.nodes.central.aNode);
+        for(var aEdge in aEdges)
+            Renderer.engine.particleSystem.pruneNode(aEdges[aEdge].target);
 
-        for(var i = this.current * NODES_PER_LAYER; i < (this.current + 1) * NODES_PER_LAYER && i < Renderer.engine.jsonChildrenData.length; i++){
+        for(var i = this.current * NODES_PER_PAGE; i < (this.current + 1) * NODES_PER_PAGE && i < Renderer.engine.jsonChildrenData.length; i++){
             var node = new Renderer.Node(Renderer.engine.jsonChildrenData[i].article);
             new Renderer.Edge(Renderer.nodes.central, node, Renderer.engine.jsonChildrenData[i].connection);
         }
@@ -164,28 +170,28 @@ Renderer.layers.display = function(layer){
 
 Renderer.Node = function(data){
     this.data = data;
-    this.displayGroup = new  Kinetic.Group({x:-200, y:-200});
-    this.displayPolygon = this.newPolygon();
-    this.displayText = this.newText();
-    this.node =  Renderer.engine.particleSystem.addNode(this.data.id, {node: this});
-    this.displayPolygon.node = this;
-    Renderer.nodes.layer.add(this.displayGroup);
+    this.kNodeGroup = new  Kinetic.Group({x:-200, y:-200});
+    this.kNodePolygon = this.newPolygon();
+    this.kNodeText = this.newText();
+    this.aNode =  Renderer.engine.particleSystem.addNode(this.data.id, {node: this});
+    this.kNodePolygon.node = this;
+    Renderer.nodes.layer.add(this.kNodeGroup);
     this.tweenPolygonHover = new Kinetic.Tween({
-        node: this.displayPolygon,
-        duration: 1,
+        node: this.kNodePolygon,
+        duration: 0.3,
         easing: Kinetic.Easings['StrongEaseOut'],
         fillB: 200,
-        scaleX: 2,
-        scaleY: 2,
+        scaleX: 1.1,
+        scaleY: 1.1,
         strokeWidth: 5
     });
     this.tweenTextHover = new Kinetic.Tween({
-        node: this.displayText,
-        duration: 1,
+        node: this.kNodeText,
+        duration: 0.3,
         easing: Kinetic.Easings['StrongEaseOut'],
-        fontSize: 18,
-        x: 80,
-        y: -20,
+        fontSize: 20,
+        x: 38,
+        y: -6,
         width: 300
     });
     this.bindEvents();
@@ -193,74 +199,78 @@ Renderer.Node = function(data){
 Renderer.Node.prototype = {
     shape: [[26,15],[0,30],[-26,15],[-26,-15],[0,-30],[26,-15]],
     delete: function(){
-        this.displayGroup.destroy();
-        Renderer.engine.particleSystem.originalPruneNode(this.node);
+        this.kNodeGroup.destroy();
+        Renderer.engine.particleSystem.originalPruneNode(this.aNode);
         delete this;
     },
     newPolygon: function(){
-        var polygon = new Kinetic.Polygon({
+        var kNodepolygon = new Kinetic.Polygon({
             points: this.shape,
             fill: "black",
             stroke: "white",
             strokeWidth: 3
         });
-        polygon.node = this;
-        this.displayGroup.add(polygon);
-        return polygon;
+        kNodepolygon.node = this;
+        this.kNodeGroup.add(kNodepolygon);
+        return kNodepolygon;
     },
     newText: function(){
-        var text = new Kinetic.Text({
+        var kNodeText = new Kinetic.Text({
             text: this.data.title,
             fill: "white",
-            width: 120
+            width: 120,
+            fontSize: 16
         });
-        text.node = this;
-        this.displayGroup.add(text);
-        text.setPosition(31, -5);
-        return text;
+        kNodeText.node = this;
+        this.kNodeGroup.add(kNodeText);
+        kNodeText.setPosition(31, -5);
+        return kNodeText;
     },
     moveTo: function (pos){
-        this.displayGroup.setPosition(pos.x, pos.y);
+        this.kNodeGroup.setPosition(pos.x, pos.y);
     },
     bindEvents: function(){
-        this.displayPolygon.on('mouseover', this.mouseOver);
-        this.displayPolygon.on('mouseout', this.mouseOut);
-        this.displayPolygon.on('click', this.mouseClick);
-        this.displayPolygon.on('dblclick dbltap', this.mouseDblClick);
+        this.kNodePolygon.on('mouseover', this.mouseOver);
+        this.kNodePolygon.on('mouseout', this.mouseOut);
+        this.kNodePolygon.on('click', this.mouseClick);
+        this.kNodePolygon.on('dblclick dbltap', this.mouseDblClick);
     },
     mouseDblClick: function() {
         var id = this.node.data.KN_ID;
+        if(id === Renderer.nodes.central.data.KN_ID) return;
         Renderer.engine.centerOn(id, function(centralNodeData, childrenNodesData) {
 
             Renderer.engine.jsonOriginData = centralNodeData;
             Renderer.engine.jsonChildrenData = childrenNodesData;
             Renderer.navigation.navigationListener(id);
 
-            var edges = Renderer.engine.particleSystem.getEdgesFrom(Renderer.nodes.central.node);
+            var aEdges = Renderer.engine.particleSystem.getEdgesFrom(Renderer.nodes.central.aNode);
             var newCentral;
-            for(var edge in edges) {
-                var node = edges[edge].target;
-                if(node.data.node.data.KN_ID !== id) {
-                    Renderer.engine.particleSystem.pruneNode(node);
+            for(var aEdge in aEdges) {
+                var aNode = aEdges[aEdge].target;
+                if(aNode.data.node.data.KN_ID !== id) {
+                    Renderer.engine.particleSystem.pruneNode(aNode);
                 } else {
-                    newCentral = node.data.node;
+                    newCentral = aNode.data.node;
                 }
             }
 
+            // TODO manage case when user quickly navigates from a child node to another child node without waiting for the graph to be updated.
+            // Either reload graph, or retrieve stored data, or design safe process.
             Renderer.nodes.central.delete();
 
             Renderer.nodes.central = newCentral;
 
-            Renderer.layers.count = Math.ceil(Renderer.engine.jsonChildrenData.length / NODES_PER_LAYER);
+            Renderer.pages.count = Math.ceil(Renderer.engine.jsonChildrenData.length / NODES_PER_PAGE);
 
-            Renderer.layers.init();
-            Renderer.layers.current = -1;
-            Renderer.layers.display(0);
+            Renderer.pages.init();
+            Renderer.pages.current = -1;
+            Renderer.pages.display(0);
         });
     },
     mouseOver: function(){
-       this.node.tweenPolygonHover.play();
-       this.node.tweenTextHover.play();
+        this.node.tweenPolygonHover.play();
+        this.node.tweenTextHover.play();
     },
     mouseOut: function(){
         this.node.tweenPolygonHover.reverse();
@@ -281,36 +291,67 @@ Renderer.nodes.central = null;
 Renderer.nodes.layer = new Kinetic.Layer({});
 
 Renderer.Edge = function(from, to, data){
-    this.from = from;
-    this.to = to;
+    this.fromNode = from;
+    this.toNode = to;
     this.data = data;
-    this.edge = Renderer.engine.particleSystem.addEdge(from.node, to.node, {edge: this});
-    this.line = this.newLine();
+    this.aEdge = Renderer.engine.particleSystem.addEdge(from.aNode, to.aNode, {edge: this});
+    this.kEdge = this.newLine(data.connectionType);
 
     this.bindEvents();
 };
 Renderer.Edge.prototype = {
     delete: function(){
-        this.line.destroy();
-        Renderer.engine.particleSystem.originalPruneEdge(this.edge);
+        this.kEdge.destroy();
+        Renderer.engine.particleSystem.originalPruneEdge(this.aEdge);
         delete this;
     },
-    newLine: function(){
-        var line =  new Kinetic.Line({
+    newLine: function(connectionType){
+        var color = "white";
+        if (connectionType === "explain") {
+            color = '#1C75BC';
+        } else if (connectionType === "inspire") {
+            color = '#FFDE17';
+        } else if (connectionType === "question") {
+            color = '#39B54A';
+        } else if (connectionType === "Wikipedia Link") {
+            color = "gray";
+        }
+
+        var kEdge =  new Kinetic.Polygon({
             points: [0,0,0,0],
-            stroke: "gray",
-            strokeWidth: 2
+            stroke: color,
+            strokeWidth: 2,
+            fill: color
         });
-        line.edge = this;
-        Renderer.edges.layer.add(line);
-        return line;
+        kEdge.edge = this;
+        Renderer.edges.layer.add(kEdge);
+        return kEdge;
     },
     bindEvents: function(){
-        this.line.on("mouseover", this.mouseOver);
-        this.line.on("mouseout", this.mouseOut);
+        this.kEdge.on("mouseover", this.mouseOver);
+        this.kEdge.on("mouseout", this.mouseOut);
     },
     moveTo: function(pos1, pos2){
-        this.line.setAttr('points',[pos1,pos2]);
+
+        function generatePoints(fromx, fromy, tox, toy){
+            var hexagon = 30;
+            var headlen = 12;
+            var angle = Math.atan2(toy-fromy,tox-fromx);
+
+            var newTox = tox-hexagon*Math.cos(angle);
+            var newToy = toy-hexagon*Math.sin(angle);
+
+            return [fromx, fromy
+                ,newTox,newToy
+                ,newTox-headlen*Math.cos(angle-Math.PI/6),newToy-headlen*Math.sin(angle-Math.PI/6)
+                ,newTox-headlen*Math.cos(angle+Math.PI/6),newToy-headlen*Math.sin(angle+Math.PI/6)
+                ,newTox,newToy
+            ];
+        }
+
+        var points = generatePoints(pos1.x, pos1.y, pos2.x, pos2.y);
+
+        this.kEdge.setAttr('points',points);
     },
     mouseOver: function(){
         new Kinetic.Tween({
@@ -335,11 +376,16 @@ Renderer.edges.layer = new Kinetic.Layer({});
 Renderer.loop = {}
 Renderer.loop.init = function(){};
 Renderer.loop.redraw = function(){
-    Renderer.engine.particleSystem.eachEdge(function(edge, pt1, pt2){
-        edge.data.edge.moveTo(pt1, pt2);
+    //pt1 is centralNode
+    Renderer.engine.particleSystem.eachEdge(function(aEdge, pt1, pt2){
+        if(aEdge.data.edge.data.fromNodeId === Renderer.engine.jsonOriginData.id) {
+            aEdge.data.edge.moveTo(pt1, pt2);
+        } else {
+            aEdge.data.edge.moveTo(pt1, pt2);
+        }
     });
-    Renderer.engine.particleSystem.eachNode(function(node, pt){
-        node.data.node.moveTo(pt);
+    Renderer.engine.particleSystem.eachNode(function(aNode, pt){
+        aNode.data.node.moveTo(pt);
     });
     Renderer.canvas.stage.draw();
 };
