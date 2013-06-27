@@ -661,7 +661,7 @@ function WikipediaArticleCtrl($scope, $routeParams, wikipedia) {
 WikipediaArticleCtrl.$inject = ['$scope', '$routeParams', 'wikipedia'];
 
 
-function KnownodeInputCtrl($scope, $q, $location, wikinode, connection) {
+function KnownodeInputCtrl($scope, $q, $location, wikinode, resource, connection) {
 
     var targetResource;
 
@@ -678,6 +678,9 @@ function KnownodeInputCtrl($scope, $q, $location, wikinode, connection) {
         targetResource = result;
         $scope.targetResourceTitle = targetResource.title;
         $('.target-resource-search-box').hide();
+        if (result.type === 'Create Resource') {
+            $scope.userGenNode = true;
+        }
     });
 
     $scope.userGenNode = false;
@@ -696,30 +699,48 @@ function KnownodeInputCtrl($scope, $q, $location, wikinode, connection) {
         $scope.submitted = true;
         // TODO Handle case where connection direction is reversed
         // TODO Cleanup
-        if ($scope.concept.type === 'Wikipedia Article' && targetResource.type === 'Wikipedia Article') {
-            // Get both wikinodes and create connection
-            $q.all([wikinode.getOrCreate($scope.concept.title),
-                    wikinode.getOrCreate(targetResource.title)])
-                .then(function (results) {
-                    $scope.concept = results[0].data.success;
-                    targetResource = results[1].data.success;
-                    createConnection($scope.concept.KN_ID, targetResource.KN_ID)
+        // TODO Remove ugly copy & paste done in urgency for the LinkedUp competition
+        if ($scope.resourceToCreate.title.length > 1) {
+            if ($scope.concept.type === 'Wikipedia Article') {
+                // Get source wikinode and create connection
+                wikinode.getOrCreate($scope.concept.title).then(function (result) {
+                    $scope.concept = result.data.success;
+                    resource.create({knownodeForm: $scope.resourceToCreate}).then(function (resource) {
+                        createConnection($scope.concept.KN_ID, resource.KN_ID);
+                    });
                 });
-        } else if ($scope.concept.type === 'Wikipedia Article') {
-            // Get source wikinode and create connection
-            wikinode.getOrCreate($scope.concept.title).then(function (result) {
-                $scope.concept = result.data.success;
-                createConnection($scope.concept.KN_ID, targetResource.id);
-            });
-        }
-        else if (targetResource.type === 'Wikipedia Article') {
-            // Get target wikinode and create connection
-            wikinode.getOrCreate(targetResource.title).then(function (result) {
-                targetResource = result.data.success;
-                createConnection($scope.concept.KN_ID, targetResource.KN_ID);
-            });
+            } else {
+                resource.create({knownodeForm: $scope.resourceToCreate}).then(function (resource) {
+                    createConnection($scope.concept.KN_ID, resource.KN_ID);
+                });
+            }
         } else {
-            createConnection($scope.concept.KN_ID, targetResource.id)
+            if ($scope.concept.type === 'Wikipedia Article' && targetResource.type === 'Wikipedia Article') {
+                // Get both wikinodes and create connection
+                $q.all([wikinode.getOrCreate($scope.concept.title),
+                        wikinode.getOrCreate(targetResource.title)])
+                    .then(function (results) {
+                        $scope.concept = results[0].data.success;
+                        console.log(results);
+                        targetResource = results[1].data.success;
+                        createConnection($scope.concept.KN_ID, targetResource.KN_ID)
+                    });
+            } else if ($scope.concept.type === 'Wikipedia Article') {
+                // Get source wikinode and create connection
+                wikinode.getOrCreate($scope.concept.title).then(function (result) {
+                    $scope.concept = result.data.success;
+                    createConnection($scope.concept.KN_ID, targetResource.id);
+                });
+            }
+            else if (targetResource.type === 'Wikipedia Article') {
+                // Get target wikinode and create connection
+                wikinode.getOrCreate(targetResource.title).then(function (result) {
+                    targetResource = result.data.success;
+                    createConnection($scope.concept.KN_ID, targetResource.KN_ID);
+                });
+            } else {
+                createConnection($scope.concept.KN_ID, targetResource.id)
+            }
         }
     }
 
@@ -742,7 +763,7 @@ function KnownodeInputCtrl($scope, $q, $location, wikinode, connection) {
             });
     }
 }
-KnownodeInputCtrl.$inject = ['$scope', '$q', '$location', 'wikinode', 'connection'];
+KnownodeInputCtrl.$inject = ['$scope', '$q', '$location', 'wikinode', 'resource', 'connection'];
 
 
 function SearchBoxCtrl($scope, $http, hybridSearch) {
@@ -756,7 +777,7 @@ function SearchBoxCtrl($scope, $http, hybridSearch) {
             hybridSearch.search(query.term).then(function (results) {
                 var suggestions = {results: []}, i;
                 // First item is the create resource option
-                suggestions.results.push({id: 'create_data_option_id', text: 'Create Resource...', type: 'Create'});
+                suggestions.results.push({id: 'create_data_option_id', text: 'Create Resource...', type: 'Create Resource'});
                 for (i = 0; i < results.resources.length; i++) {
                     suggestions.results.push({id: results.resources[i].results.KN_ID, text: results.resources[i].results.title});
                 }
@@ -780,8 +801,12 @@ function SearchBoxCtrl($scope, $http, hybridSearch) {
     $scope.$watch('selectedResult', function () {
         if (isResultSelected()) {
             var result = getSelectedResult();
-            if (result.type === 'Create') {
-                // Create Resource
+            if (result.type === 'Create Resource') {
+                $scope.$emit('searchResultSelected', {
+                    id: 'create_resource',
+                    title: 'Create Resource',
+                    type: 'Create Resource'
+                });
             }
             if (result.type === 'Wikipedia Article') {
                 $scope.$emit('searchResultSelected', {

@@ -159,6 +159,27 @@ angular.module('KnowNodesApp.services', [])
                     });
                 // TODO Handle Errors
                 return deferred.promise;
+            },
+
+            create: function (resourceData) {
+                var deferred = $q.defer();
+                $http.post('/knownodes', resourceData)
+                    .success(function (data, status, headers, config) {
+                        if (data.success) {
+                            deferred.resolve(data.success);
+                        }
+                        if (data.error) {
+                            console.log(data.error);
+                            deferred.resolve(null);
+                        }
+                    })
+                    .error(function (data, status, headers) {
+                        console.log('Resource creation failed with error code : ' + status);
+                        console.log('Error message : ' + data.message);
+                        deferred.resolve(null);
+                    });
+                ;
+                return deferred.promise;
             }
 
         }
