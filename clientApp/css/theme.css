@@ -9,15 +9,6 @@
 @import "bootstrap-timepicker.css";
 
 @import "../js/lib/select2/select2.css";
-/*!
- * Bootstrap v2.3.2
- *
- * Copyright 2012 Twitter, Inc
- * Licensed under the Apache License v2.0
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Designed and built with all the love in the world @twitter by @mdo and @fat.
- */
 .clearfix {
   *zoom: 1;
 }
@@ -6238,10 +6229,31 @@ div.auto-generated {
 .footer {
   background: white;
 }
-.intro-image-label {
+.frontpage__bg-image {
+  background-image: url("../img/bg-frontpage.jpg") !important;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.l-frontpage__center {
+  margin: 0 auto;
+  width: 50%;
+}
+.l-frontpage-title-setup {
+  position: absolute;
+  width: 100%;
+}
+.l-frontpage__title {
   text-align: center;
-  background: white;
-  margin: 0px;
+  font-size: 36px;
+  color: white;
+  margin-top: 4%;
+  padding: 3px;
+  text-align: none;
+}
+.frontpage__first-timer {
+  text-align: center;
+  margin-top: 3em;
+  margin-bottom: 3em;
 }
 .topbar {
   position: fixed;
