@@ -1,0 +1,5 @@
+NameError: variable @black is undefined in /Users/dorgarbash/WebstormProjects/Knownodes/clientApp/css/bootstrap/dropdowns.less:27:26
+26   vertical-align: top;
+27   border-top:   4px solid @black;
+28   border-right: 4px solid transparent;
+

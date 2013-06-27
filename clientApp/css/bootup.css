@@ -38,3 +38,23 @@
   background: white;
   height: 100px;
 }
+.dropdown-submenu > a:after {
+  display: none;
+  content: " ";
+  float: none;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: none;
+  border-width: none;
+  margin-top: none;
+  margin-right: none;
+}
+.counter {
+  color: #717577;
+  cursor: default;
+}
+.counter:hover {
+  color: #717577;
+  cursor: default;
+}
