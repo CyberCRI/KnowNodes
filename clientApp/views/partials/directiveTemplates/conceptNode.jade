@@ -4,7 +4,7 @@ div.resourcecontent.span11#content(ng-mouseenter="addNode2=true", ng-mouseleave=
       img.open-in-new-window(src="/img/openInNewWindow.png", title="{{concept.url}}", width="20px", ng-show="concept.url")
     a(href="/knownodeFiles/:{{concept.fileId}}", target="_blank", ng-show="concept.fileName", title="{{concept.fileName}}").titleIcon
       i.open-in-new-window.icon-download
-    span(ng-show="addNode2").titleIcon
+    //span(ng-show="addNode2").titleIcon
       a(ng-show='isUserLoggedIn', title="Connect a new resource to {{concept.title}}", ng-href='/addKnownodeTo/{{concept.KN_ID}}')
         i.icon-plus
   span(ng-switch on="knownode.edgeCount")

@@ -1,4 +1,3 @@
-//overrided bootstrap little arrow in submenu
 .dropdown-submenu > a:after {
   display: none;
   content: " ";
@@ -11,14 +10,11 @@
   margin-top: none;
   margin-right: none;
 }
-
-.counter{
+.counter {
   color: #717577;
   cursor: default;
 }
-
-.counter:hover{
+.counter:hover {
   color: #717577;
   cursor: default;
 }
-
