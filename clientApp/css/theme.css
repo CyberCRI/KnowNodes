@@ -55,6 +55,9 @@
   margin-left: auto;
   margin-right: auto;
 }
+.topbar-gap {
+  height: 70px;
+}
 article,
 aside,
 details,
@@ -5933,12 +5936,6 @@ img.inputPopup {
 .hover:hover {
   color: #27bdc3;
 }
-.topbar {
-  background: white;
-}
-.topbar .btn {
-  padding: 0;
-}
 .hero-unit {
   color: #464646;
 }
@@ -5948,12 +5945,6 @@ img.inputPopup {
   background-color: #FEFFEC;
   text-align: center;
   color: #BBB;
-}
-.logout {
-  width: none;
-  float: left;
-  margin-top: 11px;
-  margin-right: 25px;
 }
 .hello-user {
   width: none;
@@ -6251,4 +6242,27 @@ div.auto-generated {
   text-align: center;
   background: white;
   margin: 0px;
+}
+.topbar {
+  position: fixed;
+  min-width: 650px;
+  left: 5px;
+  top: 5px;
+  background: white;
+  z-index: 1000;
+}
+.topbar-login {
+  text-align: none;
+}
+.topbar-logout {
+  color: lightgrey;
+  margin-left: 5px;
+}
+.topbar-logo {
+  height: 40px;
+  padding: 10px;
+}
+.topbar-search {
+  width: 50%;
+  margin-right: 5px;
 }

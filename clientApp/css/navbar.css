@@ -1,16 +1,3 @@
-.center-div {
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-}
-.center-img {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-.topbar-gap {
-  height: 70px;
-}
 .topbar {
   position: fixed;
   min-width: 650px;
