@@ -642,9 +642,6 @@ a {
 .dissapear {
   opacity: 0;
 }
-.counter:hover {
-  color: #717577;
-}
 .dropdown-menu li > a.explain:hover {
   color: #1C75BC;
 }
@@ -672,4 +669,6 @@ div.auto-generated {
   margin-top: 8px;
   margin-right: 5px;
 }
-
+.footer {
+  background: white;
+}

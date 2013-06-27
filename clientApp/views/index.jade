@@ -1,7 +1,7 @@
 extends layout
 
 block content
-    div(ng-view).row.fill
+    div(ng-view, style="overflow: hidden").row.fill()
 
     script(src='js/lib/jquery-1.9.1.js')
     script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.js')

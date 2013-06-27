@@ -89,7 +89,7 @@ function LogoutCtrl($http, $location, $rootScope) {
             }
         });
 }
-LogoutCtrl.$inject = ['$scope', '$http', '$location', '$rootScope'];
+LogoutCtrl.$inject = ['$http', '$location', '$rootScope'];
 
 
 function AddConceptCtrl($scope, $http, $location) {
