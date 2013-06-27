@@ -777,7 +777,7 @@ function SearchBoxCtrl($scope, $http, hybridSearch) {
             hybridSearch.search(query.term).then(function (results) {
                 var suggestions = {results: []}, i;
                 // First item is the create resource option
-                suggestions.results.push({id: 'create_data_option_id', text: 'Create Resource...', type: 'Create Resource'});
+                //suggestions.results.push({id: 'create_data_option_id', text: 'Create Resource...', type: 'Create Resource'});
                 for (i = 0; i < results.resources.length; i++) {
                     suggestions.results.push({id: results.resources[i].results.KN_ID, text: results.resources[i].results.title});
                 }

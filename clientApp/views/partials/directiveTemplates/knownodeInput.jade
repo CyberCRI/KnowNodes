@@ -35,6 +35,11 @@ form(name="form", novalidate, ng-submit="submit()")
         // TODO Encapsulate in a directive
         div.resourcecontent.span11#content(ng-show="userGenNode && !reversedDirection")
             p Add new Resource
+
+                p
+                    label(for='url') URL:
+                    input(class="input-xxlarge", placeholder="Add URL here", ng-model='resourceToCreate.url', name='url', style="width:100%;")
+
                 p
                     label(for='title') Title:
                     input(placeholder="The title of the resource - just copy paste", ng-model='resourceToCreate.title', ng-maxlength='350', name='title', required, autofocus, style="width:100%;").input_xxlarge
@@ -42,6 +47,8 @@ form(name="form", novalidate, ng-submit="submit()")
                 p
                     label(for='bodyText') Text body (abstract, summery or additional information): &nbsp;(optional)
                     textarea(ui-tinymce, class="input-xxlarge", placeholder="Abstract or summery of the resource", ng-model='resourceToCreate.bodyText', name='bodyText', rows='5', style='width:100%')
+
+
                 p
                     label(for='articleFile') PDF File:
                     input(nclass="input-xxlarge", placeholder="Attach a file", g-model='file', name='file', type='file', ng-model-instant, multiple, onchange="angular.element(this).scope().setFiles(this)")
