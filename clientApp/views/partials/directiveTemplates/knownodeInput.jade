@@ -8,6 +8,9 @@ form(name="form", novalidate, ng-submit="submit()")
                     div.knownode-body
                         p.bold(ng-show="concept.url")
                             a(ng-href="{{concept.url}}") {{concept.url}}
+                        p.bold(ng-show="concept.wikipediaLinks && !concept.url")
+                            a(ng-href="http://en.wikipedia.org/wiki/{{concept.title}}", target="_blank") http://en.wikipedia.org/wiki/{{concept.title}}
+
                         p(ng-show="concept.fileName") Download:
                             a(class="btn-info",href="/knownodeFiles/:{{concept.fileId}}", target="_blank", ng-show="concept.fileName") &nbsp;{{concept.fileName}}&nbsp;
                         div(ng-bind-html-unsafe="concept.bodyText")
