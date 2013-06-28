@@ -1,0 +1,19 @@
+#subjectList
+    div(class="well span6")
+        h2 {{knownode.title}}
+        p {{knownode.bodyText}}
+
+    div.row-fluid(ng-show='knownodeList.length > 0')
+        dl(ng-repeat="knownode in knownodeList")
+            div.span7
+                dt
+                    a(ng-href="/article/{{knownode.article.KN_ID}}") {{knownode.article.title}}
+                dd {{knownode.article.bodyText}}
+                p contributed by:
+                    strong {{knownode.user.firstName}} {{knownode.user.lastName}}
+            div(class="span5 well")
+                include articleEdge
+    div.row-fluid
+        p(ng-show='knownodeList.length == 0') No knownodes yet :(
+    div.row-fluid
+        a(ng-show='isUserLoggedIn', class='btn btn-success', href='/addKnownodeTo/{{conceptId}}') Add a new article knownode

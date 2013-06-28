@@ -1,51 +1,80 @@
-var Grid, GridStore, ObjectID, mongoose, parse,
-    __slice = [].slice;
+var mongoose = require('mongoose');
 
-mongoose = require("mongoose");
-GridStore = mongoose.mongo.GridStore;
-Grid = mongoose.mongo.Grid;
-ObjectID = mongoose.mongo.BSONPure.ObjectID;
+var GridStore = mongoose.mongo.GridStore,
+    Grid      = mongoose.mongo.Grid,
+    ObjectID  = mongoose.mongo.BSONPure.ObjectID;
 
-exports.putFile = function() {
-    var db, fn, name, options, path, _i;
-    path = arguments[0], name = arguments[1], options = 4 <= arguments.length ? __slice.call(arguments, 2, _i = arguments.length - 1) : (_i = 2, []), fn = arguments[_i++];
-    db = mongoose.connection.db;
-    options = parse(options);
-    options.metadata.filename = name;
-    return new GridStore(db, name, "w", options).open(function(err, file) {
+exports.getGridFile = function(id, fn) {
+    var db = mongoose.connection.db,
+        id = new ObjectID(id),
+        store = new GridStore(db, id, "r", {root: 'fs'} );
+
+    store.open(function(err, store) {
         if (err) {
             return fn(err);
         }
-        return file.writeFile(path, fn);
-    });
-};
+        else {
+            if ((store.filename.toString() == store.fileId.toString())
+                && store.metadata
+                && store.metadata.filename) {
+                store.filename = store.metadata.filename;
+            }
+            fn(null, store);
+        }
+    })
+}
 
-parse = function(options) {
-    var opts;
-    opts = {};
+exports.putGridFile = function(buf, name, options, fn) {
+    var db = mongoose.connection.db,
+        options = parse(options);
+    options.metadata.filename = name;
+
+    new GridStore(db, name, "w", options).open(function(err, file){
+        if (err)
+            return fn(err);
+        else
+            file.write(buf, true, fn);
+        //TODO: Should we gridStore.close() manully??
+    });
+}
+
+exports.putGridFileByPath = function(path, name, options, fn) {
+    var db = mongoose.connection.db,
+        options = parse(options);
+    options.metadata.filename = name;
+
+    new GridStore(db, name, "w", options).open(function(err, file){
+        if (err)
+            return fn(err);
+        else
+            file.writeFile(path, fn);
+    });
+}
+
+exports.deleteGridFile = function(id, fn){
+    console.log('Deleting GridFile '+id);
+    var db= mongoose.connection.db,
+        id = new mongoose.mongo.BSONPure.ObjectID(id),
+        store = new GridStore(db, id, 'r', {root: 'fs'});
+
+    store.unlink(function(err, result){
+        if (err)
+            return fn(err);
+
+        return fn(null);
+    });
+}
+
+function parse(options) {
+    var opts = {};
     if (options.length > 0) {
         opts = options[0];
     }
-    if (!opts.metadata) {
-        opts.metadata = {};
-    }
-    return opts;
-};
+    else
+        opts = options;
 
-exports.get = function(id, fn) {
-    var db, store;
-    db = mongoose.connection.db;
-    id = new ObjectID(id);
-    store = new GridStore(db, id, "r", {
-        root: "fs"
-    });
-    return store.open(function(err, store) {
-        if (err) {
-            return fn(err);
-        }
-        if (("" + store.filename) === ("" + store.fileId) && store.metadata && store.metadata.filename) {
-            store.filename = store.metadata.filename;
-        }
-        return fn(null, store);
-    });
-};
+    if (!opts.metadata)
+        opts.metadata = {};
+
+    return opts;
+}

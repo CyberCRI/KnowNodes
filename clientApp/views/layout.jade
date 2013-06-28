@@ -1,0 +1,18 @@
+doctype 5
+html(ng-app="KnowNodesApp")
+  head
+    meta(charset='utf8')
+    base(href='/')
+    title= title
+    link(href='http://fonts.googleapis.com/css?family=Roboto', rel='stylesheet', type='text/css')
+    link(rel='stylesheet', href='/css/theme.css', type="text/css")
+
+//if lte IE 8
+        script(src='js/lib/angular-ui/angular-ui-ieshiv.min.js')
+
+    body(ng-controller="TopBarCtrl").background-color
+      div.topbar-gap &nbsp
+      include partials/topBar
+      //div(chat)
+      block content
+      include partials/footer

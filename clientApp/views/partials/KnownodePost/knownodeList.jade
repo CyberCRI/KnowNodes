@@ -1,0 +1,52 @@
+div.subheader
+    div
+        div.span11.offset1
+            div.knownode.span12.shortKnownode
+                div(knownode-input)
+
+        div(ng-repeat="knownode in knownodeList | orderBy:orderProp", ng-switch on="knownode.article.id == knownode.connection.fromNodeId").span11.offset1
+            div(ng-switch-when="true").knownode.span12.shortKnownode
+                div(node)
+                div(relation)
+                div(concept-node)
+                p.infoLine.span11(style="margin:0px;")
+                    em {{(knownode.connection.__CreatedOn__) | timeAgo}} by {{knownode.connection.user.firstName}} {{knownode.connection.user.lastName}}
+                    span
+                        a(ng-href="/edge/:{{knownode.connection.KN_ID}}", ng-switch on="knownode.commentCount").pull-right
+                            span(ng-switch-default).text-warning {{knownode.commentCount}} comments
+                            span(ng-switch-when="0") comment
+                div(class="ui-icon ui-icon-trash", style="float:right", ng-click="deleteArticle(knownode.article.id, $index)", ng-show="checkOwnership(knownode.article.user.id)")
+                div(ng-show="checkOwnership(knownode.article.user.id)", style="float:right")
+                    a(class="ui-icon ui-icon-pencil", ng-href="", ng-show="false")
+
+            div(ng-switch-default).knownode.span12.shortKnownode
+                div(concept-node)
+                div(relation)
+                div(node)
+                p.infoLine.span11(style="margin:0px;")
+                    em {{(knownode.connection.__CreatedOn__) | timeAgo}} by {{knownode.connection.user.firstName}} {{knownode.connection.user.lastName}}
+                    span
+                        a(ng-href="/edge/:{{knownode.connection.KN_ID}}", ng-switch on="knownode.commentCount").pull-right
+                            span(ng-switch-default).text-warning {{knownode.commentCount}} comments
+                            span(ng-switch-when="0") comment
+                div(class="ui-icon ui-icon-trash", style="float:right", ng-click="deleteArticle(knownode.article.id, $index)", ng-show="checkOwnership(knownode.article.user.id)")
+                div(ng-show="checkOwnership(knownode.article.user.id)", style="float:right")
+                    a(class="ui-icon ui-icon-pencil", ng-href="", ng-show="false")
+
+        div(ng-repeat="link in concept.wikipediaLinks", ng-switch on="link.title != concept.title").span11.offset1
+            div(ng-switch-when="true").knownode.span12.shortKnownode
+                div.resourcecontent.span11#content
+                    a.knownode-title(ng-href="/wiki/{{concept.title}}", title="{{concept.title}}") {{concept.title}}
+                      a(ng-href="http://en.wikipedia.org/wiki/{{concept.title}}", target="_blank").titleIcon
+                        img.open-in-new-window(src="/img/openInNewWindow.png", title="{{concept.title}}", width="20px", ng-show="concept.title")
+
+                div.connection.span11(class="auto-generated")
+                    div.content.span11
+                        div.ellipsis-title
+                            p
+                                span.knownode-title &nbsp;Wikipedia Link
+                div.resourcecontent.span11#content
+                    a.knownode-title(ng-href="/wiki/{{link.title}}", title="{{link.title}}") {{link.title}}
+                      a(ng-href="http://en.wikipedia.org/wiki/{{link.title}}", target="_blank").titleIcon
+                        img.open-in-new-window(src="/img/openInNewWindow.png", title="{{link.title}}", width="20px", ng-show="link.title")
+

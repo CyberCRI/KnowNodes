@@ -1,0 +1,25 @@
+div.subheader
+  div.span23.offset1
+    h2
+      span
+        a(ng-href="/article/:{{knownode.article.KN_ID}}", title="{{knownode.article.title}}") {{knownode.article.title+ " "}}
+        span.deamphesize {{knownode.connection.connectionType+" "+knownode.connection.title+" "}}
+        span
+          a(ng-href="/article/:{{knownode.targetArticle.KN_ID}}", title="{{knownode.targetArticle.title}}") {{knownode.targetArticle.title}}
+  div.knownode.span11.offset1
+    div(ng-show="knownode.connection.bodyText").span11
+      small edge description
+      p.resourcecontent#content(ng-bind-html-unsafe="knownode.connection.bodyText")
+    div.span11.with-margin
+      small original knownode
+      div(full-node)
+      div(relation)
+      div(target-article)
+      div(class="ui-icon ui-icon-trash", style="float:right", ng-click="deleteNode(knownode.article.id, $index)", ng-show="checkOwnership(knownode.article.user.id)")
+      div(ng-show="checkOwnership(knownode.article.user.id)", style="float:right")
+        a(class="ui-icon ui-icon-pencil", ng-href="", ng-show="false")
+
+
+  div.span11.offset1
+    div(comment-section='{{knownode.connection.KN_ID}}')
+

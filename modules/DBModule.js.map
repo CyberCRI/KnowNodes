@@ -1,0 +1,6 @@
+Syntax error on line 8, column 9: unexpected 'u' (\u0075)
+5 : 
+6 : 	constructor: (user) ->
+7 : 		@logger = new LOG user
+8 : 		super user
+^ :~~~~~~~~~^

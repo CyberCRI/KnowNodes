@@ -1,0 +1,68 @@
+.center-div {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.center-img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.topbar-gap {
+  height: 70px;
+}
+.topbar {
+  position: fixed;
+  min-width: 800px;
+  left: 5px;
+  top: 5px;
+  background: white;
+  z-index: 1000;
+}
+.topbar-login {
+  text-align: none;
+}
+.topbar-logout {
+  color: lightgrey;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.topbar-logo {
+  height: 40px;
+  padding: 10px;
+}
+.topbar-search {
+  width: 50%;
+  margin-right: 5px;
+}
+.footer {
+  background: white;
+  height: 100px;
+}
+.dropdown-submenu > a:after {
+  display: none;
+  content: " ";
+  float: none;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: none;
+  border-width: none;
+  margin-top: none;
+  margin-right: none;
+}
+.counter {
+  color: #717577;
+  cursor: default;
+}
+.counter:hover {
+  color: #717577;
+  cursor: default;
+}
+.create-resource {
+  width: 100%;
+  font-size: 1.4em;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background: #d3d3d3;
+}

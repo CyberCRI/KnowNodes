@@ -1,0 +1,26 @@
+div.span10.offset1(ng-controller="LoginCtrl")
+
+  form(ng-submit='performLogin()').span11
+    div.span5
+      h2.span5 Login
+      div(class="text-error", ng-show='loginerror').span5
+        p We're in closed beta. If something with the username or password we provided isn't working. please contact us :)
+      p.span5
+        label(for='username') eMail:
+        input(ng-model='loginForm.username', name='username', type='email', autofocus, required, style="width:100%;")
+      p.span5
+        label(for='password') Password:
+        input(ng-model='loginForm.password', name='password', type='password', required, style="width:100%;")
+      p.span5
+        button(type="submit", ng-disabled="loginForm.$invalid", class='btn btn-success') Log me in!
+    div.span4.offset1
+      h2.span5 Or
+      div.span5
+        a(href="/auth/facebook", target='_self')
+          img(src="img/login/facebook-login-button.png", style="width:75%;")
+      div.span5 &nbsp;
+        a(href="/auth/google", target='_self', class="btn btn-large btn-block btn-primary", type="button", style="width:75%;")
+          img(src="img/login/google-login-button.png")
+          span Login with Google
+      div.span5 &nbsp;
+        a(href='addUser') Create a new account

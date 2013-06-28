@@ -1,0 +1,50 @@
+div.subheader
+    div.span23.offset1
+        h2.subheader Connect a resource to: {{concept.title}}
+
+
+  form(method="post", enctype="multipart/form-data", ng-submit='submitPost(form)').span24
+        div.span11
+            div(class='well')
+                h3 (1) Add a new resourc
+                  span(ng-init="search=false", ng-click="search=true") e
+                      div(ng-show="search", search)
+                p
+                    label(for='title') Title:
+                    input(placeholder="The title of the resource - just copy paste", ng-model='form.knownodeForm.title', ng-maxlength='350', name='title', required, autofocus, style="width:100%;").input_xxlarge
+                    span {{(350 -(form.knownodeForm.title.length))}}
+                p
+                    label(for='url') URL:
+                    input(class="input-xxlarge", placeholder="Add Source URL here", ng-model='form.knownodeForm.url', name='url', style="width:100%;")
+                p
+                    label(for='bodyText') Text body (abstract, summery or additional information): &nbsp;(optional)
+                    textarea(ui-tinymce, class="input-xxlarge", placeholder="Abstract or summery of the resource", ng-model='form.knownodeForm.bodyText', name='bodyText', rows='5', style='width:100%')
+                p
+                    label(for='articleFile') PDF File:
+                    input(nclass="input-xxlarge", placeholder="Attach a file", g-model='file', name='file', type='file', ng-model-instant, multiple, onchange="angular.element(this).scope().setFiles(this)")
+                div(id="dropbox", class="dropbox", ng-class="dropClass")
+                    span
+                        {{dropText}}
+                <span class="label label-info">.PDF Files - up to 16Mb</span>
+                div(ng-show="files.length")
+                div(ng-repeat="file in files.slice(0)")
+                    span
+                        {{file.webkitRelativePath || file.name}}
+                    span(ng-switch="file.size > 1024*1024")
+                        span(ng-switch-when="true")
+                            {{file.size / 1024 / 1024 | number:2}} MB
+                        span(ng-switch-default)
+                            {{file.size / 1024 | number:2}} kB
+
+                div(ng-show="progressVisible")
+                    div(class="percent")
+                        {{progress}}%
+                    div(class="progress-bar")
+                        div(class="uploaded", ng-style="{'width': progress+'%'}")
+        div.span11.offset1
+            include addEdge
+        div.row
+            div.span8.offset1
+                button(type="submit", id="btnSubmitPost").btn.btn-large.btn-primary Upload, Save and everything
+        div.row(ng-show="errorMessage")
+            div.text-error {{errorMessage}}
