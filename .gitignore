@@ -7,3 +7,5 @@ controllers/**/*.js
 modules/**/*.js
 modules/email/email.js
 
+
+bundledModules/.DS_Store
