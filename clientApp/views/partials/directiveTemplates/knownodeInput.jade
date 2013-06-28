@@ -34,46 +34,6 @@ form(name="form", novalidate, ng-submit="submit()")
                 span#content(ng-show="targetResourceTitle != null && !userGenNode") {{targetResourceTitle}}
                 span.help-inline(ng-show="submitted && form.selectedSuggestion.$error.required") you must choose a resource.
 
-        // ....... created node
-        // TODO Encapsulate in a directive
-        div.resourcecontent.span11#content(ng-show="userGenNode && !reversedDirection")
-            p Add new Resource
-
-                p
-                    label(for='url') URL:
-                    input(class="input-xxlarge", placeholder="Add URL here", ng-model='resourceToCreate.url', name='url', style="width:100%;")
-
-                p
-                    label(for='title') Title:
-                    input(placeholder="The title of the resource - just copy paste", ng-model='resourceToCreate.title', ng-maxlength='350', name='title', required, autofocus, style="width:100%;").input_xxlarge
-                    span {{(350 -(resourceToCreate.title.length))}}
-                p
-                    label(for='bodyText') Text body (abstract, summery or additional information): &nbsp;(optional)
-                    textarea(ui-tinymce, class="input-xxlarge", placeholder="Abstract or summery of the resource", ng-model='resourceToCreate.bodyText', name='bodyText', rows='5', style='width:100%')
-
-
-                p
-                    label(for='articleFile') PDF File:
-                    input(nclass="input-xxlarge", placeholder="Attach a file", g-model='file', name='file', type='file', ng-model-instant, multiple, onchange="angular.element(this).scope().setFiles(this)")
-                div(id="dropbox", class="dropbox", ng-class="dropClass")
-                    span
-                        p {{dropText}}
-                span.label.label-info .PDF Files - up to 16Mb
-                div(ng-show="files.length")
-                div(ng-repeat="file in files.slice(0)")
-                    span
-                        p {{file.webkitRelativePath || file.name}}
-                    span(ng-switch="file.size > 1024*1024")
-                    span(ng-switch-when="true")
-                        p {{file.size / 1024 / 1024 | number:2}} MB
-                    span(ng-switch-default)
-                        p {{file.size / 1024 | number:2}} kB
-                div(ng-show="progressVisible")
-                    div(class="percent")
-                        p {{progress}}%
-                    div(class="progress-bar")
-                        div(class="uploaded", ng-style="{'width': progress+'%'}")
-
         // ... reversed direction
         div.resourcecontent.span11#content(ng-show="reversedDirection", style="padding:0px")
             accordion
@@ -86,5 +46,5 @@ form(name="form", novalidate, ng-submit="submit()")
                         div(ng-bind-html-unsafe="concept.bodyText")
 
         // Submit button
-        button.btn.btn-primary.btn-large#content(type="submit", ng-disabled="!isFormValid() || submitted") Submit
+        button.btn.btn-primary.btn-large#content(type="submit", ng-disabled="submitted") Submit
         span(ng-show="submitErrorMessage") {{submitErrorMessage}}
