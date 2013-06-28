@@ -122,6 +122,7 @@ angular.module('KnowNodesApp.services', [])
             return $http.get('/concepts/:' + id + '/getRelatedKnownodes');
         }
 
+        // TODO Use this to remove duplicates between KN and Wikipedia results
         function binarySearch(title, inputArray) {
             var low = 0,
                 high = inputArray.length - 1,
@@ -259,6 +260,23 @@ angular.module('KnowNodesApp.services', [])
                     existingNode: targetId
                 };
                 return $http.post('/knownodes', request);
+            }
+
+        };
+    }])
+
+    .factory('resourceDialog', ['$dialog', function ($dialog) {
+        return {
+
+            open: function (sourceId, connectionTitle, connectionType, targetId) {
+                var options = {
+                    backdrop: true,
+                    dialogFade: true,
+                    backdropFade: true,
+                    templateUrl: 'partials/directiveTemplates/createResourceDialog',
+                    controller: 'CreateResourceDialogCtrl'
+                };
+                return $dialog.dialog(options).open();
             }
 
         };
