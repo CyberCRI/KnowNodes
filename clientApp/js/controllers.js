@@ -777,7 +777,7 @@ function SearchBoxCtrl($scope, $http, hybridSearch) {
             hybridSearch.search(query.term).then(function (results) {
                 var suggestions = {results: []}, i;
                 // First item is the create resource option
-                //suggestions.results.push({id: 'create_data_option_id', text: 'Create Resource...', type: 'Create Resource'});
+                suggestions.results.push({id: 'create_data_option_id', text: 'Create Resource : ' + query.term, type: 'Create Resource'});
                 for (i = 0; i < results.resources.length; i++) {
                     suggestions.results.push({id: results.resources[i].results.KN_ID, text: results.resources[i].results.title});
                 }
@@ -789,7 +789,12 @@ function SearchBoxCtrl($scope, $http, hybridSearch) {
         },
         formatResult: function movieFormatResult(node) {
             var markup = "<table class='suggestion'><tr>";
-            markup += "<td class='suggestion-info'><div class='suggestion-title'>" + node.text + "</div></td>";
+
+            if (node.type=== 'Create Resource') {
+                markup += "<td class='suggestion-info'><div class='suggestion-title create-resource'>" + node.text + "</div></td>";
+            } else {
+                markup += "<td class='suggestion-info'><div class='suggestion-title'>" + node.text + "</div></td>";
+            }
             if (node.type === 'Wikipedia Article') {
                 markup += "<td class='suggestion-image'><img src='img/wikipedia-icon.png'/></td>";
             }
