@@ -233,10 +233,10 @@ Renderer.Node.prototype = {
     bindEvents: function(){
         this.kNodePolygon.on('mouseover', this.mouseOver);
         this.kNodePolygon.on('mouseout', this.mouseOut);
+        this.kNodePolygon.on('mouseover', this.mouseOver);
         this.kNodePolygon.on('click', this.mouseClick);
-        this.kNodePolygon.on('dblclick dbltap', this.mouseDblClick);
     },
-    mouseDblClick: function() {
+    mouseClick: function() {
         var id = this.node.data.KN_ID;
         if(id === Renderer.nodes.central.data.KN_ID) return;
         Renderer.engine.centerOn(id, function(centralNodeData, childrenNodesData) {
@@ -272,13 +272,11 @@ Renderer.Node.prototype = {
     mouseOver: function(){
         this.node.tweenPolygonHover.play();
         this.node.tweenTextHover.play();
+        Renderer.nodes.selectNode(this.node);
     },
     mouseOut: function(){
         this.node.tweenPolygonHover.reverse();
         this.node.tweenTextHover.reverse();
-    },
-    mouseClick: function(){
-        Renderer.nodes.selectNode(this.node);
     }
 };
 
