@@ -163,7 +163,7 @@ angular.module('KnowNodesApp.services', [])
 
             create: function (resourceData) {
                 var deferred = $q.defer();
-                $http.post('/knownodes', resourceData)
+                $http.post('/knownodes', {knownodeForm: resourceData})
                     .success(function (data, status, headers, config) {
                         if (data.success) {
                             deferred.resolve(data.success);

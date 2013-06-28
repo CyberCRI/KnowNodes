@@ -1,6 +1,6 @@
 'use strict';
 
-function TopBarCtrl($scope, $location) {
+function TopBarCtrl($scope, $location, $dialog) {
 
     $scope.$on('$routeChangeSuccess', function (event, current, previous) {
         var path = $location.path().split('/')[1];
@@ -12,19 +12,58 @@ function TopBarCtrl($scope, $location) {
 
     $scope.$on('searchResultSelected', function (event, result) {
         event.stopPropagation();
-        if (result.type === 'Wikipedia Article') {
-            $location.path('/wiki/' + result.id);
-        } else { // Resource
-            $location.path('/concept/' + result.id);
+        switch (result.type) {
+            case 'Create Resource':
+                openCreateResourceDialog();
+                break;
+            case 'Wikipedia Article':
+                $location.path('/wiki/' + result.id);
+                break;
+            case 'Resource':
+                $location.path('/concept/' + result.id);
+                break;
         }
     });
+
+    var openCreateResourceDialog = function () {
+        var options = {
+            backdrop: true,
+            dialogFade: true,
+            backdropFade: true,
+            templateUrl: 'partials/directiveTemplates/createResourceDialog',
+            controller: 'CreateResourceDialogCtrl'
+        };
+        var dialog = $dialog.dialog(options);
+        dialog.open().then(function (result) {
+            if (result) {
+                $location.path('/concept/' + result.KN_ID);
+            }
+        });
+    };
 
     $scope.$on('mapNavigated', function (event, result) {
         event.stopPropagation();
         $scope.resourceId = result;
     });
 }
-TopBarCtrl.$inject = ['$scope', '$location'];
+TopBarCtrl.$inject = ['$scope', '$location', '$dialog'];
+
+
+function CreateResourceDialogCtrl($scope, dialog, resource) {
+
+    $scope.resourceToCreate = {};
+
+    $scope.close = function () {
+        dialog.close();
+    };
+
+    $scope.submit = function () {
+        resource.create($scope.resourceToCreate).then(function (resource) {
+            dialog.close(resource);
+        });
+    }
+}
+CreateResourceDialogCtrl.$inject = ['$scope', 'dialog', 'resource'];
 
 
 function ChatCtrl($scope, $timeout, $rootScope, angularFireCollection) {
@@ -683,6 +722,7 @@ function KnownodeInputCtrl($scope, $q, $location, wikinode, resource, connection
         }
     });
 
+    $scope.resourceToCreate = {};
     $scope.userGenNode = false;
     $scope.connectionTitle = '';
     $scope.connectionType = 'Choose link type';
@@ -705,12 +745,12 @@ function KnownodeInputCtrl($scope, $q, $location, wikinode, resource, connection
                 // Get source wikinode and create connection
                 wikinode.getOrCreate($scope.concept.title).then(function (result) {
                     $scope.concept = result.data.success;
-                    resource.create({knownodeForm: $scope.resourceToCreate}).then(function (resource) {
+                    resource.create($scope.resourceToCreate).then(function (resource) {
                         createConnection($scope.concept.KN_ID, resource.KN_ID);
                     });
                 });
             } else {
-                resource.create({knownodeForm: $scope.resourceToCreate}).then(function (resource) {
+                resource.create($scope.resourceToCreate).then(function (resource) {
                     createConnection($scope.concept.KN_ID, resource.KN_ID);
                 });
             }
@@ -777,7 +817,7 @@ function SearchBoxCtrl($scope, $http, hybridSearch) {
             hybridSearch.search(query.term).then(function (results) {
                 var suggestions = {results: []}, i;
                 // First item is the create resource option
-                //suggestions.results.push({id: 'create_data_option_id', text: 'Create Resource...', type: 'Create Resource'});
+                suggestions.results.push({id: 'create_data_option_id', text: 'Create Resource...', type: 'Create Resource'});
                 for (i = 0; i < results.resources.length; i++) {
                     suggestions.results.push({id: results.resources[i].results.KN_ID, text: results.resources[i].results.title});
                 }
@@ -801,25 +841,28 @@ function SearchBoxCtrl($scope, $http, hybridSearch) {
     $scope.$watch('selectedResult', function () {
         if (isResultSelected()) {
             var result = getSelectedResult();
-            if (result.type === 'Create Resource') {
-                $scope.$emit('searchResultSelected', {
-                    id: 'create_resource',
-                    title: 'Create Resource',
-                    type: 'Create Resource'
-                });
-            }
-            if (result.type === 'Wikipedia Article') {
-                $scope.$emit('searchResultSelected', {
-                    id: result.id,
-                    title: result.id,
-                    type: 'Wikipedia Article'
-                });
-            } else { // Resource
-                $scope.$emit('searchResultSelected', {
-                    id: result.id,
-                    title: result.text,
-                    type: 'Resource'
-                });
+            switch (result.type) {
+                case 'Create Resource':
+                    $scope.$emit('searchResultSelected', {
+                        id: 'create_resource',
+                        title: 'Create Resource',
+                        type: 'Create Resource'
+                    });
+                    break;
+                case 'Wikipedia Article':
+                    $scope.$emit('searchResultSelected', {
+                        id: result.id,
+                        title: result.id,
+                        type: 'Wikipedia Article'
+                    });
+                    break;
+                default: // Resource
+                    $scope.$emit('searchResultSelected', {
+                        id: result.id,
+                        title: result.text,
+                        type: 'Resource'
+                    });
+                    break;
             }
             $scope.clear();
         }
