@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('KnowNodesApp.directives', [])
+
     .directive('subtitle', function () {
         return {
             restrict: "A",
@@ -8,6 +9,7 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     })
+
     .directive('concept', function () {
         return {
             restrict: 'EAC',
@@ -16,6 +18,7 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     })
+
     .directive('inputNode', function () {
         return {
             restrict: 'EAC',
@@ -24,6 +27,7 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     })
+
     .directive('relationInput', function () {
         return {
             restrict: 'EAC',
@@ -32,6 +36,7 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     })
+
     .directive('formatSelector', function () {
         return {
             compile: function compile(tElement, tAttrs, transclude) {
@@ -57,6 +62,7 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     })
+
     .directive('resourceTypeSelector', function () {
         return {
             restrict: 'EAC',
@@ -65,6 +71,7 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     })
+
     .directive('knowledgeDomainSelector', function () {
         return {
             restrict: 'EAC',
@@ -73,6 +80,7 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     })
+
     .directive('node', function () {
         return {
             restrict: 'EAC',
@@ -81,6 +89,7 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     })
+
     .directive('fullNode', function () {
         return {
             restrict: 'EAC',
@@ -89,6 +98,7 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     })
+
     .directive('conceptNode', function () {
         return {
             restrict: 'EAC',
@@ -97,6 +107,7 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     })
+
     .directive('targetArticle', function () {
         return {
             restrict: 'EAC',
@@ -105,6 +116,7 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     })
+
     .directive('relation', function () {
         return {
             restrict: 'EAC',
@@ -114,6 +126,7 @@ angular.module('KnowNodesApp.directives', [])
             controller: RelationCtrl
         };
     })
+
     .directive('navBarTop', function () {
         return {
             restrict: 'AC',
@@ -167,6 +180,7 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     })
+
     .directive('appVersion', ['version', function (version) {
         return function (scope, elm, attrs) {
             elm.text(version);
@@ -186,6 +200,7 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     }])
+
     .directive('chat', ['$http', function ($http) {
         return {
             restrict: 'EAC',
@@ -194,6 +209,7 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     }])
+
     .directive('search', ['$http', function ($http) {
         return {
             restrict: 'EAC',
@@ -202,6 +218,7 @@ angular.module('KnowNodesApp.directives', [])
             replace: true
         };
     }])
+
     .directive('ngFocus', function ($timeout) {
         return {
             link: function (scope, element, attrs) {
@@ -276,5 +293,4 @@ angular.module('KnowNodesApp.directives', [])
                 };
             }
         };
-    }])
-;
+    }]);
