@@ -59,3 +59,10 @@
   color: #717577;
   cursor: default;
 }
+.create-resource {
+  width: 100%;
+  font-size: 1.4em;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background: #d3d3d3;
+}

@@ -101,7 +101,7 @@ function AddUserCtrl($scope, $http, $location) {
 AddUserCtrl.$inject = ['$scope', '$http', '$location'];
 
 
-function LoginCtrl($scope, $http, $location, $rootScope) {
+function LoginCtrl($scope, $http, $location, $rootScope, $window) {
     $scope.loginForm = {};
 
     $scope.performLogin = function () {
@@ -111,11 +111,11 @@ function LoginCtrl($scope, $http, $location, $rootScope) {
                     return $scope.loginerror = true;
                 }
                 $rootScope.user = data;
-                return $location.path('/conceptList');
+                $window.history.back();
             });
     };
 }
-LoginCtrl.$inject = ['$scope', '$http', '$location'];
+LoginCtrl.$inject = ['$scope', '$http', '$location', '$rootScope', '$window'];
 
 
 function LogoutCtrl($http, $location, $rootScope) {
@@ -722,7 +722,6 @@ function KnownodeInputCtrl($scope, $q, $location, wikinode, resource, connection
         }
     });
 
-    $scope.resourceToCreate = {};
     $scope.userGenNode = false;
     $scope.connectionTitle = '';
     $scope.connectionType = 'Choose link type';
@@ -745,12 +744,12 @@ function KnownodeInputCtrl($scope, $q, $location, wikinode, resource, connection
                 // Get source wikinode and create connection
                 wikinode.getOrCreate($scope.concept.title).then(function (result) {
                     $scope.concept = result.data.success;
-                    resource.create($scope.resourceToCreate).then(function (resource) {
+                    resource.create({knownodeForm: $scope.resourceToCreate}).then(function (resource) {
                         createConnection($scope.concept.KN_ID, resource.KN_ID);
                     });
                 });
             } else {
-                resource.create($scope.resourceToCreate).then(function (resource) {
+                resource.create({knownodeForm: $scope.resourceToCreate}).then(function (resource) {
                     createConnection($scope.concept.KN_ID, resource.KN_ID);
                 });
             }
@@ -817,7 +816,7 @@ function SearchBoxCtrl($scope, $http, hybridSearch) {
             hybridSearch.search(query.term).then(function (results) {
                 var suggestions = {results: []}, i;
                 // First item is the create resource option
-                suggestions.results.push({id: 'create_data_option_id', text: 'Create Resource...', type: 'Create Resource'});
+                suggestions.results.push({id: 'create_data_option_id', text: 'Create Resource : ' + query.term, type: 'Create Resource'});
                 for (i = 0; i < results.resources.length; i++) {
                     suggestions.results.push({id: results.resources[i].results.KN_ID, text: results.resources[i].results.title});
                 }
@@ -829,7 +828,12 @@ function SearchBoxCtrl($scope, $http, hybridSearch) {
         },
         formatResult: function movieFormatResult(node) {
             var markup = "<table class='suggestion'><tr>";
-            markup += "<td class='suggestion-info'><div class='suggestion-title'>" + node.text + "</div></td>";
+
+            if (node.type=== 'Create Resource') {
+                markup += "<td class='suggestion-info'><div class='suggestion-title create-resource'>" + node.text + "</div></td>";
+            } else {
+                markup += "<td class='suggestion-info'><div class='suggestion-title'>" + node.text + "</div></td>";
+            }
             if (node.type === 'Wikipedia Article') {
                 markup += "<td class='suggestion-image'><img src='img/wikipedia-icon.png'/></td>";
             }
