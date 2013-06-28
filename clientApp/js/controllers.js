@@ -712,7 +712,7 @@ function KnownodeInputCtrl($scope, $rootScope, $q, $route, resourceDialog, wikin
         if (result.type === 'Create Resource' && isDialogOpen === false) {
             isDialogOpen = true;
             openResourceDialog();
-        } else {
+        } else if (result.type === 'Wikipedia Article' || result.type === 'Resource') {
             setOtherResource(result);
         }
     });
@@ -721,8 +721,8 @@ function KnownodeInputCtrl($scope, $rootScope, $q, $route, resourceDialog, wikin
         resourceDialog.open().then(function (createdResource) {
             if (createdResource) {
                 setOtherResource(createdResource);
-                isDialogOpen = false;
             }
+            isDialogOpen = false;
         });
     };
 
@@ -799,6 +799,12 @@ function KnownodeInputCtrl($scope, $rootScope, $q, $route, resourceDialog, wikin
                 console.log('Connection creation failed with error : ' + status);
                 console.log('Error message : ' + data.message);
             });
+    };
+
+    $scope.clearOtherResource = function () {
+        targetResource = null;
+        $scope.targetResourceTitle = null;
+        $('.target-resource-search-box').show();
     };
 }
 KnownodeInputCtrl.$inject = ['$scope', '$rootScope', '$q', '$route', 'resourceDialog', 'wikinode', 'resource', 'connection'];

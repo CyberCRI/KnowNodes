@@ -1,4 +1,4 @@
-form(name="form", novalidate, ng-submit="submit()")
+form(name="form", novalidate)
     div.control-group(ng-class="{true:'error'}[submitted && form.selectedSuggestion.$invalid && form.knownodeRelation.title.$invalid && form.knownodeRelation.connectionType]")
         // Source Node
         // ... default direction
@@ -19,7 +19,9 @@ form(name="form", novalidate, ng-submit="submit()")
         div.resourcecontent.span11#content(ng-show="reversedDirection && rootNodeExists")
             p
                 search-box.knownode-title.target-resource-search-box(style="width:100%")
-                span#content(ng-show="targetResourceTitle != null") {{targetResourceTitle}}
+                span#content(ng-show="targetResourceTitle != null")
+                    {{targetResourceTitle}}
+                    button(ng-click="clearOtherResource()") X
                 span.help-inline(ng-show="submitted && form.selectedSuggestion.$error.required") you must choose a resource.
 
         // Connection between Nodes
@@ -28,10 +30,12 @@ form(name="form", novalidate, ng-submit="submit()")
         // Destination Node
         // ... default direction
         // ....... existing node
-        div.resourcecontent.span11#content(ng-hide="reversedDirection || userGenNode", ng-show="rootNodeExists")
+        div.resourcecontent.span11#content(ng-hide="reversedDirection", ng-show="rootNodeExists")
             p
                 search-box.knownode-title.target-resource-search-box(style="width:100%")
-                span#content(ng-show="targetResourceTitle != null && !userGenNode") {{targetResourceTitle}}
+                span#content(ng-show="targetResourceTitle != null")
+                    {{targetResourceTitle}}
+                    button(ng-click="clearOtherResource()") X
                 span.help-inline(ng-show="submitted && form.selectedSuggestion.$error.required") you must choose a resource.
 
         // ... reversed direction
@@ -41,10 +45,13 @@ form(name="form", novalidate, ng-submit="submit()")
                     div.knownode-body
                         p.bold(ng-show="concept.url")
                             a(ng-href="{{concept.url}}") {{concept.url}}
-                        p(ng-show="concept.fileName") Download:
-                            a(class="btn-info",href="/knownodeFiles/:{{concept.fileId}}", target="_blank", ng-show="concept.fileName") &nbsp;{{concept.fileName}}&nbsp;
-                        div(ng-bind-html-unsafe="concept.bodyText")
+                            p.bold(ng-show="concept.wikipediaLinks && !concept.url")
+                                a(ng-href="http://en.wikipedia.org/wiki/{{concept.title}}", target="_blank") http://en.wikipedia.org/wiki/{{concept.title}}
+                            p(ng-show="concept.fileName") Download:
+                                a(class="btn-info",href="/knownodeFiles/:{{concept.fileId}}", target="_blank", ng-show="concept.fileName") &nbsp;{{concept.fileName}}&nbsp;
+                            div(ng-bind-html-unsafe="concept.bodyText")
 
-        // Submit button
-        button.btn.btn-primary.btn-large#content(type="submit", ng-disabled="submitted") Submit
+
+    // Submit button
+        button.btn.btn-primary.btn-large#content(ng-click="submit()", ng-disabled="submitted") Submit
         span(ng-show="submitErrorMessage") {{submitErrorMessage}}
