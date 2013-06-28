@@ -20,7 +20,7 @@ function TopBarCtrl($scope, $location, resourceDialog) {
                 $location.path('/wiki/' + result.id);
                 break;
             case 'Resource':
-                $location.path('/concept/' + result.id);
+                $location.path('/concept/' + result.KN_ID);
                 break;
         }
     });
@@ -860,6 +860,7 @@ function SearchBoxCtrl($scope, $http, hybridSearch) {
                     break;
                 default: // Resource
                     $scope.$emit('searchResultSelected', {
+                        id: result.id,
                         KN_ID: result.id,
                         title: result.text,
                         type: 'Resource'
