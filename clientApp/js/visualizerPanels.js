@@ -17,11 +17,13 @@ PanelsHandler = {
     initPanels: function(){
         this.layout =  $("#mapLayoutContainer").layout({
             defaults: {
+                togglerLength_open: "100%",
                 fxName: "slide",
                 fxSpeed: "slow",
                 spacing_closed: 14,
                 initClosed: true,
                 livePaneResizing: true
+
             },
 
 
