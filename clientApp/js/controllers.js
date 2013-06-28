@@ -62,7 +62,7 @@ function AddUserCtrl($scope, $http, $location) {
 AddUserCtrl.$inject = ['$scope', '$http', '$location'];
 
 
-function LoginCtrl($scope, $http, $location, $rootScope) {
+function LoginCtrl($scope, $http, $location, $rootScope, $window) {
     $scope.loginForm = {};
 
     $scope.performLogin = function () {
@@ -72,11 +72,11 @@ function LoginCtrl($scope, $http, $location, $rootScope) {
                     return $scope.loginerror = true;
                 }
                 $rootScope.user = data;
-                return $location.path('/conceptList');
+                $window.history.back();
             });
     };
 }
-LoginCtrl.$inject = ['$scope', '$http', '$location'];
+LoginCtrl.$inject = ['$scope', '$http', '$location', '$rootScope', '$window'];
 
 
 function LogoutCtrl($http, $location, $rootScope) {
