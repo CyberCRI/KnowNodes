@@ -1,6 +1,6 @@
 'use strict';
 
-function TopBarCtrl($scope, $location, $dialog) {
+function TopBarCtrl($scope, $location, resourceDialog) {
 
     $scope.$on('$routeChangeSuccess', function (event, current, previous) {
         var path = $location.path().split('/')[1];
@@ -14,7 +14,7 @@ function TopBarCtrl($scope, $location, $dialog) {
         event.stopPropagation();
         switch (result.type) {
             case 'Create Resource':
-                openCreateResourceDialog();
+                openResourceDialog();
                 break;
             case 'Wikipedia Article':
                 $location.path('/wiki/' + result.id);
@@ -25,18 +25,10 @@ function TopBarCtrl($scope, $location, $dialog) {
         }
     });
 
-    var openCreateResourceDialog = function () {
-        var options = {
-            backdrop: true,
-            dialogFade: true,
-            backdropFade: true,
-            templateUrl: 'partials/directiveTemplates/createResourceDialog',
-            controller: 'CreateResourceDialogCtrl'
-        };
-        var dialog = $dialog.dialog(options);
-        dialog.open().then(function (result) {
-            if (result) {
-                $location.path('/concept/' + result.KN_ID);
+    var openResourceDialog = function () {
+        resourceDialog.open().then(function (createdResource) {
+            if (createdResource) {
+                $location.path('/concept/' + createdResource.KN_ID);
             }
         });
     };
@@ -46,7 +38,7 @@ function TopBarCtrl($scope, $location, $dialog) {
         $scope.resourceId = result;
     });
 }
-TopBarCtrl.$inject = ['$scope', '$location', '$dialog'];
+TopBarCtrl.$inject = ['$scope', '$location', 'resourceDialog'];
 
 
 function CreateResourceDialogCtrl($scope, dialog, resource) {
@@ -58,10 +50,10 @@ function CreateResourceDialogCtrl($scope, dialog, resource) {
     };
 
     $scope.submit = function () {
-        resource.create($scope.resourceToCreate).then(function (resource) {
-            dialog.close(resource);
+        resource.create($scope.resourceToCreate).then(function (createdResource) {
+            dialog.close(createdResource);
         });
-    }
+    };
 }
 CreateResourceDialogCtrl.$inject = ['$scope', 'dialog', 'resource'];
 
@@ -700,7 +692,7 @@ function WikipediaArticleCtrl($scope, $routeParams, wikipedia) {
 WikipediaArticleCtrl.$inject = ['$scope', '$routeParams', 'wikipedia'];
 
 
-function KnownodeInputCtrl($scope, $q, $location, wikinode, resource, connection) {
+function KnownodeInputCtrl($scope, $rootScope, $q, $route, resourceDialog, wikinode, resource, connection) {
 
     var targetResource;
 
@@ -710,19 +702,36 @@ function KnownodeInputCtrl($scope, $q, $location, wikinode, resource, connection
         return $scope.connectionTitle != null && $scope.connectionTitle.length > 2
             && $scope.connectionType != 'Choose link type'
             && targetResource != null;
-    }
+    };
+
+    // TODO Remove hack caused by duplicate widgets in template
+    var isDialogOpen = false;
 
     $scope.$on('searchResultSelected', function (event, result) {
         event.stopPropagation();
-        targetResource = result;
-        $scope.targetResourceTitle = targetResource.title;
-        $('.target-resource-search-box').hide();
-        if (result.type === 'Create Resource') {
-            $scope.userGenNode = true;
+        if (result.type === 'Create Resource' && isDialogOpen === false) {
+            isDialogOpen = true;
+            openResourceDialog();
+        } else {
+            setOtherResource(result);
         }
     });
 
-    $scope.userGenNode = false;
+    var openResourceDialog = function () {
+        resourceDialog.open().then(function (createdResource) {
+            if (createdResource) {
+                setOtherResource(createdResource);
+                isDialogOpen = false;
+            }
+        });
+    };
+
+    var setOtherResource = function (otherResource) {
+        targetResource = otherResource;
+        $scope.targetResourceTitle = targetResource.title;
+        $('.target-resource-search-box').hide();
+    };
+
     $scope.connectionTitle = '';
     $scope.connectionType = 'Choose link type';
     $scope.dropText = 'Drop files here...';
@@ -734,54 +743,44 @@ function KnownodeInputCtrl($scope, $q, $location, wikinode, resource, connection
     };
 
     $scope.submit = function () {
-        if (!$scope.isFormValid()) return;
+        if ($rootScope.user == null) {
+            $scope.submitErrorMessage = "You should be logged in";
+            return;
+        }
+        if (!$scope.isFormValid()) {
+            // TODO Make the message more explicit
+            $scope.submitErrorMessage = "Invalid Form";
+            return;
+        }
         $scope.submitted = true;
         // TODO Handle case where connection direction is reversed
         // TODO Cleanup
-        // TODO Remove ugly copy & paste done in urgency for the LinkedUp competition
-        if ($scope.resourceToCreate.title.length > 1) {
-            if ($scope.concept.type === 'Wikipedia Article') {
-                // Get source wikinode and create connection
-                wikinode.getOrCreate($scope.concept.title).then(function (result) {
-                    $scope.concept = result.data.success;
-                    resource.create({knownodeForm: $scope.resourceToCreate}).then(function (resource) {
-                        createConnection($scope.concept.KN_ID, resource.KN_ID);
-                    });
+        if ($scope.concept.type === 'Wikipedia Article' && targetResource.type === 'Wikipedia Article') {
+            // Get both wikinodes and create connection
+            $q.all([wikinode.getOrCreate($scope.concept.title),
+                    wikinode.getOrCreate(targetResource.title)])
+                .then(function (results) {
+                    $scope.concept = results[0].data.success;
+                    targetResource = results[1].data.success;
+                    createConnection($scope.concept.KN_ID, targetResource.KN_ID)
                 });
-            } else {
-                resource.create({knownodeForm: $scope.resourceToCreate}).then(function (resource) {
-                    createConnection($scope.concept.KN_ID, resource.KN_ID);
-                });
-            }
-        } else {
-            if ($scope.concept.type === 'Wikipedia Article' && targetResource.type === 'Wikipedia Article') {
-                // Get both wikinodes and create connection
-                $q.all([wikinode.getOrCreate($scope.concept.title),
-                        wikinode.getOrCreate(targetResource.title)])
-                    .then(function (results) {
-                        $scope.concept = results[0].data.success;
-                        console.log(results);
-                        targetResource = results[1].data.success;
-                        createConnection($scope.concept.KN_ID, targetResource.KN_ID)
-                    });
-            } else if ($scope.concept.type === 'Wikipedia Article') {
-                // Get source wikinode and create connection
-                wikinode.getOrCreate($scope.concept.title).then(function (result) {
-                    $scope.concept = result.data.success;
-                    createConnection($scope.concept.KN_ID, targetResource.id);
-                });
-            }
-            else if (targetResource.type === 'Wikipedia Article') {
-                // Get target wikinode and create connection
-                wikinode.getOrCreate(targetResource.title).then(function (result) {
-                    targetResource = result.data.success;
-                    createConnection($scope.concept.KN_ID, targetResource.KN_ID);
-                });
-            } else {
-                createConnection($scope.concept.KN_ID, targetResource.id)
-            }
+        } else if ($scope.concept.type === 'Wikipedia Article') {
+            // Get source wikinode and create connection
+            wikinode.getOrCreate($scope.concept.title).then(function (result) {
+                $scope.concept = result.data.success;
+                createConnection($scope.concept.KN_ID, targetResource.KN_ID);
+            });
         }
-    }
+        else if (targetResource.type === 'Wikipedia Article') {
+            // Get target wikinode and create connection
+            wikinode.getOrCreate(targetResource.title).then(function (result) {
+                targetResource = result.data.success;
+                createConnection($scope.concept.KN_ID, targetResource.KN_ID);
+            });
+        } else {
+            createConnection($scope.concept.KN_ID, targetResource.KN_ID)
+        }
+    };
 
     var createConnection = function (currentResource, otherResource) {
         var sourceId, targetId;
@@ -794,15 +793,15 @@ function KnownodeInputCtrl($scope, $q, $location, wikinode, resource, connection
         }
         connection.create(sourceId, $scope.connectionTitle, $scope.connectionType, targetId)
             .success(function (data, status) {
-                $location.path('/concept/' + sourceId);
+                $route.reload();
             })
             .error(function (data, status) {
                 console.log('Connection creation failed with error : ' + status);
                 console.log('Error message : ' + data.message);
             });
-    }
+    };
 }
-KnownodeInputCtrl.$inject = ['$scope', '$q', '$location', 'wikinode', 'resource', 'connection'];
+KnownodeInputCtrl.$inject = ['$scope', '$rootScope', '$q', '$route', 'resourceDialog', 'wikinode', 'resource', 'connection'];
 
 
 function SearchBoxCtrl($scope, $http, hybridSearch) {
@@ -829,7 +828,7 @@ function SearchBoxCtrl($scope, $http, hybridSearch) {
         formatResult: function movieFormatResult(node) {
             var markup = "<table class='suggestion'><tr>";
 
-            if (node.type=== 'Create Resource') {
+            if (node.type === 'Create Resource') {
                 markup += "<td class='suggestion-info'><div class='suggestion-title create-resource'>" + node.text + "</div></td>";
             } else {
                 markup += "<td class='suggestion-info'><div class='suggestion-title'>" + node.text + "</div></td>";
@@ -840,7 +839,7 @@ function SearchBoxCtrl($scope, $http, hybridSearch) {
             markup += "</tr></table>"
             return markup;
         }
-    }
+    };
 
     $scope.$watch('selectedResult', function () {
         if (isResultSelected()) {
@@ -848,7 +847,6 @@ function SearchBoxCtrl($scope, $http, hybridSearch) {
             switch (result.type) {
                 case 'Create Resource':
                     $scope.$emit('searchResultSelected', {
-                        id: 'create_resource',
                         title: 'Create Resource',
                         type: 'Create Resource'
                     });
@@ -862,7 +860,7 @@ function SearchBoxCtrl($scope, $http, hybridSearch) {
                     break;
                 default: // Resource
                     $scope.$emit('searchResultSelected', {
-                        id: result.id,
+                        KN_ID: result.id,
                         title: result.text,
                         type: 'Resource'
                     });
