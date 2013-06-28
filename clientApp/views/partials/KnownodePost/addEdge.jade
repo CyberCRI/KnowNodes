@@ -1,0 +1,52 @@
+#addKnownodeStepEdge
+  div.well.span11
+    h3 (2) Specify the relationship
+    label Make the connection understandable by forming it as a full sentence.
+    label First choose the connection type and then fill the text field with specifics.
+    div.bs-docs-example
+      code.text-center Charles Darwin
+
+      div.input-prepend
+        div.btn-group
+          a.btn.disabled(href="javascript:void(0);", style="color:rgb(113, 117, 119);") &nbsp;contributed to
+            span.caret(style="float:left;")
+        span.uneditable-input.span7 laying the foundations of
+
+      p
+        code Evolution theory
+    h3 Your turn:
+
+    a.btn.reverse-direction.dissapear(ng-hide="reversedDirection", ng-click="reversedDirection=true", title="reverse connection direction")
+      i.icon-arrow-up
+      i.icon-arrow-down
+    a.btn.reverse-direction.dissapear(ng-show="reversedDirection", ng-click="reversedDirection=false", title="reverse connection direction")
+      i.icon-arrow-down
+      i.icon-arrow-up
+    span
+      span(ng-show="reversedDirection")
+        code(ng-hide="form.knownodeForm.title") [Target resource]
+        code(ng-show="form.knownodeForm.title") {{form.knownodeForm.title}}
+      span(ng-hide="reversedDirection")
+        code {{concept.title}}
+    p(edge-type-selector)
+
+    a.btn.reverse-direction.dissapear(ng-hide="reversedDirection", ng-click="reversedDirection=true", title="reverse connection direction")
+      i.icon-arrow-up
+      i.icon-arrow-down
+    a.btn.reverse-direction.dissapear(ng-show="reversedDirection", ng-click="reversedDirection=false", title="reverse connection direction")
+      i.icon-arrow-down
+      i.icon-arrow-up
+    span
+      span(ng-hide="reversedDirection")
+        code(ng-hide="form.knownodeForm.title") [Target resource]
+        code(ng-show="form.knownodeForm.title") {{form.knownodeForm.title}}
+      span(ng-show="reversedDirection")
+        code {{concept.title}}
+
+    p
+      label(for='bodyText') Body: Additional thoughts and information about the connection go here&nbsp;&nbsp;(optional):
+
+      textarea(ui-tinymce, ng-model='form.knownodeRelation.bodyText', name='bodyText', rows='5', ng-maxlength='2000', data-trigger="focus", data-unique="1").span11
+
+
+            //label(for='title') Title: in one sentence: How is connected to {{concept.title}}?

@@ -4,6 +4,10 @@
         GoogleStrategy = require('passport-google').Strategy,
         LocalStrategy = require('passport-local').Strategy,
 
+        emailConf = require('./email.conf'),
+        nodemailer = require('nodemailer'),
+
+        LOG = require('../modules/log'),
         DB = require('../DB/knownodeDB'),
 
         basicURL = 'http://www.knownodes.com/',
@@ -13,24 +17,24 @@
         FACEBOOK_APP_SECRET = "6e3e885f57d1eaaca309509a7e86479a";
 
     function findByEmail(email, profile, fn) {
-        DB.User.all({ where: { email: email }}, function(err, user) {
-            if(err) {
+        DB.User.all({ where: { email: email }}, function (err, user) {
+            if (err) {
                 return fn(err, profile);
             }
             return fn(err, user[0]);
         });
     }
 
-    exports.ensureAuthenticated = function(req, res, next) {
+    exports.ensureAuthenticated = function (req, res, next) {
         if (req.isAuthenticated()) { return next(); }
-        res.redirect('/login')
-    }
+        res.redirect('/login');
+    };
 
     exports.initializePassport = function () {
 
         passport.serializeUser(function (user, done) {
             done(null, user);
-         });
+        });
 
         passport.deserializeUser(function (id, done) {
             /*
@@ -46,12 +50,14 @@
 
 
         passport.use(new LocalStrategy(
-            function(email, password, done) {
+            function (email, password, done) {
                 process.nextTick(function () {
                     findByEmail(email, null, function (err, user) {
                         if (err) { return done(err); }
                         if (!user) { return done(null, false); }
-                        if (user.password != password) { return done(null, false); }
+                        if (user.password !== password) { return done(null, false); }
+
+
                         return done(null, user);
                     });
                 });
@@ -65,9 +71,13 @@
             },
 
             function (accessToken, refreshToken, profile, done) {
-                if(profile.emails && profile.emails.length > 0){
-                    findByEmail(profile.emails[0], profile, function(err, user){
-                        if(err)
+                var prof = JSON.stringify(profile),
+                    logger = new LOG();
+                logger.logActivity('facebook profile', prof);
+
+                if (profile.emails && profile.emails.length > 0) {
+                    return findByEmail(profile.emails[0].value, profile, function (err, user) {
+                        if (err)
                         {
                             return DB.User.create({
                                 email: user.emails[0].value,
@@ -95,7 +105,7 @@
                     profile.identifier = identifier;
 
                     if(profile.emails && profile.emails.length > 0){
-                        findByEmail(profile.emails[0].value, profile, function(err, user){
+                        return findByEmail(profile.emails[0].value, profile, function(err, user){
                             if(err)
                             {
                                 return DB.User.create({
@@ -123,5 +133,5 @@
                 });
             }
         ));
-    }
+    };
 }).call(this);

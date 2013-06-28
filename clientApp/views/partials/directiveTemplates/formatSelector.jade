@@ -1,0 +1,10 @@
+div.resourceInput
+  form.form-horizontal.span12.offset1(method="post", enctype="multipart/form-data", ng-submit='submitPost(this)')
+    ul.nav.nav-tabs(id="createResourceTabs_{{resourceDirection}}")
+      li(ng-repeat="res in resourceFormats", ng-class='{active: $index==0 }')
+        a(ng-href='\#{{resourceDirection}}_{{res}}', data-toggle='tab') {{res}}
+
+    .tab-content
+      include ../addKnownode/createResource_Text
+      include ../addKnownode/createResource_File
+      include ../addKnownode/createResource_URL

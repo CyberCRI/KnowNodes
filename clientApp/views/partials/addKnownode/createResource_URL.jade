@@ -1,0 +1,18 @@
+div.tab-pane(id='{{resourceDirection}}_URL')
+  div.control-group
+    label.control-label(for="URL").span2 URL
+  div.controls
+    input(type="text", id="URL", placeholder="Paste URL here", ng-model='form.knownodeForm.url', name='url', required, autofocus).span9
+  div.control-group
+    label.control-label(for="title").span2 Title
+    div.controls
+      input(type="text", id="title", placeholder="Enter title here", ng-model='form.knownodeForm.title', ngMaxlength='255', name='title', required, autofocus).span9
+  div.control-group
+    label.control-label(for="body").span2 Body
+    div.controls
+      textarea(rows="2", id="body", placeholder="Enter additional text here(optional)", ng-model='form.knownodeForm.bodyText', name='bodyText', required, autofocus).span9
+  div.control-group
+    div.controls
+      button.btn.knowledgeButton.pull-right.span3(ng-click="showKnowledgeDomain= toggleKnowledgeDomain('show')") Choose domain
+      resource-type-selector
+      knowledge-domain-selector

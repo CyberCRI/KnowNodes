@@ -1,0 +1,14 @@
+div.connectionInput.span13
+  div.map.span1
+    img.edgeBlock(src="img/edgeBlock.png")
+  div.span12
+    include connectionDropdown
+    label.control-label(for="connectionTitle").span2 Title
+    div.controls
+      input(type="text", id="connectionTitle", placeholder="How are they connected?").span9
+    label.control-label(for="connectionBody").span2 In more detail
+    div.controls
+      textarea(rows="2", id="connectionBody", placeholder="Enter additional text here(optional)").span9
+    div.span12
+
+

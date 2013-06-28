@@ -28,32 +28,21 @@ var kn_UserGroup = exports.UserGroup = schema.define('UserGroup', {
     title:          { type: String, length: 255 }
 });
 
-var kn_University = exports.University = schema.define('kn_University', {
-    KN_ID :        { type: String, length: 36, default: GUID },
-    __CreatedOn__:  { type: Date,    default: Date.now },
-
-    title:          { type: String, length: 255 }
-});
-
-var kn_Lab  = exports.Lab = schema.define('kn_Lab', {
-    KN_ID :        { type: String, length: 36, default: GUID },
-    __CreatedOn__:  { type: Date,    default: Date.now },
-
-    title:          { type: String, length: 255 }
-});
-
 var kn_User  = exports.User = schema.define('kn_User', {
-    KN_ID :        { type: String, length: 36, default: GUID },
+    KN_ID :        { type: String, length: 36, default: GUID, index: true },
     __CreatedOn__:  { type: Date,    default: Date.now },
 
-    email:          { type: String, length: 255 },
+    email:          { type: String, length: 255, index: true },
     firstName:      { type: String, length: 255 },
     lastName:       { type: String, length: 255 },
     password:       { type: String, length: 255},
     gender:         { type: String, length: 1 },
     dateOfBirth:    { type: Date },
 
-    origin:         { type: String, length: 50 }
+    origin:         { type: String, length: 50 },
+
+    connectionGUID:     { type: String, length: 36, index: true },
+    lastConnectionDate: { type: Date }
 });
 
 kn_User.prototype.displayName = function() {
@@ -61,51 +50,56 @@ kn_User.prototype.displayName = function() {
 };
 
 var kn_Tag = exports.Tag = schema.define('kn_Tag', {
-    KN_ID :        { type: String, length: 36, default: GUID },
+    KN_ID :        { type: String, length: 36, default: GUID, index: true },
     __CreatedOn__:  { type: Date,    default: Date.now },
 
     title:          { type: String, length: 255 }
 });
 
 var kn_KnowledgeDomain = exports.KnowledgeDomain = schema.define('kn_KnowledgeDomain', {
-    KN_ID :        { type: String, length: 36, default: GUID },
+    KN_ID :        { type: String, length: 36, default: GUID, index: true },
     __CreatedOn__:  { type: Date,    default: Date.now },
 
     title:          { type: String, length: 255 }
 });
 
 var kn_ConnectionType = exports.ConnectionType = schema.define('ConnectionType', {
-    KN_ID :        { type: String, length: 36, default: GUID },
+    KN_ID :        { type: String, length: 36, default: GUID, index: true },
     __CreatedOn__:  { type: Date,    default: Date.now },
 
     title:          { type: String, length: 255 }
 });
 
 var kn_Post = exports.Post = schema.define('kn_Post', {
-    KN_ID :        { type: String, length: 36, default: GUID },
+    KN_ID :        { type: String, length: 36, default: GUID, index: true },
     __CreatedOn__:  { type: Date,    default: Date.now },
 
-    title:          { type: String, length: 255 },
-    url:            { type: String, length: 2000 },
+    title:          { type: String, length: 350 },
+    url:            { type: String, length: 2000, index: true },
     bodyText:       { type: Schema.Text },
-    fileId:         { type: Number },
-    postType:       { type: String, length: 50 },
-    active:         { type: Boolean, default: true, index: true }
+    postType:       { type: String, length: 50, index: true },
+    active:         { type: Boolean, default: true, index: true },
+
+    fileId:         { type: String, length: 255 },
+    fileName:       { type: String, length: 255 },
+    fileData:       { type: String, length: 2000 }
 });
 
 var kn_Edge = exports.Edge = schema.define('kn_Edge', {
-    KN_ID :        { type: String, length: 36, default: GUID },
-    __CreatedOn__:  { type: Date, default: Date.now },
+    KN_ID :        { type: String, length: 36, default: GUID, index: true },
+    __CreatedOn__:  { type: Date, default: Date.now, index: true },
 
     title:          { type: String, length: 255 },
-    bodyText:        { type: String, length: 2000 },
+    bodyText:        { type: Schema.Text },
     connectionType: { type: String, length: 255 },
+    fromNodeId:     { type: String, length: 20, index: true },
+    toNodeId:       { type: String, length: 20, index: true },
 
     active:         { type: Boolean, default: true, index: true }
 });
 
 var kn_Comment = exports.Comment = schema.define('kn_Comment', {
-    KN_ID :        { type: String, length: 36, default: GUID },
+    KN_ID :        { type: String, length: 36, default: GUID, index: true },
     __CreatedOn__:  { type: Date,    default: Date.now },
 
     title:          { type: String, length: 255 },
@@ -133,7 +127,7 @@ kn_User.validatesPresenceOf('email', 'firstName', 'lastName');
 kn_User.validatesUniquenessOf('email', {message: 'email is not unique'});
 //kn_User.validatesLengthOf('password', {min: 5, message: {min: 'Password is too short'}});
 
-kn_Post.validatesPresenceOf('title', 'bodyText');
+kn_Post.validatesPresenceOf('title');
 
 
 // DAL Methods

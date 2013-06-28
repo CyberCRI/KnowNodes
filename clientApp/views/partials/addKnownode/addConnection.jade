@@ -1,0 +1,18 @@
+div.addConnection.row.hide(ng-class="showtoggle", ng-controller="AddPostCtrl")
+  div.inputMenu.span13
+    h3.inputHeader Add knownode
+      a(href="javascript:void(0);", ng-click="showtoggle= toggle('show')").pull-right
+        i.icon-remove
+      div.lineSeperator
+    .movingEdge.span13
+      img(src="img/nodeGrey.png").span1
+      format-selector(direction="from")
+    .map.span1
+    .movingEdge.left-align.span12
+      include createEdge
+    .map.span1
+      img(src="img/nodeGrey.png")
+    format-selector(direction="to")
+
+    div.span12
+      button.btn.btn-success.pull-right.submitKnownode Submit EVERYTHING

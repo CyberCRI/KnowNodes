@@ -1,0 +1,683 @@
+@title-c: #59688B;
+@background-c: #F7F7F8;
+@body-c: #717577;
+@knownode-border-c: #CECFD1;
+@opposed-c: #DF1F25;
+@opposed-font-c: white;
+@biology-c: #62A265;
+@border-connection-c: #808B99;
+@create-node-c : #BFBFBF;
+@create-node-backg-c :#F6F6F6;
+@moving-edge: #B0B3B3;
+@hover: #27bdc3;
+@link-color: rgb(33, 57, 131);
+@body-background: #f1eeee;
+@connection-background: rgb(235, 234, 247);
+@dehiglighted:#BCBBBB;
+@titleSize: 1.2em;
+//mixins
+
+
+.background-color{
+background: @body-background;
+}
+
+.invertedBox(@box-color) {
+  float:right;
+  margin-top: 0px;
+  padding-left:5px;
+  padding-right:5px;
+  color: @opposed-font-c;
+  background-color: @box-color;
+  border: solid 1px @box-color;
+  border-radius: 3px;
+  .box-sizing(border-box);
+}
+
+.box-sizing(border-box) {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+//#base - common styles and variables to be used across the entire website
+
+body a {
+  font-size: 14;
+}
+
+
+
+//###############components - styles for specific user interface elements
+
+//use .clicker and .popup to create interactive popup menus
+
+html, body {
+  height: 100%;
+}
+
+.fill {
+  min-height: 100%;
+  position:relative;
+}
+
+.filler::after {
+  background-color: inherit;
+  bottom: 0;
+  content: "";
+  right: 0;
+  position: absolute;
+  top: 0;
+  width: inherit;
+  z-index: -1;
+}
+
+
+.clicker {
+  position:relative;
+}
+
+.tab-content{
+  padding: 0;
+  margin: 0;
+
+}
+
+.tab-pane {
+  background-color: @create-node-backg-c;
+  padding-top: 0;
+  margin: 0;
+  -webkit-border-radius: 10px;
+}
+
+.tab-content {
+  overflow: hidden;
+}
+
+.buttonActive {
+  border: solid 2px black;
+}
+
+#toggleText2 {
+  position: absolute;
+  right:0px;
+}
+
+.addButton{
+  display: relative;
+}
+
+//#########Modules - styles for different sections of a page,
+
+h3.subheader{
+  margin-top: 0px;
+  text-align: center;
+}
+
+.mainSubject{
+    display:inline;
+}
+
+
+div#logo {
+  float:left;
+  left:50px;
+}
+img#logo {
+  width:150px;
+}
+
+#github{
+  position:absolute;
+  display: inline;
+  down: 11px;
+  right: 2%;
+}
+span.login {
+  width:50px;
+  float:left;
+  margin-left: 40px;
+  margin-top: 11px;
+}
+
+.info {
+  width: 150px;
+  float: left;
+  margin-top: 11px;
+  &:hover {
+    color: @hover;
+  }
+}
+
+.lineSeperator{
+  margin-bottom: 2px;
+  vertical-align: top;
+  height:1px;
+  background: #CBCBCD;
+  border-bottom:1px solid rgba(173, 174, 177, 0.29);
+  .box-sizing(border-box);
+  #headerLine {
+    margin:10px;
+  }
+}
+.with-margin{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.headerLine{
+  vertical-align: top;
+  height:1px;
+  border-bottom:1px solid rgba(173, 174, 177, 0.29);
+
+}
+
+
+.knownode {
+//  border: 1px solid @knownode-border-c;
+  padding:10px;
+  margin-left:5px;
+  margin-bottom: 40px;
+  border-radius: 15px;
+//  height: 380px;
+  .box-sizing(border-box);
+
+    .resourcecontent {
+      background-color:white;
+//      padding:8px;
+      padding-bottom: 0px;
+      .box-sizing(border-box);
+      margin-left: 5px;
+
+      h5.title {
+        color: @title-c;
+        margin-top: 0px;
+        padding-top: 0px;
+      }
+
+      img {
+        vertical-align: bottom;
+      }
+      .knowledgeDomain, .resourceType{
+        float:right;
+        margin-top: 0px;
+        padding-top: 0px;
+      }
+      .knowledgeDomain {
+        .invertedBox(@biology-c);
+      //background:@biology-c;
+      //color:white;
+
+      }
+
+    }
+
+  }
+
+    .connection {
+      margin-left: 0px;
+      background: @connection-background;
+      .map {
+        img{ float:right;}
+
+      .edge-map-icon {
+        position:relative;
+        top:10px;
+        float:left;
+      }
+        }
+      div.content {
+        padding:8px;
+        border-radius: 7px;
+
+        .box-sizing(border-box);
+        margin-left:0px;
+
+        h5.title {
+          color: @title-c;
+          margin-top: 0px;
+          padding-top: 0px;
+        }
+
+
+          .connection-type {
+          .invertedBox(@biology-c);
+            float:left;
+          }
+
+          .infoLine {float:right;
+            margin-left:0px;
+            margin-top: 3px;
+            padding-top: 0px;
+            font-style:italic;
+            font-size: 0.75em;
+            .box-sizing(border-box);
+          }
+        }
+      }
+      .buttons{ }
+
+.node-count{
+  color: @dehiglighted;
+}
+//addIcon
+.add {
+  float:left;
+}
+
+.addConnection{
+  z-index: 10;
+  bottom:0;
+  position:fixed;
+  left: 50%;
+  .inputMenu{background:white;
+    height:650px;
+    padding:10px;
+    border: 1px solid @border-connection-c;
+    -webkit-border-radius: 10px;
+    .box-sizing(border-box);
+  }
+
+  legend h4{
+     color: #ffffff;
+     float: left;
+     display: block;
+     background-color: @create-node-c;
+     padding-left: 5px;
+     padding-right: 5px;
+     padding-top: 3px;
+     padding-bottom: 3px;
+     margin-left:30px;
+     -webkit-border-radius: 4px;
+  }
+  .connectionInput{
+    //background-color: blue;
+    margin-left: 0;
+    margin-top: 18px;
+    margin-bottom: 18px;
+  }
+
+  .resourceInput{
+  }
+  textarea{
+    //background-color: green;
+    border-right: solid, 5px;
+  }
+
+.map{
+  padding: 0;
+  margin: 0;
+  margin-top: 2px
+}
+}
+.connectionWrapper{
+  padding: 0;
+  margin-left:3px;
+  .box-sizing(border-box);
+//  background-color: pink;
+  //border: solid 3px;
+}
+.connectionForm {
+  background-color: @create-node-backg-c;
+  -webkit-border-radius: 10px;
+  margin-top: 37px;
+  margin-bottom: 0;
+  padding-left: 0;
+  margin-left: 0;
+}
+
+.nodeTree{
+  width: 20px;
+  height: 200px;
+  //background-color: orange;
+}
+
+
+.testRelative {
+  position:relative;
+  z-index: 1;
+
+}
+
+button.knowledgeButton{
+ color: white;
+ font-style: none;
+ width:93px;
+ background:@create-node-c;
+ padding: 0px;
+ margin-right: 0px;
+ border-radius: 4px;
+ text-shadow:none;
+ .box-sizing(border-box);
+ &:hover {
+   color: #f5f5f5;
+   text-decoration: none;
+   font-style: none;
+   width:93px;
+   background:@create-node-c;
+   padding: 0px;
+   margin-right: 0px;
+   border-radius: 4px;
+   text-shadow:none;
+   .box-sizing(border-box);
+ }
+}
+
+.edgeBlock {
+  margin-top: 4px;
+  .box-sizing(border-box);
+}
+
+.buttonhack {
+  position: relative;
+  right: -2%;
+  top: -1px;
+  width: 13px;
+  margin-left:0;
+}
+
+.map {
+  margin-top:4px;
+  .box-sizing(border-box);
+  margin-left:0px;
+
+}
+
+#content {
+  margin-left: 0px;
+}
+
+.left-align {
+  margin-left:0px;
+}
+
+.active-red {
+  color:@opposed-c;
+}
+
+.btn-link:hover {
+  color:@hover;
+  text-decoration:none;
+}
+.sort:hover {
+  color: #717577;
+  text-decoration:none;
+  cursor:default;
+}
+
+.hide{
+  display:none;
+}
+.show{
+  display:block;
+}
+
+.tab-content {
+  height: 125px;
+}
+
+.icon-remove {
+  background-image: url("/img/glyphicons-halflings.png");
+}
+
+.inputHeader{
+  margin: 0;
+  line-height: 30px;
+}
+
+.nav-tabs {
+  max-width: 90%;
+  &:hover {font: @opposed-c}
+}
+
+.control-group{
+  margin-bottom: 0;
+}
+
+.control-label{
+  margin-top:5px;
+}
+
+.submitKnownode{
+  position:absolute;
+  bottom: 2%;
+  right:  3%;
+}
+
+.shortKnownode {
+//  height: 200px;
+}
+
+img.inputPopup{
+  float:left;
+  margin-top:6px;
+}
+
+.hover:hover {
+  color: @hover;
+}
+
+.hero-unit{
+  color: rgb(70, 70, 70);
+}
+
+.dropbox {
+  border: 2px solid #DDD;
+  border-radius: 8px;
+  background-color: #FEFFEC;
+  text-align: center;
+  color: #BBB;
+}
+
+.hello-user {
+  width:none;
+  float: left;
+  margin-top: 11px;
+  margin-left: 50px;
+}
+
+.knownode-title {
+  font-size:  @titleSize;
+}
+
+div.knownode-body {
+  font-size: 1em;
+  max-width: 35em;
+
+//  height: 100px;                 /* fixed height */
+//  -o-text-overflow: ellipsis;   /* Opera */
+//  text-overflow:    ellipsis;   /* IE, Safari (WebKit) */
+//  white-space: normal;
+//  overflow:hidden;              /* don't show excess chars */
+//  //&:after { content:"..."; }
+}
+
+img.open-in-new-window {
+  margin-bottom:2px;
+}
+
+.ellipsis(@body-height:10em, @bk-color:@background-c){
+
+  overflow:hidden;
+  height: @body-height;
+  width: 100%;
+
+  &:before {
+    content: "";
+    float: left;
+    height:@body-height;
+    width:5px;
+    }
+
+  & > *:first-child {
+    width: 100%;
+    float: right;
+    margin-left: -5px; }
+
+  &:after {
+    content: "\02026";
+    box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    float:right;
+    position: relative;
+    width: 6em;
+    top: -1.5em;
+    left: 100%;
+    margin-left: -6em;
+    padding-right: 5px;
+    text-align: right;
+    font-size: 1em;
+    background-size: 100% 100%;
+  /* 512x1 image, gradient for IE9. Transparent at 0% -> white at 50% -> white at 100%.*/
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAABCAMAAACfZeZEAAAABGdBTUEAALGPC/xhBQAAAwBQTFRF////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////AAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////wDWRdwAAAP90Uk5TgsRjMZXhS30YrvDUP3Emow1YibnM9+ggOZxrBtpRRo94gxItwLOoX/vsHdA2yGgL8+TdKUK8VFufmHSGgAQWJNc9tk+rb5KMCA8aM0iwpWV6dwP9+fXuFerm3yMs0jDOysY8wr5FTldeoWKabgEJ8RATG+IeIdsn2NUqLjQ3OgBDumC3SbRMsVKsValZplydZpZpbJOQco2KdYeEe36BDAL8/vgHBfr2CvTyDu8R7esU6RcZ5ecc4+Af3iLcJSjZ1ivT0S/PMs3LNck4x8U7wz7Bv0G9RLtHuEq1TbJQr1OtVqqnWqRdoqBhnmSbZ5mXapRtcJGOc4t2eYiFfH9AS7qYlgAAARlJREFUKM9jqK9fEGS7VNrDI2+F/nyB1Z4Fa5UKN4TbbeLY7FW0Tatkp3jp7mj7vXzl+4yrDsYoVx+JYz7mXXNSp/a0RN25JMcLPP8umzRcTZW77tNyk63tdprzXdmO+2ZdD9MFe56Y9z3LUG96mcX02n/CW71JH6Qmf8px/cw77ZvVzB+BCj8D5vxhn/vXZh6D4uzf1rN+Cc347j79q/zUL25TPrJMfG/5LvuNZP8rixeZz/mf+vU+Vut+5NL5gPOeb/sd1dZbTs03hBuvmV5JuaRyMfk849nEM7qnEk6IHI8/qn049hB35QGHiv0yZXuMdkXtYC3ebrglcqvYxoj1muvC1nDlrzJYGbpcdHHIMo2FwYv+j3QAAOBSfkZYITwUAAAAAElFTkSuQmCC);
+    background: -webkit-gradient(linear, left top, right top,
+    from(rgba(255, 255, 255, 0)), to(@bk-color), color-stop(50%, @bk-color));
+    background: -moz-linear-gradient(to right, rgba(255, 255, 255, 0), @bk-color 50%, @bk-color);
+    background: -o-linear-gradient(to right, rgba(255, 255, 255, 0), @bk-color 50%, @bk-color);
+    background: -ms-linear-gradient(to right, rgba(255, 255, 255, 0), @bk-color 50%, @bk-color);
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), @bk-color 50%, @bk-color);
+  }
+}
+
+.ellipsis-concept {
+  .ellipsis(20em);
+}
+
+.ellipsis-node {
+  .ellipsis(3em);
+}
+
+.ellipsis-edge {
+  .ellipsis(3em, @connection-background);
+}
+
+.ellipsis-title {
+  .ellipsis(3em, @connection-background);
+}
+
+.btn:focus {
+  outline: none;
+}
+
+#example-dropdown:hover {
+  color:none;
+}
+
+.bs-docs-example
+{
+  position: relative;
+  margin: 15px 0;
+  padding: 39px 19px 14px;
+  background-color: white;
+  border: 1px solid #DDD;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+
+  &::after {
+    content: "Example";
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: bold;
+    background-color: #9DA0A4;
+    border: 1px solid #DDD;
+    color: #F5F5F5;
+    -webkit-border-radius: 4px 0 4px 0;
+    -moz-border-radius: 4px 0 4px 0;
+    border-radius: 4px 0 4px 0;
+  }
+}
+
+  .connection-type {
+    .invertedBox(@biology-c);
+    float:none;
+  }
+
+#dropbox {
+  height:6em;
+}
+
+.accordion-title {
+  width: 50%;
+  background: white;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: @titleSize;
+}
+
+.accordion-node {
+  padding:0;
+  margin-bottom: 0px;
+  background: white;
+  border: none;
+  z-index: 10;
+}
+
+.deamphesize {
+  font-weight:normal;
+}
+
+a {
+  color: @link-color;
+}
+
+.titleIcon {
+  margin-left: 0.5em;
+}
+
+.edge-page-node-title{
+  font-weight: bold;
+  font-size: @titleSize;
+}
+
+.reverse-direction{
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.dissapear{
+  opacity:0;
+}
+
+.dropdown-menu li > a.explain:hover{
+  color:#1C75BC;
+}
+
+.dropdown-menu li > a.inspire:hover{
+  color:#FFDE17;
+}
+
+.dropdown-menu li > a.question:hover{
+  color:#39B54A;
+}
+
+div.explain {
+  background: #A4C8E4;
+}
+
+div.inspire {
+  background:#FFF2A2;
+}
+
+div.question {
+  background:#B0E1B7;
+}
+
+div.auto-generated {
+  background: #d3d3d3;
+}
+
+.input-node-box {
+  border:none;
+  width: 100%;
+  margin-top: 8px;
+  margin-right: 5px;
+}
+
+.footer {
+  background:white;
+}

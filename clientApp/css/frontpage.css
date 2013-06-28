@@ -1,0 +1,27 @@
+.frontpage__bg-image {
+  background-image: url("../img/bg-frontpage.jpg") !important;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.l-frontpage__center {
+  margin: 0 auto;
+  width: 50%;
+}
+.l-frontpage-title-setup {
+  position: absolute;
+  width: 100%;
+}
+.l-frontpage__title {
+  text-align: center;
+  font-size: 36px;
+  color: white;
+  margin-top: 4%;
+  padding: 3px;
+  text-align: none;
+}
+.frontpage__first-timer {
+  background-color: yellow;
+  text-align: center;
+  margin-top: 3em;
+  margin-bottom: 3em;
+}
