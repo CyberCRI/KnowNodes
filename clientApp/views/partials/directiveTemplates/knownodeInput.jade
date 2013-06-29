@@ -52,6 +52,5 @@ form(name="form", novalidate)
                             div(ng-bind-html-unsafe="concept.bodyText")
 
 
-    // Submit button
         button.btn.btn-primary.btn-large#content(ng-click="submit()", ng-disabled="submitted") Submit
         span(ng-show="submitErrorMessage") {{submitErrorMessage}}
