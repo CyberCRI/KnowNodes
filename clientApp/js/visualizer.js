@@ -2,6 +2,30 @@ var NODES_PER_PAGE = 6;
 
 var Renderer = {};
 
+
+/**
+ * Arbor manages location of nodes and length of edges in the graph
+ * Kinetic manages visual effects (tween, color, animation...)
+ *
+ * aNode, aEdge: arbor nodes and edges
+ * kNode: kinetic nodes
+ *
+ * Node contains:
+ *      pointer to aNode
+ *          which contains pointer to Node
+ *      pointer to kNode
+ *          which contains pointer to Node
+ *
+ * _Example use_
+ * node.data.aNode
+ * node.data.kNodePolygon
+ *
+ * aNode.data.node
+ * kNodePolygon.node
+ *
+ *
+ */
+
 Renderer.init = function(canvasId, resourceId, navigationListener){
     Renderer.engine.initParticleSystem();
     Renderer.canvas.init(canvasId);
@@ -292,22 +316,23 @@ Renderer.nodes.selectNode = function(node){
     PanelsHandler.layout.open("west");
 }
 
+//connection
 Renderer.Edge = function(from, to, data){
     this.fromNode = from;
     this.toNode = to;
     this.data = data;
     this.aEdge = Renderer.engine.particleSystem.addEdge(from.aNode, to.aNode, {edge: this});
-    this.kEdge = this.newLine(data.connectionType);
+    this.kConnectionGroup = this.newConnectionGroup(data.connectionType);
 
     this.bindEvents();
 };
 Renderer.Edge.prototype = {
     delete: function(){
-        this.kEdge.destroy();
+        this.kConnectionGroup.destroy();
         Renderer.engine.particleSystem.originalPruneEdge(this.aEdge);
         delete this;
     },
-    newLine: function(connectionType){
+    newConnectionGroup: function(connectionType){
         var color = "white";
         if (connectionType === "explain") {
             color = '#1C75BC';
@@ -319,19 +344,35 @@ Renderer.Edge.prototype = {
             color = "gray";
         }
 
-        var kEdge =  new Kinetic.Polygon({
+        var kConnectionGroup = new  Kinetic.Group({x:0, y:0});
+
+        kConnectionGroup.kArrow =  new Kinetic.Polygon({
             points: [0,0,0,0],
             stroke: color,
             strokeWidth: 2,
             fill: color
         });
-        kEdge.edge = this;
-        Renderer.edges.layer.add(kEdge);
-        return kEdge;
+        kConnectionGroup.kHoverRectangle = new Kinetic.Polygon({
+            points: [0,0,0,0],
+            stroke: "green",
+            strokeWidth: 2,
+            fill: "red"
+            //,visible: false
+        });
+
+        //first will be below the second
+        kConnectionGroup.add(kConnectionGroup.kHoverRectangle);
+        kConnectionGroup.add(kConnectionGroup.kArrow);
+
+        //TODO refactor
+        kConnectionGroup.kHoverRectangle.kArrow = kConnectionGroup.kArrow;
+
+        Renderer.edges.layer.add(kConnectionGroup);
+        return kConnectionGroup;
     },
     bindEvents: function(){
-        this.kEdge.on("mouseover", this.mouseOver);
-        this.kEdge.on("mouseout", this.mouseOut);
+        this.kConnectionGroup.kHoverRectangle.on("mouseover", this.mouseOver);
+        this.kConnectionGroup.kHoverRectangle.on("mouseout", this.mouseOut);
     },
     moveTo: function(pos1, pos2){
 
@@ -355,11 +396,31 @@ Renderer.Edge.prototype = {
 
         var points = generatePoints(pos1.x, pos1.y, pos2.x, pos2.y);
 
-        this.kEdge.setAttr('points',points);
+        this.kConnectionGroup.kArrow.setAttr('points',points);
+
+
+        function generateHoverRectangle(fromx, fromy, tox, toy){
+            var rectangleWidth = 30;
+            var angle = Math.atan2(toy-fromy,tox-fromx);
+
+            return [fromx, fromy
+                ,fromx+Math.sin(angle)*rectangleWidth/2, fromy-Math.cos(angle)*rectangleWidth/2
+                ,tox+Math.sin(angle)*rectangleWidth/2, toy-Math.cos(angle)*rectangleWidth/2
+                ,tox-Math.sin(angle)*rectangleWidth/2, toy+Math.cos(angle)*rectangleWidth/2
+                ,fromx-Math.sin(angle)*rectangleWidth/2, fromy+Math.cos(angle)*rectangleWidth/2
+                ,fromx, fromy
+            ];
+        }
+
+        var points = generateHoverRectangle(pos1.x, pos1.y, pos2.x, pos2.y);
+
+        this.kConnectionGroup.kHoverRectangle.setAttr('points',points);
+
+
     },
     mouseOver: function(){
         new Kinetic.Tween({
-            node: this,
+            node: this.kArrow,
             duration: 1,
             easing: Kinetic.Easings['StrongEaseOut'],
             strokeWidth: 5
@@ -367,7 +428,7 @@ Renderer.Edge.prototype = {
     },
     mouseOut: function(){
         new Kinetic.Tween({
-            node: this,
+            node: this.kArrow,
             duration: 1,
             easing: Kinetic.Easings['StrongEaseOut'],
             strokeWidth: 2
