@@ -327,6 +327,8 @@ Renderer.nodes.displayInTab = function(node){
     var data = node.data;
     $("#node-link").attr('href', data.url).text(data.title);
     $("#node-content").html(data.bodyText);
+    $("#node-end").text("");
+
     PanelsHandler.layout.open("west");
 }
 
@@ -448,8 +450,10 @@ Renderer.Edge.prototype = {
         mouseOverKNode(this.connection.toNode.kNodeGroup.kNodepolygon);
 
         //TODO use this.connection's data to display proper KnowNode in the left tab
-        $("#node-link").text("KnowNode");
-        $("#node-content").html(this.connection.fromNode.data.title+"<br>"+this.connection.data.title+"<br>"+this.connection.toNode.data.title);
+        $("#node-link").attr('href', this.connection.fromNode.data.url).text(this.connection.fromNode.data.title);
+        $("#node-content").text(this.connection.data.title);
+        $("#node-end").attr('href', this.connection.toNode.data.url).text(this.connection.toNode.data.title);
+
         PanelsHandler.layout.open("west");
 
         console.log(this.connection)
