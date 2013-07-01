@@ -29,7 +29,7 @@ Renderer.loading.layer = new Kinetic.Layer({});
 Renderer.loading.screen = null;
 
 Renderer.Loading = function(){
-    this.loadingGroup = new  Kinetic.Group({x:-200, y:-200});
+    this.loadingGroup = new  Kinetic.Group({x:0, y:0});
 
     var screenSize = Renderer.canvas.stage.getSize();
     //var width = window.innerWidth;
@@ -45,7 +45,7 @@ Renderer.Loading = function(){
         height: height,
         x: 0,
         y: 0,
-        fill: 'rgba(0,0,0,0.8)'
+        fill: 'rgba(0,0,0,0)'
     });
 
     var loadingText = new Kinetic.Text({
