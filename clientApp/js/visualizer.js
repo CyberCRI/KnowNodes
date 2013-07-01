@@ -24,11 +24,57 @@ Renderer.init = function(canvasId, resourceId, navigationListener){
 };
 
 Renderer.navigation = {};
+Renderer.loading = {};
+Renderer.loading.layer = new Kinetic.Layer({});
+Renderer.loading.screen = null;
+
+Renderer.Loading = function(){
+    this.loadingGroup = new  Kinetic.Group({x:-200, y:-200});
+
+    var screenSize = Renderer.canvas.stage.getSize();
+    //var width = window.innerWidth;
+    //var height = window.innerHeight;
+    var width = Renderer.canvas.stage.getWidth();
+    var height = Renderer.canvas.stage.getHeight();
+    console.log(screenSize);
+    console.log(width);
+    console.log(height);
+
+    this.shape = new Kinetic.Rect({
+        width: width,
+        height: height,
+        x: 0,
+        y: 0,
+        fill: 'rgba(0,0,0,0.8)'
+    });
+
+    var loadingText = new Kinetic.Text({
+        text: "Loading...",
+        fill: "white",
+        width: 120,
+        fontSize: 36
+    });
+
+    this.loadingGroup.add(this.shape);
+    this.loadingGroup.add(loadingText);
+
+    loadingText.setPosition(width/2, height/2);
+
+    Renderer.loading.layer.add(this.loadingGroup);
+};
+Renderer.Loading.prototype = {
+    delete: function(){
+        this.loadingGroup.destroy();
+        delete this;
+    }
+};
 
 Renderer.http = {
     getData: function(resourceId, callback) {
+        if(Renderer.canvas.stage) Renderer.loading.screen = new Renderer.Loading();
         $.get('/knownodes/:' + resourceId, function(centralNode) {
             $.get('/concepts/:' + resourceId + '/getRelatedKnownodes', function(relatedNodes) {
+                if(Renderer.loading.screen) Renderer.loading.screen.delete();
                 callback(centralNode.success, relatedNodes.success);
             });
         });
@@ -71,6 +117,7 @@ Renderer.canvas.init = function(canvasId){
     this.stage.add(Renderer.edges.layer);
     this.stage.add(Renderer.nodes.layer);
     this.stage.add(Renderer.pages.layer);
+    this.stage.add(Renderer.loading.layer);
 };
 Renderer.canvas.resize = function(){
     var div = $(".ui-layout-center");
