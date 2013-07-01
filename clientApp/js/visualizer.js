@@ -40,7 +40,7 @@ Renderer.init = function(canvasId, resourceId, navigationListener){
 
         Renderer.engine.particleSystem.renderer = Renderer.loop;
         Renderer.nodes.central = new Renderer.Node(Renderer.engine.jsonOriginData);
-        Renderer.nodes.selectNode(Renderer.nodes.central);
+        Renderer.nodes.displayInTab(Renderer.nodes.central);
         Renderer.pages.init();
         Renderer.pages.display(0);
         Renderer.navigation.navigationListener = navigationListener;
@@ -182,6 +182,9 @@ Renderer.pages.display = function(page){
             this.list[pageId].checkAndSetColor();
         }
 
+        //TODO fix orientation problem:
+        //either merge getEdgesFrom's and getEdgesTo's results and prune all nodes except the central node;
+        //or, repeat following code with getEdgesTo and aEdges[aEdge].source
         var aEdges = Renderer.engine.particleSystem.getEdgesFrom(Renderer.nodes.central.aNode);
         for(var aEdge in aEdges)
             Renderer.engine.particleSystem.pruneNode(aEdges[aEdge].target);
@@ -237,6 +240,7 @@ Renderer.Node.prototype = {
         });
         kNodepolygon.node = this;
         this.kNodeGroup.add(kNodepolygon);
+        this.kNodeGroup.kNodepolygon = kNodepolygon;
         return kNodepolygon;
     },
     newText: function(){
@@ -257,7 +261,6 @@ Renderer.Node.prototype = {
     bindEvents: function(){
         this.kNodePolygon.on('mouseover', this.mouseOver);
         this.kNodePolygon.on('mouseout', this.mouseOut);
-        this.kNodePolygon.on('mouseover', this.mouseOver);
         this.kNodePolygon.on('click', this.mouseClick);
     },
     mouseClick: function() {
@@ -294,22 +297,33 @@ Renderer.Node.prototype = {
         });
     },
     mouseOver: function(){
-        this.node.tweenPolygonHover.play();
-        this.node.tweenTextHover.play();
-        Renderer.nodes.selectNode(this.node);
+        mouseOverKNode(this);
+        Renderer.nodes.displayInTab(this.node);
     },
     mouseOut: function(){
-        this.node.tweenPolygonHover.reverse();
-        this.node.tweenTextHover.reverse();
+        mouseOutKNode(this);
     }
 };
 
+//TODO should be put inside Renderer.Node
+mouseOverKNode = function(kNode){
+    console.log("mouseOverKNode:");
+    console.log(kNode);
+    kNode.node.tweenPolygonHover.play();
+    kNode.node.tweenTextHover.play();
+}
+
+//TODO should be put inside Renderer.Node
+mouseOutKNode = function(kNode){
+    kNode.node.tweenPolygonHover.reverse();
+    kNode.node.tweenTextHover.reverse();
+}
+
 Renderer.nodes = {};
-Renderer.nodes.selected = null;
 Renderer.nodes.central = null;
 Renderer.nodes.layer = new Kinetic.Layer({});
-Renderer.nodes.selectNode = function(node){
-    Renderer.nodes.selected = node;
+
+Renderer.nodes.displayInTab = function(node){
     var data = node.data;
     $("#node-link").attr('href', data.url).text(data.title);
     $("#node-content").html(data.bodyText);
@@ -322,7 +336,7 @@ Renderer.Edge = function(from, to, data){
     this.toNode = to;
     this.data = data;
     this.aEdge = Renderer.engine.particleSystem.addEdge(from.aNode, to.aNode, {edge: this});
-    this.kConnectionGroup = this.newConnectionGroup(data.connectionType);
+    this.kConnectionGroup = this.newConnectionGroup(this);
 
     this.bindEvents();
 };
@@ -332,7 +346,8 @@ Renderer.Edge.prototype = {
         Renderer.engine.particleSystem.originalPruneEdge(this.aEdge);
         delete this;
     },
-    newConnectionGroup: function(connectionType){
+    newConnectionGroup: function(connection){
+        var connectionType = connection.data.connectionType;
         var color = "white";
         if (connectionType === "explain") {
             color = '#1C75BC';
@@ -356,16 +371,18 @@ Renderer.Edge.prototype = {
             points: [0,0,0,0],
             stroke: "green",
             strokeWidth: 2,
-            fill: "red"
-            //,visible: false
+            fill: "red",
+            opacity: 0
+            //visible: false
         });
 
         //first will be below the second
-        kConnectionGroup.add(kConnectionGroup.kHoverRectangle);
         kConnectionGroup.add(kConnectionGroup.kArrow);
+        kConnectionGroup.add(kConnectionGroup.kHoverRectangle);
 
         //TODO refactor
         kConnectionGroup.kHoverRectangle.kArrow = kConnectionGroup.kArrow;
+        kConnectionGroup.kHoverRectangle.connection = connection;
 
         Renderer.edges.layer.add(kConnectionGroup);
         return kConnectionGroup;
@@ -425,6 +442,17 @@ Renderer.Edge.prototype = {
             easing: Kinetic.Easings['StrongEaseOut'],
             strokeWidth: 5
         }).play();
+
+        console.log("mouseOver:");
+        mouseOverKNode(this.connection.fromNode.kNodeGroup.kNodepolygon);
+        mouseOverKNode(this.connection.toNode.kNodeGroup.kNodepolygon);
+
+        //TODO use this.connection's data to display proper KnowNode in the left tab
+        $("#node-link").text("KnowNode");
+        $("#node-content").html(this.connection.fromNode.data.title+"<br>"+this.connection.data.title+"<br>"+this.connection.toNode.data.title);
+        PanelsHandler.layout.open("west");
+
+        console.log(this.connection)
     },
     mouseOut: function(){
         new Kinetic.Tween({
@@ -433,6 +461,10 @@ Renderer.Edge.prototype = {
             easing: Kinetic.Easings['StrongEaseOut'],
             strokeWidth: 2
         }).play();
+
+        //TODO should be called by this.connection.fromNode.mouseOutKNode()
+        mouseOutKNode(this.connection.fromNode.kNodeGroup.kNodepolygon);
+        mouseOutKNode(this.connection.toNode.kNodeGroup.kNodepolygon);
     }
 };
 Renderer.edges = {};
