@@ -2,7 +2,7 @@ form(name="form", novalidate)
     div.control-group(ng-class="{true:'error'}[submitted && form.selectedSuggestion.$invalid && form.knownodeRelation.title.$invalid && form.knownodeRelation.connectionType]")
         // Source Node
         // ... default direction
-        div.resourcecontent.span11#content(ng-hide="reversedDirection", ng-show="rootNodeExists",style="padding:0px")
+        div.resourcecontent.span11#content(ng-hide="reversedDirection", ng-show="rootNodeExists",style="padding:0px",data-intro='This is the resource "{{concept.title}}". Yep.', data-position="right" )
             accordion
                 accordion-group(heading="{{concept.title}}", is-open='true')
                     div.knownode-body
@@ -30,7 +30,7 @@ form(name="form", novalidate)
         // Destination Node
         // ... default direction
         // ....... existing node
-        div.resourcecontent.span11#content(ng-hide="reversedDirection", ng-show="rootNodeExists")
+        div.resourcecontent.span11#content(ng-hide="reversedDirection", ng-show="rootNodeExists", data-intro="Here is where you choose the second resource", data-position="right")
             p
                 search-box.knownode-title.target-resource-search-box(style="width:100%")
                 span#content(ng-show="targetResourceTitle != null")
@@ -50,7 +50,12 @@ form(name="form", novalidate)
                             p(ng-show="concept.fileName") Download:
                                 a(class="btn-info",href="/knownodeFiles/:{{concept.fileId}}", target="_blank", ng-show="concept.fileName") &nbsp;{{concept.fileName}}&nbsp;
                             div(ng-bind-html-unsafe="concept.bodyText")
+    p.span11 Why did you add this link?
+      span.btn-group(data-toggle="buttons-radio")
+        button.btn.btn-primary(type="button", ng-click="categoryClick('explain')") to explain
+        button.btn.btn-primary(type="button", ng-click="categoryClick('inspire')") to inspire
+        button.btn.btn-primary(type="button", ng-click="categoryClick('question')") to critique
 
 
-        button.btn.btn-primary.btn-large#content(ng-click="submit()", ng-disabled="submitted") Submit
-        span(ng-show="submitErrorMessage") {{submitErrorMessage}}
+    button.btn.btn-primary.btn-large#content(ng-click="submit(); tutorialOff();", ng-disabled="submitted") Submit
+      span(ng-show="submitErrorMessage") {{submitErrorMessage}}

@@ -1,28 +1,16 @@
 div.connection.span11(ng-class="bgColor")
     div.content.span11
-        div.input-prepend
+        div.input-prepend(data-intro='Here you explain to others how "{{concept.title}}" is related to a second resource', data-position="right")
 
             div.btn-group(style="display:inline;", ng-model='connectionType', name="connectionType")
                 a.btn.reverse-direction(ng-hide="reversedDirection", ng-click="reversedDirection=true", title="reverse connection direction")
+                  div
                     i.icon-arrow-up
                     i.icon-arrow-down
                 a.btn.reverse-direction(ng-show="reversedDirection", ng-click="reversedDirection=false", title="reverse connection direction")
                     i.icon-arrow-down
                     i.icon-arrow-up
-                input#appendedPrependedDropdownButton.span6(ng-model='connectionTitle', name='title', required, type="text", ng-maxlength='80', placeholder="What is their relationship?")
+                input#appendedPrependedDropdownButton.span9(ng-model='connectionTitle', name='title', required, type="text", ng-maxlength='80', placeholder="Describe the the relationship", data-intro="when writing the description, do your best to be neutral and descriptive, avoid jargon. Good luck!", data-position="bottom")
+                p.btn.btn-link.counter {{(80 -(connectionTitle.length)) }} left
 
-                a.btn.dropdown-toggle(href="javascript:void(0);", data-toggle="dropdown") &nbsp; {{connectionType}}
-                    span.caret(style="float:left;")
-                ul.dropdown-menu(role="menu", aria-labelledby="dropdownMenu", style="left:50%")
-                    li.dropdown-submenu
-                        a(tabindex='-1', href="javascript:void(0);", ng-click="categoryClick('explain')") explain
-                        ul.dropdown-menu.dropdown-menu_explain connection to tutorials, learning resources, videos...
-                    li.dropdown-submenu
-                        a.inspire(tabindex='-1', href="javascript:void(0);", ng-click="categoryClick('inspire')") inspire
-                        ui.dropdown-menu.dropdown-menu_explain connection to an Idea, open question, funny or interesting things
-                    li.dropdown-submenu
-                        a.question(tabindex='-1', href="javascript:void(0);", ng-click="categoryClick('question')") question
-                        ui.dropdown-menu.dropdown-menu_explain connection to a critique, contradictions, or a problem
-            span(ng-show="relationErrorMessage") {{relationErrorMessage}}
-            p.btn.btn-link.counter {{(80 -(connectionTitle.length)) }} left
-            span(ng-transclude)
+        span(ng-transclude)
