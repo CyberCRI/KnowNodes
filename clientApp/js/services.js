@@ -25,7 +25,21 @@ angular.module('KnowNodesApp.services', [])
 
         return serviceReturned;
     })
+    .service('tutorialService', function () {
+        var tutorial;
 
+        return {
+            getTutorial: function () {
+                return tutorial;
+            },
+            setTutorialOn: function(value) {
+                tutorial = true;
+            },
+            setTutorialOff: function(value) {
+                tutorial = false;
+            }
+        };
+    })
     .factory('PassKnownode', function () {
         var currentEdge;
         var PassKnownodeService = {};

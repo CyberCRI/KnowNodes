@@ -239,7 +239,7 @@ function MapCtrl($scope, $routeParams) {
 MapCtrl.$inject = ['$scope', '$routeParams'];
 
 
-function KnownodeListCtrl($scope, $http, $routeParams, $location, userService, resource, wikipedia, wikinode) {
+function KnownodeListCtrl($scope, $http, $routeParams, $location, userService, resource, wikipedia, wikinode, tutorialService) {
 
     // First, check whether the resource is a KN Resource or a Wikipedia Article
     if ($routeParams.id != null) {
@@ -283,6 +283,8 @@ function KnownodeListCtrl($scope, $http, $routeParams, $location, userService, r
     $scope.addNode = false;
     $scope.currentKnownode = {};
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
+    $scope.isTutorialOn = tutorialService.getTutorial();
+
     $scope.checkOwnership = function (userId) {
         if (userService.isUserLoggedIn()) {
             return userId === userService.getConnectedUser().id;
@@ -310,7 +312,7 @@ function KnownodeListCtrl($scope, $http, $routeParams, $location, userService, r
     $scope.start = +new Date();
 
 }
-KnownodeListCtrl.$inject = ['$scope', '$http', '$routeParams', '$location', 'userService', 'resource', 'wikipedia', 'wikinode'];
+KnownodeListCtrl.$inject = ['$scope', '$http', '$routeParams', '$location', 'userService', 'resource', 'wikipedia', 'wikinode', 'tutorialService'];
 
 
 function KnownodeCtrl($scope, $http, $routeParams, userService) {
@@ -540,9 +542,12 @@ function AddPostCtrl($scope, $http, $location, $routeParams, $rootScope) {
 AddPostCtrl.$inject = ['$scope', '$http', '$location', '$routeParams', '$rootScope'];
 
 
-function IndexCtrl($scope, $http, $location) {
+function IndexCtrl($scope, $http, $location, $tutorialService) {
+    $scope.tutorialOn = function(){
+        $tutorialService.setTutorialOn();
+    };
 }
-IndexCtrl.$inject = ['$scope', '$http', '$location'];
+IndexCtrl.$inject = ['$scope', '$http', '$location', 'tutorialService'];
 
 
 function DeleteUserCtrl($scope, $http, $location, $routeParams) {
@@ -692,7 +697,7 @@ function WikipediaArticleCtrl($scope, $routeParams, wikipedia) {
 WikipediaArticleCtrl.$inject = ['$scope', '$routeParams', 'wikipedia'];
 
 
-function KnownodeInputCtrl($scope, $rootScope, $q, $route, resourceDialog, wikinode, resource, connection) {
+function KnownodeInputCtrl($scope, $rootScope, $q, $route, resourceDialog, wikinode, resource, connection, tutorialService) {
 
     var targetResource;
 
@@ -806,8 +811,11 @@ function KnownodeInputCtrl($scope, $rootScope, $q, $route, resourceDialog, wikin
         $scope.targetResourceTitle = null;
         $('.target-resource-search-box').show();
     };
+    $scope.tutorialOff = function(){
+        tutorialService.setTutorialOff();
+    }
 }
-KnownodeInputCtrl.$inject = ['$scope', '$rootScope', '$q', '$route', 'resourceDialog', 'wikinode', 'resource', 'connection'];
+KnownodeInputCtrl.$inject = ['$scope', '$rootScope', '$q', '$route', 'resourceDialog', 'wikinode', 'resource', 'connection', 'tutorialService'];
 
 
 function SearchBoxCtrl($scope, $http, hybridSearch) {
