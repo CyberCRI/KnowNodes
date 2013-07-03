@@ -4,10 +4,10 @@ div.subheader
         div.alert.alert-success.alert-block(data-intro="don't worry about connecting anything fancy, this is just to get you started", data-position="right", ng-show="isTutorialOn")
           button.close(type="button", data-dismiss="alert") &times;
           p Welcome, time to create your first connection. &nbsp
-            a(href="/login/", ng-hide='isUserLoggedIn') Are you logged in?
+          a(href="/login/", ng-hide='isUserLoggedIn') First, you should login.
           p(ng-show="isUserLoggedIn") Let's connect something to "{{concept.title}}".
-          p
-            a(href="javascript:void(0);", onclick="$('body').chardinJs('toggle')", type="button") How do I do that?
+            p(ng-show="isUserLoggedIn")
+              a(href="javascript:void(0);", onclick="$('body').chardinJs('toggle')", type="button") How do I do that?
 
         div.knownode.span12.shortKnownode
               div(knownode-input)
