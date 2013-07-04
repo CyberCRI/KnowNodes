@@ -4,10 +4,12 @@ div.subheader
         div.alert.alert-success.alert-block.tutorial-success(data-intro="don't worry about connecting anything fancy, this is just to get you started", data-position="right", ng-show="isTutorialOn")
           button.close(type="button", data-dismiss="alert") &times;
           p Welcome, time to create your first connection. &nbsp
-          a(href="/login/", ng-hide='isUserLoggedIn') First, you should login.
-          p(ng-show="isUserLoggedIn") Let's connect something to "{{concept.title}}".
-            p(ng-show="isUserLoggedIn")
-              button.tutorial-toggle(onclick="$('body').chardinJs('toggle')") Show me how!
+          a(href="/login/", ng-hide='isUserLoggedIn') If you want to create a connection, don't forget to login.
+          p(ng-show='isUserLoggedIn') Ok, you're all logged up.
+          p In Knownodes we connect things and take careful attention to describe how they are connected, so the connection will make sense for other people.
+          p Let's start by connecting something to "{{concept.title}}".
+            p
+              button.tutorial-toggle(onclick="$('body').chardinJs('toggle')") Click this to learn how
         div.knownode.span12.shortKnownode
               div(knownode-input)
 
