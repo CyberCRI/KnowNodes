@@ -2,11 +2,6 @@
 @import "variables"; // Modify this for custom colors, font-sizes, etc
 @import "bootstrap/mixins";
 
-  // Knownodes common & basic .less files -
-
-@import "common.less";
-@import "colorschema.less";
-@import "misc.less";
 
   // CSS Reset
 @import "bootstrap/reset";
@@ -60,7 +55,7 @@
 
   //Knownodes overrid
 
-@import "styles.less";
+@import "styles";
 @import "style.css";
 
   //external components
@@ -70,6 +65,12 @@
 @import "bootstrap-timepicker.css";
 @import "../js/lib/select2/select2.css";
 @import "chardinjs.css";
+
+  // Knownodes common & basic .less files -
+
+@import "common";
+@import "colorschema";
+@import "misc";
 
   //Knownodes specific elements
 @import "frontpage";

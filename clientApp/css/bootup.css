@@ -38,28 +38,6 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-.center-div {
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-}
-.center-img {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-.topbar-gap {
-  height: 70px;
-}
-.explain {
-  background: #1c75bc;
-}
-.inspire {
-  background: #ffde17;
-}
-.critique {
-  background: #39b54a;
-}
 article,
 aside,
 details,
@@ -5669,50 +5647,6 @@ span.login {
   height: 1px;
   border-bottom: 1px solid rgba(173, 174, 177, 0.29);
 }
-.knownode {
-  padding: 10px;
-  margin-left: 5px;
-  margin-bottom: 40px;
-  border-radius: 15px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-.knownode .resourcecontent {
-  background-color: white;
-  padding-bottom: 0px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  margin-left: 5px;
-}
-.knownode .resourcecontent h5.title {
-  color: #59688b;
-  margin-top: 0px;
-  padding-top: 0px;
-}
-.knownode .resourcecontent img {
-  vertical-align: bottom;
-}
-.knownode .resourcecontent .knowledgeDomain,
-.knownode .resourcecontent .resourceType {
-  float: right;
-  margin-top: 0px;
-  padding-top: 0px;
-}
-.knownode .resourcecontent .knowledgeDomain {
-  float: right;
-  margin-top: 0px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #ffffff;
-  background-color: #62a265;
-  border: solid 1px #62a265;
-  border-radius: 3px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
 .connection {
   margin-left: 0px;
   background: #ebeaf7;
@@ -6236,6 +6170,72 @@ div.auto-generated {
 }
 .footer {
   background: white;
+}
+.center-div {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.center-img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.topbar-gap {
+  height: 70px;
+}
+.explain {
+  background: #1c75bc;
+}
+.inspire {
+  background: #ffde17;
+}
+.critique {
+  background: #39b54a;
+}
+.knownode {
+  padding: 0;
+  margin-left: 0;
+  margin-bottom: 40px;
+  border-radius: 15px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.knownode .resourcecontent {
+  background-color: white;
+  padding-bottom: 0px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin-left: 5px;
+}
+.knownode .resourcecontent h5.title {
+  color: #59688b;
+  margin-top: 0px;
+  padding-top: 0px;
+}
+.knownode .resourcecontent img {
+  vertical-align: bottom;
+}
+.knownode .resourcecontent .knowledgeDomain,
+.knownode .resourcecontent .resourceType {
+  float: right;
+  margin-top: 0px;
+  padding-top: 0px;
+}
+.knownode .resourcecontent .knowledgeDomain {
+  float: right;
+  margin-top: 0px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #ffffff;
+  background-color: #62a265;
+  border: solid 1px #62a265;
+  border-radius: 3px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 .frontpage__bg-image {
   background-image: url("../img/bg-frontpage.jpg") !important;
