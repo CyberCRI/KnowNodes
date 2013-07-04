@@ -1,13 +1,5 @@
-.center-div {
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-}
-.center-img {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-.topbar-gap {
-  height: 70px;
-}
+NameError: variable @color-explain is undefined in /Users/dorgarbash/WebstormProjects/Knownodes/clientApp/css/common.less:25:13
+24 .explain {
+25 	background: @color-explain;
+26 }
+
