@@ -6327,11 +6327,11 @@ div.auto-generated {
 .tutorial-success h4 {
   color: #1a771b;
 }
-button.tutorial-toggle {
+a.tutorial-toggle {
   color: white;
   text-shadow: none;
-  background: black;
+  cursor: pointer;
 }
-button.tutorial-toggle:hover {
+a.tutorial-toggle:hover {
   text-decoration: none;
 }
