@@ -3,7 +3,7 @@
     "version": "0.0.2",
     "private": true,
     "scripts": {
-        "build": "coffee -c controllers/.; _coffee -c modules/.",
+        "build": "coffee -c controllers/.; _coffee -c modules/.; lessc -c client",
         "start": "node app",
         "postinstall": "npm run build"
     },
@@ -30,7 +30,8 @@
         "coffee-script": "1.6.3",
         "iconv-lite": "0.2.10",
         "request":"2.21.0",
-        "loggly": "0.3.11"
+        "loggly": "0.3.11",
+        "less":"1.4.0"
     },
     "engines": {
         "node": "0.8.x"
