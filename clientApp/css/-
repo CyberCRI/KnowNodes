@@ -51,15 +51,6 @@
 .topbar-gap {
   height: 70px;
 }
-.explain {
-  background: #1c75bc;
-}
-.inspire {
-  background: #ffde17;
-}
-.critique {
-  background: #39b54a;
-}
 article,
 aside,
 details,
@@ -6318,21 +6309,4 @@ div.auto-generated {
   padding-top: 15px;
   padding-bottom: 15px;
   background: #d3d3d3;
-}
-.tutorial-success {
-  background-color: #82d65f;
-  border-color: #d6e9c6;
-  color: #1a771b;
-  text-shadow: none;
-}
-.tutorial-success h4 {
-  color: #1a771b;
-}
-button.tutorial-toggle {
-  color: white;
-  text-shadow: none;
-  background: black;
-}
-button.tutorial-toggle:hover {
-  text-decoration: none;
 }
