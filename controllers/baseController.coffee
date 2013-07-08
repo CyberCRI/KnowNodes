@@ -16,9 +16,9 @@ module.exports =
 		console.log "checking if user is loggedin"
 		next()
 
-	callBack: (res) ->
+	callBack: (response) ->
 		return (err, result) ->
-			return if err then res.json(error: err) else res.json(success: result)
+			if err then response.json(error: err) else response.json(success: result)
 
 	logActivity: (user, title, description, callback) ->
 		logger = new LogModule user
