@@ -15,11 +15,28 @@ var schema = new Schema('neo4j', DBData.getDBURL("neo4j"));
 // Generates a new GUID string
 function GUID ()
 {
+    // TODO Guarantee Uniqueness
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
         return v.toString(16);
     });
 }
+
+var ResourceDB = exports.Resource = schema.define('kn_Post', {
+    KN_ID :        { type: String, length: 36, default: GUID, index: true },
+    __CreatedOn__:  { type: Date,    default: Date.now },
+
+    title:          { type: String, length: 350 },
+    url:            { type: String, length: 2000, index: true },
+    bodyText:       { type: Schema.Text },
+    postType:       { type: String, length: 50, index: true, default: 'resource'},
+    active:         { type: Boolean, default: true, index: true },
+
+    fileId:         { type: String, length: 255 },
+    fileName:       { type: String, length: 255 },
+    fileData:       { type: String, length: 2000 }
+});
+ResourceDB.validatesPresenceOf('title');
 
 var kn_UserGroup = exports.UserGroup = schema.define('UserGroup', {
     KN_ID :        { type: String, length: 36, default: GUID },
@@ -155,6 +172,7 @@ exports.getUsersByName = function(name, callback) {
 
 exports.getPostTypes = function() {
     return {
+        resource: 'Resource',
         openQuestion: 'Open_Question',
         query: 'Query',
         publication: 'Publication',
