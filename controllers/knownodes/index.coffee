@@ -62,6 +62,7 @@ getInternalLinks = (title, callback) ->
 
 module.exports =
   show: (request, response) ->
+    console.log("IN SHOW")
     cb = baseController.callBack response
     modKnownode = new knownodeModule request.user
     id = request.params.knownode.replace /:/g, ''
@@ -120,6 +121,16 @@ module.exports =
     modKnownode = new knownodeModule request.user
     id = request.params.knownode.replace /:/g, ''
     modKnownode.getNodesToKeyword id, cb
+
+  getResourceByUrl: (request, response) ->
+    console.log("IN getResourceByUrl()")
+    cb = baseController.callBack response
+    modKnownode = new knownodeModule request.user
+    modKnownode.getKnownodeByUrl request.body.url, (err, existingNode) ->
+      if existingNode
+        return cb(null, existingNode)
+      else
+        return cb("No node for this URL")      
 
   # Takes a "title" form parameter
   wikinodeIfExists: (req, resp) ->
