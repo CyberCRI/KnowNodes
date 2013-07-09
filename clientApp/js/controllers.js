@@ -16,6 +16,9 @@ function TopBarCtrl($scope, $location, resourceDialog) {
             case 'Create Resource':
                 openResourceDialog();
                 break;
+            case 'Link to Resource':
+                $location.path('/url/' + result.url);                
+                break;
             case 'Wikipedia Article':
                 $location.path('/wiki/' + result.id);
                 break;
@@ -830,7 +833,7 @@ function SearchBoxCtrl($scope, $http, hybridSearch) {
             if(query.term.indexOf("http://") == 0 || query.term.indexOf("https://") == 0)
             {
                 $http.post("/knownodes/getResourceByUrl", { url: query.term }).success(function(data) {
-                    console.log("Got data back", data);
+                    console.log("getResourceByUrl result", data);
                     if(data.success) {
                         query.callback({ results: [
                             { id: data.success.KN_ID, text: data.success.title}
@@ -838,9 +841,21 @@ function SearchBoxCtrl($scope, $http, hybridSearch) {
                     }
                     else
                     {
-                        query.callback({ results: [
-                            { id: 'create_data_option_id', text: 'Create Resource: ' + query.term, type: 'Create Resource'},
-                        ]});
+                        $http.post("/knownodes/scrapeUrl", { url: query.term }).success(function(data) {
+                            console.log("scrapeUrl result", data);
+                            if(data.success) {
+                                query.callback({ results: [
+                                    { title: data.success.title, body: data.success.body, url: query.term, type: 'Link to Resource' },
+                                ]});
+                            }
+                            else 
+                            {
+                                console.log("Cannot scrape URL")
+                                query.callback({ results: [
+                                    { id: 'create_data_option_id', text: 'Create Resource: ' + query.term, type: 'Create Resource'},
+                                ]});
+                            }
+                        });
                     }
                 });
             }
@@ -865,6 +880,8 @@ function SearchBoxCtrl($scope, $http, hybridSearch) {
 
             if (node.type === 'Create Resource') {
                 markup += "<td class='suggestion-info'><div class='suggestion-title create-resource'>" + node.text + "</div></td>";
+            } else if(node.type === "Link to Resource") {
+                markup += "<td class='suggestion-info'><div class='suggestion-title create-resource'>Create Resource: " + node.title + "</div><div class='suggestion-body create-resource'>" + node.body + "</div></td>";
             } else {
                 markup += "<td class='suggestion-info'><div class='suggestion-title'>" + node.text + "</div></td>";
             }
@@ -884,6 +901,14 @@ function SearchBoxCtrl($scope, $http, hybridSearch) {
                     $scope.$emit('searchResultSelected', {
                         title: 'Create Resource',
                         type: 'Create Resource'
+                    });
+                    break;
+                case 'Link to Resource':
+                    $scope.$emit('searchResultSelected', {
+                        title: result.title,
+                        body: result.body,
+                        url: result.url,
+                        type: 'Link to Resource'
                     });
                     break;
                 case 'Wikipedia Article':
