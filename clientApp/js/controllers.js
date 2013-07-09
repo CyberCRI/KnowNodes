@@ -826,20 +826,41 @@ function SearchBoxCtrl($scope, $http, hybridSearch) {
         dropdownAutoWidth: true,
         minimumInputLength: 3,
         query: function (query) {
-            hybridSearch.search(query.term).then(function (results) {
-                var suggestions = {results: []}, i;
-                // First item is the create resource option
-                suggestions.results.push({id: 'create_data_option_id', text: 'Create Resource : ' + query.term, type: 'Create Resource'});
-                for (i = 0; i < results.resources.length; i++) {
-                    suggestions.results.push({id: results.resources[i].results.KN_ID, text: results.resources[i].results.title});
-                }
-                for (i = 0; i < results.wikipediaArticles.length; i++) {
-                    suggestions.results.push({id: results.wikipediaArticles[i].title, text: results.wikipediaArticles[i].title, type: 'Wikipedia Article'});
-                }
-                query.callback(suggestions);
-            });
+            // TODO: accept URLs without the "http://" part
+            if(query.term.indexOf("http://") == 0 || query.term.indexOf("https://") == 0)
+            {
+                $http.post("/knownodes/getResourceByUrl", { url: query.term }).success(function(data) {
+                    console.log("Got data back", data);
+                    if(data.success) {
+                        query.callback({ results: [
+                            { id: data.success.KN_ID, text: data.success.title}
+                        ]});
+                    }
+                    else
+                    {
+                        query.callback({ results: [
+                            { id: 'create_data_option_id', text: 'Create Resource: ' + query.term, type: 'Create Resource'},
+                        ]});
+                    }
+                });
+            }
+            else
+            {
+                hybridSearch.search(query.term).then(function (results) {
+                    var suggestions = {results: []}, i;
+                    // First item is the create resource option
+                    suggestions.results.push({id: 'create_data_option_id', text: 'Create Resource : ' + query.term, type: 'Create Resource'});
+                    for (i = 0; i < results.resources.length; i++) {
+                        suggestions.results.push({id: results.resources[i].results.KN_ID, text: results.resources[i].results.title});
+                    }
+                    for (i = 0; i < results.wikipediaArticles.length; i++) {
+                        suggestions.results.push({id: results.wikipediaArticles[i].title, text: results.wikipediaArticles[i].title, type: 'Wikipedia Article'});
+                    }
+                    query.callback(suggestions);
+                });
+            }
         },
-        formatResult: function movieFormatResult(node) {
+        formatResult: function(node) {
             var markup = "<table class='suggestion'><tr>";
 
             if (node.type === 'Create Resource') {
