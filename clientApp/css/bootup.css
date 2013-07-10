@@ -6311,13 +6311,6 @@ div.auto-generated {
   color: #717577;
   cursor: default;
 }
-.create-resource {
-  width: 100%;
-  font-size: 1.4em;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  background: #d3d3d3;
-}
 .tutorial-success {
   background-color: #82d65f;
   border-color: #d6e9c6;
@@ -6334,4 +6327,24 @@ a.tutorial-toggle {
 }
 a.tutorial-toggle:hover {
   text-decoration: none;
+}
+.scrap-body {
+  width: 100%;
+}
+.scrap-body-text {
+  width: 50%;
+  float: left;
+  margin-right: 1em;
+}
+.scrap-body-img {
+  width: 40%;
+}
+.create-resource {
+  width: 100%;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background: none;
+}
+.create-resource:hover {
+  background: light-grey;
 }

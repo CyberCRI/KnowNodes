@@ -8,6 +8,9 @@ baseController = require('../baseController')
 commentModule = require('../../modules/comment')
 bot = require('../../bundledModules/nodemw')
 request = require('request')
+settings = require("../../config/settings")
+pm = require("pagemunch")
+pm.set({ key: settings.getSettings().url_scraper })
 
 client = new bot
   server: 'en.wikipedia.org', # host name of MediaWiki-powered site
@@ -62,6 +65,7 @@ getInternalLinks = (title, callback) ->
 
 module.exports =
   show: (request, response) ->
+    console.log("IN SHOW")
     cb = baseController.callBack response
     modKnownode = new knownodeModule request.user
     id = request.params.knownode.replace /:/g, ''
@@ -120,6 +124,27 @@ module.exports =
     modKnownode = new knownodeModule request.user
     id = request.params.knownode.replace /:/g, ''
     modKnownode.getNodesToKeyword id, cb
+
+  getResourceByUrl: (request, response) ->
+    console.log("IN getResourceByUrl()")
+    cb = baseController.callBack response
+    modKnownode = new knownodeModule request.user
+    modKnownode.getKnownodeByUrl request.body.url, (err, existingNode) ->
+      if existingNode
+        return cb(null, existingNode)
+      else
+        return cb("No node for this URL")      
+
+  scrapeUrl: (request, response) ->
+    console.log("IN scrapeUrl()")
+    cb = baseController.callBack response
+    pm.summary request.body.url, (err, data) ->
+      if err then return cb("Error scraping url + #{err}")
+
+      return cb null, 
+        title: data.name
+        body: data.description
+        image: data.image
 
   # Takes a "title" form parameter
   wikinodeIfExists: (req, resp) ->

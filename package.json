@@ -15,6 +15,7 @@
         "jugglingdb-mongodb": "latest",
         "neo4j": "https://github.com/liadmagen/node-neo4j/archive/develop.tar.gz",
         "nodemailer": "0.3.37",
+        "pagemunch": "0.1.0",
         "passport": "0.1.15",
         "passport-local": "0.1.6",
         "passport-facebook": "0.1.4",
