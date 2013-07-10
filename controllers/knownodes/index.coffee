@@ -144,6 +144,7 @@ module.exports =
       return cb null, 
         title: data.name
         body: data.description
+        image: data.image
 
   # Takes a "title" form parameter
   wikinodeIfExists: (req, resp) ->

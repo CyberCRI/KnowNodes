@@ -9,3 +9,6 @@ modules/**/*.js
 modules/email/email.js
 bundledModules/.DS_Store
 *.css
+modules/*.js
+
+npm-debug.log
