@@ -77,6 +77,7 @@ app.configure('production', function(){
 
 // routing
 app.resource('resource');
+app.resource('connection');
 
 app.resource('users');
 app.resource('edges');
