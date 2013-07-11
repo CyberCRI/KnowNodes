@@ -14,7 +14,7 @@ function TopBarCtrl($scope, $location, resourceDialog, resource) {
         event.stopPropagation();
         switch (result.type) {
             case 'Create Resource':
-                openResourceDialog();
+                openResourceDialog(result.title);
                 break;
             case 'Link to Resource':
                 result.type = null;
@@ -31,8 +31,8 @@ function TopBarCtrl($scope, $location, resourceDialog, resource) {
         }
     });
 
-    var openResourceDialog = function () {
-        resourceDialog.open().then(function (createdResource) {
+    var openResourceDialog = function (title) {
+        resourceDialog.open(title).then(function (createdResource) {
             if (createdResource) {
                 $location.path('/concept/' + createdResource.KN_ID);
             }
@@ -49,7 +49,7 @@ TopBarCtrl.$inject = ['$scope', '$location', 'resourceDialog', 'resource'];
 
 function CreateResourceDialogCtrl($scope, dialog, resource) {
 
-    $scope.resourceToCreate = {};
+    $scope.resourceToCreate = {title: dialog.options.title};
 
     $scope.close = function () {
         dialog.close();
@@ -867,7 +867,7 @@ function SearchBoxCtrl($scope, $http, hybridSearch) {
                 hybridSearch.search(query.term).then(function (results) {
                     var suggestions = {results: []}, i;
                     // First item is the create resource option
-                    suggestions.results.push({id: 'create_data_option_id', text: 'Create Resource : ' + query.term, type: 'Create Resource'});
+                    suggestions.results.push({id: 'create_data_option_id', title: query.term, text: 'Create Resource : ' + query.term, type: 'Create Resource'});
                     for (i = 0; i < results.resources.length; i++) {
                         suggestions.results.push({id: results.resources[i].results.KN_ID, text: results.resources[i].results.title});
                     }
@@ -913,9 +913,9 @@ function SearchBoxCtrl($scope, $http, hybridSearch) {
             switch (result.type) {
                 case 'Create Resource':
                     $scope.$emit('searchResultSelected', {
-                        title: 'Create Resource',
+                        title: result.title,
                         type: 'Create Resource'
-                    });
+            });
                     break;
                 case 'Link to Resource':
                     $scope.$emit('searchResultSelected', {
