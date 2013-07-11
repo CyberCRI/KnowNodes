@@ -868,13 +868,19 @@ function SearchBoxCtrl($scope, $http, $timeout, hybridSearch) {
             {
                 hybridSearch.search(query.term).then(function (results) {
                     var suggestions = {results: []}, i;
+                    var addResource = true;
                     // First item is the create resource option
-                    suggestions.results.push({id: 'create_data_option_id', title: query.term, text: 'Create Resource : ' + query.term, type: 'Create Resource'});
                     for (i = 0; i < results.resources.length; i++) {
                         suggestions.results.push({id: results.resources[i].results.KN_ID, text: results.resources[i].results.title});
+                        if(query.term.toLowerCase() == results.resources[i].results.title.toLowerCase()) {
+                            addResource = false;
+                        };
                     }
                     for (i = 0; i < results.wikipediaArticles.length; i++) {
                         suggestions.results.push({id: results.wikipediaArticles[i].title, text: results.wikipediaArticles[i].title, type: 'Wikipedia Article'});
+                    }
+                    if(addResource == true) {
+                    suggestions.results.unshift({id: 'create_data_option_id', title: query.term, text: 'Create Resource : ' + query.term, type: 'Create Resource'});
                     }
                     query.callback(suggestions);
                 });
