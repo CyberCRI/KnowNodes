@@ -824,15 +824,17 @@ function KnownodeInputCtrl($scope, $rootScope, $q, $route, resourceDialog, wikin
 KnownodeInputCtrl.$inject = ['$scope', '$rootScope', '$q', '$route', 'resourceDialog', 'wikinode', 'resource', 'connection', 'tutorialService'];
 
 
-function SearchBoxCtrl($scope, $http, hybridSearch) {
-
+function SearchBoxCtrl($scope, $http, $timeout, hybridSearch) {
     $scope.selectedResult = null;
 
+    var lastQuery = "";
     $scope.searchBoxOptions = {
         dropdownAutoWidth: true,
         minimumInputLength: 3,
         query: function (query) {
-            // TODO: accept URLs without the "http://" part
+            lastQuery = query.term;
+            $timeout(function() {
+            if (lastQuery != query.term) return;
             if(query.term.indexOf("http://") == 0 || query.term.indexOf("https://") == 0 || query.term.indexOf("www.") == 0)
             {
                 $http.post("/knownodes/getResourceByUrl", { url: query.term }).success(function(data) {
@@ -876,8 +878,10 @@ function SearchBoxCtrl($scope, $http, hybridSearch) {
                     }
                     query.callback(suggestions);
                 });
-            }
+            }}, 500);
+
         },
+
         formatResult: function(node) {
             var markup = "<table class='suggestion'><tr>";
 
@@ -955,7 +959,7 @@ function SearchBoxCtrl($scope, $http, hybridSearch) {
     };
 
 }
-SearchBoxCtrl.$inject = ['$scope', '$http', 'hybridSearch'];
+SearchBoxCtrl.$inject = ['$scope', '$http', '$timeout', 'hybridSearch'];
 
 
 function RelationCtrl($scope) {
