@@ -1,40 +1,35 @@
-DBModule = require '../modules/DBModule'
+Node = require './node'
 
-module.exports = class Resource extends DBModule
+module.exports = class ResourceNode extends Node
 
   constructor: (user) ->
-    super user
-
-  read: (id, _) ->
-    params =
-      where:
-        KN_ID: id
-    resource = @DB.Resource.findOne(params, _)
-#    resource = @DB.ResourceDAO.find id, _
-    resource.id = resource.KN_ID
-    return resource
+    super("graph/resourceNode", user)
 
   create: (toCreate, _) ->
-    created = @DB.ResourceDAO.create toCreate, _
-#    created.index 'kn_Post', 'KN_ID', created.KN_ID, _
-    #   TODO Log
-    #   TODO Add Connection when Connection module is developed
-#    @relation.createOwnerRelationship concept
+    @logger.debug("create")
+    created = @DB.Resource.create toCreate, _
+    @edge.addCreatedByRelationship(created, _)
     created.id = created.KN_ID
     return created
 
+  read: (id, _) ->
+    @logger.debug("read(#{id})")
+    resource = @loadFromUID(id, _)
+    resource.id = resource.KN_ID
+    return resource
+
   update: (id, toUpdate, _) ->
-#   TODO Log
-    params =
-      where:
-        KN_ID: id
-
-    console.log(id)
-    resource = @DB.ResourceDAO.findOne(params, _)
-    console.log resource
+    @logger.debug("update(#{id})")
+    resource = @loadFromUID(id, _)
     resource.updateAttributes(toUpdate, _)
+    resource.id = resource.KN_ID
+    return resource
 
-#  delete: (conceptId, _) =>
-#    @logger.logDebug @currentModule, "deleteConcept #{conceptId}"
-#    concept = @DB.Post.find nodeId, _
-#    concept.destroy _
+  delete: (id, _) =>
+    @logger.debug("delete(#{id})")
+    resource = @loadFromUID(id, _)
+    resource.destroy _
+
+  loadFromUID: (uid, _) ->
+    params = where: {KN_ID: uid}
+    return @DB.Resource.findOne(params, _)
