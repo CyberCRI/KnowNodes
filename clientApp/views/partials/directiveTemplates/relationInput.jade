@@ -10,7 +10,6 @@ div.connection.span11(ng-class="bgColor")
                 a.btn.reverse-direction(ng-show="reversedDirection", ng-click="reversedDirection=false", title="reverse connection direction")
                     i.icon-arrow-down
                     i.icon-arrow-up
-                input#appendedPrependedDropdownButton.span9(ng-model='connectionTitle', name='title', required, type="text", ng-maxlength='80', placeholder="Describe the relationship", data-intro="When writing the description, remember it should make sense to others. Do your best to be neutral and descriptive, avoid jargon. Good luck!", data-position="bottom")
                 p.btn.btn-link.counter {{(80 -(connectionTitle.length)) }} left
 
         span(ng-transclude)
