@@ -1,26 +1,16 @@
-BaseDAO = require './baseDAO'
-ResourceNode = require '../graph/resourceNode'
-Logger = require '../log/logger'
+DAO = require './DAO'
+ResourceValidator = require '../validation/resourceValidator'
+UserDAO = require './userDAO'
 
-module.exports = class ResourceDAO extends BaseDAO
+module.exports = class ResourceDAO extends DAO
 
-  constructor: (user) ->
-    super('dao/resourceDAO', user)
-    @resourceNode = new ResourceNode(user)
+  constructor: (@user) ->
+    super('kn_Post', new ResourceValidator, @user)
+    @userDAO = new UserDAO(@user)
 
   create: (toCreate, _) ->
-    @logger.info("create (title: #{toCreate.title})")
-    # TODO Make sure there is no existing resource with the same title
-    return @resourceNode.create toCreate, _
-
-  read: (id, _) ->
-    @logger.info("read(#{id})")
-    return @resourceNode.read(id, _)
-
-  update: (id, toUpdate, _) ->
-    @logger.info("update (id: #{id}, title: #{toUpdate.title})")
-    @resourceNode.update(id, toUpdate, _)
-
-  delete: (id, _) ->
-    @logger.info("delete(#{id})")
-    @resourceNode.delete(id, _)
+    toCreate.active = true
+    created = super(toCreate, _)
+    userNode = @userDAO.read(@user.KN_ID, _)
+    @edge.addCreatedByRelationship(created, userNode, _)
+    return created

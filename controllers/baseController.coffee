@@ -23,7 +23,10 @@ module.exports =
         logger = new Logger('baseController caught error')
         logger.error(err)
         response.json(error: err)
-      else response.json(success: result)
+      else if result._data?
+        response.json(success: result._data.data)
+      else
+        response.json(success: result)
 
 	logActivity: (user, title, description, callback) ->
 		logger = new LogModule user

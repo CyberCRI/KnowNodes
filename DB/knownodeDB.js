@@ -125,7 +125,7 @@ var kn_Edge = exports.Edge = schema.define('kn_Edge', {
     __CreatedOn__:  { type: Date, default: Date.now, index: true },
 
     title:          { type: String, length: 255 },
-    bodyText:        { type: Schema.Text },
+    bodyText:       { type: Schema.Text },
     connectionType: { type: String, length: 255 },
     fromNodeId:     { type: String, length: 20, index: true },
     toNodeId:       { type: String, length: 20, index: true },

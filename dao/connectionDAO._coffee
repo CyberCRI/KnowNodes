@@ -1,25 +1,22 @@
-BaseDAO = require './baseDAO'
-ConnectionNode = require '../graph/connectionNode'
-Logger = require '../log/logger'
+DAO = require './DAO'
+ConnectionValidator = require '../validation/connectionValidator'
+UserDAO = require './userDAO'
+ResourceDAO = require './resourceDAO'
 
-module.exports = class ConnectionDAO extends BaseDAO
+module.exports = class ConnectionDAO extends DAO
 
-  constructor: (user) ->
-    super('dao/connectionDAO', user)
-    @connectionNode = new ConnectionNode(user)
+  constructor: (@user) ->
+    super('kn_Edge', new ConnectionValidator, user)
+    @userDAO = new UserDAO(@user)
+    @resourceDAO = new ResourceDAO(@user)
 
   create: (toCreate, _) ->
-    @logger.info("create (title: #{toCreate.title})")
-    return @connectionNode.create toCreate, _
-
-  read: (id, _) ->
-    @logger.info("read(#{id})")
-    return @connectionNode.read(id, _)
-
-  update: (id, toUpdate, _) ->
-    @logger.info("update (id: #{id}, title: #{toUpdate.title})")
-    @connectionNode.update(id, toUpdate, _)
-
-  delete: (id, _) ->
-    @logger.info("delete(#{id})")
-    @connectionNode.delete(id, _)
+    toCreate.active = true
+    created = super(toCreate, _)
+    userNode = @userDAO.read(@user.KN_ID, _)
+    @edge.addCreatedByRelationship(created, userNode, _)
+    startResource = @resourceDAO.read(toCreate.fromNodeId, _)
+    @edge.addResourceToConnectionRelationship(startResource, created, _)
+    endResource = @resourceDAO.read(toCreate.toNodeId, _)
+    @edge.addConnectionToResourceRelationship(created, endResource, _)
+    return created
