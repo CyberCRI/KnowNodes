@@ -3,7 +3,7 @@ Loggly = require 'loggly'
 
 module.exports = class Logger
 
-  constructor: (source, user) ->
+  constructor: (source) ->
     @source = source
     # TODO Remove magic number
     @currentStage = 3

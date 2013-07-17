@@ -1,27 +1,16 @@
-baseController = require('../baseController')
-connectionDAO = require('../../dao/connectionDAO')
+ConnectionController = require('./ConnectionController')
+Callback = require('../Callback')
 
 module.exports =
 
-  show: (request, response) ->
-    dao = new connectionDAO request.user
-    cb = baseController.callBack response
-    id = request.params.connection
-    dao.read(id, cb)
-
   create: (request, response) ->
-    dao = new connectionDAO request.user
-    cb = baseController.callBack response
-    dao.create(request.body, cb)
+    new ConnectionController(request).create(Callback.bind(response))
+
+  show: (request, response) ->
+    new ConnectionController(request).show(Callback.bind(response))
 
   update: (request, response) ->
-    dao = new connectionDAO request.user
-    cb = baseController.callBack response
-    id = request.params.connection
-    dao.update(id, request.body, cb)
+    new ConnectionController(request).update(Callback.bind(response))
 
   destroy: (request, response) ->
-    dao = new connectionDAO request.user
-    cb = baseController.callBack response
-    id = request.params.connection
-    dao.delete(id, cb)
+    new ConnectionController(request).destroy(Callback.bind(response))
