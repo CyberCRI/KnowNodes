@@ -27,7 +27,7 @@ module.exports =
       if error
         handleError(error, response)
       else
-        response.json(result.node._data.data)
-
-
-
+        if result.node?
+          response.json(result.node._data.data)
+        else
+          response.json(result)
