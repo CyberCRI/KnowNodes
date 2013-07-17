@@ -2,6 +2,7 @@ LogModule = require '../modules/log'
 Logger = require '../log/logger'
 
 module.exports =
+
 	isAdmin: (request, response, next) ->
 		console.log("checking it's admin")
 		next()
@@ -23,8 +24,6 @@ module.exports =
         logger = new Logger('baseController caught error')
         logger.error(err)
         response.json(error: err)
-      else if result._data?
-        response.json(success: result._data.data)
       else
         response.json(success: result)
 

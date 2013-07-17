@@ -1,27 +1,22 @@
-baseController = require('../baseController')
-resourceDAO = require('../../dao/resourceDAO')
+Callback = require('../Callback')
+ResourceController = require('./ResourceController')
 
 module.exports =
 
   create: (request, response) ->
-    dao = new resourceDAO request.user
-    cb = baseController.callBack response
-    dao.create(request.body, cb)
+    new ResourceController(request).create(Callback.bind(response))
 
   show: (request, response) ->
-    dao = new resourceDAO request.user
-    cb = baseController.callBack response
-    id = request.params.resource
-    dao.read(id, cb)
+    new ResourceController(request).show(Callback.bind(response))
 
   update: (request, response) ->
-    dao = new resourceDAO request.user
-    cb = baseController.callBack response
-    id = request.params.resource
-    dao.update(id, request.body, cb)
+    new ResourceController(request).update(Callback.bind(response))
 
   destroy: (request, response) ->
-    dao = new resourceDAO request.user
-    cb = baseController.callBack response
-    id = request.params.resource
-    dao.delete(id, cb)
+    new ResourceController(request).destroy(Callback.bind(response))
+
+  searchByKeyword: (request, response) ->
+    dao = new ResourceDAO request.user
+    cb = Callback.bind response
+    query = request.params.resource.replace /:/g, ''
+    dao.searchByKeyword query, cb

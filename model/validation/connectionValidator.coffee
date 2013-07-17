@@ -6,8 +6,8 @@ module.exports = class ConnectionValidator extends NodeValidator
     super 'kn_Edge'
 
   validate: (data, _) ->
-    super data
     console.log data
+    super data
     @check(data.__CreatedOn__).notNull().isInt()
     @check(data.title).notEmpty()
     @check(data.bodyText).notEmpty()
