@@ -21,23 +21,19 @@ module.exports = class Resource extends NodeWrapper
     return created
 
   @searchByKeyword: (userQuery, _) ->
-    @logger.debug("searchByKeyword (query: #{userQuery})")
     nodes = []
     cypherQuery = [
       'START results=node(*)',
       'Where has(results.title)',
       'and results.nodeType="kn_Post"',
-      'and results.title =~ {userQuery}',
+      'and results.title =~ {regex}',
       'RETURN results'
     ].join('\n');
-    userQuery = '(?i).*' + userQuery + '.*'
-    params =
-      userQuery: userQuery
-
-    @getDB().query(cypherQuery, params, _).map_(_, (_, item) ->
+    regex = '(?i).*' + userQuery + '.*'
+    params = {regex: regex}
+    @DB.query(cypherQuery, params, _).map_(_, (_, item) ->
       item.results.data.id = item.results.id
-      nodes.push
-        results: item.results.data
+      nodes.push(item.results.data)
     )
     nodes
 

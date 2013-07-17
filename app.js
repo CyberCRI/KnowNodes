@@ -76,7 +76,9 @@ app.configure('production', function(){
 */
 
 // routing
-app.resource('resource');
+app.resource('resource', function() {
+    this.member.get('searchByKeyword');
+});
 app.resource('connection');
 
 app.resource('users');

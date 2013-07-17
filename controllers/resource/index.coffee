@@ -16,7 +16,4 @@ module.exports =
     new ResourceController(request).destroy(Callback.bind(response))
 
   searchByKeyword: (request, response) ->
-    dao = new ResourceDAO request.user
-    cb = Callback.bind response
-    query = request.params.resource.replace /:/g, ''
-    dao.searchByKeyword query, cb
+    new ResourceController(request).searchByKeyword(Callback.bind(response))

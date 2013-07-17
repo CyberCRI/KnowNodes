@@ -22,3 +22,7 @@ module.exports = class ResourceDAO
   delete: (id, _) ->
     resource = Resource.find(id, _)
     resource.delete _
+
+  searchByKeyword: (query, _) ->
+    @logger.debug("searchByKeyword (query: #{query})")
+    Resource.searchByKeyword(query, _)
