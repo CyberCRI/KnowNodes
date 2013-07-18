@@ -14,6 +14,8 @@ module.exports =
         switch error.type
           when Error.Type.ENTITY_NOT_FOUND
             response.json(404, error.message)
+          when Error.Type.UNAUTHORIZED_OPERATION
+            response.json(401, error.message)
           else
             response.json(500, error.message)
 

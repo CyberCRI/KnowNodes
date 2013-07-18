@@ -10,5 +10,10 @@ module.exports = class ResourceController extends Controller
     @request.params.resource
 
   searchByKeyword: (_) ->
+    # TODO Remove the useless string sanitization
     query = @request.params.resource.replace /:/g, ''
     @dao.searchByKeyword(query, _)
+
+  findByUrl: (_) ->
+    url = @request.body.url
+    @dao.findByUrl(url, _)

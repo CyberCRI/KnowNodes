@@ -32,7 +32,8 @@
         "iconv-lite": "0.2.10",
         "request":"2.21.0",
         "loggly": "0.3.11",
-        "less":"1.4.0"
+        "less": "1.4.0",
+        "validator": "latest"
     },
     "engines": {
         "node": "0.8.x"

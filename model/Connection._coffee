@@ -1,4 +1,5 @@
 NodeWrapper = require './NodeWrapper'
+NodeType = require './NodeType'
 ConnectionValidator = require './validation/connectionValidator'
 
 module.exports = class Connection extends NodeWrapper
@@ -7,7 +8,7 @@ module.exports = class Connection extends NodeWrapper
         CLASS METHODS
   ###
 
-  @getNodeType: -> 'kn_Edge'
+  @getNodeType: -> NodeType.CONNECTION
 
   @wrap: (node) -> new Connection(node)
 
