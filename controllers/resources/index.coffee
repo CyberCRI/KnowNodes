@@ -17,3 +17,6 @@ module.exports =
 
   searchByKeyword: (request, response) ->
     new ResourceController(request).searchByKeyword(Callback.bind(response))
+
+  findByUrl: (request, response) ->
+    new ResourceController(request).findByUrl(Callback.bind(response))

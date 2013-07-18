@@ -8,6 +8,8 @@ module.exports = class Controller
     throw Error.notImplemented('NodeWrapper.wrap()')
 
   create: (_) ->
+    if not @request.user?
+      throw Error.unauthorizedOperation('Controller.create()', 'User should be logged in')
     @dao.create(@request.body, @request.user.KN_ID, _)
 
   show: (_) ->

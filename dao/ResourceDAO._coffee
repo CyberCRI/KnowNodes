@@ -5,7 +5,7 @@ Logger = require '../log/logger'
 module.exports = class ResourceDAO
 
   constructor: ->
-    @logger = new Logger("ResourceDAO")
+    @logger = new Logger('ResourceDAO')
 
   create: (data, userId, _) ->
     creator = User.find(userId, _)
@@ -26,3 +26,7 @@ module.exports = class ResourceDAO
   searchByKeyword: (query, _) ->
     @logger.debug("searchByKeyword (query: #{query})")
     Resource.searchByKeyword(query, _)
+
+  findByUrl: (url, _) ->
+    @logger.debug("searchByUrl (url: #{url})")
+    Resource.findByUrl(url, _)

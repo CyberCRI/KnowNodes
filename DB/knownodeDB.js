@@ -22,40 +22,6 @@ function GUID ()
     });
 }
 
-var ResourceDB = exports.Resource = schema.define('kn_Post', {
-    KN_ID :         { type: String, length: 36, default: GUID, index: true },
-    __CreatedOn__:  { type: Date,    default: Date.now },
-
-    title:          { type: String, length: 350 },
-    url:            { type: String, length: 2000, index: true },
-    bodyText:       { type: Schema.Text },
-    postType:       { type: String, length: 50, index: true, default: 'resource'},
-    active:         { type: Boolean, default: true, index: true },
-
-    fileId:         { type: String, length: 255 },
-    fileName:       { type: String, length: 255 },
-    fileData:       { type: String, length: 2000 }
-});
-ResourceDB.validatesPresenceOf('title');
-
-var ConnectionDB = exports.Connection = schema.define('kn_Edge', {
-    KN_ID:              { type: String, length: 36, default: GUID, index: true },
-    __CreatedOn__:      { type: Date, default: Date.now, index: true },
-
-    title:              { type: String, length: 255 },
-    bodyText:           { type: Schema.Text },
-    connectionType:     { type: String, length: 255 },
-
-    // TODO Remove
-    fromNodeId:         { type: String, length: 20, index: true },
-    toNodeId:           { type: String, length: 20, index: true },
-
-    active:             { type: Boolean, default: true, index: true }
-});
-ConnectionDB.validatesPresenceOf('title');
-ConnectionDB.validatesPresenceOf('fromNodeId');
-ConnectionDB.validatesPresenceOf('toNodeId');
-
 var kn_UserGroup = exports.UserGroup = schema.define('UserGroup', {
     KN_ID :        { type: String, length: 36, default: GUID },
     __CreatedOn__:  { type: Date,    default: Date.now },

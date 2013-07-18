@@ -25,7 +25,6 @@ module.exports = class NodeWrapper
     data.__CreatedOn__ = Date.now()
     created = @wrap(@DB.createNode(data))
     created.save _
-    created.index _
     return created
 
   @find: (id, _) ->
@@ -60,6 +59,7 @@ module.exports = class NodeWrapper
   save: (_) ->
     @validate()
     @node.save _
+    @index _
     @
 
   update: (newData, _) ->
@@ -74,7 +74,13 @@ module.exports = class NodeWrapper
     @node.delete _
 
   index: (_) ->
-    @node.index(@node.data['nodeType'], 'KN_ID', @node.data['KN_ID'], _)
+    @indexProperty('KN_ID',_)
+
+  indexProperty: (key, _) ->
+    @node.index(@node.data['nodeType'], key, @node.data[key], _)
+
+  indexTextProperty: (key, _) ->
+    @node.index(@node.data['nodeType'], key, @node.data[key].toLowerCase(), _)
 
   ###
         METHODS TO IMPLEMENT

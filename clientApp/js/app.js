@@ -46,14 +46,6 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['firebase','ngSanitize'
                 templateUrl: 'partials/User/deleteUser',
                 controller: DeleteUserCtrl
             }).
-            when('/addConcept', {
-                templateUrl: 'partials/KnownodePost/addConcept',
-                controller: AddConceptCtrl
-            }).
-            when('/editConcept/:id', {
-                templateUrl: 'partials/KnownodePost/editConcept',
-                controller: EditConceptCtrl
-            }).
             when('/conceptList', {
                 templateUrl: 'partials/KnownodePost/conceptList',
                 controller: ConceptListCtrl
@@ -77,14 +69,6 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['firebase','ngSanitize'
             when('/wiki/:title', {
                 templateUrl: 'screens/resource',
                 controller: ResourceCtrl
-            }).
-            when('/addKnownodeTo/:id', {
-                templateUrl: 'partials/KnownodePost/addPostURL',
-                controller: AddPostCtrl
-            }).
-            when('/editKnownode/:id', {
-                templateUrl: 'partials/KnownodePost/addPostURL',
-                controller: EditPostCtrl
             }).
             when('/edge/:id', {
                 templateUrl: 'partials/KnownodePost/edgePage',

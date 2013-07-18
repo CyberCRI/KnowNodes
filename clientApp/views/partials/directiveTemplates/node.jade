@@ -1,5 +1,5 @@
 div.resourcecontent.span11#content(ng-mouseenter="addNode=true", ng-mouseleave="addNode=false")
-  a.knownode-title(ng-href="/article/:{{knownode.article.KN_ID}}", title="{{knownode.article.title}}") {{knownode.article.title}}
+  a.knownode-title(ng-href="/article/{{knownode.article.KN_ID}}", title="{{knownode.article.title}}") {{knownode.article.title}}
     a(ng-href="{{knownode.article.url}}", target="_blank").titleIcon
       img.open-in-new-window(src="/img/openInNewWindow.png", title="{{knownode.article.url}}", width="20px", ng-show="knownode.article.url")
     a(href="/knownodeFiles/:{{knownode.article.fileId}}", target="_blank", ng-show="knownode.article.fileName", title="{{knownode.article.fileName}}").titleIcon

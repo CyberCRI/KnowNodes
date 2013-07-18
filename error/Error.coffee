@@ -6,6 +6,7 @@ module.exports = class Exception
     ENTITY_NOT_FOUND: 'EntityNotFound'
     ILLEGAL_ARGUMENT: 'IllegalArgument'
     UNSUPPORTED_OPERATION: 'UnsupportedOperation'
+    UNAUTHORIZED_OPERATION: 'UnauthorizedOperation'
 
   @exception: (type, message) ->
     type: type
@@ -18,6 +19,9 @@ module.exports = class Exception
   @entityNotFound: (nodeType, id) ->
     @exception(@Type.ENTITY_NOT_FOUND, "No #{nodeType} found for id : #{id}")
 
+  @entityNotFound: (nodeType, key, value) ->
+    @exception(@Type.ENTITY_NOT_FOUND, "No #{nodeType} found for #{key} : #{value}")
+
   @illegalArgument: (argumentValue, methodName) ->
     @exception(@Type.ILLEGAL_ARGUMENT, "#{argumentValue} is not a valid value for method #{methodName}")
 
@@ -26,3 +30,6 @@ module.exports = class Exception
 
   @unsupportedOperation: (methodName, reason) ->
     @exception(@Type.UNSUPPORTED_OPERATION, "#{methodName} is not supported : #{reason}")
+
+  @unauthorizedOperation: (methodName, details) ->
+    @exception(@Type.UNAUTHORIZED_OPERATION, "#{methodName} is not allowed : #{details}")

@@ -6,7 +6,7 @@ Logger = require '../log/logger'
 module.exports = class ConnectionDAO
 
   constructor: ->
-    @logger = new Logger("ConnectionDAO")
+    @logger = new Logger('ConnectionDAO')
 
   create: (data, userId, _) ->
     startResource = Resource.find(data.fromNodeId, _)

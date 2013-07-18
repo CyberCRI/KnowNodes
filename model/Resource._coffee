@@ -1,15 +1,19 @@
 NodeWrapper = require './NodeWrapper'
+NodeType = require './NodeType'
 ResourceValidator = require './validation/resourceValidator'
 Connection = require './Connection'
 Error = require '../error/Error'
 
 module.exports = class Resource extends NodeWrapper
 
+  @Type:
+    WIKIPEDIA_ARTICLE: 'Wikipedia Article'
+
   ###
         CLASS METHODS
   ###
 
-  @getNodeType: -> 'kn_Post'
+  @getNodeType: -> NodeType.RESOURCE
 
   @wrap: (node) -> new Resource(node)
 
@@ -37,6 +41,13 @@ module.exports = class Resource extends NodeWrapper
     )
     nodes
 
+  @findByUrl: (url, _) ->
+    node = @DB.getIndexedNode(@getNodeType(), 'url', url, _)
+    if not node?
+      throw Error.entityNotFound(@getNodeType(), 'url', url)
+    else
+      @wrap node
+
   ###
         INSTANCE METHODS
   ###
@@ -49,3 +60,8 @@ module.exports = class Resource extends NodeWrapper
 
   validate: ->
     new ResourceValidator().validate(@node.data)
+
+  index: (_) ->
+    super _
+    if @node.data['url']?
+      @indexTextProperty('url',_)

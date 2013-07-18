@@ -78,6 +78,10 @@ app.configure('production', function(){
 // routing
 app.resource('resources', function() {
     this.member.get('searchByKeyword');
+    this.collection.post('findByUrl');
+});
+app.resource('wiki', function() {
+    this.member.get('findByTitle');
 });
 app.resource('connections');
 
