@@ -67,7 +67,7 @@ angular.module('KnowNodesApp.directives', [])
         return {
             restrict: 'EAC',
             transclude: true,
-            templateUrl: 'partials/directiveTemplates/resourceTypeSelector',
+            templateUrl: 'partials/resource/resourceTypeSelector',
             replace: true
         };
     })
@@ -206,15 +206,6 @@ angular.module('KnowNodesApp.directives', [])
             restrict: 'EAC',
             templateUrl: 'partials/directiveTemplates/chat',
             controller: ChatCtrl,
-            replace: true
-        };
-    }])
-
-    .directive('search', ['$http', function ($http) {
-        return {
-            restrict: 'EAC',
-            templateUrl: 'partials/directiveTemplates/search',
-            controller: SearchCtrl,
             replace: true
         };
     }])

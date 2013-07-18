@@ -76,6 +76,15 @@ app.configure('production', function(){
 */
 
 // routing
+app.resource('resources', function() {
+    this.member.get('searchByKeyword');
+    this.collection.post('findByUrl');
+});
+app.resource('wiki', function() {
+    this.member.get('findByTitle');
+});
+app.resource('connections');
+
 app.resource('users');
 app.resource('edges');
 app.resource('comments', function () {
@@ -155,6 +164,7 @@ app.get('/auth/google/callback',
 app.get('/', controller.index);
 app.get('/partials/:dir/:name', controller.partialsDir);
 app.get('/partials/:name', controller.partials);
+app.get('/screens/:name', controller.screens);
 
 app.get('*', controller.index);
 

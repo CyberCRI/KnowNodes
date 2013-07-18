@@ -35,3 +35,8 @@ exports.partials = function(req, res) {
     var name = req.params.name;
     res.render('partials/' + name, getParameters(req));
 };
+
+exports.screens = function(req, res) {
+    var name = req.params.name;
+    res.render('screens/' + name, getParameters(req));
+};
