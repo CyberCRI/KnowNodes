@@ -6246,22 +6246,29 @@ div.auto-generated {
   margin: 0 auto;
   width: 50%;
 }
-.l-frontpage-title-setup {
-  position: absolute;
+.l-frontpage-image {
+  position: relative;
   width: 100%;
 }
-.l-frontpage__title {
-  text-align: center;
+.frontpage-title {
   font-size: 36px;
   color: white;
-  margin-top: 4%;
-  padding: 3px;
-  text-align: none;
+}
+.l-frontpage-title {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  top: 100px;
+}
+.l-frontpage-title-bottom {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  bottom: 30px;
 }
 .frontpage__first-timer {
   background-color: yellow;
   text-align: center;
-  margin-top: 3em;
 }
 .topbar {
   position: fixed;
