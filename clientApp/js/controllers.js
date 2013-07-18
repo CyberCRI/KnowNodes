@@ -552,6 +552,7 @@ function IndexCtrl($scope, $http, $location, $tutorialService) {
     $scope.tutorialOn = function(){
         $tutorialService.setTutorialOn();
     };
+
 }
 IndexCtrl.$inject = ['$scope', '$http', '$location', 'tutorialService'];
 
