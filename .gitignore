@@ -2,10 +2,11 @@ node_modules/
 config/DB.conf.js
 .idea/
 config/settings.js
-.idea/
 *.js.map
 controllers/**/*.js
 modules/**/*.js
-modules/email/email.js
 bundledModules/.DS_Store
 *.css
+controllers/*.js
+modules/*.js
+npm-debug.log

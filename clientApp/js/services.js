@@ -282,13 +282,14 @@ angular.module('KnowNodesApp.services', [])
     .factory('resourceDialog', ['$dialog', function ($dialog) {
         return {
 
-            open: function (sourceId, connectionTitle, connectionType, targetId) {
+            open: function (resourceTitle) {
                 var options = {
                     backdrop: true,
                     dialogFade: true,
                     backdropFade: true,
                     templateUrl: 'partials/directiveTemplates/createResourceDialog',
-                    controller: 'CreateResourceDialogCtrl'
+                    controller: 'CreateResourceDialogCtrl',
+                    title: resourceTitle
                 };
                 return $dialog.dialog(options).open();
             }

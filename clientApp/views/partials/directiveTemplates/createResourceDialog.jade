@@ -4,7 +4,7 @@
 .modal-body
     p
         label(for='title') Title:
-        input(placeholder="The title of the resource - just copy paste", ng-model='resourceToCreate.title', ng-maxlength='350', name='title', required, autofocus, style="width:100%;").input_xxlarge
+        input(ng-model='resourceToCreate.title', ng-maxlength='350', name='title', required, autofocus, style="width:100%;").input_xxlarge
         span {{(350 -(resourceToCreate.title.length))}}
     p
         label(for='url') URL:

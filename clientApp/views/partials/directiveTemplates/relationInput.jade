@@ -1,6 +1,6 @@
 div.connection.span11(ng-class="bgColor")
     div.content.span11
-        div.input-prepend(data-intro='Here you explain how "{{concept.title}}" is related to a second resource', data-position="right")
+        div.input-prepend(data-intro='Here you explain how "{{concept.title}}" is related to a second resource.', data-position="right")
 
             div.btn-group(style="display:inline;", ng-model='connectionType', name="connectionType")
                 a.btn.reverse-direction(ng-hide="reversedDirection", ng-click="reversedDirection=true", title="reverse connection direction")
@@ -10,7 +10,7 @@ div.connection.span11(ng-class="bgColor")
                 a.btn.reverse-direction(ng-show="reversedDirection", ng-click="reversedDirection=false", title="reverse connection direction")
                     i.icon-arrow-down
                     i.icon-arrow-up
-                input#appendedPrependedDropdownButton.span9(ng-model='connectionTitle', name='title', required, type="text", ng-maxlength='80', placeholder="Describe the relationship", data-intro="When writing the description, remember it should make sense to others. Do your best to be neutral and descriptive, avoid jargon. Good luck!", data-position="bottom")
-                p.btn.btn-link.counter {{(80 -(connectionTitle.length)) }} left
+                input#appendedPrependedDropdownButton.span9(ng-model='connectionTitle', name='title', required, type="text", placeholder="Describe the relationship", data-intro="When writing the description, remember it should make sense to others. Do your best to be neutral and descriptive, avoid jargon. Good luck!", data-position="bottom")
+                //p.btn.btn-link.counter {{(80 -(connectionTitle.length)) }} left
 
         span(ng-transclude)

@@ -167,6 +167,7 @@ module.exports = class Knownode extends DBModule
 		params = where:
 			url: url
 		knownode = @DB.Post.findOne params, _
+		console.log("knownode", knownode)
 		return knownode
 
 	# destroy is delete node
