@@ -76,10 +76,10 @@ app.configure('production', function(){
 */
 
 // routing
-app.resource('resource', function() {
+app.resource('resources', function() {
     this.member.get('searchByKeyword');
 });
-app.resource('connection');
+app.resource('connections');
 
 app.resource('users');
 app.resource('edges');
@@ -160,6 +160,7 @@ app.get('/auth/google/callback',
 app.get('/', controller.index);
 app.get('/partials/:dir/:name', controller.partialsDir);
 app.get('/partials/:name', controller.partials);
+app.get('/screens/:name', controller.screens);
 
 app.get('*', controller.index);
 

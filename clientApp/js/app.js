@@ -54,10 +54,6 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['firebase','ngSanitize'
                 templateUrl: 'partials/KnownodePost/editConcept',
                 controller: EditConceptCtrl
             }).
-            when('/concept/:id', {
-                templateUrl: 'partials/KnownodePost/knownodeList',
-                controller: KnownodeListCtrl
-            }).
             when('/conceptList', {
                 templateUrl: 'partials/KnownodePost/conceptList',
                 controller: ConceptListCtrl
@@ -66,9 +62,21 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['firebase','ngSanitize'
                 templateUrl: 'partials/KnownodePost/map',
                 controller: MapCtrl
             }).
+            when('/concept/:id', {
+                templateUrl: 'screens/resource',
+                controller: ResourceCtrl
+            }).
+            when('/article/:id', {
+                templateUrl: 'screens/resource',
+                controller: ResourceCtrl
+            }).
+            when('/resource/:id', {
+                templateUrl: 'screens/resource',
+                controller: ResourceCtrl
+            }).
             when('/wiki/:title', {
-                templateUrl: 'partials/KnownodePost/knownodeList',
-                controller: KnownodeListCtrl
+                templateUrl: 'screens/resource',
+                controller: ResourceCtrl
             }).
             when('/addKnownodeTo/:id', {
                 templateUrl: 'partials/KnownodePost/addPostURL',
@@ -77,10 +85,6 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['firebase','ngSanitize'
             when('/editKnownode/:id', {
                 templateUrl: 'partials/KnownodePost/addPostURL',
                 controller: EditPostCtrl
-            }).
-            when('/article/:id', {
-                templateUrl: 'partials/KnownodePost/knownodeList',
-                controller: KnownodeListCtrl
             }).
             when('/edge/:id', {
                 templateUrl: 'partials/KnownodePost/edgePage',

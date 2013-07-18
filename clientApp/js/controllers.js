@@ -245,7 +245,7 @@ function MapCtrl($scope, $routeParams) {
 MapCtrl.$inject = ['$scope', '$routeParams'];
 
 
-function KnownodeListCtrl($scope, $http, $routeParams, $location, userService, resource, wikipedia, wikinode, tutorialService) {
+function ResourceCtrl($scope, $http, $routeParams, $location, userService, resource, wikipedia, wikinode, tutorialService) {
 
     // First, check whether the resource is a KN Resource or a Wikipedia Article
     if ($routeParams.id != null) {
@@ -318,7 +318,7 @@ function KnownodeListCtrl($scope, $http, $routeParams, $location, userService, r
     $scope.start = +new Date();
 
 }
-KnownodeListCtrl.$inject = ['$scope', '$http', '$routeParams', '$location', 'userService', 'resource', 'wikipedia', 'wikinode', 'tutorialService'];
+ResourceCtrl.$inject = ['$scope', '$http', '$routeParams', '$location', 'userService', 'resource', 'wikipedia', 'wikinode', 'tutorialService'];
 
 
 function KnownodeCtrl($scope, $http, $routeParams, userService) {
@@ -871,8 +871,8 @@ function SearchBoxCtrl($scope, $http, $timeout, hybridSearch) {
                     var addResource = true;
                     // First item is the create resource option
                     for (i = 0; i < results.resources.length; i++) {
-                        suggestions.results.push({id: results.resources[i].results.KN_ID, text: results.resources[i].results.title});
-                        if(query.term.toLowerCase() == results.resources[i].results.title.toLowerCase()) {
+                        suggestions.results.push({id: results.resources[i].KN_ID, text: results.resources[i].title});
+                        if(query.term.toLowerCase() == results.resources[i].title.toLowerCase()) {
                             addResource = false;
                         };
                     }
@@ -880,7 +880,7 @@ function SearchBoxCtrl($scope, $http, $timeout, hybridSearch) {
                         suggestions.results.push({id: results.wikipediaArticles[i].title, text: results.wikipediaArticles[i].title, type: 'Wikipedia Article'});
                     }
                     if(addResource == true) {
-                    suggestions.results.unshift({id: 'create_data_option_id', title: query.term, text: 'Create Resource : ' + query.term, type: 'Create Resource'});
+                        suggestions.results.unshift({id: 'create_data_option_id', title: query.term, text: 'Create Resource : ' + query.term, type: 'Create Resource'});
                     }
                     query.callback(suggestions);
                 });
