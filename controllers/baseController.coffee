@@ -1,6 +1,8 @@
-LogModule = require('../modules/log')
+LogModule = require '../modules/log'
+Logger = require '../log/logger'
 
 module.exports =
+
 	isAdmin: (request, response, next) ->
 		console.log("checking it's admin")
 		next()
@@ -16,9 +18,14 @@ module.exports =
 		console.log "checking if user is loggedin"
 		next()
 
-	callBack: (res) ->
+	callBack: (response) ->
 		return (err, result) ->
-			return if err then res.json(error: err) else res.json(success: result)
+			if err
+        logger = new Logger('baseController caught error')
+        logger.error(err)
+        response.json(error: err)
+      else
+        response.json(success: result)
 
 	logActivity: (user, title, description, callback) ->
 		logger = new LogModule user

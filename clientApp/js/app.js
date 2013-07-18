@@ -46,18 +46,6 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['firebase','ngSanitize'
                 templateUrl: 'partials/User/deleteUser',
                 controller: DeleteUserCtrl
             }).
-            when('/addConcept', {
-                templateUrl: 'partials/KnownodePost/addConcept',
-                controller: AddConceptCtrl
-            }).
-            when('/editConcept/:id', {
-                templateUrl: 'partials/KnownodePost/editConcept',
-                controller: EditConceptCtrl
-            }).
-            when('/concept/:id', {
-                templateUrl: 'partials/KnownodePost/knownodeList',
-                controller: KnownodeListCtrl
-            }).
             when('/conceptList', {
                 templateUrl: 'partials/KnownodePost/conceptList',
                 controller: ConceptListCtrl
@@ -66,21 +54,21 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['firebase','ngSanitize'
                 templateUrl: 'partials/KnownodePost/map',
                 controller: MapCtrl
             }).
-            when('/wiki/:title', {
-                templateUrl: 'partials/KnownodePost/knownodeList',
-                controller: KnownodeListCtrl
-            }).
-            when('/addKnownodeTo/:id', {
-                templateUrl: 'partials/KnownodePost/addPostURL',
-                controller: AddPostCtrl
-            }).
-            when('/editKnownode/:id', {
-                templateUrl: 'partials/KnownodePost/addPostURL',
-                controller: EditPostCtrl
+            when('/concept/:id', {
+                templateUrl: 'screens/resource',
+                controller: ResourceCtrl
             }).
             when('/article/:id', {
-                templateUrl: 'partials/KnownodePost/knownodeList',
-                controller: KnownodeListCtrl
+                templateUrl: 'screens/resource',
+                controller: ResourceCtrl
+            }).
+            when('/resource/:id', {
+                templateUrl: 'screens/resource',
+                controller: ResourceCtrl
+            }).
+            when('/wiki/:title', {
+                templateUrl: 'screens/resource',
+                controller: ResourceCtrl
             }).
             when('/edge/:id', {
                 templateUrl: 'partials/KnownodePost/edgePage',

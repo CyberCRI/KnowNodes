@@ -15,6 +15,7 @@ var schema = new Schema('neo4j', DBData.getDBURL("neo4j"));
 // Generates a new GUID string
 function GUID ()
 {
+    // TODO Guarantee Uniqueness
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
         return v.toString(16);
@@ -90,7 +91,7 @@ var kn_Edge = exports.Edge = schema.define('kn_Edge', {
     __CreatedOn__:  { type: Date, default: Date.now, index: true },
 
     title:          { type: String, length: 255 },
-    bodyText:        { type: Schema.Text },
+    bodyText:       { type: Schema.Text },
     connectionType: { type: String, length: 255 },
     fromNodeId:     { type: String, length: 20, index: true },
     toNodeId:       { type: String, length: 20, index: true },
@@ -155,6 +156,7 @@ exports.getUsersByName = function(name, callback) {
 
 exports.getPostTypes = function() {
     return {
+        resource: 'Resource',
         openQuestion: 'Open_Question',
         query: 'Query',
         publication: 'Publication',

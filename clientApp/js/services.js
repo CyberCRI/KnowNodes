@@ -25,6 +25,7 @@ angular.module('KnowNodesApp.services', [])
 
         return serviceReturned;
     })
+
     .service('tutorialService', function () {
         var tutorial;
 
@@ -40,6 +41,7 @@ angular.module('KnowNodesApp.services', [])
             }
         };
     })
+
     .factory('PassKnownode', function () {
         var currentEdge;
         var PassKnownodeService = {};
@@ -89,10 +91,6 @@ angular.module('KnowNodesApp.services', [])
 
             search: function (query) {
 
-                var handleResultsFromKnownodes = function (result) {
-                    return result.data.success;
-                };
-
                 var handleResultsFromWikipedia = function (result) {
                     if (result.data.query != null)
                         return result.data.query.search;
@@ -100,10 +98,10 @@ angular.module('KnowNodesApp.services', [])
                 };
 
                 var deferred = $q.defer();
-                $q.all([$http.get('/knownodes/:' + query + '/getNodesByKeyword'),
+                $q.all([$http.get('/resources/' + query + '/searchByKeyword'),
                         $http.jsonp(wikiBaseUrl + query)])
                     .then(function (results) {
-                        var resources = handleResultsFromKnownodes(results[0]);
+                        var resources = results[0].data;
                         var wikipediaArticles = handleResultsFromWikipedia(results[1]);
                         deferred.resolve({resources: resources, wikipediaArticles: wikipediaArticles});
                     });
@@ -117,11 +115,11 @@ angular.module('KnowNodesApp.services', [])
     .factory('resource', ['$http', '$q', 'wikipedia', function ($http, $q, wikipedia) {
 
         var getResourceWithWikipediaLinks = function (id) {
-            return $http.get('/knownodes/' + id).then(addWikipediaLinks);
+            return $http.get('/resources/' + id).then(addWikipediaLinks);
         }
 
         var addWikipediaLinks = function (result) {
-            var resource = result.data.success;
+            var resource = result.data;
             var deferred = $q.defer();
             wikipedia.getArticle(resource.title).then(function (article) {
                 if (article != null) {
@@ -178,15 +176,9 @@ angular.module('KnowNodesApp.services', [])
 
             create: function (resourceData) {
                 var deferred = $q.defer();
-                $http.post('/knownodes', {knownodeForm: resourceData})
+                $http.post('/resources', resourceData)
                     .success(function (data, status, headers, config) {
-                        if (data.success) {
-                            deferred.resolve(data.success);
-                        }
-                        if (data.error) {
-                            console.log(data.error);
-                            deferred.resolve(null);
-                        }
+                        deferred.resolve(data)
                     })
                     .error(function (data, status, headers) {
                         console.log('Resource creation failed with error code : ' + status);
@@ -195,6 +187,20 @@ angular.module('KnowNodesApp.services', [])
                     });
                 ;
                 return deferred.promise;
+            },
+
+            delete: function (id) {
+                // TODO Implement
+                alert('Not implemented')
+                //return $http.delete('/resources/' + id)
+                //    .error(function (data, status) {
+                //        console.log('Resource deletion failed with error code : ' + status);
+                //        console.log('Error message : ' + data.message);
+                //    });
+            },
+
+            findByUrl: function(url) {
+                return $http.post('/resources/findByUrl', {url: url});
             }
 
         }
@@ -287,7 +293,7 @@ angular.module('KnowNodesApp.services', [])
                     backdrop: true,
                     dialogFade: true,
                     backdropFade: true,
-                    templateUrl: 'partials/directiveTemplates/createResourceDialog',
+                    templateUrl: 'partials/resource/createResourceDialog',
                     controller: 'CreateResourceDialogCtrl',
                     title: resourceTitle
                 };
