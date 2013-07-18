@@ -1,6 +1,6 @@
 'use strict';
 
-function TopBarCtrl($scope, $location, resourceDialog) {
+function TopBarCtrl($scope, $location, resourceDialog, resource) {
 
     $scope.$on('$routeChangeSuccess', function (event, current, previous) {
         var path = $location.path().split('/')[1];
@@ -14,7 +14,13 @@ function TopBarCtrl($scope, $location, resourceDialog) {
         event.stopPropagation();
         switch (result.type) {
             case 'Create Resource':
-                openResourceDialog();
+                openResourceDialog(result.title);
+                break;
+            case 'Link to Resource':
+                result.type = null;
+                resource.create(result).then(function(createdResource){
+                    $location.path('/concept/'+ createdResource.KN_ID);
+                });
                 break;
             case 'Wikipedia Article':
                 $location.path('/wiki/' + result.id);
@@ -25,8 +31,8 @@ function TopBarCtrl($scope, $location, resourceDialog) {
         }
     });
 
-    var openResourceDialog = function () {
-        resourceDialog.open().then(function (createdResource) {
+    var openResourceDialog = function (title) {
+        resourceDialog.open(title).then(function (createdResource) {
             if (createdResource) {
                 $location.path('/concept/' + createdResource.KN_ID);
             }
@@ -38,12 +44,12 @@ function TopBarCtrl($scope, $location, resourceDialog) {
         $scope.resourceId = result;
     });
 }
-TopBarCtrl.$inject = ['$scope', '$location', 'resourceDialog'];
+TopBarCtrl.$inject = ['$scope', '$location', 'resourceDialog', 'resource'];
 
 
 function CreateResourceDialogCtrl($scope, dialog, resource) {
 
-    $scope.resourceToCreate = {};
+    $scope.resourceToCreate = {title: dialog.options.title};
 
     $scope.close = function () {
         dialog.close();
@@ -818,32 +824,88 @@ function KnownodeInputCtrl($scope, $rootScope, $q, $route, resourceDialog, wikin
 KnownodeInputCtrl.$inject = ['$scope', '$rootScope', '$q', '$route', 'resourceDialog', 'wikinode', 'resource', 'connection', 'tutorialService'];
 
 
-function SearchBoxCtrl($scope, $http, hybridSearch) {
-
+function SearchBoxCtrl($scope, $http, $timeout, hybridSearch) {
     $scope.selectedResult = null;
 
+    var lastQuery = "";
     $scope.searchBoxOptions = {
         dropdownAutoWidth: true,
         minimumInputLength: 3,
         query: function (query) {
-            hybridSearch.search(query.term).then(function (results) {
-                var suggestions = {results: []}, i;
-                // First item is the create resource option
-                suggestions.results.push({id: 'create_data_option_id', text: 'Create Resource : ' + query.term, type: 'Create Resource'});
-                for (i = 0; i < results.resources.length; i++) {
-                    suggestions.results.push({id: results.resources[i].results.KN_ID, text: results.resources[i].results.title});
-                }
-                for (i = 0; i < results.wikipediaArticles.length; i++) {
-                    suggestions.results.push({id: results.wikipediaArticles[i].title, text: results.wikipediaArticles[i].title, type: 'Wikipedia Article'});
-                }
-                query.callback(suggestions);
-            });
+            lastQuery = query.term;
+            $timeout(function() {
+            if (lastQuery != query.term) return;
+            if(query.term.indexOf("http://") == 0 || query.term.indexOf("https://") == 0 || query.term.indexOf("www.") == 0)
+            {
+                $http.post("/knownodes/getResourceByUrl", { url: query.term }).success(function(data) {
+                    console.log("getResourceByUrl result", data);
+                    if(data.success) {
+                        query.callback({ results: [
+                            { id: data.success.KN_ID, text: data.success.title}
+                        ]});
+                    }
+                    else
+                    {
+                        $http.post("/knownodes/scrapeUrl", { url: query.term }).success(function(data) {
+                            console.log("scrapeUrl result", data);
+                            if(data.success) {
+                                query.callback({ results: [
+                                    { title: data.success.title, body: data.success.body, image: data.success.image, url: query.term, type: 'Link to Resource', id:"scrape" }
+                                ]});
+                            }
+                            else 
+                            {
+                                console.log("Cannot scrape URL")
+                                query.callback({ results: [
+                                    { id: 'create_data_option_id', text: 'Create Resource: ' + query.term, type: 'Create Resource'}
+                                ]});
+                            }
+                        });
+                    }
+                });
+            }
+            else
+            {
+                hybridSearch.search(query.term).then(function (results) {
+                    var suggestions = {results: []}, i;
+                    var addResource = true;
+                    // First item is the create resource option
+                    for (i = 0; i < results.resources.length; i++) {
+                        suggestions.results.push({id: results.resources[i].results.KN_ID, text: results.resources[i].results.title});
+                        if(query.term.toLowerCase() == results.resources[i].results.title.toLowerCase()) {
+                            addResource = false;
+                        };
+                    }
+                    for (i = 0; i < results.wikipediaArticles.length; i++) {
+                        suggestions.results.push({id: results.wikipediaArticles[i].title, text: results.wikipediaArticles[i].title, type: 'Wikipedia Article'});
+                    }
+                    if(addResource == true) {
+                    suggestions.results.unshift({id: 'create_data_option_id', title: query.term, text: 'Create Resource : ' + query.term, type: 'Create Resource'});
+                    }
+                    query.callback(suggestions);
+                });
+            }}, 500);
+
         },
-        formatResult: function movieFormatResult(node) {
+
+        formatResult: function(node) {
             var markup = "<table class='suggestion'><tr>";
 
             if (node.type === 'Create Resource') {
                 markup += "<td class='suggestion-info'><div class='suggestion-title create-resource'>" + node.text + "</div></td>";
+            } else if(node.type === "Link to Resource") {
+                markup += "<td class='suggestion-info'><div class='suggestion-title create-resource'>Create Resource: " + node.title + "</div>";
+                if(node.body === undefined && node.image != null) {
+                    markup +=  "<div class='suggestion-body create-resource scrap-body'><p class='scrap-body-text'></p><img onerror='this.style.display = \"none\"' class='scrap-body-img' src=" + node.image + "></img></div></td>";
+                }
+                else if(node.body === undefined && node.image === undefined){
+                }
+                else if(node.image === undefined) {
+                    markup += "<div class='suggestion-body create-resource scrap-body'><p class='scrap-body-text'>" + node.body + "</p></div></td>";
+                }
+                else {
+                    markup += "<div class='suggestion-body create-resource scrap-body'><p class='scrap-body-text'>" + node.body + "</p><img onerror='this.style.display = \"none\"' class='scrap-body-img' src=" + node.image + "></img></div></td>";
+                }
             } else {
                 markup += "<td class='suggestion-info'><div class='suggestion-title'>" + node.text + "</div></td>";
             }
@@ -861,8 +923,16 @@ function SearchBoxCtrl($scope, $http, hybridSearch) {
             switch (result.type) {
                 case 'Create Resource':
                     $scope.$emit('searchResultSelected', {
-                        title: 'Create Resource',
+                        title: result.title,
                         type: 'Create Resource'
+            });
+                    break;
+                case 'Link to Resource':
+                    $scope.$emit('searchResultSelected', {
+                        title: result.title,
+                        bodyText: result.body,
+                        url: result.url,
+                        type: 'Link to Resource'
                     });
                     break;
                 case 'Wikipedia Article':
@@ -895,7 +965,7 @@ function SearchBoxCtrl($scope, $http, hybridSearch) {
     };
 
 }
-SearchBoxCtrl.$inject = ['$scope', '$http', 'hybridSearch'];
+SearchBoxCtrl.$inject = ['$scope', '$http', '$timeout', 'hybridSearch'];
 
 
 function RelationCtrl($scope) {
