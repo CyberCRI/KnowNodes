@@ -25,6 +25,7 @@ angular.module('KnowNodesApp.services', [])
 
         return serviceReturned;
     })
+
     .service('tutorialService', function () {
         var tutorial;
 
@@ -40,6 +41,7 @@ angular.module('KnowNodesApp.services', [])
             }
         };
     })
+
     .factory('PassKnownode', function () {
         var currentEdge;
         var PassKnownodeService = {};
@@ -89,10 +91,6 @@ angular.module('KnowNodesApp.services', [])
 
             search: function (query) {
 
-                var handleResultsFromKnownodes = function (result) {
-                    return result.data.success;
-                };
-
                 var handleResultsFromWikipedia = function (result) {
                     if (result.data.query != null)
                         return result.data.query.search;
@@ -100,10 +98,10 @@ angular.module('KnowNodesApp.services', [])
                 };
 
                 var deferred = $q.defer();
-                $q.all([$http.get('/knownodes/:' + query + '/getNodesByKeyword'),
+                $q.all([$http.get('/resources/' + query + '/searchByKeyword'),
                         $http.jsonp(wikiBaseUrl + query)])
                     .then(function (results) {
-                        var resources = handleResultsFromKnownodes(results[0]);
+                        var resources = results[0].data;
                         var wikipediaArticles = handleResultsFromWikipedia(results[1]);
                         deferred.resolve({resources: resources, wikipediaArticles: wikipediaArticles});
                     });
