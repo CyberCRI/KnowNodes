@@ -1,62 +1,67 @@
-form(name="form", novalidate)
-    div.control-group(ng-class="{true:'error'}[submitted && form.selectedSuggestion.$invalid && form.knownodeRelation.title.$invalid && form.knownodeRelation.connectionType]")
-        // Source Node
-        // ... default direction
-        div.resourcecontent.span11#content(ng-hide="reversedDirection", ng-show="rootNodeExists",style="padding:0px",data-intro='This is the resource "{{concept.title}}". Yep.', data-position="right" )
-            accordion
-                accordion-group(heading="{{concept.title}}", is-open='true')
-                    div.knownode-body
-                        p.bold(ng-show="concept.url")
-                            a(ng-href="{{concept.url}}") {{concept.url}}
-                        p.bold(ng-show="concept.wikipediaLinks && !concept.url")
-                            a(ng-href="http://en.wikipedia.org/wiki/{{concept.title}}", target="_blank") http://en.wikipedia.org/wiki/{{concept.title}}
+div
+  div.popover.top(style="display: block; position:relative; margin-top:0px; margin-bottom:15px; z-index:1; max-width:12em;")
+    div.popover-content(style="text-align:center") Create a connection
+    div.arrow
 
-                        p(ng-show="concept.fileName") Download:
-                            a(class="btn-info",href="/knownodeFiles/:{{concept.fileId}}", target="_blank", ng-show="concept.fileName") &nbsp;{{concept.fileName}}&nbsp;
-                        div(ng-bind-html-unsafe="concept.bodyText")
-
-        // ... reversed direction
-        div.resourcecontent.span11#content(ng-show="reversedDirection && rootNodeExists")
-            p
-                search-box.knownode-title.target-resource-search-box(style="width:100%")
-                span#content(ng-show="targetResourceTitle != null")
-                    {{targetResourceTitle}}
-                    button(ng-click="clearOtherResource()") X
-                span.help-inline(ng-show="submitted && form.selectedSuggestion.$error.required") you must choose a resource.
-
-        // Connection between Nodes
-        div(relation-input)
-
-        // Destination Node
-        // ... default direction
-        // ....... existing node
-        div.resourcecontent.span11#content(ng-hide="reversedDirection", ng-show="rootNodeExists", data-intro="Using this box you can paste a link, write a thought or search for something to connect to '{{concept.title}}'", data-position="right")
-            p
-                search-box.knownode-title.target-resource-search-box(style="width:100%")
-                span#content(ng-show="targetResourceTitle != null")
-                    {{targetResourceTitle}}
-                    button(ng-click="clearOtherResource()") X
-                span.help-inline(ng-show="submitted && form.selectedSuggestion.$error.required") you must choose a resource.
-
-        // ... reversed direction
-        div.resourcecontent.span11#content(ng-show="reversedDirection", style="padding:0px")
-            accordion
-                accordion-group(heading="{{concept.title}}", is-open='true')
-                    div.knownode-body
-                        p.bold(ng-show="concept.url")
-                            a(ng-href="{{concept.url}}") {{concept.url}}
+  form(name="form", novalidate)
+        div.control-group(ng-class="{true:'error'}[submitted && form.selectedSuggestion.$invalid && form.knownodeRelation.title.$invalid && form.knownodeRelation.connectionType]")
+            // Source Node
+            // ... default direction
+            div.resourcecontent.span11#content(ng-hide="reversedDirection", ng-show="rootNodeExists",style="padding:0px",data-intro='This is the resource "{{concept.title}}". Yep.', data-position="right" )
+                accordion
+                    accordion-group(heading="{{concept.title}}", is-open='true')
+                        div.knownode-body
+                            p.bold(ng-show="concept.url")
+                                a(ng-href="{{concept.url}}") {{concept.url}}
                             p.bold(ng-show="concept.wikipediaLinks && !concept.url")
                                 a(ng-href="http://en.wikipedia.org/wiki/{{concept.title}}", target="_blank") http://en.wikipedia.org/wiki/{{concept.title}}
+
                             p(ng-show="concept.fileName") Download:
                                 a(class="btn-info",href="/knownodeFiles/:{{concept.fileId}}", target="_blank", ng-show="concept.fileName") &nbsp;{{concept.fileName}}&nbsp;
                             div(ng-bind-html-unsafe="concept.bodyText")
-        p.span11(style="margin-left:0; font-size:1.2em;") Why did you add this link?&nbsp
-          span.btn-group(data-toggle="buttons-radio")
-            button.btn.btn-primary.explain(type="button", ng-click="categoryClick('explain')") to explain
-            button.btn.btn-primary.inspire(type="button", ng-click="categoryClick('inspire')") to inspire
-            button.btn.btn-primary.critique(type="button", ng-click="categoryClick('question')") to critique
+
+            // ... reversed direction
+            div.resourcecontent.span11#content(ng-show="reversedDirection && rootNodeExists")
+                p
+                    search-box.knownode-title.target-resource-search-box(style="width:100%")
+                    span#content(ng-show="targetResourceTitle != null")
+                        {{targetResourceTitle}}
+                        button(ng-click="clearOtherResource()") X
+                    span.help-inline(ng-show="submitted && form.selectedSuggestion.$error.required") you must choose a resource.
+
+            // Connection between Nodes
+            div(relation-input)
+
+            // Destination Node
+            // ... default direction
+            // ....... existing node
+            div.resourcecontent.span11#content(ng-hide="reversedDirection", ng-show="rootNodeExists", data-intro="Using this box you can paste a link, write a thought or search for something to connect to '{{concept.title}}'", data-position="right")
+                p
+                    search-box.knownode-title.target-resource-search-box(style="width:100%")
+                    span#content(ng-show="targetResourceTitle != null")
+                        {{targetResourceTitle}}
+                        button(ng-click="clearOtherResource()") X
+                    span.help-inline(ng-show="submitted && form.selectedSuggestion.$error.required") you must choose a resource.
+
+            // ... reversed direction
+            div.resourcecontent.span11#content(ng-show="reversedDirection", style="padding:0px")
+                accordion
+                    accordion-group(heading="{{concept.title}}", is-open='true')
+                        div.knownode-body
+                            p.bold(ng-show="concept.url")
+                                a(ng-href="{{concept.url}}") {{concept.url}}
+                                p.bold(ng-show="concept.wikipediaLinks && !concept.url")
+                                    a(ng-href="http://en.wikipedia.org/wiki/{{concept.title}}", target="_blank") http://en.wikipedia.org/wiki/{{concept.title}}
+                                p(ng-show="concept.fileName") Download:
+                                    a(class="btn-info",href="/knownodeFiles/:{{concept.fileId}}", target="_blank", ng-show="concept.fileName") &nbsp;{{concept.fileName}}&nbsp;
+                                div(ng-bind-html-unsafe="concept.bodyText")
+            p.span11(style="margin-left:0; font-size:1.2em;") Why did you add this link?&nbsp
+              span.btn-group(data-toggle="buttons-radio")
+                button.btn.btn-primary.explain-button(type="button", ng-click="categoryClick('explain')") to explain
+                button.btn.btn-primary.inspire-button(type="button", ng-click="categoryClick('inspire')") to inspire
+                button.btn.btn-primary.critique-button(type="button", ng-click="categoryClick('question')") to critique
 
 
-    button.btn.btn-primary.btn-large#content(ng-click="submit(); tutorialOff();", ng-disabled="submitted") Submit
-    span
-        p.alert(ng-show="submitErrorMessage") {{submitErrorMessage}}
+        button.btn.btn-primary.btn-large#content(ng-click="submit(); tutorialOff();", ng-disabled="submitted") Submit
+        span
+            p.alert(ng-show="submitErrorMessage") {{submitErrorMessage}}
