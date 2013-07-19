@@ -2,7 +2,7 @@ div.subheader
     div
         //        div.span11.offset1
         //            div.knownode.span12.shortKnownode
-        //                div(knownode-input)
+        //                div(triplet-input)
 
         div(ng-repeat="link in article.links", ng-switch on="link.title != article.title").span11.offset1
             div(ng-switch-when="true").knownode.span12.shortKnownode

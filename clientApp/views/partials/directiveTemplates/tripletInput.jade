@@ -52,9 +52,9 @@ form(name="form", novalidate)
                             div(ng-bind-html-unsafe="concept.bodyText")
         p.span11(style="margin-left:0; font-size:1.2em;") Why did you add this link?&nbsp
           span.btn-group(data-toggle="buttons-radio")
-            button.btn.btn-primary(type="button", ng-click="categoryClick('explain')") to explain
-            button.btn.btn-primary(type="button", ng-click="categoryClick('inspire')") to inspire
-            button.btn.btn-primary(type="button", ng-click="categoryClick('question')") to critique
+            button.btn.btn-primary.explain(type="button", ng-click="categoryClick('explain')") to explain
+            button.btn.btn-primary.inspire(type="button", ng-click="categoryClick('inspire')") to inspire
+            button.btn.btn-primary.critique(type="button", ng-click="categoryClick('question')") to critique
 
 
     button.btn.btn-primary.btn-large#content(ng-click="submit(); tutorialOff();", ng-disabled="submitted") Submit
