@@ -252,19 +252,17 @@ angular.module('KnowNodesApp.services', [])
         };
     }])
 
-    .factory('connection', ['$http', '$q', function ($http, $q) {
+    .factory('connection', ['$http', function ($http) {
         return {
 
-            create: function (sourceId, connectionTitle, connectionType, targetId) {
+            create: function (startId, connectionTitle, connectionType, endId) {
                 var request = {
-                    originalPostId: sourceId,
-                    knownodeRelation: {
-                        title: connectionTitle,
-                        connectionType: connectionType
-                    },
-                    existingNode: targetId
+                    title: connectionTitle,
+                    connectionType: connectionType,
+                    fromNodeId: startId,
+                    toNodeId: endId
                 };
-                return $http.post('/knownodes', request);
+                return $http.post('/connections', request);
             }
 
         };
