@@ -1,6 +1,6 @@
 'use strict';
 
-function TopBarCtrl($scope, $location, resourceDialog, resource) {
+function TopBarCtrl($scope, $location, resource) {
 
     $scope.$on('$routeChangeSuccess', function (event, current, previous) {
         var path = $location.path().split('/')[1];
@@ -13,9 +13,6 @@ function TopBarCtrl($scope, $location, resourceDialog, resource) {
     $scope.$on('searchResultSelected', function (event, result) {
         event.stopPropagation();
         switch (result.type) {
-            case 'Create Resource':
-                openResourceDialog(result.title);
-                break;
             case 'Link to Resource':
                 result.type = null;
                 resource.create(result).then(function (createdResource) {
@@ -31,20 +28,12 @@ function TopBarCtrl($scope, $location, resourceDialog, resource) {
         }
     });
 
-    var openResourceDialog = function (title) {
-        resourceDialog.open(title).then(function (createdResource) {
-            if (createdResource) {
-                $location.path('/concept/' + createdResource.KN_ID);
-            }
-        });
-    };
-
     $scope.$on('mapNavigated', function (event, result) {
         event.stopPropagation();
         $scope.resourceId = result;
     });
 }
-TopBarCtrl.$inject = ['$scope', '$location', 'resourceDialog', 'resource'];
+TopBarCtrl.$inject = ['$scope', '$location', 'resource'];
 
 
 function CreateResourceDialogCtrl($scope, dialog, resource) {
@@ -412,27 +401,12 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, resourceDialog, wikino
             && targetResource != null;
     };
 
-    // TODO Remove hack caused by duplicate widgets in template
-    var isDialogOpen = false;
-
     $scope.$on('searchResultSelected', function (event, result) {
         event.stopPropagation();
-        if (result.type === 'Create Resource' && isDialogOpen === false) {
-            isDialogOpen = true;
-            openResourceDialog();
-        } else if (result.type === 'Wikipedia Article' || result.type === 'Resource') {
+        if (result.type === 'Wikipedia Article' || result.type === 'Resource') {
             setOtherResource(result);
         }
     });
-
-    var openResourceDialog = function () {
-        resourceDialog.open().then(function (createdResource) {
-            if (createdResource) {
-                setOtherResource(createdResource);
-            }
-            isDialogOpen = false;
-        });
-    };
 
     var setOtherResource = function (otherResource) {
         targetResource = otherResource;
@@ -521,10 +495,14 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, resourceDialog, wikino
 TripletInputCtrl.$inject = ['$scope', '$rootScope', '$q', '$route', 'resourceDialog', 'wikinode', 'resource', 'connection', 'tutorialService'];
 
 
-function SearchBoxCtrl($scope, $http, $timeout, hybridSearch, resource) {
+function SearchBoxCtrl($scope, $http, $timeout, hybridSearch, resource, resourceDialog) {
+
     $scope.selectedResult = null;
 
     var lastQuery = "";
+
+
+
     $scope.searchBoxOptions = {
         dropdownAutoWidth: true,
         minimumInputLength: 3,
@@ -620,9 +598,9 @@ function SearchBoxCtrl($scope, $http, $timeout, hybridSearch, resource) {
             var result = getSelectedResult();
             switch (result.type) {
                 case 'Create Resource':
-                    $scope.$emit('searchResultSelected', {
-                        title: result.title,
-                        type: 'Create Resource'
+                    resourceDialog.open(result.title).then(function (createdResource) {
+                        createdResource.type = 'Resource';
+                        $scope.$emit('searchResultSelected', createdResource);
                     });
                     break;
                 case 'Link to Resource':
@@ -663,7 +641,7 @@ function SearchBoxCtrl($scope, $http, $timeout, hybridSearch, resource) {
     };
 
 }
-SearchBoxCtrl.$inject = ['$scope', '$http', '$timeout', 'hybridSearch', 'resource'];
+SearchBoxCtrl.$inject = ['$scope', '$http', '$timeout', 'hybridSearch', 'resource', 'resourceDialog'];
 
 
 function RelationCtrl($scope) {
