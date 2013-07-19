@@ -263,11 +263,11 @@ angular.module('KnowNodesApp.directives', [])
         };
     }])
 
-    .directive('knownodeInput', ['$http', function ($http) {
+    .directive('tripletInput', ['$http', function ($http) {
         return {
             restrict: 'A',
-            templateUrl: 'partials/directiveTemplates/knownodeInput',
-            controller: KnownodeInputCtrl,
+            templateUrl: 'partials/directiveTemplates/tripletInput',
+            controller: TripletInputCtrl,
             replace: true
         };
     }])
