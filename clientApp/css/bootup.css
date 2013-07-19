@@ -1059,12 +1059,12 @@ div.auto-generated{background:#d3d3d3;}
 .dropdown-submenu>a:after{display:none;content:" ";float:none;width:0;height:0;border-color:transparent;border-style:none;border-width:none;margin-top:none;margin-right:none;}
 .counter{color:#717577;cursor:default;}
 .counter:hover{color:#717577;cursor:default;}
-.explain{background:#1c75bc;}.explain:hover{background:#155990;}
-.explain.active,.explain:active{background-image:none;outline:0;background:#155990;}
-.inspire{background:#ffde17;}.inspire:hover{background:#e3c300;}
-.inspire.active,.inspire:active{background-image:none;outline:0;background:#e3c300;}
-.critique{background:#39b54a;}.critique:hover{background:#2d8e3a;}
-.critique.active,.critique:active{background-image:none;outline:0;background:#2d8e3a;}
+.explain-button{background:#1c75bc;}.explain-button:hover{background:#155990;}
+.explain-button.active,.explain-button:active{background-image:none;outline:0;background:#155990;}
+.inspire-button{background:#ffde17;}.inspire-button:hover{background:#e3c300;}
+.inspire-button.active,.inspire-button:active{background-image:none;outline:0;background:#e3c300;}
+.critique-button{background:#39b54a;}.critique-button:hover{background:#2d8e3a;}
+.critique-button.active,.critique-button:active{background-image:none;outline:0;background:#2d8e3a;}
 .tutorial-success{background-color:#82d65f;border-color:#d6e9c6;color:#1a771b;text-shadow:none;}
 .tutorial-success h4{color:#1a771b;}
 a.tutorial-toggle{color:white;text-shadow:none;cursor:pointer;}a.tutorial-toggle:hover{text-decoration:none;}

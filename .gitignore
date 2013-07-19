@@ -10,3 +10,8 @@ bundledModules/.DS_Store
 controllers/*.js
 modules/*.js
 npm-debug.log
+log/*.js
+model/*.js
+model/**/*.js
+dao/*.js
+error/*.js
