@@ -62,7 +62,7 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['firebase','ngSanitize'
                 templateUrl: 'screens/resource',
                 controller: ResourceCtrl
             }).
-            when('/wiki/:title', {
+            when('/wikipedia/:title', {
                 templateUrl: 'screens/resource',
                 controller: ResourceCtrl
             }).

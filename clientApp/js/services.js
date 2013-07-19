@@ -238,30 +238,15 @@ angular.module('KnowNodesApp.services', [])
         };
     }])
 
-    .factory('wikinode', ['$http', '$q', function ($http, $q) {
+    .factory('wikinode', ['$http', function ($http) {
         return {
 
             get: function (title) {
-                var deferred = $q.defer();
-                $http.post('/knownodes/wikinodeIfExists', {title: title})
-                    .success(function (data) {
-                        if (data.error != null) {
-                            console.log(data.error);
-                            deferred.resolve(null);
-                        } else {
-                            deferred.resolve(data.success);
-                        }
-                    })
-                    .error(function (data, status, headers) {
-                        console.log('Fetching Wikinode failed with error code : ' + status);
-                        console.log('Error message : ' + data.message);
-                        deferred.resolve(null);
-                    });
-                return deferred.promise;
+                return $http.get('/wiki/' + title);
             },
 
             getOrCreate: function (title) {
-                return $http.post('/knownodes/wikinode', {title: title});
+                return $http.post('/wiki', {title: title});
             }
 
         };
@@ -307,7 +292,7 @@ angular.module('KnowNodesApp.services', [])
         return {
 
             url: function (url) {
-                return $http.post('/scrape/', {url: url});
+                return $http.post('/scrape', {url: url});
             }
         };
     }])

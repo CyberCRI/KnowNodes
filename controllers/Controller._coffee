@@ -8,8 +8,7 @@ module.exports = class Controller
     throw Error.notImplemented('NodeWrapper.wrap()')
 
   create: (_) ->
-    if not @request.user?
-      throw Error.unauthorizedOperation('Controller.create()', 'User should be logged in')
+    @checkUserLoggedIn('Controller.create()')
     @dao.create(@request.body, @request.user.KN_ID, _)
 
   show: (_) ->
@@ -23,3 +22,7 @@ module.exports = class Controller
 
   destroy: (_) ->
     @dao.delete(@getId(), _)
+
+  checkUserLoggedIn: (methodName) ->
+    if not @request.user?
+      throw Error.unauthorizedOperation(methodName, 'User should be logged in')

@@ -28,14 +28,17 @@ module.exports = class NodeWrapper
     return created
 
   @find: (id, _) ->
-    @wrap(@findNodeById(id, _))
+    @findByProperty('KN_ID', id, _)
 
-  @findNodeById: (id, _) ->
-    node = @DB.getIndexedNode(@getNodeType(), 'KN_ID', id, _)
+  @findByTextProperty: (key, value, _) ->
+    @findByProperty(key, value.toLowerCase(), _)
+
+  @findByProperty: (key, value, _) ->
+    node = @DB.getIndexedNode(@getNodeType(), key, value, _)
     if not node?
-      throw Error.entityNotFound(@getNodeType(), id)
+      throw Error.entityNotFound(@getNodeType(), key, value)
     else
-      node
+      @wrap node
 
   # Generates a new Globally Unique ID
   @GUID: () ->
