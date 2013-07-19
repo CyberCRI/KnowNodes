@@ -1,33 +1,7 @@
-.frontpage__bg-image {
-  background-image: url("../img/bg-frontpage.jpg") !important;
-  background-repeat: no-repeat;
-  background-size: 100%;
-}
-.l-frontpage__center {
-  margin: 0 auto;
-  width: 50%;
-}
-.l-frontpage-image {
-  position: relative;
-  width: 100%;
-}
-.frontpage-title {
-  font-size: 36px;
-  color: white;
-}
-.l-frontpage-title {
-  position: absolute;
-  width: 100%;
-  text-align: center;
-  top: 100px;
-}
-.l-frontpage-title-bottom {
-  position: absolute;
-  width: 100%;
-  text-align: center;
-  bottom: 30px;
-}
-.frontpage__first-timer {
-  background-color: yellow;
-  text-align: center;
-}
+.frontpage__bg-image{background-image:url("../img/bg-frontpage.jpg") !important;background-repeat:no-repeat;background-size:100%;}
+.l-frontpage__center{margin:0 auto;width:50%;}
+.l-frontpage-image{position:relative;width:100%;}
+.frontpage-title{font-size:36px;color:white;}
+.l-frontpage-title{position:absolute;width:100%;text-align:center;top:100px;}
+.l-frontpage-title-bottom{position:absolute;width:100%;text-align:center;bottom:30px;}
+.frontpage__first-timer{background-color:yellow;text-align:center;}
