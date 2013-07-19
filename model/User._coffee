@@ -1,5 +1,5 @@
 NodeWrapper = require './NodeWrapper'
-NodeType = require './NodeType'
+Type = require './Type'
 UserValidator = require './validation/userValidator'
 cache = require 'memory-cache'
 
@@ -11,7 +11,7 @@ module.exports = class User extends NodeWrapper
         CLASS METHODS
   ###
 
-  @getNodeType: -> NodeType.USER
+  @getNodeType: -> Type.USER
 
   @wrap: (node) -> new User(node)
 

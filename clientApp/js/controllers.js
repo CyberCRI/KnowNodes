@@ -389,7 +389,7 @@ function WikipediaArticleCtrl($scope, $routeParams, wikipedia) {
 WikipediaArticleCtrl.$inject = ['$scope', '$routeParams', 'wikipedia'];
 
 
-function TripletInputCtrl($scope, $rootScope, $q, $route, resourceDialog, wikinode, resource, connection, tutorialService) {
+function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, connection, tutorialService) {
 
     var targetResource;
 
@@ -491,10 +491,10 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, resourceDialog, wikino
         tutorialService.setTutorialOff();
     }
 }
-TripletInputCtrl.$inject = ['$scope', '$rootScope', '$q', '$route', 'resourceDialog', 'wikinode', 'resource', 'connection', 'tutorialService'];
+TripletInputCtrl.$inject = ['$scope', '$rootScope', '$q', '$route', 'wikinode', 'resource', 'connection', 'tutorialService'];
 
 
-function SearchBoxCtrl($scope, $http, $timeout, hybridSearch, resource, resourceDialog, scrape) {
+function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceDialog, scrape) {
 
     $scope.selectedResult = null;
 
@@ -634,7 +634,7 @@ function SearchBoxCtrl($scope, $http, $timeout, hybridSearch, resource, resource
     };
 
 }
-SearchBoxCtrl.$inject = ['$scope', '$http', '$timeout', 'hybridSearch', 'resource', 'resourceDialog', 'scrape'];
+SearchBoxCtrl.$inject = ['$scope', '$timeout', 'hybridSearch', 'resource', 'resourceDialog', 'scrape'];
 
 
 function RelationCtrl($scope) {

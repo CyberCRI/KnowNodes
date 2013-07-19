@@ -1,19 +1,16 @@
 NodeWrapper = require './NodeWrapper'
-NodeType = require './NodeType'
+Type = require './Type'
 ResourceValidator = require './validation/resourceValidator'
 Connection = require './Connection'
 Error = require '../error/Error'
 
 module.exports = class Resource extends NodeWrapper
 
-  @Type:
-    WIKIPEDIA_ARTICLE: 'Wikipedia Article'
-
   ###
         CLASS METHODS
   ###
 
-  @getNodeType: -> NodeType.RESOURCE
+  @getNodeType: -> Type.RESOURCE
 
   @wrap: (node) -> new Resource(node)
 
