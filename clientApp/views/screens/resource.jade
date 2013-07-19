@@ -13,7 +13,7 @@ div.subheader
                     p
                         a.tutorial-toggle(onclick="$('body').chardinJs('toggle')") Click this to see how
             div.knownode.span12.shortKnownode
-                div(knownode-input)
+                div(triplet-input)
 
         div(ng-repeat="knownode in knownodeList | orderBy:orderProp", ng-switch on="knownode.article.id == knownode.connection.fromNodeId").span11.offset1
             div(ng-switch-when="true").knownode.span12.shortKnownode
