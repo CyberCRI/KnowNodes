@@ -11,18 +11,20 @@ module.exports = class WikiDAO
   constructor: ->
     @logger = new Logger('WikiDAO')
 
-  create: (data, userId, _) ->
-    url = @makeWikipediaUrl(data.title)
+  findOrCreate: (title, userId, _) ->
+    url = @makeWikipediaUrl(title)
     # Check resource doesn't already exist
     try
       Resource.findByUrl(url, _) # Return resource if exists
     catch error
       if error.isCustom and error.type is Error.Type.ENTITY_NOT_FOUND
         # Resource does not exist, proceed to create it
-        data.url = url
-        data.resourceType = Resource.Type.WIKIPEDIA_ARTICLE
+        data =
+          title: title
+          url: url
+          resourceType: Resource.Type.WIKIPEDIA_ARTICLE
         creator = User.find(userId, _)
-        created = Resource.create(data, creator, _)
+        Resource.create(data, creator, _)
       else # Unexpected error
         throw error
 

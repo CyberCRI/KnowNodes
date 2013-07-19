@@ -42,11 +42,7 @@ module.exports = class Resource extends NodeWrapper
     nodes
 
   @findByUrl: (url, _) ->
-    node = @DB.getIndexedNode(@getNodeType(), 'url', url, _)
-    if not node?
-      throw Error.entityNotFound(@getNodeType(), 'url', url)
-    else
-      @wrap node
+    @findByTextProperty('url', url, _)
 
   ###
         INSTANCE METHODS
@@ -64,4 +60,4 @@ module.exports = class Resource extends NodeWrapper
   index: (_) ->
     super _
     if @node.data['url']?
-      @indexTextProperty('url',_)
+      @indexTextProperty('url', _)
