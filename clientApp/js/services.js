@@ -303,4 +303,13 @@ angular.module('KnowNodesApp.services', [])
         };
     }])
 
+    .factory('scrape', ['$http', function ($http) {
+        return {
+
+            url: function (url) {
+                return $http.post('/scrape/', {url: url});
+            }
+        };
+    }])
+
     .value('version', '0.2');

@@ -46,10 +46,6 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['firebase','ngSanitize'
                 templateUrl: 'partials/User/deleteUser',
                 controller: DeleteUserCtrl
             }).
-            when('/conceptList', {
-                templateUrl: 'partials/KnownodePost/conceptList',
-                controller: ConceptListCtrl
-            }).
             when('/map/:id', {
                 templateUrl: 'partials/KnownodePost/map',
                 controller: MapCtrl
