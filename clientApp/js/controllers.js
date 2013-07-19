@@ -1,6 +1,6 @@
 'use strict';
 
-function TopBarCtrl($scope, $location, resourceDialog, resource) {
+function TopBarCtrl($scope, $location, resource) {
 
     $scope.$on('$routeChangeSuccess', function (event, current, previous) {
         var path = $location.path().split('/')[1];
@@ -13,9 +13,6 @@ function TopBarCtrl($scope, $location, resourceDialog, resource) {
     $scope.$on('searchResultSelected', function (event, result) {
         event.stopPropagation();
         switch (result.type) {
-            case 'Create Resource':
-                openResourceDialog(result.title);
-                break;
             case 'Link to Resource':
                 delete result.type; // type is used only client-side, should not be persisted
                 resource.create(result).then(function (createdResource) {
@@ -31,20 +28,12 @@ function TopBarCtrl($scope, $location, resourceDialog, resource) {
         }
     });
 
-    var openResourceDialog = function (title) {
-        resourceDialog.open(title).then(function (createdResource) {
-            if (createdResource) {
-                $location.path('/resource/' + createdResource.KN_ID);
-            }
-        });
-    };
-
     $scope.$on('mapNavigated', function (event, result) {
         event.stopPropagation();
         $scope.resourceId = result;
     });
 }
-TopBarCtrl.$inject = ['$scope', '$location', 'resourceDialog', 'resource'];
+TopBarCtrl.$inject = ['$scope', '$location', 'resource'];
 
 
 function CreateResourceDialogCtrl($scope, dialog, resource) {
@@ -129,6 +118,41 @@ function LogoutCtrl($http, $location, $rootScope) {
 LogoutCtrl.$inject = ['$http', '$location', '$rootScope'];
 
 
+function ConceptListCtrl($scope, $http, $routeParams, userService) {
+
+    $scope.isUserLoggedIn = userService.isUserLoggedIn();
+    var showtoggle2 = false;
+    $scope.plusToggle = function (classToToggle) {
+        if (showtoggle2) {
+            showtoggle2 = false;
+        } else {
+            showtoggle2 = classToToggle;
+        }
+        return showtoggle2;
+    };
+
+    angular.forEach($scope.edges, function (value, id) {
+        if ($routeParams.id === value.source1.id) {
+            $scope.subtitletest = value.source1.title;
+        }
+        if ($routeParams.id === value.source2.id) {
+            $scope.subtitletest = value.source2.title;
+        }
+    });
+
+    $http.get('/concepts').success(function (data, status, headers, config) {
+        if (data.error) {
+            alert(data.error);
+            return;
+        }
+        $scope.conceptList = data.success;
+    });
+
+    $scope.orderProp = "date";
+}
+ConceptListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
+
+
 function MapCtrl($scope, $routeParams) {
     $(document).ready(function () {
         var css = jQuery("<link>");
@@ -173,11 +197,10 @@ function TripletListCtrl($scope, $routeParams, $location, userService, resource,
         });
     } else if ($routeParams.title != null) {
         // Check if a Wikinode exists for this Wikipedia article
-        wikinode.get($routeParams.title)
-            .success(function (result) {
-                $location.path('/resource/' + result.KN_ID);
-            })
-            .error(function (data, status, headers) {
+        wikinode.get($routeParams.title).then(function (wikinode) {
+            if (wikinode != null) {
+                $location.path('/concept/' + wikinode.KN_ID);
+            } else {
                 // No Wikinode, just a plain Wikipedia article
                 wikipedia.getArticle($routeParams.title).then(function (article) {
                     $scope.concept = {
@@ -188,7 +211,8 @@ function TripletListCtrl($scope, $routeParams, $location, userService, resource,
                     };
                     $scope.rootNodeExists = true;
                 });
-            });
+            }
+        });
     } else throw 'No id nor title found in URL';
 
     $scope.addNode = false;
@@ -377,27 +401,12 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, resourceDialog, wikino
             && targetResource != null;
     };
 
-    // TODO Remove hack caused by duplicate widgets in template
-    var isDialogOpen = false;
-
     $scope.$on('searchResultSelected', function (event, result) {
         event.stopPropagation();
-        if (result.type === 'Create Resource' && isDialogOpen === false) {
-            isDialogOpen = true;
-            openResourceDialog();
-        } else if (result.type === 'Wikipedia Article' || result.type === 'Resource') {
+        if (result.type === 'Wikipedia Article' || result.type === 'Resource') {
             setOtherResource(result);
         }
     });
-
-    var openResourceDialog = function () {
-        resourceDialog.open().then(function (createdResource) {
-            if (createdResource) {
-                setOtherResource(createdResource);
-            }
-            isDialogOpen = false;
-        });
-    };
 
     var setOtherResource = function (otherResource) {
         targetResource = otherResource;
@@ -485,7 +494,8 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, resourceDialog, wikino
 TripletInputCtrl.$inject = ['$scope', '$rootScope', '$q', '$route', 'resourceDialog', 'wikinode', 'resource', 'connection', 'tutorialService'];
 
 
-function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, scrape) {
+function SearchBoxCtrl($scope, $http, $timeout, hybridSearch, resource, resourceDialog, scrape) {
+
     $scope.selectedResult = null;
 
     var lastQuery = "";
@@ -581,9 +591,9 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, scrape) {
             var result = getSelectedResult();
             switch (result.type) {
                 case 'Create Resource':
-                    $scope.$emit('searchResultSelected', {
-                        title: result.title,
-                        type: 'Create Resource'
+                    resourceDialog.open(result.title).then(function (createdResource) {
+                        createdResource.type = 'Resource';
+                        $scope.$emit('searchResultSelected', createdResource);
                     });
                     break;
                 case 'Link to Resource':
@@ -624,7 +634,7 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, scrape) {
     };
 
 }
-SearchBoxCtrl.$inject = ['$scope', '$timeout', 'hybridSearch', 'resource', 'scrape'];
+SearchBoxCtrl.$inject = ['$scope', '$http', '$timeout', 'hybridSearch', 'resource', 'resourceDialog', 'scrape'];
 
 
 function RelationCtrl($scope) {
