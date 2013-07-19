@@ -150,7 +150,7 @@ function MapCtrl($scope, $routeParams) {
 MapCtrl.$inject = ['$scope', '$routeParams'];
 
 
-function ResourceCtrl($scope, $routeParams, $location, userService, resource, wikipedia, wikinode, tutorialService) {
+function TripletListCtrl($scope, $routeParams, $location, userService, resource, wikipedia, wikinode, tutorialService) {
 
     // First, check whether the resource is a KN Resource or a Wikipedia Article
     if ($routeParams.id != null) {
@@ -223,7 +223,7 @@ function ResourceCtrl($scope, $routeParams, $location, userService, resource, wi
     $scope.start = +new Date();
 
 }
-ResourceCtrl.$inject = ['$scope', '$routeParams', '$location', 'userService', 'resource', 'wikipedia', 'wikinode', 'tutorialService'];
+TripletListCtrl.$inject = ['$scope', '$routeParams', '$location', 'userService', 'resource', 'wikipedia', 'wikinode', 'tutorialService'];
 
 
 function IndexCtrl($scope, $http, $location, $tutorialService) {
