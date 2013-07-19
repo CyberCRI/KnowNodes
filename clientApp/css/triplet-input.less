@@ -1,0 +1,65 @@
+//overrided bootstrap little arrow in submenu
+.dropdown-submenu > a:after {
+  display: none;
+  content: " ";
+  float: none;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: none;
+  border-width: none;
+  margin-top: none;
+  margin-right: none;
+}
+
+.counter{
+  color: #717577;
+  cursor: default;
+}
+
+.counter:hover{
+  color: #717577;
+  cursor: default;
+}
+
+.explain {
+  background: @color-explain;
+  &:hover {
+    background: darken(@color-explain, 10%);
+  }
+  &.active,
+  &:active {
+    background-image: none;
+    outline: 0;
+    background: darken(@color-explain, 10%);
+  }
+
+}
+
+.inspire {
+  background: @color-inspire;
+  &:hover {
+    background: darken(@color-inspire, 10%);
+  }
+  &.active,
+  &:active {
+    background-image: none;
+    outline: 0;
+    background: darken(@color-inspire, 10%);
+  }
+
+}
+
+.critique{
+  background: @color-critique;
+  &:hover  {
+    background: darken(@color-critique, 10%);
+  }
+  &.active,
+  &:active {
+    background-image: none;
+    outline: 0;
+    background: darken(@color-critique, 10%);
+  }
+
+}

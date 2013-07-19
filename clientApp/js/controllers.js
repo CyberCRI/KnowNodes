@@ -400,7 +400,7 @@ function WikipediaArticleCtrl($scope, $routeParams, wikipedia) {
 WikipediaArticleCtrl.$inject = ['$scope', '$routeParams', 'wikipedia'];
 
 
-function KnownodeInputCtrl($scope, $rootScope, $q, $route, resourceDialog, wikinode, resource, connection, tutorialService) {
+function TripletInputCtrl($scope, $rootScope, $q, $route, resourceDialog, wikinode, resource, connection, tutorialService) {
 
     var targetResource;
 
@@ -518,7 +518,7 @@ function KnownodeInputCtrl($scope, $rootScope, $q, $route, resourceDialog, wikin
         tutorialService.setTutorialOff();
     }
 }
-KnownodeInputCtrl.$inject = ['$scope', '$rootScope', '$q', '$route', 'resourceDialog', 'wikinode', 'resource', 'connection', 'tutorialService'];
+TripletInputCtrl.$inject = ['$scope', '$rootScope', '$q', '$route', 'resourceDialog', 'wikinode', 'resource', 'connection', 'tutorialService'];
 
 
 function SearchBoxCtrl($scope, $http, $timeout, hybridSearch, resource) {
