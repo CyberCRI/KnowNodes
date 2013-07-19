@@ -20,3 +20,6 @@ module.exports =
 
   findByUrl: (request, response) ->
     new ResourceController(request).findByUrl(Callback.bind(response))
+
+  triplets: (request, response) ->
+    new ResourceController(request).findTripletsByResourceId(Callback.bind(response))

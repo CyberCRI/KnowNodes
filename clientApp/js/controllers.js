@@ -631,7 +631,7 @@ function RelationCtrl($scope) {
     //define a way for a node to know color based on connectionType
     $scope.BgColorClass = 'explain';
     $scope.colorSwitcher = function () {
-        switch ($scope.knownode.connection.connectionType) {
+        switch ($scope.triplet.connection.connectionType) {
             case "explain":
                 return 'explain';
                 break;
