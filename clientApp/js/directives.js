@@ -276,6 +276,7 @@ angular.module('KnowNodesApp.directives', [])
         return {
             restrict: 'EAC',
             template: '<input ui-select2="searchBoxOptions" ng-model="selectedResult" data-placeholder="Find or create a resource..." multiple type="hidden" />',
+            scope: {},
             controller: SearchBoxCtrl,
             replace: true,
             link: function (scope, element) {

@@ -19,4 +19,3 @@ module.exports = class Comment extends BaseModule
 			     o.pass == if pass then callback o else callback null
 			else
 				callback null)
-

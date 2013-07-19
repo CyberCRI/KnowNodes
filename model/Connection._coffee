@@ -1,5 +1,5 @@
 NodeWrapper = require './NodeWrapper'
-NodeType = require './NodeType'
+Type = require './Type'
 ConnectionValidator = require './validation/connectionValidator'
 
 module.exports = class Connection extends NodeWrapper
@@ -8,7 +8,7 @@ module.exports = class Connection extends NodeWrapper
         CLASS METHODS
   ###
 
-  @getNodeType: -> NodeType.CONNECTION
+  @getNodeType: -> Type.CONNECTION
 
   @wrap: (node) -> new Connection(node)
 

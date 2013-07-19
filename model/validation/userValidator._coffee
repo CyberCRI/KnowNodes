@@ -1,9 +1,10 @@
 NodeValidator = require './nodeValidator'
+Type = require '../Type'
 
 module.exports = class UserValidator extends NodeValidator
 
   constructor: () ->
-    super 'kn_User'
+    super Type.USER
 
   validate: (data, _) ->
     super data

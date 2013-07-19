@@ -1,9 +1,10 @@
 NodeValidator = require './nodeValidator'
+Type = require '../Type'
 
 module.exports = class ConnectionValidator extends NodeValidator
 
   constructor: () ->
-    super 'kn_Edge'
+    super Type.CONNECTION
 
   validate: (data, _) ->
     console.log data
