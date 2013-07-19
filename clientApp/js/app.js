@@ -51,20 +51,20 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['firebase','ngSanitize'
                 controller: MapCtrl
             }).
             when('/concept/:id', {
-                templateUrl: 'screens/resource',
-                controller: ResourceCtrl
+                templateUrl: 'screens/tripletList',
+                controller: TripletListCtrl
             }).
             when('/article/:id', {
-                templateUrl: 'screens/resource',
-                controller: ResourceCtrl
+                templateUrl: 'screens/tripletList',
+                controller: TripletListCtrl
             }).
             when('/resource/:id', {
-                templateUrl: 'screens/resource',
-                controller: ResourceCtrl
+                templateUrl: 'screens/tripletList',
+                controller: TripletListCtrl
             }).
             when('/wikipedia/:title', {
-                templateUrl: 'screens/resource',
-                controller: ResourceCtrl
+                templateUrl: 'screens/tripletList',
+                controller: TripletListCtrl
             }).
             when('/edge/:id', {
                 templateUrl: 'partials/KnownodePost/edgePage',
