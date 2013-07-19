@@ -84,6 +84,7 @@ app.resource('wiki', function() {
     this.member.get('findByTitle');
 });
 app.resource('connections');
+app.resource('scrape');
 
 app.resource('users');
 app.resource('edges');

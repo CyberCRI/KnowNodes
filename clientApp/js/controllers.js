@@ -17,16 +17,16 @@ function TopBarCtrl($scope, $location, resourceDialog, resource) {
                 openResourceDialog(result.title);
                 break;
             case 'Link to Resource':
-                result.type = null;
+                delete result.type; // type is used only client-side, should not be persisted
                 resource.create(result).then(function (createdResource) {
-                    $location.path('/concept/' + createdResource.KN_ID);
+                    $location.path('/resource/' + createdResource.KN_ID);
                 });
                 break;
             case 'Wikipedia Article':
                 $location.path('/wiki/' + result.id);
                 break;
             case 'Resource':
-                $location.path('/concept/' + result.KN_ID);
+                $location.path('/resource/' + result.KN_ID);
                 break;
         }
     });
@@ -34,7 +34,7 @@ function TopBarCtrl($scope, $location, resourceDialog, resource) {
     var openResourceDialog = function (title) {
         resourceDialog.open(title).then(function (createdResource) {
             if (createdResource) {
-                $location.path('/concept/' + createdResource.KN_ID);
+                $location.path('/resource/' + createdResource.KN_ID);
             }
         });
     };
@@ -129,41 +129,6 @@ function LogoutCtrl($http, $location, $rootScope) {
 LogoutCtrl.$inject = ['$http', '$location', '$rootScope'];
 
 
-function ConceptListCtrl($scope, $http, $routeParams, userService) {
-
-    $scope.isUserLoggedIn = userService.isUserLoggedIn();
-    var showtoggle2 = false;
-    $scope.plusToggle = function (classToToggle) {
-        if (showtoggle2) {
-            showtoggle2 = false;
-        } else {
-            showtoggle2 = classToToggle;
-        }
-        return showtoggle2;
-    };
-
-    angular.forEach($scope.edges, function (value, id) {
-        if ($routeParams.id === value.source1.id) {
-            $scope.subtitletest = value.source1.title;
-        }
-        if ($routeParams.id === value.source2.id) {
-            $scope.subtitletest = value.source2.title;
-        }
-    });
-
-    $http.get('/concepts').success(function (data, status, headers, config) {
-        if (data.error) {
-            alert(data.error);
-            return;
-        }
-        $scope.conceptList = data.success;
-    });
-
-    $scope.orderProp = "date";
-}
-ConceptListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
-
-
 function MapCtrl($scope, $routeParams) {
     $(document).ready(function () {
         var css = jQuery("<link>");
@@ -210,7 +175,7 @@ function ResourceCtrl($scope, $routeParams, $location, userService, resource, wi
         // Check if a Wikinode exists for this Wikipedia article
         wikinode.get($routeParams.title).then(function (wikinode) {
             if (wikinode != null) {
-                $location.path('/concept/' + wikinode.KN_ID);
+                $location.path('/resource/' + wikinode.KN_ID);
             } else {
                 // No Wikinode, just a plain Wikipedia article
                 wikipedia.getArticle($routeParams.title).then(function (article) {
@@ -521,7 +486,7 @@ function KnownodeInputCtrl($scope, $rootScope, $q, $route, resourceDialog, wikin
 KnownodeInputCtrl.$inject = ['$scope', '$rootScope', '$q', '$route', 'resourceDialog', 'wikinode', 'resource', 'connection', 'tutorialService'];
 
 
-function SearchBoxCtrl($scope, $http, $timeout, hybridSearch, resource) {
+function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, scrape) {
     $scope.selectedResult = null;
 
     var lastQuery = "";
@@ -541,22 +506,19 @@ function SearchBoxCtrl($scope, $http, $timeout, hybridSearch, resource) {
                         })
                         .error(function (data, status) {
                             if (status == 404) {
-                                $http.post("/knownodes/scrapeUrl", { url: query.term }).success(function (data) {
-                                    console.log("scrapeUrl result", data);
-                                    if (data.success) {
+                                scrape.url(query.term)
+                                    .success(function (data) {
+                                        console.log("scrapeUrl result", data);
                                         query.callback({ results: [
-                                            { title: data.success.title, body: data.success.body, image: data.success.image, url: query.term, type: 'Link to Resource', id: "scrape" }
-                                        ]});
-                                    }
-                                    else {
+                                            { title: data.title, body: data.body, image: data.image, url: query.term, type: 'Link to Resource', id: "scrape" }
+                                        ]});})
+                                    .error(function () {
                                         console.log("Cannot scrape URL")
                                         query.callback({ results: [
                                             { id: 'create_data_option_id', text: 'Create Resource: ' + query.term, type: 'Create Resource'}
                                         ]});
-                                    }
-                                });
-                            }
-                            else {
+                                    });
+                            } else {
                                 console.log('Resource creation failed with error code : ' + status);
                                 console.log('Error message : ' + data.message);
                             }
@@ -663,7 +625,7 @@ function SearchBoxCtrl($scope, $http, $timeout, hybridSearch, resource) {
     };
 
 }
-SearchBoxCtrl.$inject = ['$scope', '$http', '$timeout', 'hybridSearch', 'resource'];
+SearchBoxCtrl.$inject = ['$scope', '$timeout', 'hybridSearch', 'resource', 'scrape'];
 
 
 function RelationCtrl($scope) {

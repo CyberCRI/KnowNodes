@@ -10,13 +10,15 @@ module.exports =
         new Logger('ControllerUtil')
 
       handleCustomError = (error, response) ->
-        getLogger().error(error.message)
         switch error.type
           when Error.Type.ENTITY_NOT_FOUND
+            getLogger().info(error.message)
             response.json(404, error.message)
           when Error.Type.UNAUTHORIZED_OPERATION
+            getLogger().info(error.message)
             response.json(401, error.message)
           else
+            getLogger().error(error.message)
             response.json(500, error.message)
 
       handleError = (error, response) ->
