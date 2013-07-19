@@ -35,14 +35,41 @@ module.exports = class Resource extends NodeWrapper
     ].join('\n');
     regex = '(?i).*' + userQuery + '.*'
     params = {regex: regex}
-    @DB.query(cypherQuery, params, _).map_(_, (_, item) ->
-      item.results.data.id = item.results.id
-      nodes.push(item.results.data)
-    )
+    results = @DB.query(cypherQuery, params, _)
+    for item in results
+      nodes.push item.results.data
     nodes
 
   @findByUrl: (url, _) ->
     @findByTextProperty('url', url, _)
+
+  @findTripletsByResourceId: (id,_) ->
+    nodes = []
+    query = [
+      'START resource=node({resourceNodeId})',
+      'MATCH (resource) -[:RELATED_TO]- (connection) -[:RELATED_TO]- (otherResource) -[:CREATED_BY]- (otherResourceCreator),',
+      '(otherConnections)-[?:RELATED_TO]-(otherResource),',
+      '(connection) -[:CREATED_BY]- (connectionCreator),',
+      '(connection) -[?:COMMENT_OF]- (comments)',
+      'WHERE otherResource <> resource AND otherConnections <> connection ',
+      'RETURN otherResource, otherResourceCreator, connection, connectionCreator, count(comments) AS commentCount, count(otherConnections) AS otherConnectionsCount'
+    ].join('\n');
+
+    resource = @find(id, _)
+    params =
+      resourceNodeId: resource.node.id
+
+    results = @DB.query(query, params, _)
+    for item in results
+      toPush =
+        otherResource: item.otherResource.data,
+        connection: item.connection.data,
+        commentCount: item.commentCount,
+        otherConnectionsCount: item.otherConnectionsCount
+      toPush.otherResource.creator = item.otherResourceCreator.data
+      toPush.connection.creator = item.connectionCreator.data
+      nodes.push toPush
+    nodes
 
   ###
         INSTANCE METHODS

@@ -130,8 +130,8 @@ angular.module('KnowNodesApp.services', [])
             return deferred.promise;
         }
 
-        var getRelations = function (id) {
-            return $http.get('/concepts/:' + id + '/getRelatedKnownodes');
+        var getConnections = function (id) {
+            return $http.get('/resources/' + id + '/triplets');
         }
 
         // TODO Use this to remove duplicates between KN and Wikipedia results
@@ -163,11 +163,11 @@ angular.module('KnowNodesApp.services', [])
                 var deferred = $q.defer();
 
                 $q.all([getResourceWithWikipediaLinks(id),
-                        getRelations(id)])
+                        getConnections(id)])
                     .then(function (results) {
                         var resource = results[0];
-                        var relations = results[1].data.success;
-                        resource.relations = relations;
+                        var connections = results[1].data;
+                        resource.relations = connections;
                         deferred.resolve(resource);
                     });
                 // TODO Handle Errors

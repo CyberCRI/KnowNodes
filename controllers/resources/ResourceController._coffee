@@ -17,3 +17,6 @@ module.exports = class ResourceController extends Controller
   findByUrl: (_) ->
     url = @request.body.url
     @dao.findByUrl(url, _)
+
+  findTripletsByResourceId: (_) ->
+    @dao.findTripletsByResourceId(@getId(), _)
