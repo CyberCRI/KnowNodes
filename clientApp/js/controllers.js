@@ -374,7 +374,7 @@ function ConnectionPageCtrl($scope, $http, $routeParams, userService, PassKnowno
         $scope.knownode = $scope.knownode[0];
     });
 }
-EdgeCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'PassKnownode'];
+ConnectionPageCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'PassKnownode'];
 
 
 function WikipediaArticleCtrl($scope, $routeParams, wikipedia) {
