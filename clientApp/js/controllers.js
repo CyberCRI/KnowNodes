@@ -338,7 +338,7 @@ function StaticPageCtrl($scope) {
 StaticPageCtrl.$inject = ['$scope'];
 
 
-function EdgeCtrl($scope, $http, $routeParams, userService, PassKnownode) {
+function ConnectionPageCtrl($scope, $http, $routeParams, userService, PassKnownode) {
     var currentKnownode = PassKnownode.showCurrent();
     if (currentKnownode) {
         $scope.knownode = currentKnownode;

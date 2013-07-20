@@ -67,8 +67,8 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['firebase','ngSanitize'
                 controller: TripletListCtrl
             }).
             when('/edge/:id', {
-                templateUrl: 'partials/KnownodePost/edgePage',
-                controller: EdgeCtrl
+                templateUrl: 'screens/connectionPage',
+                controller: ConnectionPageCtrl
             }).
             otherwise({
                 redirectTo: '/'
