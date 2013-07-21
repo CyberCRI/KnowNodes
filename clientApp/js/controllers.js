@@ -660,3 +660,36 @@ function RelationCtrl($scope) {
     };
 }
 RelationCtrl.$inject = ['$scope'];
+
+function VoteCtrl($scope) {
+    $scope.upActive = false;
+    $scope.downActive = false;
+
+    $scope.vote = function(voteType) {
+        if(voteType == "up") {
+            $scope.upActive = !$scope.upActive;
+            if($scope.upActive == true) {
+                $scope.upVoteClass = "active";
+            } else {
+                $scope.upVoteClass = "";
+            }
+            if($scope.downActive === true) {
+                $scope.downActive = false;
+                $scope.downVoteClass = "";
+
+            }
+        }
+        if(voteType == "down") {
+            $scope.downActive = !$scope.downActive;
+        if($scope.downActive == true) {
+            $scope.downVoteClass = "active";
+        } else {
+            $scope.downVoteClass = "";
+        }
+            if($scope.upActive === true) {
+                $scope.upActive = false;
+                $scope.upVoteClass = "";
+            }
+        }
+    }
+}
