@@ -84,7 +84,6 @@ app.resource('resources', function() {
 app.resource('wiki');
 app.resource('connections');
 app.resource('scrape');
-
 app.resource('users');
 app.resource('edges');
 app.resource('comments', function () {
