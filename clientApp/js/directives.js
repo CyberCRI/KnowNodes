@@ -272,6 +272,16 @@ angular.module('KnowNodesApp.directives', [])
         };
     }])
 
+    .directive('vote', function () {
+        return {
+            restrict: 'AC',
+            transclude: true,
+            templateUrl: 'partials/directiveTemplates/vote',
+            replace: true,
+            controller: VoteCtrl
+        };
+    })
+
     .directive('searchBox', ['$http', function ($http) {
         return {
             restrict: 'EAC',
