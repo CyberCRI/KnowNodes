@@ -35,13 +35,13 @@ div.subheader
                 div(relation)
                 div(node)
                 p.infoLine.span11(style="margin:0px;")
-                    em {{(knownode.connection.__CreatedOn__) | timeAgo}} by {{knownode.connection.user.firstName}} {{knownode.connection.user.lastName}}
+                    em {{(triplet.connection.__CreatedOn__) | timeAgo}} by {{triplet.connection.creator.firstName}} {{triplet.connection.creator.lastName}}
                     span
-                        a(ng-href="/edge/:{{knownode.connection.KN_ID}}", ng-switch on="knownode.commentCount").pull-right
-                            span(ng-switch-default).text-warning {{knownode.commentCount}} comments
+                        a(ng-href="/edge/:{{triplet.connection.KN_ID}}", ng-switch on="triplet.commentCount").pull-right
+                            span(ng-switch-default).text-warning {{triplet.commentCount}} comments
                             span(ng-switch-when="0") comment
-                div(class="ui-icon ui-icon-trash", style="float:right", ng-click="deleteArticle(knownode.article.id, $index)", ng-show="checkOwnership(knownode.article.user.id)")
-                div(ng-show="checkOwnership(knownode.article.user.id)", style="float:right")
+                div(class="ui-icon ui-icon-trash", style="float:right", ng-click="deleteArticle(triplet.article.id, $index)", ng-show="checkOwnership(triplet.article.user.id)")
+                div(ng-show="checkOwnership(triplet.article.user.id)", style="float:right")
                     a(class="ui-icon ui-icon-pencil", ng-href="", ng-show="false")
 
         div(ng-repeat="link in concept.wikipediaLinks", ng-switch on="link.title != concept.title").span11.offset1
