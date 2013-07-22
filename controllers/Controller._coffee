@@ -26,3 +26,7 @@ module.exports = class Controller
   checkUserLoggedIn: (methodName) ->
     if not @request.user?
       throw Error.unauthorizedOperation(methodName, 'User should be logged in')
+
+  getLoggedUserId: ->
+    @checkUserLoggedIn("getLoggedUserId")
+    @request.user.KN_ID
