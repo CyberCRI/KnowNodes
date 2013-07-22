@@ -8,7 +8,12 @@ module.exports = class VoteDAO
     @logger = new Logger('VoteDAO')
 
   voteUp: (userId, targetId, _) ->
-    console.log("voteUpDAO")
     user = User.find(userId, _)
     target = Connection.find(targetId, _)
     user.voteUp(target, _)
+
+  voteDown: (userId, targetId, _) ->
+    user = User.find(userId, _)
+    target = Connection.find(targetId, _)
+    user.voteDown(target, _)
+

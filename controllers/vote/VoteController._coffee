@@ -8,7 +8,6 @@ module.exports = class VoteController extends Controller
     super(@request, new VoteDAO)
 
   voteUp: (_) ->
-    console.log("controller.voteup")
     @dao.voteUp(@getLoggedUserId(), @request.body.connectionId, _)
 
   voteDown: (_) ->
