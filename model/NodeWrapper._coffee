@@ -40,6 +40,20 @@ module.exports = class NodeWrapper
     else
       @wrap node
 
+  @listAll: (_) ->
+    query = [
+      'START everyNode = node(*)',
+      'WHERE everyNode.nodeType ?= {nodeType}',
+      'RETURN everyNode'
+    ].join('\n');
+    params = {nodeType: @getNodeType()}
+    nodes = @DB.query(query, params, _)
+    nodeWrappers = []
+    for result in nodes
+      wrapped = @wrap(result.everyNode)
+      nodeWrappers.push(wrapped)
+    nodeWrappers
+
   # Generates a new Globally Unique ID
   @GUID: () ->
     # TODO Guarantee Uniqueness

@@ -197,10 +197,12 @@ function TripletListCtrl($scope, $routeParams, $location, userService, resource,
         });
     } else if ($routeParams.title != null) {
         // Check if a Wikinode exists for this Wikipedia article
-        wikinode.get($routeParams.title).then(function (wikinode) {
-            if (wikinode != null) {
-                $location.path('/concept/' + wikinode.KN_ID);
-            } else {
+        wikinode.get($routeParams.title)
+            .success(function (data) {
+                $location.path('/resource/' + data.KN_ID);
+            })
+            .error(function (data, status) {
+                if (status != 404) console.log('Unexpected Error', data);
                 // No Wikinode, just a plain Wikipedia article
                 wikipedia.getArticle($routeParams.title).then(function (article) {
                     $scope.concept = {
@@ -211,8 +213,7 @@ function TripletListCtrl($scope, $routeParams, $location, userService, resource,
                     };
                     $scope.rootNodeExists = true;
                 });
-            }
-        });
+            });
     } else throw 'No id nor title found in URL';
 
     $scope.addNode = false;
