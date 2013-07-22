@@ -3,5 +3,9 @@ VoteController = require('./VoteController')
 
 module.exports =
 
-  create: (request, response) ->
-    new VoteController(request).vote(Callback.bind(response))
+  voteUp: (request, response) ->
+    new VoteController(request).voteUp(Callback.bind(response))
+
+
+  voteDown: (request, response) ->
+    new VoteController(request).voteDown(Callback.bind(response))

@@ -45,3 +45,17 @@ module.exports = class User extends NodeWrapper
   save: (_) ->
     super _
     cache.put('USER_' + @getId(), @, 1000)
+
+  voteUp: (target, _) ->
+    path = @node.path(target.node, 'VOTED_UP', "out", 1, 'shortestPath', _)
+    if path?
+      return "already voted up"
+
+    path = @node.path(target.node, 'VOTED_DOWN', "out", 1, 'shortestPath', _)
+    if path?
+      path.relationships[0].delete _
+
+    @node.createRelationshipTo(target.node, 'VOTED_UP', null, _)
+    return "connection created"
+
+   

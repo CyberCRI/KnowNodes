@@ -206,26 +206,6 @@ angular.module('KnowNodesApp.services', [])
         }
     }])
 
-    .factory('resource', ['$http', '$q', function ($http, $q) {
-
-        return {
-        create: function (voteData) {
-            var deferred = $q.defer();
-            $http.post('/vote', resourceData)
-                .success(function (data, status, headers, config) {
-                    deferred.resolve(data)
-                })
-                .error(function (data, status, headers) {
-                    console.log('Resource creation failed with error code : ' + status);
-                    console.log('Error message : ' + data.message);
-                    deferred.resolve(null);
-                });
-            ;
-            return deferred.promise;
-        }
-        }
-    }])
-
     .factory('wikipedia', ['$http', '$q', function ($http, $q) {
 
         var baseUrl = 'http://en.wikipedia.org/w/api.php?action=query&prop=extracts|links&pllimit=500&format=json&redirects&callback=JSON_CALLBACK&titles=';

@@ -4,7 +4,9 @@
 var express = require('express')
   , controller = require('./controllers')
   , adminController = require('./controllers/admin/index')
-  , Resource = require('express-resource-new')
+  , voteController = require('./controllers/vote/index')
+
+    , Resource = require('express-resource-new')
   //, Resource = require('express-resource')
   , http = require('http')
   , passport = require('passport')
@@ -87,7 +89,8 @@ app.resource('wiki');
 app.resource('connections', function() {
     this.collection.post('voteUpConnection');
 });
-app.resource('vote');
+app.post('/vote/voteUp',voteController.voteUp );
+app.post('/vote/voteDown',voteController.voteDown );
 
 app.resource('scrape');
 
