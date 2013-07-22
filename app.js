@@ -3,6 +3,7 @@
  */
 var express = require('express')
   , controller = require('./controllers')
+  , adminController = require('./controllers/admin/index')
   , Resource = require('express-resource-new')
   //, Resource = require('express-resource')
   , http = require('http')
@@ -84,6 +85,9 @@ app.resource('resources', function() {
 app.resource('wiki');
 app.resource('connections');
 app.resource('scrape');
+
+app.post('/admin/reindexAllResources', adminController.reindexAllResources);
+
 app.resource('users');
 app.resource('edges');
 app.resource('comments', function () {
