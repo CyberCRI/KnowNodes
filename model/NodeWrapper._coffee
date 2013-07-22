@@ -99,6 +99,16 @@ module.exports = class NodeWrapper
   indexTextProperty: (key, _) ->
     @node.index(@node.data['nodeType'], key, @node.data[key].toLowerCase(), _)
 
+  getRelationship: (source, target, relationshipType, _) ->
+    query = "START source = node({sourceId}), target = node({targetId}) MATCH user -[relationship:#{relationshipType}]-> target RETURN relationship"
+    params =
+      sourceId: source.node.id
+      targetId: target.node.id
+    NodeWrapper.DB.query(query, params, _)
+
+  hasRelationship: (target, relationshipType, _) ->
+    @getRelationship(@, target, relationshipType, _).length > 0
+
   ###
         METHODS TO IMPLEMENT
   ###
