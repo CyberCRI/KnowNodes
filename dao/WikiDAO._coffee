@@ -1,4 +1,5 @@
 Resource = require '../model/Resource'
+Type = require '../model/Type'
 User = require '../model/User'
 Logger = require '../log/logger'
 Error = require '../error/Error'
@@ -22,7 +23,7 @@ module.exports = class WikiDAO
         data =
           title: title
           url: url
-          resourceType: Resource.Type.WIKIPEDIA_ARTICLE
+          resourceType: Type.WIKIPEDIA_ARTICLE
         creator = User.find(userId, _)
         Resource.create(data, creator, _)
       else # Unexpected error
