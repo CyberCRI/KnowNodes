@@ -19,7 +19,7 @@ module.exports = class VoteDAO
   update: (id, newData, _) ->
     connection = Connection.find(id, _)
     connection.update(newData, _)
-  return connection
+    return connection
 
   delete: (id, _) ->
     connection = Connection.find(id, _)
