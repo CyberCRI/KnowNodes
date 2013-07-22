@@ -81,8 +81,13 @@ app.resource('resources', function() {
     this.member.get('triplets');
     this.collection.post('findByUrl');
 });
+
 app.resource('wiki');
-app.resource('connections');
+app.resource('connections', function() {
+    this.collection.post('voteUpConnection');
+});
+app.resource('vote');
+
 app.resource('scrape');
 
 app.resource('users');

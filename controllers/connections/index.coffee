@@ -14,3 +14,6 @@ module.exports =
 
   destroy: (request, response) ->
     new ConnectionController(request).destroy(Callback.bind(response))
+
+  voteUpConnection: (request, response) ->
+    new ConnectionController(request).voteUpConnection(Callback.bind(response))
