@@ -28,11 +28,11 @@ angular.module('KnowNodesApp.directives', [])
         };
     })
 
-    .directive('relationInput', function () {
+    .directive('connectionInput', function () {
         return {
             restrict: 'EAC',
             transclude: true,
-            templateUrl: 'partials/directiveTemplates/relationInput',
+            templateUrl: 'partials/directiveTemplates/connectionInput',
             replace: true
         };
     })
@@ -81,11 +81,11 @@ angular.module('KnowNodesApp.directives', [])
         };
     })
 
-    .directive('node', function () {
+    .directive('startResource', function () {
         return {
             restrict: 'EAC',
             transclude: true,
-            templateUrl: 'partials/directiveTemplates/node',
+            templateUrl: 'partials/directiveTemplates/startResource',
             replace: true
         };
     })
@@ -99,11 +99,11 @@ angular.module('KnowNodesApp.directives', [])
         };
     })
 
-    .directive('conceptNode', function () {
+    .directive('endResource', function () {
         return {
             restrict: 'EAC',
             transclude: true,
-            templateUrl: 'partials/directiveTemplates/conceptNode',
+            templateUrl: 'partials/directiveTemplates/endResource',
             replace: true
         };
     })
@@ -117,13 +117,13 @@ angular.module('KnowNodesApp.directives', [])
         };
     })
 
-    .directive('relation', function () {
+    .directive('connection', function () {
         return {
-            restrict: 'EAC',
+            restrict: 'A',
             transclude: true,
-            templateUrl: 'partials/directiveTemplates/relation',
+            templateUrl: 'partials/directiveTemplates/connection',
             replace: true,
-            controller: RelationCtrl
+            controller: ConnectionCtrl
         };
     })
 
