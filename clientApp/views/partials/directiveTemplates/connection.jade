@@ -1,5 +1,4 @@
-div(ng-class="colorSwitcher()")
-  div.content
-    a(ng-href="/edge/{{triplet.connection.KN_ID}}")
-      span &nbsp;{{triplet.connection.title}}
+div.l-connection(ng-class="colorSwitcher()")
+  div.connection-title
+    a(ng-href="/edge/{{triplet.connection.KN_ID}}") {{triplet.connection.title}}
 

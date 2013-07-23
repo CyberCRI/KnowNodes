@@ -1,12 +1,13 @@
 div.resource(ng-mouseenter="addNode=true", ng-mouseleave="addNode=false")
-  a(ng-href="/article/{{triplet.otherResource.KN_ID}}", title="{{triplet.otherResource.title}}") {{triplet.otherResource.title}}
-    a(ng-href="{{triplet.otherResource.url}}", target="_blank")
-      img.titleIcon(src="/img/openInNewWindow.png", title="{{triplet.otherResource.url}}", width="20px", ng-show="triplet.otherResource.url")
-    a(href="/knownodeFiles/:{{triplet.otherResource.fileId}}", target="_blank", ng-show="triplet.otherResource.fileName", title="{{triplet.otherResource.fileName}}")
-      i.titleIcon.icon-download
-    span(ng-show="addNode")
-      a(ng-show='isUserLoggedIn', title="Connect a new resource to {{triplet.otherResource.title}}", ng-href='/addKnownodeTo/{{triplet.otherResource.KN_ID}}')
-        i.titleIcon.icon-plus
-  span(ng-switch on="triplet.otherConnectionsCount")
-    span(ng-switch-default).pull-right.node-count {{triplet.otherConnectionsCount}}
+  div.resource-title
+    a(ng-href="/article/{{triplet.otherResource.KN_ID}}", title="{{triplet.otherResource.title}}") {{triplet.otherResource.title}}
+    span
+      a.open-url-source(ng-href="{{triplet.otherResource.url}}", title="{{triplet.otherResource.url}}", ng-show="triplet.otherResource.url", target="_blank") source
+      a(href="/knownodeFiles/:{{triplet.otherResource.fileId}}", target="_blank", ng-show="triplet.otherResource.fileName", title="{{triplet.otherResource.fileName}}")
+        i.titleIcon.icon-download
+      span(ng-show="addNode")
+        a(ng-show='isUserLoggedIn', title="Connect a new resource to {{triplet.otherResource.title}}", ng-href='/addKnownodeTo/{{triplet.otherResource.KN_ID}}')
+          i.titleIcon.icon-plus
+  div.resource-counter(ng-switch on="triplet.otherConnectionsCount")
+    span(ng-switch-default) {{triplet.otherConnectionsCount}}
     span(ng-switch-when="0")
