@@ -1,0 +1,57 @@
+
+
+
+.resource {
+  min-height: 72px;
+  margin: 10px 0;
+  max-height: 70px;
+  background-color:white;
+  position: relative;
+}
+
+.resource::after {
+  display:inline-block; vertical-align:middle; line-height:72px;
+  width:0; content:"\00A0"; overflow:hidden;
+}
+
+.resource-title {
+  display: inline-block;
+  vertical-align: middle;
+  margin: -3px 16px 0px 26px;
+}
+
+.resource-counter {
+  color: @light-grey;
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  font-size: 14px;
+}
+
+.titleIcon {
+  margin-bottom:2px;
+  margin-left: 0.5em;
+}
+
+.open-url-source {
+  color: @light-grey;
+  margin-left: @spacing;
+}
+
+.info-line {
+  font-size: 14px;
+}
+
+.info-name {
+  color:black;
+  margin-left: @spacing;
+}
+
+.info-time {
+  color:@light-grey;
+  margin-right: @spacing;
+}
+
+.info-comment {
+  color:@light-blue;
+}
