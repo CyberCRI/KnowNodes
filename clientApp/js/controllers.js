@@ -638,7 +638,7 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceDialog,
 SearchBoxCtrl.$inject = ['$scope', '$timeout', 'hybridSearch', 'resource', 'resourceDialog', 'scrape'];
 
 
-function RelationCtrl($scope) {
+function ConnectionCtrl($scope) {
     //define a way for a node to know color based on connectionType
     $scope.BgColorClass = 'explain';
     $scope.colorSwitcher = function () {
@@ -647,7 +647,7 @@ function RelationCtrl($scope) {
                 return 'explain';
                 break;
             case "question":
-                return 'question';
+                return 'critique';
                 break;
             case "inspire":
                 return 'inspire';
@@ -660,4 +660,4 @@ function RelationCtrl($scope) {
         }
     };
 }
-RelationCtrl.$inject = ['$scope'];
+ConnectionCtrl.$inject = ['$scope'];
