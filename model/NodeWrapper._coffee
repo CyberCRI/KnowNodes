@@ -10,6 +10,8 @@ module.exports = class NodeWrapper
 
   @DB: new Neo4j.GraphDatabase(DBConf.getDBURL('neo4j'))
 
+  @getDB: -> @DB
+
   @getNodeType: ->
     throw Error.notImplemented('NodeWrapper.getNodeType()')
 
@@ -91,13 +93,18 @@ module.exports = class NodeWrapper
     @node.delete _
 
   index: (_) ->
-    @indexProperty('KN_ID',_)
+    @indexProperty('KN_ID', _)
+    @indexProperty('__CreatedOn__', _)
 
   indexProperty: (key, _) ->
-    @node.index(@node.data['nodeType'], key, @node.data[key], _)
+    value = @node.data[key]
+    if value?
+      @node.index(@getNodeType(), key, value, _)
 
   indexTextProperty: (key, _) ->
-    @node.index(@node.data['nodeType'], key, @node.data[key].toLowerCase(), _)
+    value = @node.data[key]
+    if value?
+      @node.index(@getNodeType(), key, value.toLowerCase(), _)
 
   getRelationshipWith: (target, relationshipType, _) ->
     query = [
@@ -123,6 +130,9 @@ module.exports = class NodeWrapper
     ###
           METHODS TO IMPLEMENT
     ###
+
+  getNodeType: ->
+    @node.data['nodeType']
 
   validate: ->
     throw Error.notImplemented('NodeWrapper.getValidator()')

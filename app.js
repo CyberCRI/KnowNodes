@@ -87,14 +87,15 @@ app.resource('resources', function() {
 
 app.resource('wiki');
 app.resource('connections', function() {
-    this.collection.post('voteUpConnection');
+    this.collection.post('latestTriplets');
 });
 app.post('/vote/voteUp',voteController.voteUp );
 app.post('/vote/voteDown',voteController.voteDown );
 
 app.resource('scrape');
 
-app.post('/admin/reindexAllResources', adminController.reindexAllResources);
+app.post('/admin/indexAllResources', adminController.indexAllResources);
+app.post('/admin/indexAllConnections', adminController.indexAllConnections);
 
 app.resource('users');
 app.resource('edges');
