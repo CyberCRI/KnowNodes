@@ -46,25 +46,22 @@ module.exports = class User extends NodeWrapper
     super _
     cache.put('USER_' + @getId(), @, 1000)
 
-  hasVotedUp: (target, _) ->
-    @hasRelationship(target, 'VOTED_UP', _)
-
-  hasVotedDown: (target, _) ->
-    @hasRelationship(target, 'VOTED_DOWN', _)
-
   voteUp: (target, _) ->
+    @deleteRelationshipIfExists(target, 'VOTED_DOWN', _)
     if @hasVotedUp(target, _)
       return "already voted up"
-    if @hasVotedDown(target, _)
-      @getRelationship(target, 'VOTED_DOWN', _).delete _
     @node.createRelationshipTo(target.node, 'VOTED_UP', null, _)
     return "upvote created"
 
+  hasVotedUp: (target, _) ->
+    @hasRelationshipWith(target, 'VOTED_UP', _)
+
   voteDown: (target, _) ->
-    console.log 'voteDown'
+    @deleteRelationshipIfExists(target, 'VOTED_UP', _)
     if @hasVotedDown(target, _)
       return "already voted down"
-    if @hasVotedUp(target, _)
-      @getRelationship(target, 'VOTED_UP', _).delete _
     @node.createRelationshipTo(target.node, 'VOTED_DOWN', null, _)
     return "downvote created"
+
+  hasVotedDown: (target, _) ->
+    @hasRelationshipWith(target, 'VOTED_DOWN', _)

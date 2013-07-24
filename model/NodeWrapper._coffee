@@ -99,19 +99,30 @@ module.exports = class NodeWrapper
   indexTextProperty: (key, _) ->
     @node.index(@node.data['nodeType'], key, @node.data[key].toLowerCase(), _)
 
-  getRelationship: (source, target, relationshipType, _) ->
-    query = "START source = node({sourceId}), target = node({targetId}) MATCH user -[relationship:#{relationshipType}]-> target RETURN relationship"
+  getRelationshipWith: (target, relationshipType, _) ->
+    query = [
+      "START source = node({sourceId}), target = node({targetId})",
+      "MATCH user -[relationship:#{relationshipType}]- target",
+      "RETURN relationship"
+    ].join('\n');
     params =
-      sourceId: source.node.id
+      sourceId: @node.id
       targetId: target.node.id
-    NodeWrapper.DB.query(query, params, _)
+    result = NodeWrapper.DB.query(query, params, _)[0]
+    if result?
+      result.relationship
 
-  hasRelationship: (target, relationshipType, _) ->
-    @getRelationship(@, target, relationshipType, _).length > 0
+  hasRelationshipWith: (target, relationshipType, _) ->
+    @getRelationshipWith(target, relationshipType, _)?
 
-  ###
-        METHODS TO IMPLEMENT
-  ###
+  deleteRelationshipIfExists: (target, relationshipType, _) ->
+    rel = @getRelationshipWith(target, relationshipType, _)
+    if rel?
+      rel.del(_)
+
+    ###
+          METHODS TO IMPLEMENT
+    ###
 
   validate: ->
     throw Error.notImplemented('NodeWrapper.getValidator()')
