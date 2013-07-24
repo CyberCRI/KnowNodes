@@ -1,13 +1,9 @@
 div.resource(ng-mouseenter="addNode2=true", ng-mouseleave="addNode2=false")
   div.resource-title
     a(ng-href="/article/{{concept.KN_ID}}", title="{{concept.title}}") {{concept.title}}
-    span
-      a.open-url-source(ng-href="{{concept.url}}", title="{{concept.url}}", ng-show="concept.url", target="_blank") source
-    a(href="/knownodeFiles/:{{concept.fileId}}", target="_blank", ng-show="concept.fileName", title="{{concept.fileName}}")
-      i.titleIcon.icon-download
-    //span(ng-show="addNode2").titleIcon
-      a(ng-show='isUserLoggedIn', title="Connect a new resource to {{concept.title}}", ng-href='/addKnownodeTo/{{concept.KN_ID}}')
-        i.icon-plus
+  a.source-button(ng-href="{{concept.url}}", title="{{concept.url}}", ng-show="concept.url", target="_blank") source
+  a.source-button(href="/knownodeFiles/:{{concept.fileId}}", target="_blank", ng-show="concept.fileName", title="{{concept.fileName}}")
+    i.titleIcon.icon-download
   div.resource-counter(ng-switch on="knownode.edgeCount")
     span(ng-switch-default) {{concept.edgeCount}}
     span(ng-switch-when="0")
