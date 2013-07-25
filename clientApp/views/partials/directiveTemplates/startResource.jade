@@ -1,4 +1,4 @@
-div.resource(ng-mouseenter="addNode=true", ng-mouseleave="addNode=false")
+div.resource
   div.resource-title
     a(ng-href="/article/{{triplet.otherResource.KN_ID}}", title="{{triplet.otherResource.title}}") {{triplet.otherResource.title}}
   a.source-button(ng-href="{{triplet.otherResource.url}}", title="{{triplet.otherResource.url}}", ng-show="triplet.otherResource.url", target="_blank") source

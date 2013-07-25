@@ -1,7 +1,7 @@
 extends layout
 
 block content
-    div(ng-view, style="overflow: hidden").container-fluid.container-fill.tutorial
+    div(ng-view, style="overflow: hidden")
 
     script(src='js/lib/jquery-1.9.1.js')
     script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.js')
@@ -18,7 +18,8 @@ block content
     script(src='js/directives.js')
     script(src='js/lib/moment/moment.js')
     script
-        // That was my only method to connect the user from the server session into the client. it's ugly, I know.
+        // That was my only method to connect the user from the server session into the client.
+        //it's ugly, I know.
         // it could be better if we create a specific service in the server that returns the connected user and the client asks it upon login.
         var KN = KN || {};
         KN.initAngularUser = function () {

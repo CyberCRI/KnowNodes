@@ -30,9 +30,27 @@ angular.module('KnowNodesApp.directives', [])
 
     .directive('connectionInput', function () {
         return {
-            restrict: 'EAC',
+            restrict: 'A',
             transclude: true,
             templateUrl: 'partials/directiveTemplates/connectionInput',
+            replace: true
+        };
+    })
+
+    .directive('startResourceInput', function () {
+        return {
+            restrict: 'A',
+            transclude: true,
+            templateUrl: 'partials/directiveTemplates/startResourceInput',
+            replace: true
+        };
+    })
+
+    .directive('endResourceInput', function () {
+        return {
+            restrict: 'A',
+            transclude: true,
+            templateUrl: 'partials/directiveTemplates/endResourceInput',
             replace: true
         };
     })
@@ -274,7 +292,7 @@ angular.module('KnowNodesApp.directives', [])
 
     .directive('searchBox', ['$http', function ($http) {
         return {
-            restrict: 'EAC',
+            restrict: 'A',
             template: '<input ui-select2="searchBoxOptions" ng-model="selectedResult" data-placeholder="Find or create a resource..." multiple type="hidden" />',
             scope: {},
             controller: SearchBoxCtrl,
