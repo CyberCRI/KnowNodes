@@ -5,5 +5,7 @@ config/settings.js
 *.js.map
 controllers/**/*.js
 modules/**/*.js
+controllers/*.js
+modules/*.js
 modules/email/email.js
 

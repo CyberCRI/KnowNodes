@@ -25,6 +25,7 @@ Renderer.init = function(canvasId, resourceId, navigationListener){
 
 Renderer.navigation = {};
 Renderer.loading = {};
+Renderer.loading.loading = false;
 Renderer.loading.layer = new Kinetic.Layer({});
 Renderer.loading.screen = null;
 
@@ -48,33 +49,36 @@ Renderer.Loading = function(){
         fill: 'rgba(0,0,0,0)'
     });
 
-    var loadingText = new Kinetic.Text({
-        text: "Loading...",
-        fill: "white",
-        width: 120,
-        fontSize: 36
-    });
+    var imageObj = new Image();
+    imageObj.onload = function() {
+        var yoda = new Kinetic.Image({
+            x: 200,
+            y: 50,
+            image: imageObj,
+            width: 106,
+            height: 118
+        });
+    };
+    imageObj.src = '../img/robot.png';
 
     this.loadingGroup.add(this.shape);
-    this.loadingGroup.add(loadingText);
-
-    loadingText.setPosition(width/2, height/2);
+    this.loadingGroup.add(imageObj);
 
     Renderer.loading.layer.add(this.loadingGroup);
 };
 Renderer.Loading.prototype = {
     delete: function(){
-        this.loadingGroup.destroy();
+        //this.loadingGroup.destroy();
         delete this;
     }
 };
 
 Renderer.http = {
     getData: function(resourceId, callback) {
-        if(Renderer.canvas.stage) Renderer.loading.screen = new Renderer.Loading();
+        if(Renderer.canvas.stage) Renderer.canvas.stage.add(Renderer.loading.layer);
         $.get('/knownodes/:' + resourceId, function(centralNode) {
             $.get('/concepts/:' + resourceId + '/getRelatedKnownodes', function(relatedNodes) {
-                if(Renderer.loading.screen) Renderer.loading.screen.delete();
+                if(Renderer.canvas.stage) Renderer.canvas.stage.remove(Renderer.loading.layer);
                 callback(centralNode.success, relatedNodes.success);
             });
         });
@@ -117,7 +121,7 @@ Renderer.canvas.init = function(canvasId){
     this.stage.add(Renderer.edges.layer);
     this.stage.add(Renderer.nodes.layer);
     this.stage.add(Renderer.pages.layer);
-    this.stage.add(Renderer.loading.layer);
+    Renderer.loading.screen = new Renderer.Loading();
 };
 Renderer.canvas.resize = function(){
     var div = $(".ui-layout-center");
@@ -284,37 +288,42 @@ Renderer.Node.prototype = {
         this.kNodePolygon.on('dblclick dbltap', this.mouseDblClick);
     },
     mouseDblClick: function() {
-        var id = this.node.data.KN_ID;
-        if(id === Renderer.nodes.central.data.KN_ID) return;
-        Renderer.engine.centerOn(id, function(centralNodeData, childrenNodesData) {
+        if(!Renderer.loading.loading) {
+            Renderer.loading.loading = true;
+            var id = this.node.data.KN_ID;
+            if(id === Renderer.nodes.central.data.KN_ID) return;
+            Renderer.engine.centerOn(id, function(centralNodeData, childrenNodesData) {
 
-            Renderer.engine.jsonOriginData = centralNodeData;
-            Renderer.engine.jsonChildrenData = childrenNodesData;
-            Renderer.navigation.navigationListener(id);
+                Renderer.engine.jsonOriginData = centralNodeData;
+                Renderer.engine.jsonChildrenData = childrenNodesData;
+                Renderer.navigation.navigationListener(id);
 
-            var aEdges = Renderer.engine.particleSystem.getEdgesFrom(Renderer.nodes.central.aNode);
-            var newCentral;
-            for(var aEdge in aEdges) {
-                var aNode = aEdges[aEdge].target;
-                if(aNode.data.node.data.KN_ID !== id) {
-                    Renderer.engine.particleSystem.pruneNode(aNode);
-                } else {
-                    newCentral = aNode.data.node;
+                var aEdges = Renderer.engine.particleSystem.getEdgesFrom(Renderer.nodes.central.aNode);
+                var newCentral;
+                for(var aEdge in aEdges) {
+                    var aNode = aEdges[aEdge].target;
+                    if(aNode.data.node.data.KN_ID !== id) {
+                        Renderer.engine.particleSystem.pruneNode(aNode);
+                    } else {
+                        newCentral = aNode.data.node;
+                    }
                 }
-            }
 
-            // TODO manage case when user quickly navigates from a child node to another child node without waiting for the graph to be updated.
-            // Either reload graph, or retrieve stored data, or design safe process.
-            Renderer.nodes.central.delete();
+                // TODO manage case when user quickly navigates from a child node to another child node without waiting for the graph to be updated.
+                // Either reload graph, or retrieve stored data, or design safe process.
+                Renderer.nodes.central.delete();
 
-            Renderer.nodes.central = newCentral;
+                Renderer.nodes.central = newCentral;
 
-            Renderer.pages.count = Math.ceil(Renderer.engine.jsonChildrenData.length / NODES_PER_PAGE);
+                Renderer.pages.count = Math.ceil(Renderer.engine.jsonChildrenData.length / NODES_PER_PAGE);
 
-            Renderer.pages.init();
-            Renderer.pages.current = -1;
-            Renderer.pages.display(0);
-        });
+                Renderer.pages.init();
+                Renderer.pages.current = -1;
+                Renderer.pages.display(0);
+
+                Renderer.loading.loading = false;
+            });
+        }
     },
     mouseOver: function(){
         this.node.tweenPolygonHover.play();
