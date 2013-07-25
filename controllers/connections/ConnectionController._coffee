@@ -12,3 +12,6 @@ module.exports = class ConnectionController extends Controller
 
   latestTriplets: (_) ->
     Connection.latestTriplets _
+
+  hottestTriplets: (_) ->
+    Connection.hottestTriplets _

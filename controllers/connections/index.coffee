@@ -17,3 +17,6 @@ module.exports =
 
   latestTriplets: (request, response) ->
     new ConnectionController(request).latestTriplets(Callback.bind(response))
+
+  hottestTriplets: (request, response) ->
+    new ConnectionController(request).hottestTriplets(Callback.bind(response))
