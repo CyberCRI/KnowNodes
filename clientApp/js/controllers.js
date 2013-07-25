@@ -119,7 +119,6 @@ LogoutCtrl.$inject = ['$http', '$location', '$rootScope'];
 
 
 function ConceptListCtrl($scope, $http, $routeParams, userService) {
-
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
     var showtoggle2 = false;
     $scope.plusToggle = function (classToToggle) {
@@ -175,7 +174,6 @@ MapCtrl.$inject = ['$scope', '$routeParams'];
 
 
 function TripletListCtrl($scope, $routeParams, $location, userService, resource, wikipedia, wikinode, tutorialService) {
-
     // First, check whether the resource is a KN Resource or a Wikipedia Article
     if ($routeParams.id != null) {
         // KN Resource
@@ -392,6 +390,9 @@ WikipediaArticleCtrl.$inject = ['$scope', '$routeParams', 'wikipedia'];
 
 function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, connection, tutorialService) {
 
+    $scope.startResourceTitle = "starting node";
+
+    var startResource;
     var targetResource;
 
     $scope.bgColor = 'auto-generated';
@@ -405,9 +406,22 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
     $scope.$on('searchResultSelected', function (event, result) {
         event.stopPropagation();
         if (result.type === 'Wikipedia Article' || result.type === 'Resource') {
+            setStartResource(result);
+        }
+    });
+
+    $scope.$on('searchResultSelected', function (event, result) {
+        event.stopPropagation();
+        if (result.type === 'Wikipedia Article' || result.type === 'Resource') {
             setOtherResource(result);
         }
     });
+
+    var setStartResource = function (resource) {
+        startResource = resource;
+        $scope.startResourceTitle = startResource.title;
+        $('.target-resource-search-box').hide();
+    };
 
     var setOtherResource = function (otherResource) {
         targetResource = otherResource;
@@ -488,6 +502,13 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
         $scope.targetResourceTitle = null;
         $('.target-resource-search-box').show();
     };
+
+    $scope.clearStartResource = function () {
+        startResource = null;
+        $scope.startResourceTitle = null;
+        $('.start-resource-search-box').show();
+    };
+
     $scope.tutorialOff = function () {
         tutorialService.setTutorialOff();
     }
@@ -496,11 +517,11 @@ TripletInputCtrl.$inject = ['$scope', '$rootScope', '$q', '$route', 'wikinode', 
 
 
 function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceDialog, scrape) {
-
     $scope.selectedResult = null;
 
     var lastQuery = "";
     $scope.searchBoxOptions = {
+        width:"off",
         dropdownAutoWidth: true,
         minimumInputLength: 3,
         query: function (query) {

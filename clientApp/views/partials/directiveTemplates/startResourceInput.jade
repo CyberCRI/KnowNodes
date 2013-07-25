@@ -1,3 +1,23 @@
-//
-   User: dorgarbash   Date: 7/24/13   Time: 11:25 AM
-
+form(name="form", novalidate)
+    div(ng-class="{true:'error'}[submitted && form.selectedSuggestion.$invalid && form.knownodeRelation.title.$invalid && form.knownodeRelation.connectionType]")
+        // ... default direction
+        div.resource(ng-hide="reversedDirection", ng-show="rootNodeExists",style="padding:0px",data-intro='This is the resource "{{concept.title}}". Yep.', data-position="right" )
+            div.resource-title.simplebox
+              span#content(ng-show="startResourceTitle != null")
+                {{startResourceTitle}}
+              span.start-resource-search-box
+                div(ng-hide="startResourceTitle != null", search-box)
+                span#content(ng-show="startResourceTitle != null")
+                  {{startResourceTitle}}
+                span.help-inline(ng-show="submitted && form.selectedSuggestion.$error.required") you must choose a resource.
+            a.input-clear(ng-click="clearStartResource()", ng-show="startResourceTitle != null")
+              img(src="/img/cross.png")
+        // ... reversed direction
+        div.resource(ng-show="reversedDirection && rootNodeExists")
+            div.resource-title.simplebox
+                p(ng-hide="targetResourceTitle != null", search-box)
+                span#content(ng-show="targetResourceTitle != null")
+                  {{targetResourceTitle}}
+                span.help-inline(ng-show="submitted && form.selectedSuggestion.$error.required") you must choose a resource.
+            a.input-clear(ng-click="clearOtherResource()", ng-show="targetResourceTitle != null")
+              img(src="/img/cross.png")

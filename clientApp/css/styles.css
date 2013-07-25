@@ -45,7 +45,6 @@ button.knowledgeButton{color:white;font-style:none;width:93px;background:#bfbfbf
 .icon-remove{background-image:url("/img/glyphicons-halflings.png");}
 .inputHeader{margin:0;line-height:30px;}
 .nav-tabs{max-width:90%;}.nav-tabs:hover{font:#df1f25;}
-.control-group{margin-bottom:0;}
 .control-label{margin-top:5px;}
 .submitKnownode{position:absolute;bottom:2%;right:3%;}
 img.inputPopup{float:left;margin-top:6px;}

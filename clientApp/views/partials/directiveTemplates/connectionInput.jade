@@ -1,14 +1,19 @@
-div
-    div.input-prepend(data-intro='Here you explain how "{{concept.title}}" is related to a second resource.', data-position="right")
-
-    div.btn-group(style="display:inline;", ng-model='connectionType', name="connectionType")
-        a.btn.reverse-direction(ng-hide="reversedDirection", ng-click="reversedDirection=true", title="reverse connection direction")
-            i.icon-arrow-up
-            i.icon-arrow-down
-        a.btn.reverse-direction(ng-show="reversedDirection", ng-click="reversedDirection=false", title="reverse connection direction")
-            i.icon-arrow-down
-            i.icon-arrow-up
-        input(ng-class="bgColor")#appendedPrependedDropdownButton.span9(ng-model='connectionTitle', maxlength=280, name='title', required, type="text", placeholder="Describe the relationship", data-intro="When writing the description, remember it should make sense to others. Do your best to be neutral and descriptive, avoid jargon. Good luck!", data-position="bottom")
+div.l-connection(ng-class="bgColor", data-intro='Here you explain how "{{concept.title}}" is related to a second resource.', data-position="right")
+    div.connection-title
+        div.connection-change-direction(ng-model='connectionType', name="connectionType")
+            a.btn.reverse-direction(ng-hide="reversedDirection", ng-click="reversedDirection=true", title="reverse connection direction")
+                i.icon-arrow-up
+                i.icon-arrow-down
+            a.btn.reverse-direction(ng-show="reversedDirection", ng-click="reversedDirection=false", title="reverse connection direction")
+                i.icon-arrow-down
+                i.icon-arrow-up
+        input.connection-input-text.simplebox(ng-model='connectionTitle', maxlength=200, name='title', required, autofocus, type="text", placeholder="Describe the relationship", data-intro="When writing the description, remember it should make sense to others. Do your best to be neutral and descriptive, avoid jargon. Good luck!", data-position="bottom")
             p.btn.btn-link.counter {{(200 -(connectionTitle.length)) }} left
 
-    div(ng-transclude)
+        div(ng-transclude)
+
+
+    //div.l-connection(ng-class="colorSwitcher()")
+      div.connection-title
+        a(ng-href="/edge/{{triplet.connection.KN_ID}}") {{triplet.connection.title}}
+
