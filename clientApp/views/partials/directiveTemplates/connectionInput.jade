@@ -1,5 +1,5 @@
 div.l-connection(ng-class="bgColor", data-intro='Here you explain how "{{concept.title}}" is related to a second resource.', data-position="right")
-    div.connection-title
+    div.connection-title.connection-input-title
         div.connection-change-direction(ng-model='connectionType', name="connectionType")
             a.btn.reverse-direction(ng-hide="reversedDirection", ng-click="reversedDirection=true", title="reverse connection direction")
                 i.icon-arrow-up
@@ -7,7 +7,7 @@ div.l-connection(ng-class="bgColor", data-intro='Here you explain how "{{concept
             a.btn.reverse-direction(ng-show="reversedDirection", ng-click="reversedDirection=false", title="reverse connection direction")
                 i.icon-arrow-down
                 i.icon-arrow-up
-        input.connection-input-text.simplebox(ng-model='connectionTitle', maxlength=200, name='title', required, autofocus, type="text", placeholder="Describe the relationship", data-intro="When writing the description, remember it should make sense to others. Do your best to be neutral and descriptive, avoid jargon. Good luck!", data-position="bottom")
+        textarea.connection-input-text.simplebox(ng-model='connectionTitle', auto-grow, maxlength=200, name='title', required, autofocus, type="text", placeholder="Describe the relationship", data-intro="When writing the description, remember it should make sense to others. Do your best to be neutral and descriptive, avoid jargon. Good luck!", data-position="bottom")
             p.btn.btn-link.counter {{(200 -(connectionTitle.length)) }} left
 
         div(ng-transclude)
