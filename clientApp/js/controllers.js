@@ -392,43 +392,29 @@ WikipediaArticleCtrl.$inject = ['$scope', '$routeParams', 'wikipedia'];
 
 function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, connection, tutorialService) {
 
-    $scope.startResourceTitle = "starting node";
+    $scope.$watch('concept', function(newValue) {
+        if ($scope.startResource == null)
+            $scope.startResource = newValue;
+    });
 
-    var startResource;
-    var targetResource;
+    $scope.$on('resourceSelected', function (event, result) {
+        event.stopPropagation();
+        $scope[result.resourceName] = result.resource;
+    });
+
+    $scope.swapResources = function() {
+        var start = $scope.startResource;
+        var end = $scope.endResource;
+        $scope.startResource = end;
+        $scope.endResource = start;
+    }
 
     $scope.bgColor = 'auto-generated';
 
     $scope.isFormValid = function () {
-        return $scope.connectionTitle != null && $scope.connectionTitle.length > 2
-            && $scope.connectionType != 'Choose link type'
-            && targetResource != null;
-    };
-
-    $scope.$on('searchResultSelected', function (event, result) {
-        event.stopPropagation();
-        if (result.type === 'Wikipedia Article' || result.type === 'Resource') {
-            setStartResource(result);
-        }
-    });
-
-    $scope.$on('searchResultSelected', function (event, result) {
-        event.stopPropagation();
-        if (result.type === 'Wikipedia Article' || result.type === 'Resource') {
-            setOtherResource(result);
-        }
-    });
-
-    var setStartResource = function (resource) {
-        startResource = resource;
-        $scope.startResourceTitle = startResource.title;
-        $('.target-resource-search-box').hide();
-    };
-
-    var setOtherResource = function (otherResource) {
-        targetResource = otherResource;
-        $scope.targetResourceTitle = targetResource.title;
-        $('.target-resource-search-box').hide();
+        return $scope.startResource != null && $scope.endResource != null
+            && $scope.connectionTitle.length > 2
+            && $scope.connectionType != 'Choose link type';
     };
 
     $scope.connectionTitle = '';
@@ -454,29 +440,29 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
         $scope.submitted = true;
         // TODO Handle case where connection direction is reversed
         // TODO Cleanup
-        if ($scope.concept.type === 'Wikipedia Article' && targetResource.type === 'Wikipedia Article') {
+        if ($scope.startResource.type === 'Wikipedia Article' && $scope.endResource.type === 'Wikipedia Article') {
             // Get both wikinodes and create connection
-            $q.all([wikinode.getOrCreate($scope.concept.title),
-                    wikinode.getOrCreate(targetResource.title)])
+            $q.all([wikinode.getOrCreate($scope.startResource.title),
+                    wikinode.getOrCreate($scope.endResource.title)])
                 .then(function (results) {
-                    $scope.concept = results[0].data;
-                    targetResource = results[1].data;
-                    createConnection($scope.concept.KN_ID, targetResource.KN_ID)
+                    $scope.startResource = results[0].data;
+                    $scope.endResource = results[1].data;
+                    createConnection($scope.startResource.KN_ID, $scope.endResource.KN_ID)
                 });
-        } else if ($scope.concept.type === 'Wikipedia Article') {
+        } else if ($scope.startResource.type === 'Wikipedia Article') {
             // Get source wikinode and create connection
-            wikinode.getOrCreate($scope.concept.title).success(function (result) {
-                $scope.concept = result.data;
-                createConnection($scope.concept.KN_ID, targetResource.KN_ID);
+            wikinode.getOrCreate($scope.startResource.title).success(function (result) {
+                $scope.startResource  = result.data;
+                createConnection($scope.startResource.KN_ID, $scope.endResource.KN_ID);
             });
-        } else if (targetResource.type === 'Wikipedia Article') {
+        } else if ($scope.endResource.type === 'Wikipedia Article') {
             // Get target wikinode and create connection
-            wikinode.getOrCreate(targetResource.title).success(function (result) {
-                targetResource = result.data;
-                createConnection($scope.concept.KN_ID, targetResource.KN_ID);
+            wikinode.getOrCreate($scope.endResource.title).success(function (result) {
+                $scope.endResource = result.data;
+                createConnection($scope.startResource.KN_ID, $scope.endResource.KN_ID);
             });
         } else {
-            createConnection($scope.concept.KN_ID, targetResource.KN_ID)
+            createConnection($scope.startResource.KN_ID, $scope.endResource.KN_ID)
         }
     };
 
@@ -500,14 +486,12 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
     };
 
     $scope.clearOtherResource = function () {
-        targetResource = null;
-        $scope.targetResourceTitle = null;
+        $scope.endResource = null;
         $('.target-resource-search-box').show();
     };
 
     $scope.clearStartResource = function () {
-        startResource = null;
-        $scope.startResourceTitle = null;
+        $scope.startResource = null;
         $('.start-resource-search-box').show();
     };
 
@@ -516,6 +500,26 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
     }
 }
 TripletInputCtrl.$inject = ['$scope', '$rootScope', '$q', '$route', 'wikinode', 'resource', 'connection', 'tutorialService'];
+
+
+function ResourceInputCtrl($scope) {
+
+    $scope.$on('searchResultSelected', function (event, result) {
+        event.stopPropagation();
+        $scope.resource = result;
+        emit();
+    });
+
+    function emit() {
+        $scope.$emit('resourceSelected', {resourceName: $scope.resourceName, resource: $scope.resource});
+    }
+
+    $scope.clear = function() {
+        $scope.resource = null;
+        emit();
+    };
+}
+ResourceInputCtrl.$inject = ['$scope'];
 
 
 function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceDialog, scrape) {
