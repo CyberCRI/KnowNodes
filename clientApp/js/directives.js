@@ -302,7 +302,7 @@ angular.module('KnowNodesApp.directives', [])
 
     .directive('autoGrow', function() {
         return function(scope, element, attr){
-            var minHeight = element.css[0].offsetHeight/2,
+            var minHeight = element[0].offsetHeight,
                 paddingLeft = element.css('paddingLeft'),
                 paddingRight = element.css('paddingRight');
 
@@ -338,7 +338,8 @@ angular.module('KnowNodesApp.directives', [])
             }
 
             element.bind('keyup keydown keypress change', update);
-            update();
+
+            //update();
         }
     })
     .directive('searchBox', ['$http', function ($http) {
