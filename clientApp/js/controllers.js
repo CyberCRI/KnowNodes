@@ -373,6 +373,8 @@ function WikipediaArticleCtrl($scope, $routeParams, wikipedia) {
 
 function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, connection) {
 
+    $scope.reversedDirection = false;
+
     $scope.$watch('concept', function(newValue) {
         if ($scope.startResource == null)
             $scope.startResource = newValue;
@@ -384,6 +386,7 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
     });
 
     $scope.swapResources = function() {
+        $scope.reversedDirection = !$scope.reversedDirection;
         var start = $scope.startResource;
         var end = $scope.endResource;
         $scope.startResource = end;
