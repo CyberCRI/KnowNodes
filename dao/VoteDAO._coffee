@@ -17,3 +17,7 @@ module.exports = class VoteDAO
     target = Connection.find(targetId, _)
     user.voteDown(target, _)
 
+  cancelVote: (userId, targetId, _) ->
+    user = User.find(userId, _)
+    target = Connection.find(targetId, _)
+    user.cancelVote(target, _)

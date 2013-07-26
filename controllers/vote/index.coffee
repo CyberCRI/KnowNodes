@@ -8,3 +8,6 @@ module.exports =
 
   voteDown: (request, response) ->
     new VoteController(request).voteDown(Callback.bind(response))
+
+  cancelVote: (request, response) ->
+    new VoteController(request).cancelVote(Callback.bind(response))
