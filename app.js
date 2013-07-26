@@ -92,6 +92,8 @@ app.resource('connections', function() {
 });
 app.post('/vote/voteUp',voteController.voteUp );
 app.post('/vote/voteDown',voteController.voteDown );
+app.post('/vote/cancelVote',voteController.cancelVote );
+
 
 app.resource('scrape');
 
