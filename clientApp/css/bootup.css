@@ -1316,11 +1316,11 @@ a.tutorial-toggle{color:#bab9b9;cursor:pointer;margin-left:1.6em;}a.tutorial-tog
 .scrap-body-text{width:50%;float:left;margin-right:1em;}
 .scrap-body-img{width:40%;}
 .create-resource{width:100%;padding-top:15px;padding-bottom:15px;background:none;}.create-resource:hover{background:light-grey;}
-.l-connection{min-height:70px;margin:10px 0;max-height:70px;}
+.l-connection{min-height:70px;margin:10px 0;max-height:70px;position:relative;}
 .connection-title{display:inline-block;vertical-align:middle;margin:-3px 16px 0px 26px;}
 .connection-input-title{width:82%;}
 .l-connection::after{display:inline-block;vertical-align:middle;line-height:70px;width:0;content:"\00A0";overflow:hidden;}
-.connection-change-direction{position:absolute;left:75px;}
+.connection-change-direction{position:absolute;left:-45px;top:19px;}
 .connection-input-text{margin-bottom:0px !important;background:none !important;font-size:18px !important;width:100%;}
 .resource{min-height:72px;margin:10px 0;max-height:70px;background-color:white;position:relative;}
 .resource::after{display:inline-block;vertical-align:middle;line-height:72px;width:0;content:"\00A0";overflow:hidden;}
