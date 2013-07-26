@@ -290,6 +290,16 @@ angular.module('KnowNodesApp.directives', [])
         };
     }])
 
+    .directive('vote', function () {
+        return {
+            restrict: 'AC',
+            transclude: true,
+            templateUrl: 'partials/directiveTemplates/vote',
+            replace: true,
+            controller: VoteCtrl
+        };
+    })
+
     .directive('autoGrow', function() {
         return function(scope, element, attr){
             var minHeight = element.css[0].offsetHeight/2,

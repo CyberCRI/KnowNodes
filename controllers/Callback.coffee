@@ -7,7 +7,7 @@ module.exports =
     return (error, result) ->
 
       getLogger = ->
-        new Logger('ControllerUtil')
+        new Logger('Callback')
 
       handleCustomError = (error, response) ->
         switch error.type

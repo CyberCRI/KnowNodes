@@ -1,5 +1,6 @@
 Controller = require '../Controller'
 ConnectionDAO = require '../../dao/ConnectionDAO'
+Connection = require '../../model/Connection'
 
 module.exports = class ConnectionController extends Controller
 
@@ -8,3 +9,9 @@ module.exports = class ConnectionController extends Controller
 
   getId: ->
     @request.params.connection
+
+  latestTriplets: (_) ->
+    Connection.latestTriplets _
+
+  hottestTriplets: (_) ->
+    Connection.hottestTriplets _

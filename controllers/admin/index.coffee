@@ -3,5 +3,8 @@ AdminController = require('./AdminController')
 
 module.exports =
 
-  reindexAllResources: (request, response) ->
-    new AdminController(request).reindexAllResources(Callback.bind(response))
+  indexAllResources: (request, response) ->
+    new AdminController(request).indexAllResources(Callback.bind(response))
+
+  indexAllConnections: (request, response) ->
+    new AdminController(request).indexAllConnections(Callback.bind(response))

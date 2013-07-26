@@ -14,3 +14,9 @@ module.exports =
 
   destroy: (request, response) ->
     new ConnectionController(request).destroy(Callback.bind(response))
+
+  latestTriplets: (request, response) ->
+    new ConnectionController(request).latestTriplets(Callback.bind(response))
+
+  hottestTriplets: (request, response) ->
+    new ConnectionController(request).hottestTriplets(Callback.bind(response))
