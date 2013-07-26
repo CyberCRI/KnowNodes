@@ -1322,6 +1322,7 @@ a.tutorial-toggle{color:#bab9b9;cursor:pointer;margin-left:1.6em;}a.tutorial-tog
 .l-connection::after{display:inline-block;vertical-align:middle;line-height:70px;width:0;content:"\00A0";overflow:hidden;}
 .connection-change-direction{position:absolute;left:-45px;top:19px;}
 .connection-input-text{margin-bottom:0px !important;background:none !important;font-size:18px !important;width:100%;}
+.connection-vote-buttons{width:0px;position:absolute;top:6px;right:0px;}
 .resource{min-height:72px;margin:10px 0;max-height:70px;background-color:white;position:relative;}
 .resource::after{display:inline-block;vertical-align:middle;line-height:72px;width:0;content:"\00A0";overflow:hidden;}
 .resource-title{display:inline-block;vertical-align:middle;margin:-3px 16px 0px 26px;}

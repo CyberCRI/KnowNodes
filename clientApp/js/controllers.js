@@ -33,7 +33,6 @@ function TopBarCtrl($scope, $location, resource) {
         $scope.resourceId = result;
     });
 }
-TopBarCtrl.$inject = ['$scope', '$location', 'resource'];
 
 
 function CreateResourceDialogCtrl($scope, dialog, resource) {
@@ -50,7 +49,6 @@ function CreateResourceDialogCtrl($scope, dialog, resource) {
         });
     };
 }
-CreateResourceDialogCtrl.$inject = ['$scope', 'dialog', 'resource'];
 
 
 function ChatCtrl($scope, $timeout, $rootScope, angularFireCollection) {
@@ -73,7 +71,6 @@ function ChatCtrl($scope, $timeout, $rootScope, angularFireCollection) {
         $scope.message = "";
     };
 }
-ChatCtrl.$inject = ['$scope', '$timeout', '$rootScope', 'angularFireCollection'];
 
 
 function AddUserCtrl($scope, $http, $location) {
@@ -85,7 +82,6 @@ function AddUserCtrl($scope, $http, $location) {
             });
     };
 }
-AddUserCtrl.$inject = ['$scope', '$http', '$location'];
 
 
 function LoginCtrl($scope, $http, $location, $rootScope, $window) {
@@ -102,7 +98,6 @@ function LoginCtrl($scope, $http, $location, $rootScope, $window) {
             });
     };
 }
-LoginCtrl.$inject = ['$scope', '$http', '$location', '$rootScope', '$window'];
 
 
 function LogoutCtrl($http, $location, $rootScope) {
@@ -115,7 +110,6 @@ function LogoutCtrl($http, $location, $rootScope) {
             }
         });
 }
-LogoutCtrl.$inject = ['$http', '$location', '$rootScope'];
 
 
 function ConceptListCtrl($scope, $http, $routeParams, userService) {
@@ -150,7 +144,6 @@ function ConceptListCtrl($scope, $http, $routeParams, userService) {
 
     $scope.orderProp = "date";
 }
-ConceptListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
 
 
 function MapCtrl($scope, $routeParams) {
@@ -171,10 +164,9 @@ function MapCtrl($scope, $routeParams) {
         PanelsHandler.initPanels();
     });
 }
-MapCtrl.$inject = ['$scope', '$routeParams'];
 
 
-function TripletListCtrl($scope, $routeParams, $location, userService, resource, wikipedia, wikinode, tutorialService) {
+function TripletListCtrl($scope, $routeParams, $location, userService, resource, wikipedia, wikinode) {
 
     // First, check whether the resource is a KN Resource or a Wikipedia Article
     if ($routeParams.id != null) {
@@ -219,7 +211,6 @@ function TripletListCtrl($scope, $routeParams, $location, userService, resource,
     $scope.addNode = false;
     $scope.currentKnownode = {};
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
-    $scope.isTutorialOn = tutorialService.getTutorial();
 
     $scope.checkOwnership = function (userId) {
         if (userService.isUserLoggedIn()) {
@@ -248,16 +239,11 @@ function TripletListCtrl($scope, $routeParams, $location, userService, resource,
     $scope.start = +new Date();
 
 }
-TripletListCtrl.$inject = ['$scope', '$routeParams', '$location', 'userService', 'resource', 'wikipedia', 'wikinode', 'tutorialService'];
 
 
-function IndexCtrl($scope, $http, $location, $tutorialService) {
-    $scope.tutorialOn = function () {
-        $tutorialService.setTutorialOn();
-    };
+function IndexCtrl($scope, $http, $location) {
 
 }
-IndexCtrl.$inject = ['$scope', '$http', '$location', 'tutorialService'];
 
 
 function DeleteUserCtrl($scope, $http, $location, $routeParams) {
@@ -277,7 +263,6 @@ function DeleteUserCtrl($scope, $http, $location, $routeParams) {
         $location.url('/');
     };
 }
-DeleteUserCtrl.$inject = ['$scope', '$http', '$location', '$routeParams'];
 
 
 function commentCtrl($scope, $http, $routeParams, userService, broadcastService) {
@@ -297,7 +282,6 @@ function commentCtrl($scope, $http, $routeParams, userService, broadcastService)
         $scope.comments.push(broadcastService.message);
     });
 }
-commentCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'broadcastService'];
 
 
 function addCommentCtrl($scope, $http, $routeParams, userService, broadcastService) {
@@ -331,12 +315,10 @@ function addCommentCtrl($scope, $http, $routeParams, userService, broadcastServi
             });
     };
 }
-addCommentCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'broadcastService'];
 
 
 function StaticPageCtrl($scope) {
 }
-StaticPageCtrl.$inject = ['$scope'];
 
 
 function ConnectionPageCtrl($scope, $http, $routeParams, userService, PassKnownode) {
@@ -387,10 +369,11 @@ function WikipediaArticleCtrl($scope, $routeParams, wikipedia) {
     });
 
 }
-WikipediaArticleCtrl.$inject = ['$scope', '$routeParams', 'wikipedia'];
 
 
-function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, connection, tutorialService) {
+function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, connection) {
+
+    $scope.reversedDirection = false;
 
     $scope.$watch('concept', function(newValue) {
         if ($scope.startResource == null)
@@ -403,6 +386,7 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
     });
 
     $scope.swapResources = function() {
+        $scope.reversedDirection = !$scope.reversedDirection;
         var start = $scope.startResource;
         var end = $scope.endResource;
         $scope.startResource = end;
@@ -491,11 +475,7 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
         $('.start-resource-search-box').show();
     };
 
-    $scope.tutorialOff = function () {
-        tutorialService.setTutorialOff();
-    }
 }
-TripletInputCtrl.$inject = ['$scope', '$rootScope', '$q', '$route', 'wikinode', 'resource', 'connection', 'tutorialService'];
 
 
 function ResourceInputCtrl($scope) {
@@ -659,7 +639,6 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceDialog,
     };
 
 }
-SearchBoxCtrl.$inject = ['$scope', '$timeout', 'hybridSearch', 'resource', 'resourceDialog', 'scrape'];
 
 
 function ConnectionCtrl($scope) {
@@ -684,4 +663,50 @@ function ConnectionCtrl($scope) {
         }
     };
 }
-ConnectionCtrl.$inject = ['$scope'];
+
+function VoteCtrl($scope, $http) {
+    $scope.upActive = false;
+    $scope.downActive = false;
+
+    $scope.vote = function(voteType) {
+
+        if(voteType === "up") {
+            $scope.upActive = !$scope.upActive;
+            if($scope.upActive == true) {
+                $scope.downActive = false;
+                $http.post('/vote/voteUp/',{connectionId:$scope.triplet.connection.KN_ID});
+                console.log("voteUp")
+            }
+            if($scope.upActive === false) {
+                $scope.downActive = false;
+                $scope.upVoteClass = "";
+                $http.post('/vote/cancelVote/',{connectionId:$scope.triplet.connection.KN_ID});
+                console.log("voteUpCancelled")
+            }
+        }
+        if(voteType == "down") {
+            $scope.downActive = !$scope.downActive;
+            if($scope.downActive === true) {
+                $scope.upActive = false;
+                $http.post('/vote/voteDown/',{connectionId:$scope.triplet.connection.KN_ID});
+                console.log("voteDown")
+            }
+            if($scope.downActive === false) {
+                $scope.upActive = false;
+                $scope.downVoteClass = "";
+                $http.post('/vote/cancelVote/',{connectionId:$scope.triplet.connection.KN_ID});
+                console.log("voteDownCancelled")
+            }
+        }
+
+        if($scope.upActive === true) {
+            $scope.upVoteClass = "active";
+            $scope.downVoteClass = "";
+        } else if ($scope.downActive === true){
+            $scope.downVoteClass = "active";
+            $scope.upVoteClass = "";
+        }
+
+
+    };
+}

@@ -13,3 +13,6 @@ module.exports = class VoteController extends Controller
   voteDown: (_) ->
     @dao.voteDown(@getLoggedUserId(), @request.body.connectionId, _)
 
+  cancelVote: (_) ->
+    @dao.cancelVote(@getLoggedUserId(), @request.body.connectionId, _)
+
