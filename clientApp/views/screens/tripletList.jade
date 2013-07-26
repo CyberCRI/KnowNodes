@@ -5,17 +5,17 @@ div.container-fluid
             div.input-interface(triplet-input)
 
         div.location-info.span9.offset3
-          accordion
-            accordion-group(heading="{{concept.title}}", is-open='true')
-              div.knownode-body
-                p.bold(ng-show="concept.url")
-                  a(ng-href="{{concept.url}}") {{concept.url}}
-                p.bold(ng-show="concept.wikipediaLinks && !concept.url")
-                  a(ng-href="http://en.wikipedia.org/wiki/{{concept.title}}", target="_blank") http://en.wikipedia.org/wiki/{{concept.title}}
+            accordion
+                accordion-group(heading="{{concept.title}}", is-open='true')
+                    div.knownode-body
+                        p.bold(ng-show="concept.url")
+                            a(ng-href="{{concept.url}}") {{concept.url}}
+                        p.bold(ng-show="concept.wikipediaLinks && !concept.url")
+                            a(ng-href="http://en.wikipedia.org/wiki/{{concept.title}}", target="_blank") http://en.wikipedia.org/wiki/{{concept.title}}
 
-                p(ng-show="concept.fileName") Download:
-                  a(class="btn-info",href="/knownodeFiles/:{{concept.fileId}}", target="_blank", ng-show="concept.fileName") &nbsp;{{concept.fileName}}&nbsp;
-                div(ng-bind-html-unsafe="concept.bodyText")
+                        p(ng-show="concept.fileName") Download:
+                            a(class="btn-info",href="/knownodeFiles/:{{concept.fileId}}", target="_blank", ng-show="concept.fileName") &nbsp;{{concept.fileName}}&nbsp;
+                        div(ng-bind-html-unsafe="concept.bodyText")
 
         div.span9.offset3(ng-repeat="triplet in knownodeList | orderBy:orderProp", ng-switch on="triplet.otherResource.id == triplet.connection.fromNodeId")
             div(ng-switch-default)

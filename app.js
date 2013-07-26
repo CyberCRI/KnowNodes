@@ -4,7 +4,9 @@
 var express = require('express')
   , controller = require('./controllers')
   , adminController = require('./controllers/admin/index')
-  , Resource = require('express-resource-new')
+  , voteController = require('./controllers/vote/index')
+
+    , Resource = require('express-resource-new')
   //, Resource = require('express-resource')
   , http = require('http')
   , passport = require('passport')
@@ -82,11 +84,19 @@ app.resource('resources', function() {
     this.member.get('triplets');
     this.collection.post('findByUrl');
 });
+
 app.resource('wiki');
-app.resource('connections');
+app.resource('connections', function() {
+    this.collection.post('latestTriplets');
+    this.collection.post('hottestTriplets');
+});
+app.post('/vote/voteUp',voteController.voteUp );
+app.post('/vote/voteDown',voteController.voteDown );
+
 app.resource('scrape');
 
-app.post('/admin/reindexAllResources', adminController.reindexAllResources);
+app.post('/admin/indexAllResources', adminController.indexAllResources);
+app.post('/admin/indexAllConnections', adminController.indexAllConnections);
 
 app.resource('users');
 app.resource('edges');

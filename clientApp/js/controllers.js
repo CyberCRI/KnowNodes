@@ -119,6 +119,7 @@ LogoutCtrl.$inject = ['$http', '$location', '$rootScope'];
 
 
 function ConceptListCtrl($scope, $http, $routeParams, userService) {
+
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
     var showtoggle2 = false;
     $scope.plusToggle = function (classToToggle) {
@@ -174,6 +175,7 @@ MapCtrl.$inject = ['$scope', '$routeParams'];
 
 
 function TripletListCtrl($scope, $routeParams, $location, userService, resource, wikipedia, wikinode, tutorialService) {
+
     // First, check whether the resource is a KN Resource or a Wikipedia Article
     if ($routeParams.id != null) {
         // KN Resource
@@ -517,6 +519,7 @@ TripletInputCtrl.$inject = ['$scope', '$rootScope', '$q', '$route', 'wikinode', 
 
 
 function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceDialog, scrape) {
+
     $scope.selectedResult = null;
 
     var lastQuery = "";
