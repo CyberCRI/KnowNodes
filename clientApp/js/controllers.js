@@ -464,17 +464,6 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
                 console.log('Error message : ' + data.message);
             });
     };
-
-    $scope.clearOtherResource = function () {
-        $scope.endResource = null;
-        $('.target-resource-search-box').show();
-    };
-
-    $scope.clearStartResource = function () {
-        $scope.startResource = null;
-        $('.start-resource-search-box').show();
-    };
-
 }
 
 
