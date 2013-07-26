@@ -1,10 +1,10 @@
 div.l-connection(ng-class="bgColor", data-intro='Here you explain how "{{concept.title}}" is related to a second resource.', data-position="right")
     div.connection-title.connection-input-title
         div.connection-change-direction(ng-model='connectionType', name="connectionType")
-            a.btn.reverse-direction(ng-hide="reversedDirection", ng-click="reversedDirection=true", title="reverse connection direction")
+            a.btn.reverse-direction(ng-hide="reversedDirection", ng-click="swapResources()", title="reverse connection direction")
                 i.icon-arrow-up
                 i.icon-arrow-down
-            a.btn.reverse-direction(ng-show="reversedDirection", ng-click="reversedDirection=false", title="reverse connection direction")
+            a.btn.reverse-direction(ng-show="reversedDirection", ng-click="swapResources()", title="reverse connection direction")
                 i.icon-arrow-down
                 i.icon-arrow-up
         textarea.connection-input-text.simplebox(style="height:24px;", ng-model='connectionTitle', auto-grow, maxlength=200, name='title', required, autofocus, type="text", placeholder="Describe the relationship", data-intro="When writing the description, remember it should make sense to others. Do your best to be neutral and descriptive, avoid jargon. Good luck!", data-position="bottom")

@@ -4,9 +4,9 @@ div
           a.tutorial-toggle(onclick="$('body').chardinJs('toggle')") Show instructions
         div.arrow
     div.input-triplet
-        div(start-resource-input)
+        resource-input(resource="startResource")
         div(connection-input)
-        div(end-resource-input)
+        resource-input(resource="endResource")
         div.text-center.input-link-type
             p.text-center.input-link-type-text Why did you make this connection?
 

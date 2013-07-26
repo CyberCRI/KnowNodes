@@ -1,0 +1,6 @@
+div.resource-title.simplebox
+    span.start-resource-search-box(ng-show="resource == null")
+        search-box
+    span#content(ng-show="resource != null")
+        {{resource.title}}
+        button(ng-click="clear()") Clear

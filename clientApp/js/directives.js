@@ -37,24 +37,6 @@ angular.module('KnowNodesApp.directives', [])
         };
     })
 
-    .directive('startResourceInput', function () {
-        return {
-            restrict: 'A',
-            transclude: true,
-            templateUrl: 'partials/directiveTemplates/startResourceInput',
-            replace: true
-        };
-    })
-
-    .directive('endResourceInput', function () {
-        return {
-            restrict: 'A',
-            transclude: true,
-            templateUrl: 'partials/directiveTemplates/endResourceInput',
-            replace: true
-        };
-    })
-
     .directive('formatSelector', function () {
         return {
             compile: function compile(tElement, tAttrs, transclude) {
@@ -283,12 +265,30 @@ angular.module('KnowNodesApp.directives', [])
 
     .directive('tripletInput', ['$http', function ($http) {
         return {
-            restrict: 'A',
+            restrict: 'E',
             templateUrl: 'partials/directiveTemplates/tripletInput',
             controller: TripletInputCtrl,
             replace: true
         };
     }])
+
+    .directive('resourceInput', function () {
+        return {
+            restrict: 'E',
+            templateUrl: 'partials/directiveTemplates/resourceInput',
+            controller: ResourceInputCtrl,
+            scope: true,
+            link: function ($scope, $element, $attrs) {
+                $scope.resourceName = $attrs.resource;
+                if ($scope.resourceName != null) {
+                    $scope.$watch($scope.resourceName, function(newValue) {
+                        $scope.resource = newValue;
+                    });
+                }
+            },
+            replace: true
+        };
+    })
 
     .directive('vote', function () {
         return {
@@ -344,7 +344,7 @@ angular.module('KnowNodesApp.directives', [])
     })
     .directive('searchBox', ['$http', function ($http) {
         return {
-            restrict: 'A',
+            restrict: 'EA',
             template: '<input ui-select2="searchBoxOptions" ng-model="selectedResult" data-placeholder="Find or create a resource..." multiple type="hidden" />',
             scope: {},
             controller: SearchBoxCtrl,
