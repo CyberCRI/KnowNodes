@@ -15,3 +15,10 @@ model/*.js
 model/**/*.js
 dao/*.js
 error/*.js
+clientApp/css/colorschema.css
+
+clientApp/css/styles.css
+
+clientApp/css/variables.css
+
+clientApp/css/variables.css
