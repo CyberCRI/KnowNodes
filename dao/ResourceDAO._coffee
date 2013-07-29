@@ -32,10 +32,8 @@ module.exports = class ResourceDAO
     Resource.findByUrl(url, _)
 
   findTripletsByResourceId: (id, userId, _) ->
-    console.log("in dao", userId)
     if userId == "no user"
       user = userId
     else
       user = User.find(userId, _)
-    console.log("end of dao")
     Resource.findTripletsByResourceId(id, user, _)

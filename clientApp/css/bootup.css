@@ -1280,6 +1280,7 @@ html,body{height:100%;}
 .auto-generated{background:#d3d3d3;}
 .simplebox{outline:none;border:none !important;box-shadow:none !important;}
 textarea{resize:none;word-wrap:break-word;transition:0.05s;-moz-transition:0.05s;-webkit-transition:0.05s;-o-transition:0.05s;}
+.not-logged-prompt{position:absolute;width:150px;color:red;}
 .frontpage__bg-image{background-image:url("../img/bg-frontpage.jpg") !important;background-repeat:no-repeat;background-size:100%;}
 .l-frontpage__center{margin:0 auto;width:50%;}
 .l-frontpage-image{position:relative;width:100%;}

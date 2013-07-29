@@ -35,7 +35,7 @@ function TopBarCtrl($scope, $location, resource) {
 }
 
 
-function CreateResourceDialogCtrl($scope, dialog, resource) {
+function CreateResourceModalCtrl($scope, dialog, resource) {
 
     $scope.resourceToCreate = {title: dialog.options.title};
 
@@ -84,7 +84,7 @@ function AddUserCtrl($scope, $http, $location) {
 }
 
 
-function LoginCtrl($scope, $http, $location, $rootScope, $window) {
+function LoginCtrl($scope, $http, $location, $rootScope, $window, loginModal) {
     $scope.loginForm = {};
 
     $scope.performLogin = function () {
@@ -97,6 +97,11 @@ function LoginCtrl($scope, $http, $location, $rootScope, $window) {
                 $window.history.back();
             });
     };
+
+    $scope.closeLoginModal = function(){
+        loginModal.close();
+    };
+
 }
 
 
@@ -487,7 +492,7 @@ function ResourceInputCtrl($scope) {
 ResourceInputCtrl.$inject = ['$scope'];
 
 
-function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceDialog, scrape) {
+function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, scrape) {
 
     $scope.selectedResult = null;
 
@@ -585,7 +590,7 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceDialog,
             var result = getSelectedResult();
             switch (result.type) {
                 case 'Create Resource':
-                    resourceDialog.open(result.title).then(function (createdResource) {
+                    resourceModal.open(result.title).then(function (createdResource) {
                         createdResource.type = 'Resource';
                         $scope.$emit('searchResultSelected', createdResource);
                     });
@@ -653,10 +658,21 @@ function ConnectionCtrl($scope) {
     };
 }
 
-function VoteCtrl($scope, $http) {
+function VoteCtrl($scope, $http, loginModal) {
 
     $scope.upActive = false;
     $scope.downActive = false;
+    $scope.openLoginModal = function(){
+        loginModal.open();
+    };
+
+    $scope.closeLoginModal = function(){
+        loginModal.close();
+    };
+
+    $scope.showPrompt = function() {
+        $scope.prompt = true;
+    };
 
     if ($scope.triplet.upvoted != null) {
         $scope.upVoteClass = "active";
