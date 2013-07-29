@@ -1,6 +1,7 @@
 doctype 5
 html(ng-app="KnowNodesApp")
   head
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
     meta(charset='utf8')
     base(href='/')
     title= title
@@ -12,6 +13,5 @@ html(ng-app="KnowNodesApp")
 
     body(ng-controller="TopBarCtrl").background-color
       include partials/topBar
-      //div(chat)
       block content
       include partials/footer

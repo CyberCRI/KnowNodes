@@ -31,5 +31,9 @@ module.exports = class ResourceDAO
     @logger.debug("searchByUrl (url: #{url})")
     Resource.findByUrl(url, _)
 
-  findTripletsByResourceId: (id, _) ->
-    Resource.findTripletsByResourceId(id, _)
+  findTripletsByResourceId: (id, userId, _) ->
+    if userId == "no user"
+      user = userId
+    else
+      user = User.find(userId, _)
+    Resource.findTripletsByResourceId(id, user, _)

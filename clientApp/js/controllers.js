@@ -33,10 +33,9 @@ function TopBarCtrl($scope, $location, resource) {
         $scope.resourceId = result;
     });
 }
-TopBarCtrl.$inject = ['$scope', '$location', 'resource'];
 
 
-function CreateResourceDialogCtrl($scope, dialog, resource) {
+function CreateResourceModalCtrl($scope, dialog, resource) {
 
     $scope.resourceToCreate = {title: dialog.options.title};
 
@@ -50,7 +49,6 @@ function CreateResourceDialogCtrl($scope, dialog, resource) {
         });
     };
 }
-CreateResourceDialogCtrl.$inject = ['$scope', 'dialog', 'resource'];
 
 
 function ChatCtrl($scope, $timeout, $rootScope, angularFireCollection) {
@@ -73,7 +71,6 @@ function ChatCtrl($scope, $timeout, $rootScope, angularFireCollection) {
         $scope.message = "";
     };
 }
-ChatCtrl.$inject = ['$scope', '$timeout', '$rootScope', 'angularFireCollection'];
 
 
 function AddUserCtrl($scope, $http, $location) {
@@ -85,10 +82,9 @@ function AddUserCtrl($scope, $http, $location) {
             });
     };
 }
-AddUserCtrl.$inject = ['$scope', '$http', '$location'];
 
 
-function LoginCtrl($scope, $http, $location, $rootScope, $window) {
+function LoginCtrl($scope, $http, $location, $rootScope, $window, loginModal) {
     $scope.loginForm = {};
 
     $scope.performLogin = function () {
@@ -101,8 +97,12 @@ function LoginCtrl($scope, $http, $location, $rootScope, $window) {
                 $window.history.back();
             });
     };
+
+    $scope.closeLoginModal = function(){
+        loginModal.close();
+    };
+
 }
-LoginCtrl.$inject = ['$scope', '$http', '$location', '$rootScope', '$window'];
 
 
 function LogoutCtrl($http, $location, $rootScope) {
@@ -115,7 +115,6 @@ function LogoutCtrl($http, $location, $rootScope) {
             }
         });
 }
-LogoutCtrl.$inject = ['$http', '$location', '$rootScope'];
 
 
 function ConceptListCtrl($scope, $http, $routeParams, userService) {
@@ -150,7 +149,6 @@ function ConceptListCtrl($scope, $http, $routeParams, userService) {
 
     $scope.orderProp = "date";
 }
-ConceptListCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService'];
 
 
 function MapCtrl($scope, $routeParams) {
@@ -171,10 +169,9 @@ function MapCtrl($scope, $routeParams) {
         PanelsHandler.initPanels();
     });
 }
-MapCtrl.$inject = ['$scope', '$routeParams'];
 
 
-function TripletListCtrl($scope, $routeParams, $location, userService, resource, wikipedia, wikinode, tutorialService) {
+function TripletListCtrl($scope, $routeParams, $location, userService, resource, wikipedia, wikinode) {
 
     // First, check whether the resource is a KN Resource or a Wikipedia Article
     if ($routeParams.id != null) {
@@ -219,7 +216,6 @@ function TripletListCtrl($scope, $routeParams, $location, userService, resource,
     $scope.addNode = false;
     $scope.currentKnownode = {};
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
-    $scope.isTutorialOn = tutorialService.getTutorial();
 
     $scope.checkOwnership = function (userId) {
         if (userService.isUserLoggedIn()) {
@@ -248,16 +244,11 @@ function TripletListCtrl($scope, $routeParams, $location, userService, resource,
     $scope.start = +new Date();
 
 }
-TripletListCtrl.$inject = ['$scope', '$routeParams', '$location', 'userService', 'resource', 'wikipedia', 'wikinode', 'tutorialService'];
 
 
-function IndexCtrl($scope, $http, $location, $tutorialService) {
-    $scope.tutorialOn = function () {
-        $tutorialService.setTutorialOn();
-    };
+function IndexCtrl($scope, $http, $location) {
 
 }
-IndexCtrl.$inject = ['$scope', '$http', '$location', 'tutorialService'];
 
 
 function DeleteUserCtrl($scope, $http, $location, $routeParams) {
@@ -277,7 +268,6 @@ function DeleteUserCtrl($scope, $http, $location, $routeParams) {
         $location.url('/');
     };
 }
-DeleteUserCtrl.$inject = ['$scope', '$http', '$location', '$routeParams'];
 
 
 function commentCtrl($scope, $http, $routeParams, userService, broadcastService) {
@@ -297,7 +287,6 @@ function commentCtrl($scope, $http, $routeParams, userService, broadcastService)
         $scope.comments.push(broadcastService.message);
     });
 }
-commentCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'broadcastService'];
 
 
 function addCommentCtrl($scope, $http, $routeParams, userService, broadcastService) {
@@ -331,12 +320,10 @@ function addCommentCtrl($scope, $http, $routeParams, userService, broadcastServi
             });
     };
 }
-addCommentCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'broadcastService'];
 
 
 function StaticPageCtrl($scope) {
 }
-StaticPageCtrl.$inject = ['$scope'];
 
 
 function ConnectionPageCtrl($scope, $http, $routeParams, userService, PassKnownode) {
@@ -387,32 +374,36 @@ function WikipediaArticleCtrl($scope, $routeParams, wikipedia) {
     });
 
 }
-WikipediaArticleCtrl.$inject = ['$scope', '$routeParams', 'wikipedia'];
 
 
-function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, connection, tutorialService) {
+function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, connection) {
 
-    var targetResource;
+    $scope.reversedDirection = false;
+
+    $scope.$watch('concept', function(newValue) {
+        if ($scope.startResource == null)
+            $scope.startResource = newValue;
+    });
+
+    $scope.$on('resourceSelected', function (event, result) {
+        event.stopPropagation();
+        $scope[result.resourceName] = result.resource;
+    });
+
+    $scope.swapResources = function() {
+        $scope.reversedDirection = !$scope.reversedDirection;
+        var start = $scope.startResource;
+        var end = $scope.endResource;
+        $scope.startResource = end;
+        $scope.endResource = start;
+    }
 
     $scope.bgColor = 'auto-generated';
 
     $scope.isFormValid = function () {
-        return $scope.connectionTitle != null && $scope.connectionTitle.length > 2
-            && $scope.connectionType != 'Choose link type'
-            && targetResource != null;
-    };
-
-    $scope.$on('searchResultSelected', function (event, result) {
-        event.stopPropagation();
-        if (result.type === 'Wikipedia Article' || result.type === 'Resource') {
-            setOtherResource(result);
-        }
-    });
-
-    var setOtherResource = function (otherResource) {
-        targetResource = otherResource;
-        $scope.targetResourceTitle = targetResource.title;
-        $('.target-resource-search-box').hide();
+        return $scope.startResource != null && $scope.endResource != null
+            && $scope.connectionTitle.length > 2
+            && $scope.connectionType != 'Choose link type';
     };
 
     $scope.connectionTitle = '';
@@ -438,42 +429,38 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
         $scope.submitted = true;
         // TODO Handle case where connection direction is reversed
         // TODO Cleanup
-        if ($scope.concept.type === 'Wikipedia Article' && targetResource.type === 'Wikipedia Article') {
+        if ($scope.startResource.type === 'Wikipedia Article' && $scope.endResource.type === 'Wikipedia Article') {
             // Get both wikinodes and create connection
-            $q.all([wikinode.getOrCreate($scope.concept.title),
-                    wikinode.getOrCreate(targetResource.title)])
-                .then(function (results) {
-                    $scope.concept = results[0].data;
-                    targetResource = results[1].data;
-                    createConnection($scope.concept.KN_ID, targetResource.KN_ID)
+            $q.all([wikinode.getOrCreate($scope.startResource.title),
+                    wikinode.getOrCreate($scope.endResource.title)])
+                .then(function (createdResources) {
+                    $scope.startResource = createdResources[0];
+                    $scope.endResource = createdResources[1];
+                    createConnection();
                 });
-        } else if ($scope.concept.type === 'Wikipedia Article') {
+        } else if ($scope.startResource.type === 'Wikipedia Article') {
             // Get source wikinode and create connection
-            wikinode.getOrCreate($scope.concept.title).success(function (result) {
-                $scope.concept = result.data;
-                createConnection($scope.concept.KN_ID, targetResource.KN_ID);
+            wikinode.getOrCreate($scope.startResource.title).success(function (createdStartResource) {
+                $scope.startResource = createdStartResource;
+                createConnection();
             });
-        } else if (targetResource.type === 'Wikipedia Article') {
+        } else if ($scope.endResource.type === 'Wikipedia Article') {
             // Get target wikinode and create connection
-            wikinode.getOrCreate(targetResource.title).success(function (result) {
-                targetResource = result.data;
-                createConnection($scope.concept.KN_ID, targetResource.KN_ID);
+            wikinode.getOrCreate($scope.endResource.title).success(function (createdEndResource) {
+                $scope.endResource = createdEndResource;
+                createConnection();
             });
         } else {
-            createConnection($scope.concept.KN_ID, targetResource.KN_ID)
+            createConnection();
         }
     };
 
-    var createConnection = function (currentResource, otherResource) {
-        var sourceId, targetId;
-        if ($scope.reversedDirection) {
-            sourceId = otherResource;
-            targetId = currentResource;
-        } else {
-            sourceId = currentResource;
-            targetId = otherResource;
-        }
-        connection.create(sourceId, $scope.connectionTitle, $scope.connectionType, targetId)
+    function createConnection() {
+
+        var startResourceId = $scope.startResource.KN_ID;
+        var endResourceId = $scope.endResource.KN_ID;
+
+        connection.create(startResourceId, $scope.connectionTitle, $scope.connectionType, endResourceId)
             .success(function (data, status) {
                 $route.reload();
             })
@@ -482,25 +469,36 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
                 console.log('Error message : ' + data.message);
             });
     };
-
-    $scope.clearOtherResource = function () {
-        targetResource = null;
-        $scope.targetResourceTitle = null;
-        $('.target-resource-search-box').show();
-    };
-    $scope.tutorialOff = function () {
-        tutorialService.setTutorialOff();
-    }
 }
-TripletInputCtrl.$inject = ['$scope', '$rootScope', '$q', '$route', 'wikinode', 'resource', 'connection', 'tutorialService'];
 
 
-function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceDialog, scrape) {
+function ResourceInputCtrl($scope) {
+
+    $scope.$on('searchResultSelected', function (event, result) {
+        event.stopPropagation();
+        $scope.resource = result;
+        emit();
+    });
+
+    function emit() {
+        $scope.$emit('resourceSelected', {resourceName: $scope.resourceName, resource: $scope.resource});
+    }
+
+    $scope.clear = function() {
+        $scope.resource = null;
+        emit();
+    };
+}
+ResourceInputCtrl.$inject = ['$scope'];
+
+
+function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, scrape) {
 
     $scope.selectedResult = null;
 
     var lastQuery = "";
     $scope.searchBoxOptions = {
+        width:"off",
         dropdownAutoWidth: true,
         minimumInputLength: 3,
         query: function (query) {
@@ -592,7 +590,7 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceDialog,
             var result = getSelectedResult();
             switch (result.type) {
                 case 'Create Resource':
-                    resourceDialog.open(result.title).then(function (createdResource) {
+                    resourceModal.open(result.title).then(function (createdResource) {
                         createdResource.type = 'Resource';
                         $scope.$emit('searchResultSelected', createdResource);
                     });
@@ -635,10 +633,9 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceDialog,
     };
 
 }
-SearchBoxCtrl.$inject = ['$scope', '$timeout', 'hybridSearch', 'resource', 'resourceDialog', 'scrape'];
 
 
-function RelationCtrl($scope) {
+function ConnectionCtrl($scope) {
     //define a way for a node to know color based on connectionType
     $scope.BgColorClass = 'explain';
     $scope.colorSwitcher = function () {
@@ -647,7 +644,7 @@ function RelationCtrl($scope) {
                 return 'explain';
                 break;
             case "question":
-                return 'question';
+                return 'critique';
                 break;
             case "inspire":
                 return 'inspire';
@@ -660,37 +657,77 @@ function RelationCtrl($scope) {
         }
     };
 }
-RelationCtrl.$inject = ['$scope'];
 
-function VoteCtrl($scope) {
+function VoteCtrl($scope, $http, loginModal) {
+
     $scope.upActive = false;
     $scope.downActive = false;
+    $scope.openLoginModal = function(){
+        loginModal.open();
+    };
+
+    $scope.closeLoginModal = function(){
+        loginModal.close();
+    };
+
+    $scope.showPrompt = function() {
+        $scope.prompt = true;
+    };
+
+    if ($scope.triplet.upvoted != null) {
+        $scope.upVoteClass = "active";
+        $scope.upActive = true;
+    } else {
+        $scope.upVoteClass = "";
+    }
+
+
+    if ($scope.triplet.downvoted != null) {
+        $scope.downVoteClass = "active";
+        $scope.downActive = true;
+    } else {
+        $scope.downVoteClass = "";
+    }
 
     $scope.vote = function(voteType) {
-        if(voteType == "up") {
+
+        if(voteType === "up") {
             $scope.upActive = !$scope.upActive;
             if($scope.upActive == true) {
-                $scope.upVoteClass = "active";
-            } else {
-                $scope.upVoteClass = "";
-            }
-            if($scope.downActive === true) {
                 $scope.downActive = false;
-                $scope.downVoteClass = "";
-
+                $http.post('/vote/voteUp/',{connectionId:$scope.triplet.connection.KN_ID});
+                console.log("voteUp")
+            }
+            if($scope.upActive === false) {
+                $scope.downActive = false;
+                $scope.upVoteClass = "";
+                $http.post('/vote/cancelVote/',{connectionId:$scope.triplet.connection.KN_ID});
+                console.log("voteUpCancelled")
             }
         }
         if(voteType == "down") {
             $scope.downActive = !$scope.downActive;
-        if($scope.downActive == true) {
-            $scope.downVoteClass = "active";
-        } else {
-            $scope.downVoteClass = "";
-        }
-            if($scope.upActive === true) {
+            if($scope.downActive === true) {
                 $scope.upActive = false;
-                $scope.upVoteClass = "";
+                $http.post('/vote/voteDown/',{connectionId:$scope.triplet.connection.KN_ID});
+                console.log("voteDown")
+            }
+            if($scope.downActive === false) {
+                $scope.upActive = false;
+                $scope.downVoteClass = "";
+                $http.post('/vote/cancelVote/',{connectionId:$scope.triplet.connection.KN_ID});
+                console.log("voteDownCancelled")
             }
         }
-    }
+
+        if($scope.upActive === true) {
+            $scope.upVoteClass = "active";
+            $scope.downVoteClass = "";
+        } else if ($scope.downActive === true){
+            $scope.downVoteClass = "active";
+            $scope.upVoteClass = "";
+        }
+
+
+    };
 }

@@ -1,6 +1,6 @@
 div.knownode.span12
   div.resourcecontent.span10#content
-    a.knownode-title(href="/concept/{{concept.conceptId}}") {{concept.title}}&nbsp;
+    a(href="/concept/{{concept.conceptId}}") {{concept.title}}&nbsp;
     div.lineSeperator
     div.ellipsis-concept.body
       div.knownode-body(ng-bind-html-unsafe="concept.content")

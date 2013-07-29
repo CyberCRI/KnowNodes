@@ -1,9 +1,9 @@
 div.resourcecontent.span11#content(ng-init="addNode=false", ng-mouseenter="addNode=true", ng-mouseleave="addNode=false")
   a.edge-page-node-title(ng-href="/article/:{{knownode.targetArticle.KN_ID}}", title="{{knownode.targetArticle.title}}") {{knownode.targetArticle.title}}
     a(ng-href="{{knownode.targetArticle.url}}", target="_blank")
-      img.open-in-new-window(src="/img/openInNewWindow.png", width="20px", title="{{knownode.targetArticle.url}}", ng-show="knownode.targetArticle.url")
+      img.titleIcon(src="/img/openInNewWindow.png", width="20px", title="{{knownode.targetArticle.url}}", ng-show="knownode.targetArticle.url")
     a(href="/knownodeFiles/:{{knownode.targetArticle.fileId}}", target="_blank", ng-show="knownode.targetArticle.fileName", title="{{knownode.targetArticle.fileName}}")
-      i.open-in-new-window.icon-download
+      i.titleIcon.icon-download
     //span(ng-show="addNode").titleIcon
       a(ng-show='isUserLoggedIn', title="Connect a new resource to {{knownode.targetArticle.title}}", ng-href='/addKnownodeTo/{{knownode.targetArticle.KN_ID}}')
         i.icon-plus
@@ -13,4 +13,3 @@ div.resourcecontent.span11#content(ng-init="addNode=false", ng-mouseenter="addNo
   div.lineSeperator
   p.knownode-body(ng-bind-html-unsafe="knownode.targetArticle.bodyText")
   //span {{knownode.edgeCount}}
-

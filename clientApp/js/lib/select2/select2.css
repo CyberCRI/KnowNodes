@@ -10,7 +10,12 @@ Version: @@ver@@ Timestamp: @@timestamp@@
     *display: inline;
     vertical-align: middle;
 }
-
+.simplebox
+{
+    outline: none;
+    border:none !important;
+    box-shadow:none !important;
+}
 .select2-container,
 .select2-drop,
 .select2-search,
@@ -283,6 +288,9 @@ Version: @@ver@@ Timestamp: @@timestamp@@
 
 .select2-container-active .select2-choice,
 .select2-container-active .select2-choices {
+    outline: none;
+    border:none !important;
+    box-shadow:none !important;
     border: 1px solid #5897fb;
     outline: none;
 
@@ -317,6 +325,9 @@ Version: @@ver@@ Timestamp: @@timestamp@@
 
 .select2-dropdown-open.select2-drop-above .select2-choice,
 .select2-dropdown-open.select2-drop-above .select2-choices {
+    outline: none;
+    border:none !important;
+    box-shadow:none !important;
     border: 1px solid #5897fb;
     border-top-color: transparent;
 
@@ -465,6 +476,9 @@ disabled look for disabled choices in the results dropdown
 /* multiselect */
 
 .select2-container-multi .select2-choices {
+    outline: none;
+    border:none !important;
+    box-shadow:none !important;
     height: auto !important;
     height: 1%;
     margin: 0;
@@ -493,6 +507,9 @@ disabled look for disabled choices in the results dropdown
 }
 
 .select2-container-multi.select2-container-active .select2-choices {
+    outline: none;
+    border:none !important;
+    box-shadow:none !important;
     border: 1px solid #5897fb;
     outline: none;
 
@@ -511,6 +528,9 @@ disabled look for disabled choices in the results dropdown
 }
 
 .select2-container-multi .select2-choices .select2-search-field input {
+    outline: none;
+    border:none !important;
+    box-shadow:none !important;
     padding: 5px;
     margin: 1px 0;
 
@@ -522,7 +542,6 @@ disabled look for disabled choices in the results dropdown
     -webkit-box-shadow: none;
        -moz-box-shadow: none;
             box-shadow: none;
-    background: transparent !important;
 }
 
 .select2-container-multi .select2-choices .select2-search-field input.select2-active {
@@ -534,6 +553,9 @@ disabled look for disabled choices in the results dropdown
 }
 
 .select2-container-multi .select2-choices .select2-search-choice {
+    outline: none;
+    border:none !important;
+    box-shadow:none !important;
     padding: 3px 5px 3px 18px;
     margin: 3px 0 3px 5px;
     position: relative;

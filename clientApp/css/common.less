@@ -2,6 +2,16 @@
 
 @baseFontSize:        14px;
 @baseFontFamily:      @sansFontFamily;
+@spacing:             0.2em;
+
+.background-color{
+  background: @color-background;
+}
+
+.list-margin {
+  margin-left: 90px;
+  margin-right: 30px;
+}
 
 .center-div{
   width:              100%;
@@ -14,8 +24,15 @@
   margin-left:        auto;
   margin-right:       auto;
 }
+//set fluid container
+html, body {
+  height: 100%;
+}
 
-
+.container-fill {
+  min-height: 100%;
+  position: relative;
+}
 
 .topbar-gap {
   height:70px;
@@ -25,51 +42,49 @@
 	background: @color-explain;
 }
 
+.explain a {
+  color: @color-explain-font;
+}
+
 .inspire {
 	background: @color-inspire;
+}
+
+.inspire a {
+  color: @color-inspire-font;
 }
 
 .critique {
 	background: @color-critique;
 }
 
-.knownode {
-  //  border: 1px solid @knownode-border-c;
-  padding:0;
-  margin-left:0;
-  margin-bottom: 40px;
-  border-radius: 15px;
-  //  height: 380px;
-  .box-sizing(border-box);
+.critique a {
+  color: @color-critique-font;
+}
 
-  .resourcecontent {
-    background-color:white;
-    //      padding:8px;
-    padding-bottom: 0px;
-    .box-sizing(border-box);
-    margin-left: 5px;
+.auto-generated{
+  background: @color-auto-generated;
+}
 
-    h5.title {
-      color: @title-c;
-      margin-top: 0px;
-      padding-top: 0px;
-    }
 
-    img {
-      vertical-align: bottom;
-    }
-    .knowledgeDomain, .resourceType{
-      float:right;
-      margin-top: 0px;
-      padding-top: 0px;
-    }
-    .knowledgeDomain {
-      .invertedBox(@biology-c);
-      //background:@biology-c;
-      //color:white;
 
-    }
+.simplebox {
+  outline: none;
+  border:none !important;
+  box-shadow:none !important;
+}
 
-  }
+textarea {
+  resize: none;
+  word-wrap: break-word;
+  transition: 0.05s;
+  -moz-transition: 0.05s;
+  -webkit-transition: 0.05s;
+  -o-transition: 0.05s;
+}
 
+.not-logged-prompt {
+  position:absolute;
+  width:150px;
+  color: red;
 }

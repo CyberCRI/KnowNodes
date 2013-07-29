@@ -28,11 +28,11 @@ angular.module('KnowNodesApp.directives', [])
         };
     })
 
-    .directive('relationInput', function () {
+    .directive('connectionInput', function () {
         return {
-            restrict: 'EAC',
+            restrict: 'A',
             transclude: true,
-            templateUrl: 'partials/directiveTemplates/relationInput',
+            templateUrl: 'partials/directiveTemplates/connectionInput',
             replace: true
         };
     })
@@ -81,11 +81,11 @@ angular.module('KnowNodesApp.directives', [])
         };
     })
 
-    .directive('node', function () {
+    .directive('startResource', function () {
         return {
             restrict: 'EAC',
             transclude: true,
-            templateUrl: 'partials/directiveTemplates/node',
+            templateUrl: 'partials/directiveTemplates/startResource',
             replace: true
         };
     })
@@ -99,11 +99,11 @@ angular.module('KnowNodesApp.directives', [])
         };
     })
 
-    .directive('conceptNode', function () {
+    .directive('endResource', function () {
         return {
             restrict: 'EAC',
             transclude: true,
-            templateUrl: 'partials/directiveTemplates/conceptNode',
+            templateUrl: 'partials/directiveTemplates/endResource',
             replace: true
         };
     })
@@ -117,13 +117,13 @@ angular.module('KnowNodesApp.directives', [])
         };
     })
 
-    .directive('relation', function () {
+    .directive('connection', function () {
         return {
-            restrict: 'EAC',
+            restrict: 'A',
             transclude: true,
-            templateUrl: 'partials/directiveTemplates/relation',
+            templateUrl: 'partials/directiveTemplates/connection',
             replace: true,
-            controller: RelationCtrl
+            controller: ConnectionCtrl
         };
     })
 
@@ -265,12 +265,30 @@ angular.module('KnowNodesApp.directives', [])
 
     .directive('tripletInput', ['$http', function ($http) {
         return {
-            restrict: 'A',
+            restrict: 'E',
             templateUrl: 'partials/directiveTemplates/tripletInput',
             controller: TripletInputCtrl,
             replace: true
         };
     }])
+
+    .directive('resourceInput', function () {
+        return {
+            restrict: 'E',
+            templateUrl: 'partials/directiveTemplates/resourceInput',
+            controller: ResourceInputCtrl,
+            scope: true,
+            link: function ($scope, $element, $attrs) {
+                $scope.resourceName = $attrs.resource;
+                if ($scope.resourceName != null) {
+                    $scope.$watch($scope.resourceName, function(newValue) {
+                        $scope.resource = newValue;
+                    });
+                }
+            },
+            replace: true
+        };
+    })
 
     .directive('vote', function () {
         return {
@@ -282,9 +300,51 @@ angular.module('KnowNodesApp.directives', [])
         };
     })
 
+    .directive('autoGrow', function() {
+        return function(scope, element, attr){
+            var minHeight = element[0].offsetHeight,
+                paddingLeft = element.css('paddingLeft'),
+                paddingRight = element.css('paddingRight');
+
+            var $shadow = angular.element('<div></div>').css({
+                position: 'absolute',
+                top: -10000,
+                left: -10000,
+                width: element[0].offsetWidth - parseInt(paddingLeft || 0) - parseInt(paddingRight || 0),
+                fontSize: element.css('fontSize'),
+                fontFamily: element.css('fontFamily'),
+                lineHeight: element.css('lineHeight'),
+                resize:     'none'
+            });
+            angular.element(document.body).append($shadow);
+
+            var update = function() {
+                var times = function(string, number) {
+                    for (var i = 0, r = ''; i < number; i++) {
+                        r += string;
+                    }
+                    return r;
+                }
+
+                var val = element.val().replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/&/g, '&amp;')
+                    .replace(/\n$/, '<br/>&nbsp;')
+                    .replace(/\n/g, '<br/>')
+                    .replace(/\s{2,}/g, function(space) { return times('&nbsp;', space.length - 1) + ' ' });
+                $shadow.html(val);
+
+                element.css('height', Math.max($shadow[0].offsetHeight + 10 /* the "threshold" */, minHeight) + 'px');
+            }
+
+            element.bind('keyup keydown keypress change', update);
+
+            //update();
+        }
+    })
     .directive('searchBox', ['$http', function ($http) {
         return {
-            restrict: 'EAC',
+            restrict: 'EA',
             template: '<input ui-select2="searchBoxOptions" ng-model="selectedResult" data-placeholder="Find or create a resource..." multiple type="hidden" />',
             scope: {},
             controller: SearchBoxCtrl,

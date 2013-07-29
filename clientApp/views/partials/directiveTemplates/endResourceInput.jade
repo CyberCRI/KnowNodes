@@ -1,0 +1,21 @@
+div
+  div.resource(ng-hide="reversedDirection", ng-show="rootNodeExists", data-intro="Using this box you can paste a link, write a thought or search for something to connect to '{{concept.title}}'", data-position="right")
+    div.resource-title.simplebox
+      p.target-resource-search-box(search-box)
+      span#content(ng-show="targetResourceTitle != null")
+        {{targetResourceTitle}}
+      span.help-inline(ng-show="submitted && form.selectedSuggestion.$error.required") you must choose a resource.
+    a.input-clear(ng-click="clearOtherResource()", ng-show="targetResourceTitle != null")
+      img(src="/img/cross.png")
+  // ... reversed direction
+  div.resource(ng-show="reversedDirection")
+    div.resource-title.simplebox
+      span#content(ng-show="startResourceTitle != null")
+        {{startResourceTitle}}
+      span.start-resource-search-box
+        div(ng-hide="startResourceTitle != null", search-box)
+        span#content(ng-show="startResourceTitle != null")
+          {{startResourceTitle}}
+        span.help-inline(ng-show="submitted && form.selectedSuggestion.$error.required") you must choose a resource.
+    a.input-clear(ng-click="clearStartResource()", ng-show="startResourceTitle != null")
+      img(src="/img/cross.png")
