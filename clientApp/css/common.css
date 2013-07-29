@@ -1,5 +1,5 @@
-NameError: variable @color-explain is undefined in /Users/dorgarbash/WebstormProjects/Knownodes/clientApp/css/common.less:25:13
-24 .explain {
-25 	background: @color-explain;
-26 }
+NameError: variable @color-background is undefined in /Users/dorgarbash/WebstormProjects/Knownodes/clientApp/css/common.less:8:14
+7 .background-color{
+8   background: @color-background;
+9 }
 

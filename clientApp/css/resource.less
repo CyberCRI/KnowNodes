@@ -1,0 +1,66 @@
+.resource {
+  min-height: 72px;
+  margin: 10px 0;
+  max-height: 70px;
+  background-color:white;
+  position: relative;
+}
+
+.resource::after {
+  display:inline-block; vertical-align:middle; line-height:72px;
+  width:0; content:"\00A0"; overflow:hidden;
+}
+
+.resource-title {
+  display: inline-block;
+  vertical-align: middle;
+  margin: -3px 16px 0px 26px;
+}
+
+.resource-title a{
+  color: @dark-grey;
+}
+
+.resource-counter {
+  color: @light-grey;
+  position: absolute;
+  right: 7px;
+  bottom: 2px;
+  font-size: 14px;
+}
+
+.titleIcon {
+  margin-bottom:2px;
+  margin-left: 0.5em;
+}
+
+.source-button {
+  font-size: 14px;
+  color: @light-grey;
+  position: absolute;
+  right: 7px;
+  top: 2px;
+}
+
+.info-line {
+  font-size: 14px;
+  margin-top: -5px;
+}
+
+.info-name {
+  color: grey;
+  margin-left: @spacing;
+}
+
+.info-time {
+  color:@light-grey;
+  margin-right: @spacing;
+}
+
+.info-comment {
+  color:@light-blue;
+}
+
+.info-comment-exist {
+  color: @linkColor;
+}

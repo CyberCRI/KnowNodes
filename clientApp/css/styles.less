@@ -11,16 +11,12 @@
 @moving-edge: #B0B3B3;
 @hover: #27bdc3;
 @link-color: rgb(33, 57, 131);
-@body-background: #f1eeee;
 @connection-background: rgb(235, 234, 247);
-@dehiglighted:#BCBBBB;
 @titleSize: 1.2em;
 //mixins
 
 
-.background-color{
-background: @body-background;
-}
+
 
 .invertedBox(@box-color) {
   float:right;
@@ -51,25 +47,10 @@ body a {
 
 //use .clicker and .popup to create interactive popup menus
 
-html, body {
-  height: 100%;
-}
 
-.fill {
-  min-height: 100%;
-  position:relative;
-}
 
-.filler::after {
-  background-color: inherit;
-  bottom: 0;
-  content: "";
-  right: 0;
-  position: absolute;
-  top: 0;
-  width: inherit;
-  z-index: -1;
-}
+
+
 
 
 .clicker {
@@ -214,9 +195,7 @@ span.login {
       }
       .buttons{ }
 
-.node-count{
-  color: @dehiglighted;
-}
+
 //addIcon
 .add {
   float:left;
@@ -340,10 +319,6 @@ button.knowledgeButton{
 
 }
 
-#content {
-  margin-left: 0px;
-}
-
 .left-align {
   margin-left:0px;
 }
@@ -387,10 +362,6 @@ button.knowledgeButton{
   &:hover {font: @opposed-c}
 }
 
-.control-group{
-  margin-bottom: 0;
-}
-
 .control-label{
   margin-top:5px;
 }
@@ -399,10 +370,6 @@ button.knowledgeButton{
   position:absolute;
   bottom: 2%;
   right:  3%;
-}
-
-.shortKnownode {
-//  height: 200px;
 }
 
 img.inputPopup{
@@ -433,9 +400,7 @@ img.inputPopup{
   margin-left: 50px;
 }
 
-.knownode-title {
-  font-size:  @titleSize;
-}
+
 
 div.knownode-body {
   font-size: 1em;
@@ -449,9 +414,7 @@ div.knownode-body {
 //  //&:after { content:"..."; }
 }
 
-img.open-in-new-window {
-  margin-bottom:2px;
-}
+
 
 .ellipsis(@body-height:10em, @bk-color:@background-c){
 
@@ -583,9 +546,6 @@ a {
   color: @link-color;
 }
 
-.titleIcon {
-  margin-left: 0.5em;
-}
 
 .edge-page-node-title{
   font-weight: bold;
@@ -613,21 +573,6 @@ a {
   color:#39B54A;
 }
 
-div.explain {
-  background: #A4C8E4;
-}
-
-div.inspire {
-  background:#FFF2A2;
-}
-
-div.question {
-  background:#B0E1B7;
-}
-
-div.auto-generated {
-  background: #d3d3d3;
-}
 
 .input-node-box {
   border:none;

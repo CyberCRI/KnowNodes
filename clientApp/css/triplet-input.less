@@ -1,4 +1,15 @@
 //overrided bootstrap little arrow in submenu
+.input-interface {
+  margin-left: 0px;
+  margin-bottom: 0px;
+}
+
+.input-triplet {
+  margin-bottom: 0px;
+  max-width: 500px;
+  font-size: 18px;
+}
+
 .dropdown-submenu > a:after {
   display: none;
   content: " ";
@@ -62,4 +73,43 @@
     background: darken(@color-critique, 10%);
   }
 
+}
+
+.input-link-type {
+  margin-top:20px;
+}
+
+.input-link-type-text{
+
+  color: @dark-grey;
+}
+
+.input-link-type-buttons {
+  margin-bottom: 20px;
+}
+
+.input-clear {
+  position: absolute;
+  right: 29px;
+  top: 22px;
+  opacity: 0.4;
+}
+
+div.input-indicator{
+  display: block;
+  position:relative;
+  margin-top:5px !important;
+  margin-bottom:15px;
+  z-index:1;
+  max-width:22em;
+}
+
+a.tutorial-toggle {
+  color: @light-grey;
+  &:hover {
+    text-decoration: none;
+    color: @light-grey;
+  }
+  cursor:pointer;
+  margin-left: (8 * @spacing);
 }

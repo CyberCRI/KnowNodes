@@ -14,4 +14,4 @@ module.exports = class ConnectionController extends Controller
     Connection.latestTriplets _
 
   hottestTriplets: (_) ->
-    Connection.hottestTriplets _
+    @dao.hottestTriplets(@getLoggedUserId(), _)

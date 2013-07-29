@@ -30,3 +30,12 @@ module.exports = class Controller
   getLoggedUserId: ->
     @checkUserLoggedIn("getLoggedUserId")
     @request.user.KN_ID
+
+  getLoggedUserIdIfExists: ->
+    if @request.user?
+      console.log("user exists")
+      return @request.user.KN_ID
+    else
+      return "no user"
+
+

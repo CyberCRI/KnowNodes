@@ -7,11 +7,11 @@ div.subheader
         div(ng-repeat="link in article.links", ng-switch on="link.title != article.title").span11.offset1
             div(ng-switch-when="true").knownode.span12.shortKnownode
                 div.resourcecontent.span11#content
-                    a.knownode-title(ng-href="/wiki/{{article.title}}", title="{{article.title}}") {{article.title}}
-                div.connection.span11(class="auto-generated")
+                    a(ng-href="/wiki/{{article.title}}", title="{{article.title}}") {{article.title}}
+                div.span12(class="auto-generated")
                     div.content.span11
                         div.ellipsis-title
                             p
-                                span.knownode-title &nbsp;Wikipedia Link
+                                span &nbsp;Wikipedia Link
                 div.resourcecontent.span11#content
-                    a.knownode-title(ng-href="/wiki/{{link.title}}", title="{{link.title}}") {{link.title}}
+                    a(ng-href="/wiki/{{link.title}}", title="{{link.title}}") {{link.title}}

@@ -1,3 +1,11 @@
-div.btn-group
-  button.btn.btn-primary.explain-button(ng-click="vote('up')", ng-class="upVoteClass") vote up
-  button.btn.btn-primary.inspire-button(ng-click="vote('down')",ng-class="downVoteClass") vote down
+div.connection-vote-buttons
+  div(ng-show="isUserLoggedIn")
+    button.btn(ng-click="vote('up')", ng-class="upVoteClass") +
+    button.btn(ng-click="vote('down')", ng-class="downVoteClass") -
+  div(ng-hide="isUserLoggedIn")
+    button.btn(ng-click="showPrompt()", ng-class="upVoteClass") +
+    button.btn(ng-click="showPrompt()", ng-class="downVoteClass") -
+    span.not-logged-prompt(ng-show="prompt") you need to be logged in to do that
+  //div(ng-hide="isUserLoggedIn")
+    button.btn(ng-click="openLoginModal()", ng-class="upVoteClass") +
+    button.btn(ng-click="openLoginModal()", ng-class="downVoteClass") -

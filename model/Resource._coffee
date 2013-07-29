@@ -3,6 +3,7 @@ Type = require './Type'
 ResourceValidator = require './validation/resourceValidator'
 Connection = require './Connection'
 Error = require '../error/Error'
+User = require './User'
 
 module.exports = class Resource extends NodeWrapper
 
@@ -40,33 +41,67 @@ module.exports = class Resource extends NodeWrapper
   @findByUrl: (url, _) ->
     @findByTextProperty('url', url, _)
 
-  @findTripletsByResourceId: (id,_) ->
+  @findTripletsByResourceId: (id, user, _) ->
     nodes = []
-    query = [
-      'START resource=node({resourceNodeId})',
-      'MATCH (resource) -[:RELATED_TO]- (connection) -[:RELATED_TO]- (otherResource) -[:CREATED_BY]- (otherResourceCreator),',
-      '(otherConnections)-[?:RELATED_TO]-(otherResource),',
-      '(connection) -[:CREATED_BY]- (connectionCreator),',
-      '(connection) -[?:COMMENT_OF]- (comments)',
-      'WHERE otherResource <> resource AND otherConnections <> connection ',
-      'RETURN otherResource, otherResourceCreator, connection, connectionCreator, count(comments) AS commentCount, count(otherConnections) AS otherConnectionsCount'
-    ].join('\n');
 
-    resource = @find(id, _)
-    params =
-      resourceNodeId: resource.node.id
+    if user == "no user"
 
-    results = @DB.query(query, params, _)
-    for item in results
-      toPush =
-        otherResource: item.otherResource.data,
-        connection: item.connection.data,
-        commentCount: item.commentCount,
-        otherConnectionsCount: item.otherConnectionsCount
-      toPush.otherResource.creator = item.otherResourceCreator.data
-      toPush.connection.creator = item.connectionCreator.data
-      nodes.push toPush
-    nodes
+      query = [
+        "START resource=node({resourceNodeId})",
+        "MATCH (resource) -[:RELATED_TO]- (connection) -[:RELATED_TO]- (otherResource) -[:CREATED_BY]- (otherResourceCreator),",
+        "(otherConnections)-[?:RELATED_TO]-(otherResource),",
+        "(connection) -[:CREATED_BY]- (connectionCreator),",
+        "(connection) -[?:COMMENT_OF]- (comments)",
+        "WHERE otherResource <> resource AND otherConnections <> connection ",
+        "RETURN otherResource, otherResourceCreator, connection, connectionCreator, count(comments) AS commentCount, count(otherConnections) AS otherConnectionsCount"
+      ].join('\n');
+      resource = @find(id, _)
+      params =
+        resourceNodeId: resource.node.id
+
+      results = @DB.query(query, params, _)
+
+      for item in results
+        toPush =
+          otherResource: item.otherResource.data,
+          connection: item.connection.data,
+          commentCount: item.commentCount,
+          otherConnectionsCount: item.otherConnectionsCount
+        toPush.otherResource.creator = item.otherResourceCreator.data
+        toPush.connection.creator = item.connectionCreator.data
+        nodes.push toPush
+      nodes
+
+    else
+      query = [
+        "START resource=node({resourceNodeId}), user=node(#{user.node.id})",
+        "MATCH (resource) -[:RELATED_TO]- (connection) -[:RELATED_TO]- (otherResource) -[:CREATED_BY]- (otherResourceCreator),",
+        "(otherConnections)-[?:RELATED_TO]-(otherResource),",
+        "(connection) -[:CREATED_BY]- (connectionCreator),",
+        "(connection) -[?:COMMENT_OF]- (comments),",
+        "(user) -[upvoted?:VOTED_UP] - (connection),",
+        "(user) -[downvoted?:VOTED_DOWN] - (connection)",
+        "WHERE otherResource <> resource AND otherConnections <> connection ",
+        "RETURN otherResource, otherResourceCreator, connection, connectionCreator, count(comments) AS commentCount, count(otherConnections) AS otherConnectionsCount, upvoted, downvoted"
+      ].join('\n');
+      console.log("cypher query done")
+      resource = @find(id, _)
+      params =
+        resourceNodeId: resource.node.id
+
+      results = @DB.query(query, params, _)
+      for item in results
+        toPush =
+          upvoted: item.upvoted,
+          downvoted: item.downvoted,
+          otherResource: item.otherResource.data,
+          connection: item.connection.data,
+          commentCount: item.commentCount,
+          otherConnectionsCount: item.otherConnectionsCount
+        toPush.otherResource.creator = item.otherResourceCreator.data
+        toPush.connection.creator = item.connectionCreator.data
+        nodes.push toPush
+      nodes
 
   ###
         INSTANCE METHODS
