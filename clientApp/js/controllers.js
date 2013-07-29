@@ -660,7 +660,7 @@ function VoteCtrl($scope, $http) {
 
     if ($scope.triplet.upvoted != null) {
         $scope.upVoteClass = "active";
-        console.log("class activated")
+        $scope.upActive = true;
     } else {
         $scope.upVoteClass = "";
     }
@@ -668,6 +668,7 @@ function VoteCtrl($scope, $http) {
 
     if ($scope.triplet.downvoted != null) {
         $scope.downVoteClass = "active";
+        $scope.downActive = true;
     } else {
         $scope.downVoteClass = "";
     }
