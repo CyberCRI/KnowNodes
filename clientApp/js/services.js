@@ -6,7 +6,7 @@ angular.module('KnowNodesApp.services', [])
         var serviceReturned = {};
 
         serviceReturned.isUserLoggedIn = function () {
-            return $rootScope.user ? true : false;
+            return $rootScope.user
         };
 
         serviceReturned.getConnectedUser = function () {
@@ -252,7 +252,7 @@ angular.module('KnowNodesApp.services', [])
         };
     }])
 
-    .factory('resourceDialog', ['$dialog', function ($dialog) {
+    .factory('resourceModal', ['$dialog', function ($dialog) {
         return {
 
             open: function (resourceTitle) {
@@ -260,13 +260,41 @@ angular.module('KnowNodesApp.services', [])
                     backdrop: true,
                     dialogFade: true,
                     backdropFade: true,
-                    templateUrl: 'partials/resource/createResourceDialog',
-                    controller: 'CreateResourceDialogCtrl',
+                    templateUrl: 'partials/resource/createResourceModal',
+                    controller: 'CreateResourceModalCtrl',
                     title: resourceTitle
                 };
                 return $dialog.dialog(options).open();
             }
 
+        };
+    }])
+
+
+    .factory('loginModal', ['$dialog', function ($dialog) {
+        return {
+
+            open: function () {
+                var options = {
+                    backdrop: true,
+                    dialogFade: true,
+                    backdropFade: true,
+                    templateUrl: 'partials/directiveTemplates/loginModal',
+                    controller: 'LoginCtrl'
+                };
+                return $dialog.dialog(options).open();
+            },
+
+            close: function () {
+                var options = {
+                    backdrop: true,
+                    dialogFade: true,
+                    backdropFade: true,
+                    templateUrl: 'partials/directiveTemplates/loginModal',
+                    controller: 'LoginCtrl'
+                };
+                return $dialog.dialog(options).close();
+            }
         };
     }])
 
