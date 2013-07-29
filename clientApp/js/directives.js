@@ -274,7 +274,7 @@ angular.module('KnowNodesApp.directives', [])
 
     .directive('resourceInput', function () {
         return {
-            restrict: 'E',
+            restrict: 'A',
             templateUrl: 'partials/directiveTemplates/resourceInput',
             controller: ResourceInputCtrl,
             scope: true,
