@@ -19,4 +19,4 @@ module.exports = class ResourceController extends Controller
     @dao.findByUrl(url, _)
 
   findTripletsByResourceId: (_) ->
-    @dao.findTripletsByResourceId(@getId(), _)
+    @dao.findTripletsByResourceId(@getId(),@getLoggedUserIdIfExists(), _)

@@ -25,3 +25,7 @@ module.exports = class ConnectionDAO
   delete: (id, _) ->
     connection = Connection.find(id, _)
     connection.delete _
+
+  latestTriplets: (userId, _) ->
+    user = User.find(userId, _)
+    Connection.latestTriplets(user, _)

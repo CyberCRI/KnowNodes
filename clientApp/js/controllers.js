@@ -654,8 +654,23 @@ function ConnectionCtrl($scope) {
 }
 
 function VoteCtrl($scope, $http) {
+
     $scope.upActive = false;
     $scope.downActive = false;
+
+    if ($scope.triplet.upvoted != null) {
+        $scope.upVoteClass = "active";
+        console.log("class activated")
+    } else {
+        $scope.upVoteClass = "";
+    }
+
+
+    if ($scope.triplet.downvoted != null) {
+        $scope.downVoteClass = "active";
+    } else {
+        $scope.downVoteClass = "";
+    }
 
     $scope.vote = function(voteType) {
 

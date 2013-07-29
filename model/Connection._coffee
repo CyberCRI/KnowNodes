@@ -27,24 +27,26 @@ module.exports = class Connection extends NodeWrapper
     connection.node.createRelationshipTo(endResource.node, 'RELATED_TO', relationshipData, _)
     return connection
 
-  @latestTriplets: (_) ->
+  @latestTriplets: (user, _) ->
     now = Date.now()
     aWeekAgo = now - 1000 * 60 * 60 * 24 * 7 # Seven days
     luceneQuery = "__CreatedOn__:[#{aWeekAgo} TO #{now}]"
 
     cypherQuery = [
-      "START connection=node:kn_Edge('#{luceneQuery}')",
+        "START connection=node:kn_Edge('#{luceneQuery}'), user=node('#{user.node.id}')",
       "MATCH (startResource) -[:RELATED_TO]-> (connection) -[:RELATED_TO]-> (endResource),",
       "(connection) -[:CREATED_BY]- (connectionCreator),",
       "(startResource) -[:CREATED_BY]- (startResourceCreator),",
       "(endResource) -[:CREATED_BY]- (endResourceCreator),",
       "(connection) -[?:COMMENT_OF]- (connectionComments),",
+      "(user) -[upvote?:VOTED_UP] - (connection)",
+      "(user) -[downvote?:VOTED_DOWN] - (connection)",
       "(startResourceOtherConnections)-[?:RELATED_TO]-(startResource),",
       "(endResourceOtherConnections)-[?:RELATED_TO]-(endResource)",
       "WHERE startResource <> endResource",
       "AND startResourceOtherConnections <> connection",
       "AND endResourceOtherConnections <> connection",
-      "RETURN connection, startResource, endResource, connectionCreator, startResourceCreator, endResourceCreator, connectionCreator,",
+      "RETURN upvote, downvote, connection, startResource, endResource, connectionCreator, startResourceCreator, endResourceCreator, connectionCreator,",
       "count(connectionComments) AS connectionCommentsCount,",
       "count(startResourceOtherConnections) AS startResourceOtherConnectionsCount,",
       "count(endResourceOtherConnections) AS endResourceOtherConnectionsCount",
@@ -65,6 +67,8 @@ module.exports = class Connection extends NodeWrapper
       toPush.endResource.creator = item.endResource.data
       toPush.startResource.otherConnectionsCount = item.startResourceOtherConnectionsCount
       toPush.endResource.otherConnectionsCount = item.endResourceOtherConnectionsCount
+      toPush.votedUp = item.upvote?
+      toPush.votedDown = item.downvote?
       nodes.push toPush
     nodes
 
