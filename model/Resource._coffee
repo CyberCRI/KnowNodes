@@ -51,9 +51,9 @@ module.exports = class Resource extends NodeWrapper
         "MATCH (resource) -[:RELATED_TO]- (connection) -[:RELATED_TO]- (otherResource) -[:CREATED_BY]- (otherResourceCreator),",
         "(otherConnections)-[?:RELATED_TO]-(otherResource),",
         "(connection) -[:CREATED_BY]- (connectionCreator),",
-        "(connection) -[?:COMMENT_OF]- (comments)",
+        "(connection) -[?:COMMENT_OF]- (comments),",
         "(connection) -[?:VOTED_UP]- (upvotes),",
-        "(connection) -[?:VOTED_DOWN]- (downvotes),"
+        "(connection) -[?:VOTED_DOWN]- (downvotes)",
         "WHERE otherResource <> resource AND otherConnections <> connection ",
         "RETURN otherResource, otherResourceCreator, connection, connectionCreator, count(comments) AS commentCount, count(otherConnections) AS otherConnectionsCount,",
         "count(upvotes) AS upvotesCount,",
