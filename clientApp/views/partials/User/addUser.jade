@@ -1,4 +1,5 @@
 div.subheader
+  div.topbar-gap &nbsp
   div.span23.offset1
     h2.subheader Register
     form(ng-submit='submitUser(user)')
@@ -16,6 +17,6 @@ div.subheader
         input(ng-model='user.lastName', type='text', name='lastName', required)
       p
         label(for='dateOfBirth') Date Of Birth:
-        input(ng-model='user.dateOfBirth', name='dateOfBirth', type='text', ui-date, required)
+        input(ng-model='user.dateOfBirth', name='dateOfBirth', type='date', required)
       p
         button(type='submit', class='btn btn-primary', ng-disabled="loginForm.$invalid") Add Me!

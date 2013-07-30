@@ -1,4 +1,4 @@
-NameError: variable @color-background is undefined in /Users/darkbean/Desktop/Work/Knownodes-git/KnowNodes/clientApp/css/common.less on line 8, column 15:
+NameError: variable @color-background is undefined in /Users/dorgarbash/WebstormProjects/Knownodes/clientApp/css/common.less:8:14
 7 .background-color{
 8   background: @color-background;
 9 }
