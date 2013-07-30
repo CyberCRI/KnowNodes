@@ -52,8 +52,12 @@ module.exports = class Resource extends NodeWrapper
         "(otherConnections)-[?:RELATED_TO]-(otherResource),",
         "(connection) -[:CREATED_BY]- (connectionCreator),",
         "(connection) -[?:COMMENT_OF]- (comments)",
+        "(connection) -[?:VOTED_UP]- (upvotes),",
+        "(connection) -[?:VOTED_DOWN]- (downvotes),"
         "WHERE otherResource <> resource AND otherConnections <> connection ",
-        "RETURN otherResource, otherResourceCreator, connection, connectionCreator, count(comments) AS commentCount, count(otherConnections) AS otherConnectionsCount"
+        "RETURN otherResource, otherResourceCreator, connection, connectionCreator, count(comments) AS commentCount, count(otherConnections) AS otherConnectionsCount,",
+        "count(upvotes) AS upvotesCount,",
+        "count(downvotes) AS downvotesCount"
       ].join('\n');
       resource = @find(id, _)
       params =
@@ -63,6 +67,8 @@ module.exports = class Resource extends NodeWrapper
 
       for item in results
         toPush =
+          upvotes: item.upvotesCount,
+          downvotes: item.downvotesCount,
           otherResource: item.otherResource.data,
           connection: item.connection.data,
           commentCount: item.commentCount,
@@ -77,12 +83,16 @@ module.exports = class Resource extends NodeWrapper
         "START resource=node({resourceNodeId}), user=node(#{user.node.id})",
         "MATCH (resource) -[:RELATED_TO]- (connection) -[:RELATED_TO]- (otherResource) -[:CREATED_BY]- (otherResourceCreator),",
         "(otherConnections)-[?:RELATED_TO]-(otherResource),",
+        "(connection) -[?:VOTED_UP]- (upvotes),",
+        "(connection) -[?:VOTED_DOWN]- (downvotes),",
         "(connection) -[:CREATED_BY]- (connectionCreator),",
         "(connection) -[?:COMMENT_OF]- (comments),",
         "(user) -[upvoted?:VOTED_UP] - (connection),",
         "(user) -[downvoted?:VOTED_DOWN] - (connection)",
         "WHERE otherResource <> resource AND otherConnections <> connection ",
-        "RETURN otherResource, otherResourceCreator, connection, connectionCreator, count(comments) AS commentCount, count(otherConnections) AS otherConnectionsCount, upvoted, downvoted"
+        "RETURN otherResource, otherResourceCreator, connection, connectionCreator, count(comments) AS commentCount, count(otherConnections) AS otherConnectionsCount, upvoted, downvoted,",
+        "count(upvotes) AS upvotesCount,",
+        "count(downvotes) AS downvotesCount"
       ].join('\n');
       console.log("cypher query done")
       resource = @find(id, _)
@@ -92,6 +102,8 @@ module.exports = class Resource extends NodeWrapper
       results = @DB.query(query, params, _)
       for item in results
         toPush =
+          upvotes: item.upvotesCount,
+          downvotes: item.downvotesCount,
           upvoted: item.upvoted,
           downvoted: item.downvoted,
           otherResource: item.otherResource.data,
