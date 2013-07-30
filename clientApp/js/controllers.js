@@ -646,6 +646,9 @@ function ConnectionCtrl($scope) {
             case "question":
                 return 'critique';
                 break;
+            case "critique":
+                return 'critique';
+                break;
             case "inspire":
                 return 'inspire';
                 break;
