@@ -108,7 +108,7 @@ module.exports = class NodeWrapper
 
   getRelationshipWith: (target, relationshipType, _) ->
     query = [
-      "START source = node({sourceId}), target = node({targetId})",
+      "START user = node({sourceId}), target = node({targetId})",
       "MATCH user -[relationship:#{relationshipType}]- target",
       "RETURN relationship"
     ].join('\n');
@@ -116,7 +116,9 @@ module.exports = class NodeWrapper
       sourceId: @node.id
       targetId: target.node.id
     result = NodeWrapper.DB.query(query, params, _)[0]
+    console.log("user.id:", @node.id)
     if result?
+      console.log("result:", result.relationship)
       result.relationship
 
   hasRelationshipWith: (target, relationshipType, _) ->
@@ -125,6 +127,7 @@ module.exports = class NodeWrapper
   deleteRelationshipIfExists: (target, relationshipType, _) ->
     rel = @getRelationshipWith(target, relationshipType, _)
     if rel?
+      console.log("rel deleted", rel)
       rel.del(_)
 
     ###
