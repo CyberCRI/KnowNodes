@@ -50,14 +50,15 @@ module.exports = class Resource extends NodeWrapper
         "START resource=node({resourceNodeId})",
         "MATCH (resource) -[:RELATED_TO]- (connection) -[:RELATED_TO]- (otherResource) -[:CREATED_BY]- (otherResourceCreator),",
         "(otherConnections)-[?:RELATED_TO]-(otherResource),",
-        "(connection) -[:CREATED_BY]- (connectionCreator),",
-        "(connection) -[?:COMMENT_OF]- (comments),",
         "(connection) -[?:VOTED_UP]- (upvotes),",
-        "(connection) -[?:VOTED_DOWN]- (downvotes)",
-        "WHERE otherResource <> resource AND otherConnections <> connection ",
-        "RETURN otherResource, otherResourceCreator, connection, connectionCreator, count(comments) AS commentCount, count(otherConnections) AS otherConnectionsCount,",
-        "count(upvotes) AS upvotesCount,",
-        "count(downvotes) AS downvotesCount"
+        "(downvotes) -[?:VOTED_DOWN]- (connection),",
+        "(connection) -[:CREATED_BY]- (connectionCreator),",
+        "(connection) -[?:COMMENT_OF]- (comments)",
+        "WHERE otherResource <> resource ",
+        "AND otherConnections <> connection ",
+        "RETURN otherResource, connection, otherResourceCreator, connectionCreator, count(comments) AS commentCount, count(otherConnections) AS otherConnectionsCount, ",
+        "count(distinct upvotes) AS upVoteCount,",
+        "count(distinct downvotes) AS downVoteCount"
       ].join('\n');
       resource = @find(id, _)
       params =
@@ -67,8 +68,8 @@ module.exports = class Resource extends NodeWrapper
 
       for item in results
         toPush =
-          upvotes: item.upvotesCount,
-          downvotes: item.downvotesCount,
+          upvotes: item.upVoteCount,
+          downvotes: item.downVoteCount,
           otherResource: item.otherResource.data,
           connection: item.connection.data,
           commentCount: item.commentCount,
@@ -84,15 +85,17 @@ module.exports = class Resource extends NodeWrapper
         "MATCH (resource) -[:RELATED_TO]- (connection) -[:RELATED_TO]- (otherResource) -[:CREATED_BY]- (otherResourceCreator),",
         "(otherConnections)-[?:RELATED_TO]-(otherResource),",
         "(connection) -[?:VOTED_UP]- (upvotes),",
-        "(connection) -[?:VOTED_DOWN]- (downvotes),",
+        "(downvotes) -[?:VOTED_DOWN]- (connection),",
         "(connection) -[:CREATED_BY]- (connectionCreator),",
-        "(connection) -[?:COMMENT_OF]- (comments),",
-        "(user) -[upvoted?:VOTED_UP] - (connection),",
-        "(user) -[downvoted?:VOTED_DOWN] - (connection)",
-        "WHERE otherResource <> resource AND otherConnections <> connection ",
-        "RETURN otherResource, otherResourceCreator, connection, connectionCreator, count(comments) AS commentCount, count(otherConnections) AS otherConnectionsCount, upvoted, downvoted,",
-        "count(upvotes) AS upvotesCount,",
-        "count(downvotes) AS downvotesCount"
+        "(user) -[hasVotedUp?:VOTED_UP]-> (connection),",
+        "(user) -[hasVotedDown?:VOTED_DOWN]-> (connection),",
+        "(connection) -[?:COMMENT_OF]- (comments)",
+        "WHERE otherResource <> resource ",
+        "AND otherConnections <> connection",
+        "RETURN otherResource, otherResourceCreator, connection, connectionCreator, count(comments) AS commentCount, count(otherConnections) AS otherConnectionsCount, ",
+        "count(distinct upvotes) AS upVoteCount,",
+        "count(distinct downvotes) AS downVoteCount,",
+        "hasVotedUp, hasVotedDown"
       ].join('\n');
       console.log("cypher query done")
       resource = @find(id, _)
@@ -102,10 +105,10 @@ module.exports = class Resource extends NodeWrapper
       results = @DB.query(query, params, _)
       for item in results
         toPush =
-          upvotes: item.upvotesCount,
-          downvotes: item.downvotesCount,
-          upvoted: item.upvoted,
-          downvoted: item.downvoted,
+          upvotes: item.upVoteCount,
+          downvotes: item.downVoteCount,
+          upvoted: item.hasVotedUp,
+          downvoted: item.hasVotedDown,
           otherResource: item.otherResource.data,
           connection: item.connection.data,
           commentCount: item.commentCount,

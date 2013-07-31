@@ -11,9 +11,9 @@ div
             p.text-center.input-link-type-text Why did you make this connection?
 
             div.btn-group.input-link-type-buttons(data-toggle="buttons-radio")
-              button.btn.btn-primary.explain-button(type="button", ng-click="categoryClick('explain')") to explain
-              button.btn.btn-primary.inspire-button(type="button", ng-click="categoryClick('inspire')") to inspire
-              button.btn.btn-primary.critique-button(type="button", ng-click="categoryClick('critique')") to critique
+              button.btn.button-base.button-explain(type="button", ng-click="categoryClick('explain')") to explain
+              button.btn.button-base.button-inspire(type="button", ng-click="categoryClick('inspire')") to inspire
+              button.btn.button-base.button-critique(type="button", ng-click="categoryClick('critique')") to critique
             div
-              button.btn.btn-primary.btn-large(ng-click="submit(); tutorialOff();", ng-disabled="submitted") Submit
+              button.button-base.button-submit(ng-click="submit(); tutorialOff();", ng-disabled="submitted") Submit
               span.alert(ng-show="submitErrorMessage") {{submitErrorMessage}}
