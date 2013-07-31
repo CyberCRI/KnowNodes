@@ -72,29 +72,37 @@ function ChatCtrl($scope, $timeout, $rootScope, angularFireCollection) {
     };
 }
 
+function LoginCtrl($scope, $http, $location, $rootScope, $window, loginModal) {
 
-function AddUserCtrl($scope, $http, $location) {
+    $scope.loginForm = {};
     $scope.userForm = {};
+    $scope.newUser;
     $scope.submitUser = function (userForm) {
         $http.post('/users', userForm).
             success(function (data, status, headers, config) {
+                console.log("userForm:", userForm);
+                $scope.loginForm.username = userForm.email;
+                $scope.loginForm.password = userForm.password;
+                $scope.newUser = true;
+                $scope.performLogin();
                 $location.path('/');
             });
+
     };
-}
-
-
-function LoginCtrl($scope, $http, $location, $rootScope, $window, loginModal) {
-    $scope.loginForm = {};
 
     $scope.performLogin = function () {
         $http.post('/login', $scope.loginForm).
             success(function (data, status, headers, config) {
+                console.log("loginform:", $scope.loginForm);
                 if (data === 'ERROR') {
                     return $scope.loginerror = true;
                 }
                 $rootScope.user = data;
-                $window.history.back();
+                if($scope.newUser === true) {
+                    $location.path('/');
+                } else {
+                    $window.history.back();
+                }
             });
     };
 
@@ -111,7 +119,7 @@ function LogoutCtrl($http, $location, $rootScope) {
             if (data.success === 'Logout') {
                 $rootScope.user = null;
                 $rootScope.userDisplayName = null;
-                $location.path('/login');
+                $location.path('/');
             }
         });
 }
@@ -665,13 +673,13 @@ function VoteCtrl($scope, $http, loginModal) {
 
     $scope.upActive = false;
     $scope.downActive = false;
-    $scope.openLoginModal = function(){
-        loginModal.open();
-    };
+    //$scope.openLoginModal = function(){
+    //    loginModal.open();
+    //};
 
-    $scope.closeLoginModal = function(){
-        loginModal.close();
-    };
+    //$scope.closeLoginModal = function(){
+    //    loginModal.close();
+    //};
 
     $scope.showPrompt = function() {
         $scope.prompt = true;
@@ -696,7 +704,7 @@ function VoteCtrl($scope, $http, loginModal) {
 
         if(voteType === "up") {
             $scope.upActive = !$scope.upActive;
-            if($scope.upActive == true) {
+            if($scope.upActive === true) {
                 $scope.downActive = false;
                 $http.post('/vote/voteUp/',{connectionId:$scope.triplet.connection.KN_ID});
                 console.log("voteUp")
@@ -708,7 +716,7 @@ function VoteCtrl($scope, $http, loginModal) {
                 console.log("voteUpCancelled")
             }
         }
-        if(voteType == "down") {
+        if(voteType === "down") {
             $scope.downActive = !$scope.downActive;
             if($scope.downActive === true) {
                 $scope.upActive = false;
