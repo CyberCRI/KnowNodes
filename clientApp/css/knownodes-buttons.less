@@ -1,256 +1,176 @@
-.basic-button {
-  display: block;
-  width: 110px;
-  height: 25px;
-  background: #666666;
+.button-base {
+  display: inline-block;
   overflow: hidden;
-
-  color: #fff;
   text-align: center;
-  font: 1em/25px "Roboto", sans-serif;
-
   border-radius: 4px;
-  box-shadow: 0 4px 0 #525252;
-  display:inline-block;
-}
-
-button.basic-button {
+  box-shadow: 0 4px 0;
   text-decoration: none;
-}
+  font-family: "Roboto", sans-serif;
+  font-size: 15px;
+  vertical-align: middle;
+  border: transparent;
+  cursor: pointer;
 
-button.basic-button:hover {
-  position: relative;
-  box-shadow: 0 2px 0 #525252;
-  top: 2px;
-}
-
-button.basic-button:active {
-  position: relative;
-  box-shadow: none;
-  top: 4px;
-}
-
-/*
-a.button:hover {
+  &:hover {
     position: relative;
-    box-shadow: none;
+    top: 2px;
+    text-decoration: none;
+  }
+
+  &:active {
+    position: relative;
     top: 4px;
+    text-decoration: none;
+
+  }
 }
 
-a.button:active {
-    position: relative;
-    height: 21px;
-    box-shadow: 0 -4px 0 #383838;
-    top: 8px;
-}
-*/
-
-
-/* EDGE CATEGORY BUTTONS */
-
-/* INSPIRE */
+/* BUTTON COLORS */
 
 .button-inspire {
-  display: block;
   width: 110px;
   height: 25px;
   background: #FEEB95;
-  overflow: hidden;
-
-  color: #988D59;
-  text-align: center;
-  font: 1em/25px "Roboto", sans-serif;
-
-  border-radius: 4px;
   box-shadow: 0 4px 0 #E5D487;
-}
-
-a.button-inspire {
-  text-decoration: none;
-}
-
-a.button-inspire:hover {
-  position: relative;
+  color: #988D59;
+  border-radius: 0;
+  &:hover{
   box-shadow: 0 2px 0 #E5D487;
-  top: 2px;
-}
+    text-decoration: none;
 
-a.button-inspire:active {
-  position: relative;
+  }
+  &:active {
   box-shadow: none;
-  top: 4px;
+    text-decoration: none;
+
+  }
 }
 
-/* EXPLAIN */
-
-.button-explain {
-  display: block;
+.button-explain{
   width: 110px;
   height: 25px;
   background: #AAC8E2;
-  overflow: hidden;
-
-  color: #667888;
-  text-align: center;
-  font: 1em/25px "Roboto", sans-serif;
-
-  border-radius: 4px;
   box-shadow: 0 4px 0 #99B4CC;
+  color: #667888;
+  border-radius: 4px 0 0 4px;
+  &:hover{
+    box-shadow: 0 2px 0 #99B4CC;
+    text-decoration: none;
+
+  }
+  &:active {
+    box-shadow: none;
+    text-decoration: none;
+
+  }
 }
 
-a.button-explain {
-  text-decoration: none;
-}
-
-a.button-explain:hover {
-  position: relative;
-  box-shadow: 0 2px 0 #99B4CC;
-  top: 2px;
-}
-
-a.button-explain:active {
-  position: relative;
-  box-shadow: none;
-  top: 4px;
-}
-
-/* CRITIQUE */
-
-.button-critique {
-  display: block;
+.button-critique{
   width: 110px;
   height: 25px;
   background: #BCDCB7;
-  overflow: hidden;
-
-  color: #71846E;
-  text-align: center;
-  font: 1em/25px "Roboto", sans-serif;
-
-  border-radius: 4px;
   box-shadow: 0 4px 0 #AAC7A5;
+  color: #71846E;
+  border-radius: 0px 4px 4px 0px;
+
+  &:hover{
+    box-shadow: 0 2px 0 #AAC7A5;
+    text-decoration: none;
+
+  }
+  &:active {
+    box-shadow: none;
+    text-decoration: none;
+
+  }
 }
 
-a.button-critique {
-  text-decoration: none;
-}
-
-a.button-critique:hover {
-  position: relative;
-  box-shadow: 0 2px 0 #AAC7A5;
-  top: 2px;
-}
-
-a.button-critique:active {
-  position: relative;
-  box-shadow: none;
-  top: 4px;
-}
-
-
-/* INLINE BUTTON GROUP */
-
-/* RIGHT BUTTON */
-
-.button-right {
-  display: block;
-  width: 110px;
+.button-dark{
+  width: 95px;
   height: 25px;
-  background: #5a5a5a;
-  overflow: hidden;
-
-  color: #fff;
-  text-align: center;
-  font: 1em/25px "MuseoSlab-500", sans-serif;
-
-  border-radius: 0 4px 4px 0;
-  box-shadow: 0 4px 0 #383838;
-  display:inline-block;
-
+  background: #656565;
+  box-shadow: 0 4px 0 #595959;
+  color: #FFFFFF;
+  &:hover{
+    box-shadow: 0 2px 0 #595959;
+  }
+  &:active {
+    box-shadow: none;
+  }
 }
 
-a.button-right {
-  text-decoration: none;
-}
-
-a.button-right:hover {
-  position: relative;
-  box-shadow: 0 2px 0 #383838;
-  top: 2px;
-}
-
-a.button-right:active {
-  position: relative;
-  box-shadow: none;
-  top: 4px;
-}
-
-/* MIDDLE BUTTON */
-
-.button-middle {
-  display: block;
-  width: 110px;
+.button-default{
+  width: 90px;
   height: 25px;
-  background: #5a5a5a;
-  overflow: hidden;
-  margin: 0 -4px 0 -4px;
+  background: #F2F2F2;
+  box-shadow: 0 4px 0 #DADADA;
+  color: #666666;
+  &:hover{
+    box-shadow: 0 2px 0 #DADADA;
+    text-decoration: none;
 
-  color: #fff;
-  text-align: center;
-  font: 1em/25px "MuseoSlab-500", sans-serif;
+  }
+  &:active {
+    box-shadow: none;
+    text-decoration: none;
 
-  box-shadow: 0 4px 0 #383838;
-  display:inline-block;
-
+  }
 }
 
-a.button-middle {
-  text-decoration: none;
-}
-
-a.button-middle:hover {
-  position: relative;
-  box-shadow: 0 2px 0 #383838;
-  top: 2px;
-}
-
-a.button-middle:active {
-  position: relative;
-  box-shadow: none;
-  top: 4px;
-}
-
-/* LEFT BUTTON */
-
-.button-left {
-  display: block;
-  width: 110px;
+.button-voteup{
+  width: 25px;
   height: 25px;
-  background: #5a5a5a;
-  overflow: hidden;
-
-  color: #fff;
-  text-align: center;
-  font: 1em/25px "MuseoSlab-500", sans-serif;
-
-  border-radius: 4px 0 0 4px;
-  box-shadow: 0 4px 0 #383838;
-  display:inline-block;
-
+  background: white;
+  box-shadow: 0 4px 0 @grey15;
+  color: #666666;
+  position: absolute;
+  right: 0px;
+  top: -11px;
+  &:hover{
+    box-shadow: 0 2px 0 @grey15;
+    text-decoration: none;
+  }
+  &:active {
+    box-shadow: none;
+    text-decoration: none;
+  }
 }
 
-a.button-left {
-  text-decoration: none;
+
+.button-votedown{
+  width: 25px;
+  height: 25px;
+  background: white;
+  box-shadow: 0 4px 0 @grey15;
+  color: #666666;
+  position: absolute;
+  right: 0px;
+  top: 51px;
+  &:hover{
+    box-shadow: 0 2px 0 @grey15;
+    text-decoration: none;
+  }
+  &:active {
+    box-shadow: none;
+    text-decoration: none;
+  }
 }
 
-a.button-left:hover {
-  position: relative;
-  box-shadow: 0 2px 0 #383838;
-  top: 2px;
-}
 
-a.button-left:active {
-  position: relative;
-  box-shadow: none;
-  top: 4px;
+
+.button-submit{
+  width: 75px;
+  height: 28px;
+  background: #57ACF2;
+  box-shadow: 0 4px 0 #4E9BDA;
+  color: #FFFFFF;
+  font: 1em/28px "Roboto", sans-serif;
+  &:hover{
+    box-shadow: 0 2px 0 #4E9BDA;
+    text-decoration: none;
+  }
+  &:active {
+    box-shadow: none;
+    text-decoration: none;
+  }
 }

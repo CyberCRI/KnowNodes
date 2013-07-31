@@ -80,7 +80,6 @@ function LoginCtrl($scope, $http, $location, $rootScope, $window, loginModal) {
     $scope.submitUser = function (userForm) {
         $http.post('/users', userForm).
             success(function (data, status, headers, config) {
-                console.log("userForm:", userForm);
                 $scope.loginForm.username = userForm.email;
                 $scope.loginForm.password = userForm.password;
                 $scope.newUser = true;
@@ -93,7 +92,6 @@ function LoginCtrl($scope, $http, $location, $rootScope, $window, loginModal) {
     $scope.performLogin = function () {
         $http.post('/login', $scope.loginForm).
             success(function (data, status, headers, config) {
-                console.log("loginform:", $scope.loginForm);
                 if (data === 'ERROR') {
                     return $scope.loginerror = true;
                 }
@@ -688,6 +686,7 @@ function VoteCtrl($scope, $http, loginModal) {
     if ($scope.triplet.upvoted != null) {
         $scope.upVoteClass = "active";
         $scope.upActive = true;
+        $scope.upvotes += 1;
     } else {
         $scope.upVoteClass = "";
     }
@@ -696,6 +695,7 @@ function VoteCtrl($scope, $http, loginModal) {
     if ($scope.triplet.downvoted != null) {
         $scope.downVoteClass = "active";
         $scope.downActive = true;
+        $scope.downvotes += 1;
     } else {
         $scope.downVoteClass = "";
     }
@@ -707,12 +707,14 @@ function VoteCtrl($scope, $http, loginModal) {
             if($scope.upActive === true) {
                 $scope.downActive = false;
                 $http.post('/vote/voteUp/',{connectionId:$scope.triplet.connection.KN_ID});
+                $scope.triplet.upvotes += 1;
                 console.log("voteUp")
             }
             if($scope.upActive === false) {
                 $scope.downActive = false;
                 $scope.upVoteClass = "";
                 $http.post('/vote/cancelVote/',{connectionId:$scope.triplet.connection.KN_ID});
+                $scope.triplet.upvotes -= 1;
                 console.log("voteUpCancelled")
             }
         }
@@ -721,12 +723,14 @@ function VoteCtrl($scope, $http, loginModal) {
             if($scope.downActive === true) {
                 $scope.upActive = false;
                 $http.post('/vote/voteDown/',{connectionId:$scope.triplet.connection.KN_ID});
+                $scope.triplet.downvotes += 1;
                 console.log("voteDown")
             }
             if($scope.downActive === false) {
                 $scope.upActive = false;
                 $scope.downVoteClass = "";
                 $http.post('/vote/cancelVote/',{connectionId:$scope.triplet.connection.KN_ID});
+                $scope.triplet.downvotes -= 1;
                 console.log("voteDownCancelled")
             }
         }
