@@ -25,6 +25,27 @@
   }
 }
 
+.button-a {
+  display: inline-block;
+  overflow: hidden;
+  text-align: center;
+  font: 1em/25px "Roboto", sans-serif;
+  border-radius: 4px;
+  box-shadow: 0 4px 0;
+  text-decoration: none;
+}
+
+.button:hover {
+  position: relative;
+  box-shadow: 0 2px 0;
+  top: 2px;
+}
+
+.button:active {
+  position: relative;
+  box-shadow: none;
+  top: 4px;
+}
 /* BUTTON COLORS */
 
 .button-inspire {
@@ -91,11 +112,17 @@
   background: #656565;
   box-shadow: 0 4px 0 #595959;
   color: #FFFFFF;
+  text-decoration: none;
   &:hover{
     box-shadow: 0 2px 0 #595959;
+    color:white;
+    text-decoration: none;
+
   }
   &:active {
     box-shadow: none;
+    color:white;
+    text-decoration: none;
   }
 }
 

@@ -3,6 +3,6 @@ div.topbar
     img.topbar-logo(src="/img/knownodes-logo.png")
   span.topbar-search(search-box)
   span
-      button.button-base.button-dark(ng-click="/map/{{resourceId}}", ng-show="mapButton") Map mode
-      button.button-base.button-dark(ng-click="/article/{{resourceId}}", ng-show="resourceButton") List mode
+      a.button-a.button-dark(ng-href="/map/{{resourceId}}", ng-show="mapButton") Map mode
+      a.button-a.button-dark(ng-href="/article/{{resourceId}}", ng-show="resourceButton") List mode
       span(top-bar-login).topbar-login
