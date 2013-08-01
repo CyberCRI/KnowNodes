@@ -456,6 +456,13 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
                 $scope.endResource = createdEndResource;
                 createConnection();
             });
+        } else if ($scope.endResource.type === 'Link to Resource') {
+            // create url resource and create connection
+            delete $scope.endResource.type; // type is used only client-side, should not be persisted
+            resource.create($scope.endResource).then(function (createdEndResource) {
+                $scope.endResource = createdEndResource;
+                createConnection();
+            });
         } else {
             createConnection();
         }
@@ -465,7 +472,6 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
 
         var startResourceId = $scope.startResource.KN_ID;
         var endResourceId = $scope.endResource.KN_ID;
-
         connection.create(startResourceId, $scope.connectionTitle, $scope.connectionType, endResourceId)
             .success(function (data, status) {
                 $route.reload();
