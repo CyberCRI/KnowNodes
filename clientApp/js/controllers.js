@@ -179,6 +179,7 @@ function MapCtrl($scope, $routeParams) {
 
 function TripletListCtrl($scope, $routeParams, $location, userService, resource, wikipedia, wikinode) {
 
+    $scope.orderProp = "-(upvotes-downvotes)";
     // First, check whether the resource is a KN Resource or a Wikipedia Article
     if ($routeParams.id != null) {
         // KN Resource
