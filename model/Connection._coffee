@@ -28,6 +28,7 @@ module.exports = class Connection extends NodeWrapper
     return connection
 
   @latestTriplets: (user, _) ->
+    console.log("we are at the model")
     now = Date.now()
     aWeekAgo = now - 1000 * 60 * 60 * 24 * 7 # Seven days
     luceneQuery = "__CreatedOn__:[#{aWeekAgo} TO #{now}]"
@@ -72,7 +73,7 @@ module.exports = class Connection extends NodeWrapper
       nodes.push toPush
     nodes
 
-  @hottestTriplets: (_) ->
+  @hottestTriplets: (user, _) ->
     now = Date.now()
     aMonthAgo = now - 1000 * 60 * 60 * 24 * 30 # Thirty days
     luceneQuery = "__CreatedOn__:[#{aMonthAgo} TO #{now}]"
@@ -92,11 +93,11 @@ module.exports = class Connection extends NodeWrapper
       "AND startResourceOtherConnections <> connection",
       "AND endResourceOtherConnections <> connection",
       "RETURN connection, startResource, endResource, connectionCreator, startResourceCreator, endResourceCreator, connectionCreator,",
-      "count(connectionComments) AS connectionCommentsCount,",
-      "count(upvotes) AS upvotesCount,",
-      "count(downvotes) AS downvotesCount,",
-      "count(startResourceOtherConnections) AS startResourceOtherConnectionsCount,",
-      "count(endResourceOtherConnections) AS endResourceOtherConnectionsCount",
+      "count(connectionComments) AS commentCount,",
+      "count(upvotes) AS upvoteCount,",
+      "count(downvotes) AS downvoteCount,",
+      "count(startResourceOtherConnections) AS startResourceOtherConnectionCount,",
+      "count(endResourceOtherConnections) AS endResourceOtherConnectionCount",
       "ORDER BY connection.__CreatedOn__ DESC",
       "LIMIT 100"
     ].join('\n');
@@ -122,17 +123,19 @@ module.exports = class Connection extends NodeWrapper
     nodes = []
     for item in results
       toPush =
-        connection: item.connection.data,
+        upvotes: item.upVoteCount,
+        downvotes: item.downVoteCount,
         startResource: item.startResource.data,
-        endResource: item.startResource.data,
-      toPush.connection.commentCount = item.connectionCommentsCounts
+        endResource: item.endResource.data,
+        connection: item.connection.data,
+      toPush.connection.commentCount = item.commentCount
       toPush.connection.creator = item.connectionCreator.data
-      hot = hotness(item.upvotesCount, item.downvotesCount, item.connection.data['__CreatedOn__'])
+      hot = hotness(item.upvoteCount, item.downvoteCount, item.connection.data['__CreatedOn__'])
       toPush.connection.hotness = hot
       toPush.startResource.creator = item.startResourceCreator.data
       toPush.endResource.creator = item.endResource.data
-      toPush.startResource.otherConnectionsCount = item.startResourceOtherConnectionsCount
-      toPush.endResource.otherConnectionsCount = item.endResourceOtherConnectionsCount
+      toPush.startResource.otherConnectionsCount = item.startResourceOtherConnectionCount
+      toPush.endResource.otherConnectionsCount = item.endResourceOtherConnectionCount
       nodes.push toPush
     nodes
 

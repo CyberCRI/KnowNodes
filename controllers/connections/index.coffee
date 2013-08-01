@@ -16,6 +16,7 @@ module.exports =
     new ConnectionController(request).destroy(Callback.bind(response))
 
   latestTriplets: (request, response) ->
+    console.log("we are at the controller index")
     new ConnectionController(request).latestTriplets(Callback.bind(response))
 
   hottestTriplets: (request, response) ->

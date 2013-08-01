@@ -27,5 +27,14 @@ module.exports = class ConnectionDAO
     connection.delete _
 
   latestTriplets: (userId, _) ->
+    console.log("we are at the dao")
     user = User.find(userId, _)
     Connection.latestTriplets(user, _)
+
+  hottestTriplets: (userId, _) ->
+    console.log("we are at the dao")
+    if userId == "no user"
+      user = userId
+    else
+      user = User.find(userId, _)
+    Connection.hottestTriplets(user, _)

@@ -10,6 +10,16 @@ div.center-div
       span ,&nbsp
       a(href="http://stps.co/r/0EBJTGN/") and how to open your Phd!
 
+  div.span21.offset3.sort-div
+    span.btn.btn-link.sort-header sort:
+    div.btn-group(data-toggle="buttons-radio")
+      button.btn.btn-link.active(type="button", ng-click="orderProp='-(upvotes - downvotes)'") Popular
+      button.btn.btn-link(type="button", ng-click="orderProp='-connection.__CreatedOn__'") New
+      //button.btn.btn-link(type="button", ng-click="orderProp='votes'") Popular
+  div(triplet-list)
+
+
+
     h4.span23.offset1 Interesting people have started to share their knowledge on knownodes, check out some examples:
 
     h3.span11.offset1
