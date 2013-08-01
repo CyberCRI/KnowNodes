@@ -253,7 +253,9 @@ function TripletListCtrl($scope, $routeParams, $location, userService, resource,
 }
 
 
-function IndexCtrl($scope, $http, $location, resource) {
+function IndexCtrl($scope, $http, userService) {
+
+    $scope.isUserLoggedIn = userService.isUserLoggedIn();
     $scope.knownodeList = {};
     $scope.orderProp = "-(connection.hotness)";
     $http.post("/connections/hottestTriplets").success(function (data, status, headers, config) {
@@ -372,7 +374,6 @@ function ConnectionPageCtrl($scope, $http, $routeParams, userService, PassKnowno
         $scope.knownode = $scope.knownode[0];
     });
 }
-ConnectionPageCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'PassKnownode'];
 
 
 function WikipediaArticleCtrl($scope, $routeParams, wikipedia) {

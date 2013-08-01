@@ -115,7 +115,7 @@ module.exports = class Resource extends NodeWrapper
           connection: item.connection.data,
           commentCount: item.commentCount,
           otherConnectionsCount: item.otherConnectionsCount
-        toPush.otherResource.creator = item.otherResourceCreator.data
+        toPush.endResource.creator = item.otherResourceCreator.data
         toPush.connection.creator = item.connectionCreator.data
         nodes.push toPush
       nodes
