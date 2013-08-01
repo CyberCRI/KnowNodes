@@ -2,9 +2,9 @@ div.row-fluid
   div.span9.offset3(ng-repeat="triplet in knownodeList | orderBy: orderProp", ng-switch on="triplet.otherResource.id == triplet.connection.fromNodeId")
     div(ng-switch-default)
       div.triplet
-        div(end-resource)
-        div(connection)
         div(start-resource)
+        div(connection)
+        div(end-resource)
         p.info-line
           em.info-time {{(triplet.connection.__CreatedOn__) | timeAgo}} by
           em.info-name {{triplet.connection.creator.firstName}} {{triplet.connection.creator.lastName}}
@@ -14,9 +14,9 @@ div.row-fluid
               span(ng-switch-when="0") comment
     div(ng-switch-when="true")
       div.triplet
-        div(start-resource)
-        div(connection)
         div(end-resource)
+        div(connection)
+        div(start-resource)
         p
           em.info-time {{(triplet.connection.__CreatedOn__) | timeAgo}} by
           em.info-name {{triplet.connection.creator.firstName}} {{triplet.connection.creator.lastName}}

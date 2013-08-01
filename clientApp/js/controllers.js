@@ -253,10 +253,13 @@ function TripletListCtrl($scope, $routeParams, $location, userService, resource,
 }
 
 
-function IndexCtrl($scope, $http, $location) {
-
+function IndexCtrl($scope, $http, $location, resource) {
+    $scope.knownodeList = {};
+    $scope.orderProp = "-(connection.hotness)";
+    $http.post("/connections/hottestTriplets").success(function (data, status, headers, config) {
+        $scope.knownodeList = data;
+    });
 }
-
 
 function DeleteUserCtrl($scope, $http, $location, $routeParams) {
     $http.get('/users/' + $routeParams.id).

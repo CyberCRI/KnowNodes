@@ -14,8 +14,7 @@ angular.module('KnowNodesApp.directives', [])
         return {
             restrict: "A",
             templateUrl: 'partials/directiveTemplates/tripletList',
-            replace: true,
-            controller: TripletListCtrl
+            replace: true
         };
     })
 

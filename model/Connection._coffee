@@ -61,11 +61,11 @@ module.exports = class Connection extends NodeWrapper
       toPush =
         connection: item.connection.data,
         startResource: item.startResource.data,
-        endResource: item.startResource.data,
-      toPush.connection.commentCount = item.connectionCommentsCounts
+        endResource: item.startResource.data
+      toPush.commentCount = item.connectionCommentsCounts
       toPush.connection.creator = item.connectionCreator.data
       toPush.startResource.creator = item.startResourceCreator.data
-      toPush.endResource.creator = item.endResource.data
+      toPush.endResource.creator = item.endResourceCreator.data
       toPush.startResource.otherConnectionsCount = item.startResourceOtherConnectionsCount
       toPush.endResource.otherConnectionsCount = item.endResourceOtherConnectionsCount
       toPush.votedUp = item.upvote?
@@ -123,17 +123,17 @@ module.exports = class Connection extends NodeWrapper
     nodes = []
     for item in results
       toPush =
-        upvotes: item.upVoteCount,
-        downvotes: item.downVoteCount,
+        upvotes: item.upvoteCount,
+        downvotes: item.downvoteCount,
         startResource: item.startResource.data,
         endResource: item.endResource.data,
-        connection: item.connection.data,
-      toPush.connection.commentCount = item.commentCount
+        connection: item.connection.data
+      toPush.commentCount = item.commentCount
       toPush.connection.creator = item.connectionCreator.data
       hot = hotness(item.upvoteCount, item.downvoteCount, item.connection.data['__CreatedOn__'])
       toPush.connection.hotness = hot
       toPush.startResource.creator = item.startResourceCreator.data
-      toPush.endResource.creator = item.endResource.data
+      toPush.endResource.creator = item.endResourceCreator.data
       toPush.startResource.otherConnectionsCount = item.startResourceOtherConnectionCount
       toPush.endResource.otherConnectionsCount = item.endResourceOtherConnectionCount
       nodes.push toPush

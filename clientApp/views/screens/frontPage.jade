@@ -11,30 +11,32 @@ div.center-div
       a(href="http://stps.co/r/0EBJTGN/") and how to open your Phd!
 
   div.span21.offset3.sort-div
+    h2 Top Connections
     span.btn.btn-link.sort-header sort:
     div.btn-group(data-toggle="buttons-radio")
-      button.btn.btn-link.active(type="button", ng-click="orderProp='-(upvotes - downvotes)'") Popular
+      button.btn.btn-link.active(type="button", ng-click="orderProp='-(connection.hotness)'") Hot
+      button.btn.btn-link(type="button", ng-click="orderProp='to be determined'") Featured
       button.btn.btn-link(type="button", ng-click="orderProp='-connection.__CreatedOn__'") New
-      //button.btn.btn-link(type="button", ng-click="orderProp='votes'") Popular
+
+div.container-fluid
+
   div(triplet-list)
 
+  h4.span23.offset1 Interesting people have started to share their knowledge on knownodes, check out some examples:
 
-
-    h4.span23.offset1 Interesting people have started to share their knowledge on knownodes, check out some examples:
-
-    h3.span11.offset1
-      a(href="/resource/5747482b-7689-4179-98bd-f5c732517d00") Open your Phd project
-    h3.span11.offset1
-      a(href="/resource/7c03ddca-3446-4fad-a723-d914dbdfbed3") Sudo room - Matt Senate(Hacker)
-    h3.span11.offset1
-      a(href="/resource/4aa4ca30-2543-4b05-a739-849902e36531") Mimicry - Sebastien Treguer(Engineer, clean energy)
-    h3.span11.offset1
-      a(href="/resource/2b3f1592-d48a-4daa-a473-20df49c31f2d") How can we include citizen science in earthquake and fire engineering research? - Professor Muki Haklay(Researcher, citizen science)
-    h3.span11.offset1
-      a(href="/resource/a17aa977-91cc-460e-b794-3221bf2ab5ca") Dynamic body and space - Catalina Quijano(Teacher)
-    h3.span11.offset1
-      a(href="/resource/0deb51a3-6bcc-40f2-b9a0-4ff14863d67e") Knownodes - Dor Garbash(Phd student)
-    h3.span11.offset1
-      a(href="/resource/57ebbdf1-8ba9-4fe1-8a4a-9a7890fef6f1") Modularity in biology
-    h3.span11.offset1
-      a(href="/resource/5262bfd2-b77b-48bf-8cd1-1dfbd884a187") What is life?
+  h3.span11.offset1
+    a(href="/resource/5747482b-7689-4179-98bd-f5c732517d00") Open your Phd project
+  h3.span11.offset1
+    a(href="/resource/7c03ddca-3446-4fad-a723-d914dbdfbed3") Sudo room - Matt Senate(Hacker)
+  h3.span11.offset1
+    a(href="/resource/4aa4ca30-2543-4b05-a739-849902e36531") Mimicry - Sebastien Treguer(Engineer, clean energy)
+  h3.span11.offset1
+    a(href="/resource/2b3f1592-d48a-4daa-a473-20df49c31f2d") How can we include citizen science in earthquake and fire engineering research? - Professor Muki Haklay(Researcher, citizen science)
+  h3.span11.offset1
+    a(href="/resource/a17aa977-91cc-460e-b794-3221bf2ab5ca") Dynamic body and space - Catalina Quijano(Teacher)
+  h3.span11.offset1
+    a(href="/resource/0deb51a3-6bcc-40f2-b9a0-4ff14863d67e") Knownodes - Dor Garbash(Phd student)
+  h3.span11.offset1
+    a(href="/resource/57ebbdf1-8ba9-4fe1-8a4a-9a7890fef6f1") Modularity in biology
+  h3.span11.offset1
+    a(href="/resource/5262bfd2-b77b-48bf-8cd1-1dfbd884a187") What is life?
