@@ -16,8 +16,14 @@ div.container-fluid
                         p(ng-show="concept.fileName") Download:
                             a(class="btn-info",href="/knownodeFiles/:{{concept.fileId}}", target="_blank", ng-show="concept.fileName") &nbsp;{{concept.fileName}}&nbsp;
                         div(ng-bind-html-unsafe="concept.bodyText")
-
-        div.span9.offset3(ng-repeat="triplet in knownodeList | orderBy:orderProp", ng-switch on="triplet.otherResource.id == triplet.connection.fromNodeId")
+        div.span21.offset3.sort-div
+            span.btn.btn-link.sort-header sort:
+            div.btn-group(data-toggle="buttons-radio")
+                button.btn.btn-link.active(type="button", ng-click="orderProp='upvotes - downvotes'") Popular
+                button.btn.btn-link(type="button", ng-click="orderProp='-connection.__CreatedOn__'") New
+                //button.btn.btn-link(type="button", ng-click="orderProp='votes'") Popular
+    div.row-fluid
+        div.span9.offset3(ng-repeat="triplet in knownodeList | orderBy: orderProp", ng-switch on="triplet.otherResource.id == triplet.connection.fromNodeId")
             div(ng-switch-default)
                 div.triplet
                     div(end-resource)

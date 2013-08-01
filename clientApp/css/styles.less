@@ -2,7 +2,7 @@
 @background-c: #F7F7F8;
 @body-c: #717577;
 @knownode-border-c: #CECFD1;
-@opposed-c: #DF1F25;
+@red: #DF1F25;
 @opposed-font-c: white;
 @biology-c: #62A265;
 @border-connection-c: #808B99;
@@ -13,6 +13,7 @@
 @link-color: rgb(33, 57, 131);
 @connection-background: rgb(235, 234, 247);
 @titleSize: 1.2em;
+
 //mixins
 
 
@@ -323,18 +324,11 @@ button.knowledgeButton{
   margin-left:0px;
 }
 
-.active-red {
-  color:@opposed-c;
-}
+
 
 .btn-link:hover {
   color:@hover;
   text-decoration:none;
-}
-.sort:hover {
-  color: #717577;
-  text-decoration:none;
-  cursor:default;
 }
 
 .hide{
@@ -357,10 +351,7 @@ button.knowledgeButton{
   line-height: 30px;
 }
 
-.nav-tabs {
-  max-width: 90%;
-  &:hover {font: @opposed-c}
-}
+
 
 .control-label{
   margin-top:5px;
