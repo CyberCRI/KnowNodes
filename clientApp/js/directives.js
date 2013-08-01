@@ -10,6 +10,15 @@ angular.module('KnowNodesApp.directives', [])
         };
     })
 
+    .directive('tripletList', function () {
+        return {
+            restrict: "A",
+            templateUrl: 'partials/directiveTemplates/tripletList',
+            replace: true,
+            controller: TripletListCtrl
+        };
+    })
+
     .directive('concept', function () {
         return {
             restrict: 'EAC',

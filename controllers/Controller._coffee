@@ -36,6 +36,7 @@ module.exports = class Controller
       console.log("user exists")
       return @request.user.KN_ID
     else
+      console.log("user does not exist")
       return "no user"
 
 

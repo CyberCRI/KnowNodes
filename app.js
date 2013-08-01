@@ -86,6 +86,7 @@ app.resource('resources', function() {
 });
 
 app.resource('wiki');
+
 app.resource('connections', function() {
     this.collection.post('latestTriplets');
     this.collection.post('hottestTriplets');

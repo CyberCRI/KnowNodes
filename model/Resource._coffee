@@ -48,7 +48,7 @@ module.exports = class Resource extends NodeWrapper
 
       query = [
         "START resource=node({resourceNodeId})",
-        "MATCH (resource) -[:RELATED_TO]- (connection) -[:RELATED_TO]- (otherResource) -[:CREATED_BY]- (otherResourceCreator),",
+        "MATCH (resource) -[:RELATED_TO]- (connection) -[:RELATED_TO]- (otherResource) -[:CREATED_BY]- (endResourceCreator),",
         "(otherConnections)-[?:RELATED_TO]-(otherResource),",
         "(connection) -[?:VOTED_UP]- (upvotes),",
         "(downvotes) -[?:VOTED_DOWN]- (connection),",
@@ -56,7 +56,7 @@ module.exports = class Resource extends NodeWrapper
         "(connection) -[?:COMMENT_OF]- (comments)",
         "WHERE otherResource <> resource ",
         "AND otherConnections <> connection ",
-        "RETURN otherResource, connection, otherResourceCreator, connectionCreator, count(comments) AS commentCount, count(otherConnections) AS otherConnectionsCount, ",
+        "RETURN resource, otherResource, connection, endResourceCreator, connectionCreator, count(comments) AS commentCount, count(otherConnections) AS otherConnectionsCount, ",
         "count(distinct upvotes) AS upVoteCount,",
         "count(distinct downvotes) AS downVoteCount"
       ].join('\n');
@@ -70,11 +70,12 @@ module.exports = class Resource extends NodeWrapper
         toPush =
           upvotes: item.upVoteCount,
           downvotes: item.downVoteCount,
-          otherResource: item.otherResource.data,
+          startResource: item.resource.data,
+          endResource: item.otherResource.data,
           connection: item.connection.data,
           commentCount: item.commentCount,
           otherConnectionsCount: item.otherConnectionsCount
-        toPush.otherResource.creator = item.otherResourceCreator.data
+        toPush.endResource.creator = item.endResourceCreator.data
         toPush.connection.creator = item.connectionCreator.data
         nodes.push toPush
       nodes
@@ -92,7 +93,7 @@ module.exports = class Resource extends NodeWrapper
         "(connection) -[?:COMMENT_OF]- (comments)",
         "WHERE otherResource <> resource ",
         "AND otherConnections <> connection",
-        "RETURN otherResource, otherResourceCreator, connection, connectionCreator, count(comments) AS commentCount, count(otherConnections) AS otherConnectionsCount, ",
+        "RETURN resource, otherResource, otherResourceCreator, connection, connectionCreator, count(comments) AS commentCount, count(otherConnections) AS otherConnectionsCount, ",
         "count(distinct upvotes) AS upVoteCount,",
         "count(distinct downvotes) AS downVoteCount,",
         "hasVotedUp, hasVotedDown"
@@ -109,7 +110,8 @@ module.exports = class Resource extends NodeWrapper
           downvotes: item.downVoteCount,
           upvoted: item.hasVotedUp,
           downvoted: item.hasVotedDown,
-          otherResource: item.otherResource.data,
+          startResource: item.resource.data,
+          endResource: item.otherResource.data,
           connection: item.connection.data,
           commentCount: item.commentCount,
           otherConnectionsCount: item.otherConnectionsCount
