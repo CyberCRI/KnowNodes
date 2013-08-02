@@ -1,26 +1,36 @@
-div.topbar-gap &nbsp
-div.subheader
-  div.span23.offset1
-    h2
-      span
-        a(ng-href="/article/:{{knownode.article.KN_ID}}", title="{{knownode.article.title}}") {{knownode.article.title+ " "}}
-        span.deamphesize {{knownode.connection.connectionType+" "+knownode.connection.title+" "}}
-        span
-          a(ng-href="/article/:{{knownode.targetArticle.KN_ID}}", title="{{knownode.targetArticle.title}}") {{knownode.targetArticle.title}}
-  div.knownode.span11.offset1
-    div(ng-show="knownode.connection.bodyText").span11
-      small edge description
-      p.resourcecontent#content(ng-bind-html-unsafe="knownode.connection.bodyText")
-    div.span11.with-margin
-      small original knownode
-      div(full-node)
-      div(connection)
-      div(target-article)
-      div(class="ui-icon ui-icon-trash", style="float:right", ng-click="deleteNode(knownode.article.id, $index)", ng-show="checkOwnership(knownode.article.user.id)")
-      div(ng-show="checkOwnership(knownode.article.user.id)", style="float:right")
-        a(class="ui-icon ui-icon-pencil", ng-href="", ng-show="false")
+div.container-fluid
+  div.topbar-gap &nbsp
+  div.row-fluid
+    div.span9.offset3(style="margin:0px;")
+      triplet-input.input-interface
 
+    div.connection-triplet.span9.offset3
+      div(ng-repeat="triplet in knownodeList | orderBy: orderProp", ng-switch on="triplet.otherResource.id == triplet.connection.fromNodeId")
+        div(ng-switch-default)
+          div.triplet
+            div(start-resource)
+            div(connection)
+            div(end-resource)
+            p.info-line
+              em.info-time {{(triplet.connection.__CreatedOn__) | timeAgo}} by
+              em.info-name {{triplet.connection.creator.firstName}} {{triplet.connection.creator.lastName}}
+              span
+                a.pull-right.info-comment(ng-href="/connection/:{{triplet.connection.KN_ID}}", ng-switch on="triplet.commentCount")
+                  span.info-comment-exist(ng-switch-default) {{triplet.commentCount}} comments
+                  span(ng-switch-when="0") comment
+        div(ng-switch-when="true")
+          div.triplet
+            div(end-resource)
+            div(connection)
+            div(start-resource)
+            p
+              em.info-time {{(triplet.connection.__CreatedOn__) | timeAgo}} by
+              em.info-name {{triplet.connection.creator.firstName}} {{triplet.connection.creator.lastName}}
+              span
+                a.pull-right.info-comment(ng-href="/connection/:{{triplet.connection.KN_ID}}", ng-switch on="triplet.commentCount")
+                  span.info-comment-exist(ng-switch-default) {{triplet.commentCount}} comments
+                  span(ng-switch-when="0") comment
 
-  div.span11.offset1
-    div(comment-section='{{knownode.connection.KN_ID}}')
+    div.span21.offset3
+      div(comment-section='{{knownode.connection.KN_ID}}')
 

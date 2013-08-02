@@ -1,0 +1,40 @@
+div.row-fluid
+  div.span9.offset3(ng-repeat="triplet in knownodeList | orderBy: orderProp", ng-switch on="triplet.otherResource.id == triplet.connection.fromNodeId")
+    div(ng-switch-default)
+      div.triplet
+        div(start-resource)
+        div(connection)
+        div(end-resource)
+        p.info-line
+          em.info-time {{(triplet.connection.__CreatedOn__) | timeAgo}} by
+          em.info-name {{triplet.connection.creator.firstName}} {{triplet.connection.creator.lastName}}
+          span
+            a.pull-right.info-comment(ng-href="/connection/:{{triplet.connection.KN_ID}}", ng-switch on="triplet.commentCount")
+              span.info-comment-exist(ng-switch-default) {{triplet.commentCount}} comments
+              span(ng-switch-when="0") comment
+    div(ng-switch-when="true")
+      div.triplet
+        div(end-resource)
+        div(connection)
+        div(start-resource)
+        p
+          em.info-time {{(triplet.connection.__CreatedOn__) | timeAgo}} by
+          em.info-name {{triplet.connection.creator.firstName}} {{triplet.connection.creator.lastName}}
+          span
+            a.pull-right.info-comment(ng-href="/connection/{{triplet.connection.KN_ID}}", ng-switch on="triplet.commentCount")
+              span.info-comment-exist(ng-switch-default) {{triplet.commentCount}} comments
+              span(ng-switch-when="0") comment
+  div.span9.offset3(ng-repeat="link in concept.wikipediaLinks", ng-switch on="link.title != concept.title")
+    div.triplet(ng-switch-when="true")
+      div.resource
+        div.resource-title
+          a(ng-href="/wikipedia/{{concept.title}}", title="{{concept.title}}") {{concept.title}}
+        a.source-button(ng-href="http://en.wikipedia.org/wiki/{{concept.title}}", title="{{concept.title}}", ng-show="concept.title", target="_blank") source
+      div.l-connection(class="auto-generated")
+        div.connection-title
+          a &nbsp;Wikipedia Link
+      div.resource
+        div.resource-title
+          a(ng-href="/wikipedia/{{link.title}}", title="{{link.title}}") {{link.title}}
+        a.source-button(ng-href="http://en.wikipedia.org/wiki/{{link.title}}", title="{{link.title}}", ng-show="link.title", target="_blank") source
+      p &nbsp;

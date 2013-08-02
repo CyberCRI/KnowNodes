@@ -10,8 +10,11 @@ module.exports = class ConnectionController extends Controller
   getId: ->
     @request.params.connection
 
+  getTripletByConnectionId: (_) ->
+    @dao.getTripletByConnectionId(@getId(), @getLoggedUserIdIfExists(), _)
+
   latestTriplets: (_) ->
     Connection.latestTriplets _
 
   hottestTriplets: (_) ->
-    @dao.hottestTriplets(@getLoggedUserId(), _)
+    @dao.hottestTriplets(@getLoggedUserIdIfExists(), _)

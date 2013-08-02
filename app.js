@@ -86,9 +86,11 @@ app.resource('resources', function() {
 });
 
 app.resource('wiki');
+
 app.resource('connections', function() {
     this.collection.post('latestTriplets');
     this.collection.post('hottestTriplets');
+    this.member.get('getTripletByConnectionId');
 });
 app.post('/vote/voteUp',voteController.voteUp );
 app.post('/vote/voteDown',voteController.voteDown );

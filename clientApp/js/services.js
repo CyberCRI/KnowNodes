@@ -6,7 +6,6 @@ angular.module('KnowNodesApp.services', [])
         var serviceReturned = {};
 
         serviceReturned.isUserLoggedIn = function () {
-            console.log("user:", $rootScope.user);
             return $rootScope.user
 
         };
