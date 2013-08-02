@@ -51,22 +51,22 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['angulartics', 'angular
                 controller: MapCtrl
             }).
             when('/concept/:id', {
-                templateUrl: 'screens/tripletList',
+                templateUrl: 'screens/tripletListPage',
                 controller: TripletListCtrl
             }).
             when('/article/:id', {
-                templateUrl: 'screens/tripletList',
+                templateUrl: 'screens/tripletListPage',
                 controller: TripletListCtrl
             }).
             when('/resource/:id', {
-                templateUrl: 'screens/tripletList',
+                templateUrl: 'screens/tripletListPage',
                 controller: TripletListCtrl
             }).
             when('/wikipedia/:title', {
-                templateUrl: 'screens/tripletList',
+                templateUrl: 'screens/tripletListPage',
                 controller: TripletListCtrl
             }).
-            when('/edge/:id', {
+            when('/connection/:id', {
                 templateUrl: 'screens/connectionPage',
                 controller: ConnectionPageCtrl
             }).
