@@ -19,6 +19,61 @@ module.exports = class Connection extends NodeWrapper
     creator.setAsCreator(created, _)
     return created
 
+  @getTripletByConnectionId: (id, user, _) ->
+    nodes = []
+
+    if user == "no user"
+      user = {}
+      user.node = {}
+      user.node.id = 0
+
+    query = [
+      "START connection=node({connectionNodeId}), user=node(#{user.node.id})",
+      "MATCH (startResource) -[:RELATED_TO]-> (connection) -[:RELATED_TO]-> (endResource),",
+      "(connection) -[:CREATED_BY]- (connectionCreator),",
+      "(startResource) -[:CREATED_BY]- (startResourceCreator),",
+      "(endResource) -[:CREATED_BY]- (endResourceCreator),",
+      "(connection) -[?:COMMENT_OF]- (connectionComments),",
+      "(connection) -[?:VOTED_UP]- (upvotes),",
+      "(connection) -[?:VOTED_DOWN]- (downvotes),",
+      "(user) -[hasVotedUp?:VOTED_UP]-> (connection),",
+      "(user) -[hasVotedDown?:VOTED_DOWN]-> (connection),",
+      "(startResourceOtherConnections)-[?:RELATED_TO]-(startResource),",
+      "(endResourceOtherConnections)-[?:RELATED_TO]-(endResource)",
+      "WHERE startResource <> endResource",
+      "AND startResourceOtherConnections <> connection",
+      "AND endResourceOtherConnections <> connection",
+      "RETURN connection, startResource, endResource, connectionCreator, startResourceCreator, endResourceCreator, connectionCreator,",
+      "count(distinct connectionComments) AS commentCount,",
+      "count(distinct upvotes) AS upvoteCount,",
+      "count(distinct downvotes) AS downvoteCount,",
+      "count(distinct startResourceOtherConnections) AS startResourceOtherConnectionCount,",
+      "count(distinct endResourceOtherConnections) AS endResourceOtherConnectionCount,",
+      "hasVotedUp, hasVotedDown"
+    ].join('\n');
+    connection = @find(id, _)
+    params =
+      connectionNodeId: connection.node.id
+
+    results = @DB.query(query, params, _)
+    for item in results
+      toPush =
+        upvotes: item.upvoteCount,
+        downvotes: item.downvoteCount,
+        userUpvoted: item.hasVotedUp,
+        userDownvoted: item.hasVotedDown,
+        startResource: item.startResource.data,
+        endResource: item.endResource.data,
+        connection: item.connection.data
+      toPush.commentCount = item.commentCount
+      toPush.connection.creator = item.connectionCreator.data
+      toPush.startResource.creator = item.startResourceCreator.data
+      toPush.endResource.creator = item.endResourceCreator.data
+      toPush.startResource.connectionCount = item.startResourceOtherConnectionCount
+      toPush.endResource.connectionCount = item.endResourceOtherConnectionCount
+      nodes.push toPush
+    nodes
+
   @connect: (startResource, endResource, user, data, _) ->
     relationshipData =
       creationDate: new Date()
@@ -77,9 +132,12 @@ module.exports = class Connection extends NodeWrapper
     now = Date.now()
     aMonthAgo = now - 1000 * 60 * 60 * 24 * 30 # Thirty days
     luceneQuery = "__CreatedOn__:[#{aMonthAgo} TO #{now}]"
-
+    if user == "no user"
+      user = {}
+      user.node = {}
+      user.node.id = 0
     cypherQuery = [
-      "START connection=node:kn_Edge('#{luceneQuery}')",
+      "START connection=node:kn_Edge('#{luceneQuery}'), user=node(#{user.node.id})",
       "MATCH (startResource) -[:RELATED_TO]-> (connection) -[:RELATED_TO]-> (endResource),",
       "(connection) -[:CREATED_BY]- (connectionCreator),",
       "(startResource) -[:CREATED_BY]- (startResourceCreator),",
@@ -87,19 +145,22 @@ module.exports = class Connection extends NodeWrapper
       "(connection) -[?:COMMENT_OF]- (connectionComments),",
       "(connection) -[?:VOTED_UP]- (upvotes),",
       "(connection) -[?:VOTED_DOWN]- (downvotes),",
+      "(user) -[hasVotedUp?:VOTED_UP]-> (connection),",
+      "(user) -[hasVotedDown?:VOTED_DOWN]-> (connection),",
       "(startResourceOtherConnections)-[?:RELATED_TO]-(startResource),",
       "(endResourceOtherConnections)-[?:RELATED_TO]-(endResource)",
       "WHERE startResource <> endResource",
       "AND startResourceOtherConnections <> connection",
       "AND endResourceOtherConnections <> connection",
       "RETURN connection, startResource, endResource, connectionCreator, startResourceCreator, endResourceCreator, connectionCreator,",
-      "count(connectionComments) AS commentCount,",
-      "count(upvotes) AS upvoteCount,",
-      "count(downvotes) AS downvoteCount,",
-      "count(startResourceOtherConnections) AS startResourceOtherConnectionCount,",
-      "count(endResourceOtherConnections) AS endResourceOtherConnectionCount",
+      "count(distinct connectionComments) AS commentCount,",
+      "count(distinct upvotes) AS upvoteCount,",
+      "count(distinct downvotes) AS downvoteCount,",
+      "count(distinct startResourceOtherConnections) AS startResourceOtherConnectionCount,",
+      "count(distinct endResourceOtherConnections) AS endResourceOtherConnectionCount,",
+      "hasVotedUp, hasVotedDown"
       "ORDER BY connection.__CreatedOn__ DESC",
-      "LIMIT 100"
+      "LIMIT 200"
     ].join('\n');
 
     noveltyInDays = (creationDate) ->
@@ -125,6 +186,8 @@ module.exports = class Connection extends NodeWrapper
       toPush =
         upvotes: item.upvoteCount,
         downvotes: item.downvoteCount,
+        userUpvoted: item.hasVotedUp,
+        userDownvoted: item.hasVotedDown,
         startResource: item.startResource.data,
         endResource: item.endResource.data,
         connection: item.connection.data
@@ -134,8 +197,8 @@ module.exports = class Connection extends NodeWrapper
       toPush.connection.hotness = hot
       toPush.startResource.creator = item.startResourceCreator.data
       toPush.endResource.creator = item.endResourceCreator.data
-      toPush.startResource.otherConnectionsCount = item.startResourceOtherConnectionCount
-      toPush.endResource.otherConnectionsCount = item.endResourceOtherConnectionCount
+      toPush.startResource.connectionCount = item.startResourceOtherConnectionCount
+      toPush.endResource.connectionCount = item.endResourceOtherConnectionCount
       nodes.push toPush
     nodes
 

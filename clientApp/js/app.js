@@ -66,7 +66,7 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['angulartics', 'angular
                 templateUrl: 'screens/tripletListPage',
                 controller: TripletListCtrl
             }).
-            when('/edge/:id', {
+            when('/connection/:id', {
                 templateUrl: 'screens/connectionPage',
                 controller: ConnectionPageCtrl
             }).
