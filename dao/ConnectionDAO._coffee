@@ -15,7 +15,7 @@ module.exports = class ConnectionDAO
     startResource.connectTo(endResource, creator, data, _)
 
   read: (id, _) ->
-    Connection.find(id, _)
+    return Connection.find(id, _)
 
   update: (id, newData, _) ->
     connection = Connection.find(id, _)
@@ -26,13 +26,19 @@ module.exports = class ConnectionDAO
     connection = Connection.find(id, _)
     connection.delete _
 
-  latestTriplets: (userId, _) ->
+  getTripletByConnectionId: (id, userId, _) ->
     console.log("we are at the dao")
+    if userId == "no user"
+      user = userId
+    else
+      user = User.find(userId, _)
+    Connection.getTripletByConnectionId(id, user, _)
+
+  latestTriplets: (userId, _) ->
     user = User.find(userId, _)
     Connection.latestTriplets(user, _)
 
   hottestTriplets: (userId, _) ->
-    console.log("we are at the dao")
     if userId == "no user"
       user = userId
     else

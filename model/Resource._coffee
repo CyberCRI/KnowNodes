@@ -45,80 +45,51 @@ module.exports = class Resource extends NodeWrapper
     nodes = []
 
     if user == "no user"
+      user = {}
+      user.node = {}
+      user.node.id = 0
 
-      query = [
-        "START resource=node({resourceNodeId})",
-        "MATCH (resource) -[:RELATED_TO]- (connection) -[:RELATED_TO]- (otherResource) -[:CREATED_BY]- (endResourceCreator),",
-        "(otherConnections)-[?:RELATED_TO]-(otherResource),",
-        "(connection) -[?:VOTED_UP]- (upvotes),",
-        "(downvotes) -[?:VOTED_DOWN]- (connection),",
-        "(connection) -[:CREATED_BY]- (connectionCreator),",
-        "(connection) -[?:COMMENT_OF]- (comments)",
-        "WHERE otherResource <> resource ",
-        "AND otherConnections <> connection ",
-        "RETURN resource, otherResource, connection, endResourceCreator, connectionCreator, count(comments) AS commentCount, count(otherConnections) AS otherConnectionsCount, ",
-        "count(distinct upvotes) AS upVoteCount,",
-        "count(distinct downvotes) AS downVoteCount"
-      ].join('\n');
-      resource = @find(id, _)
-      params =
-        resourceNodeId: resource.node.id
+    query = [
+      "START resource=node({resourceNodeId}), user=node(#{user.node.id})",
+      "MATCH (resource) -[:RELATED_TO]- (connection) -[:RELATED_TO]- (endResource) -[:CREATED_BY]- (endResourceCreator),",
+      "(otherConnections)-[?:RELATED_TO]-(endResource),",
+      "(connection) -[?:VOTED_UP]- (upvotes),",
+      "(downvotes) -[?:VOTED_DOWN]- (connection),",
+      "(connection) -[:CREATED_BY]- (connectionCreator),",
+      "(user) -[hasVotedUp?:VOTED_UP]-> (connection),",
+      "(user) -[hasVotedDown?:VOTED_DOWN]-> (connection),",
+      "(connection) -[?:COMMENT_OF]- (comments)",
+      "WHERE endResource <> resource ",
+      "AND otherConnections <> connection",
+      "RETURN resource, endResource, endResourceCreator, connection, connectionCreator,",
+      "count(distinct comments) AS commentCount,",
+      "count(distinct otherConnections) AS endResourceConnectionCount, ",
+      "count(distinct connection)-1 AS startResourceConnectionCount, ",
+      "count(distinct upvotes) AS upVoteCount,",
+      "count(distinct downvotes) AS downVoteCount,",
+      "hasVotedUp, hasVotedDown"
+    ].join('\n');
+    resource = @find(id, _)
+    params =
+      resourceNodeId: resource.node.id
 
-      results = @DB.query(query, params, _)
-
-      for item in results
-        toPush =
-          upvotes: item.upVoteCount,
-          downvotes: item.downVoteCount,
-          startResource: item.resource.data,
-          endResource: item.otherResource.data,
-          connection: item.connection.data,
-          commentCount: item.commentCount,
-          otherConnectionsCount: item.otherConnectionsCount
-        toPush.endResource.creator = item.endResourceCreator.data
-        toPush.connection.creator = item.connectionCreator.data
-        nodes.push toPush
-      nodes
-
-    else
-      query = [
-        "START resource=node({resourceNodeId}), user=node(#{user.node.id})",
-        "MATCH (resource) -[:RELATED_TO]- (connection) -[:RELATED_TO]- (otherResource) -[:CREATED_BY]- (otherResourceCreator),",
-        "(otherConnections)-[?:RELATED_TO]-(otherResource),",
-        "(connection) -[?:VOTED_UP]- (upvotes),",
-        "(downvotes) -[?:VOTED_DOWN]- (connection),",
-        "(connection) -[:CREATED_BY]- (connectionCreator),",
-        "(user) -[hasVotedUp?:VOTED_UP]-> (connection),",
-        "(user) -[hasVotedDown?:VOTED_DOWN]-> (connection),",
-        "(connection) -[?:COMMENT_OF]- (comments)",
-        "WHERE otherResource <> resource ",
-        "AND otherConnections <> connection",
-        "RETURN resource, otherResource, otherResourceCreator, connection, connectionCreator, count(comments) AS commentCount, count(otherConnections) AS otherConnectionsCount, ",
-        "count(distinct upvotes) AS upVoteCount,",
-        "count(distinct downvotes) AS downVoteCount,",
-        "hasVotedUp, hasVotedDown"
-      ].join('\n');
-      console.log("cypher query done")
-      resource = @find(id, _)
-      params =
-        resourceNodeId: resource.node.id
-
-      results = @DB.query(query, params, _)
-      for item in results
-        toPush =
-          upvotes: item.upVoteCount,
-          downvotes: item.downVoteCount,
-          upvoted: item.hasVotedUp,
-          downvoted: item.hasVotedDown,
-          startResource: item.resource.data,
-          endResource: item.otherResource.data,
-          connection: item.connection.data,
-          commentCount: item.commentCount,
-          otherConnectionsCount: item.otherConnectionsCount
-        toPush.endResource.creator = item.otherResourceCreator.data
-        toPush.connection.creator = item.connectionCreator.data
-        nodes.push toPush
-      nodes
+    results = @DB.query(query, params, _)
+    for item in results
+      toPush =
+        upvotes: item.upVoteCount,
+        downvotes: item.downVoteCount,
+        userUpvoted: item.hasVotedUp,
+        userDownvoted: item.hasVotedDown,
+        startResource: item.resource.data,
+        endResource: item.endResource.data,
+        connection: item.connection.data,
+        commentCount: item.commentCount,
+      toPush.startResource.connectionCount = item.startResourceConnectionCount
+      toPush.endResource.connectionCount = item.endResourceConnectionCount
+      toPush.endResource.creator = item.endResourceCreator.data
+      toPush.connection.creator = item.connectionCreator.data
+      nodes.push toPush
+    nodes
 
   ###
         INSTANCE METHODS

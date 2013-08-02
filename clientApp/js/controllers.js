@@ -257,7 +257,7 @@ function IndexCtrl($scope, $http, userService) {
 
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
     $scope.knownodeList = {};
-    $scope.orderProp = "-(connection.hotness)";
+    $scope.orderProp = "-(upvotes - downvotes)";
     $http.post("/connections/hottestTriplets").success(function (data, status, headers, config) {
         $scope.knownodeList = data;
     });
@@ -338,54 +338,14 @@ function StaticPageCtrl($scope) {
 }
 
 
-function ConnectionPageCtrl($scope, $http, $routeParams, userService, PassKnownode) {
-    var currentKnownode = PassKnownode.showCurrent();
-    if (currentKnownode) {
-        $scope.knownode = currentKnownode;
-    }
-    console.log($scope.knownode);
+function ConnectionPageCtrl($scope, $http, $routeParams, userService) {
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
-    $scope.checkOwnership = function (userId) {
-        if (userService.isUserLoggedIn()) {
-            return userId === userService.getConnectedUser().id;
-        }
-        return false;
-    };
-    $scope.deleteNode = function (id, index) {
-        if (confirm("Are you sure you want to delete this post?")) {
-            alert('Not Implemented')
-//            $http.delete('/knownodes/:' + id).
-//                success(function () {
-//                    $scope.knownodeList.splice(index, 1);
-//                });
-        }
-    };
-
-    $scope.isOwner = function (id) {
-        if (userService.isUserLoggedIn()) {
-            return userService.getConnectedUser().id === id;
-        }
-        return false;
-    };
-
-    var edgeId = $scope.edgeId = $routeParams.id;
-    $http.get('/edges/:' + edgeId).success(function (data, status, headers, config) {
-        $scope.knownode = data.success;
-        $scope.knownode = $scope.knownode[0];
-    });
-}
-
-
-function WikipediaArticleCtrl($scope, $routeParams, wikipedia) {
-
-    var articleTitle = $routeParams.title;
-
-    wikipedia.getArticle(articleTitle).then(function (article) {
-        $scope.article = article;
+    $scope.knownodeList = {};
+    $http.get("/connections/"+ $routeParams.id + "/getTripletByConnectionId").success(function (data, status, headers, config) {
+        $scope.knownodeList = data;
     });
 
 }
-
 
 function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, connection) {
 
@@ -506,8 +466,6 @@ function ResourceInputCtrl($scope) {
         emit();
     };
 }
-ResourceInputCtrl.$inject = ['$scope'];
-
 
 function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, scrape) {
 
@@ -694,19 +652,19 @@ function VoteCtrl($scope, $http, loginModal) {
         $scope.prompt = true;
     };
 
-    if ($scope.triplet.upvoted != null) {
+    if ($scope.triplet.userUpvoted != null) {
         $scope.upVoteClass = "active";
         $scope.upActive = true;
-        $scope.upvotes += 1;
+        $scope.triplet.upvotes += 1;
     } else {
         $scope.upVoteClass = "";
     }
 
 
-    if ($scope.triplet.downvoted != null) {
+    if ($scope.triplet.userDownvoted != null) {
         $scope.downVoteClass = "active";
         $scope.downActive = true;
-        $scope.downvotes += 1;
+        $scope.triplet.downvotes += 1;
     } else {
         $scope.downVoteClass = "";
     }

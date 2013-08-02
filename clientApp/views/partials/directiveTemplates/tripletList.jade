@@ -9,7 +9,7 @@ div.row-fluid
           em.info-time {{(triplet.connection.__CreatedOn__) | timeAgo}} by
           em.info-name {{triplet.connection.creator.firstName}} {{triplet.connection.creator.lastName}}
           span
-            a.pull-right.info-comment(ng-href="/edge/:{{triplet.connection.KN_ID}}", ng-switch on="triplet.commentCount")
+            a.pull-right.info-comment(ng-href="/connection/:{{triplet.connection.KN_ID}}", ng-switch on="triplet.commentCount")
               span.info-comment-exist(ng-switch-default) {{triplet.commentCount}} comments
               span(ng-switch-when="0") comment
     div(ng-switch-when="true")
@@ -21,7 +21,7 @@ div.row-fluid
           em.info-time {{(triplet.connection.__CreatedOn__) | timeAgo}} by
           em.info-name {{triplet.connection.creator.firstName}} {{triplet.connection.creator.lastName}}
           span
-            a.pull-right.info-comment(ng-href="/edge/:{{triplet.connection.KN_ID}}", ng-switch on="triplet.commentCount")
+            a.pull-right.info-comment(ng-href="/connection/{{triplet.connection.KN_ID}}", ng-switch on="triplet.commentCount")
               span.info-comment-exist(ng-switch-default) {{triplet.commentCount}} comments
               span(ng-switch-when="0") comment
   div.span9.offset3(ng-repeat="link in concept.wikipediaLinks", ng-switch on="link.title != concept.title")
