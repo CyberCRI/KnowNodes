@@ -4,9 +4,9 @@ div
           a.tutorial-toggle(onclick="$('body').chardinJs('toggle')") Show instructions
         div.arrow
     div.input-triplet
-        div(data-intro='This is the resource "{{concept.title}}". Yep.', data-position="right",resource-input, resource="startResource")
+        div(data-intro='This is the resource "{{knownodeList[0].startResource.title}}". Yep.', data-position="right",resource-input, resource="startResource")
         div(connection-input)
-        div(data-intro="Using this box you can paste a link, write a thought or search for something to connect to '{{concept.title}}'", data-position="right", resource-input, resource="endResource")
+        div(data-intro="Using this box you can paste a link, write a thought or search for something to connect to '{{knownodeList[0].startResource.title}}'", data-position="right", resource-input, resource="endResource")
         div.text-center.input-link-type
             p.text-center.input-link-type-text Why did you make this connection?
 
