@@ -39,14 +39,14 @@ module.exports = class Comment extends DBModule
 
 		@queryAndFormatCommentResults query, params, _
 
-	getAllCommentsOfKnownodeID: (knownodeId, _) ->
-		@logger.logDebug @currentModule, "getAllCommentsOfKnownodeID #{knownodeId}"
-		queryParams = 'KN_ID' : knownodeId
+	getAllCommentsOfKnownodeID: (connectionId, _) ->
+		@logger.logDebug @currentModule, "getAllCommentsOfKnownodeID #{connectionId}"
+		queryParams = 'KN_ID' : connectionId
 
 		query = [
-			'START root=node(*) ',
-			'MATCH (root) <-[r:COMMENT_OF*]- (comment) -[u:CREATED_BY]-> (commentUser)',
-			'WHERE has(root.KN_ID) AND root.KN_ID = {KN_ID} '
+			'START connection=node(*) ',
+			'MATCH (connection) <-[r:COMMENT_OF*]- (comment) -[u:CREATED_BY]-> (commentUser)',
+			'WHERE has(connection.KN_ID) AND connection.KN_ID = {KN_ID} '
 			'RETURN comment, r, commentUser'
 		].join('\n');
 
