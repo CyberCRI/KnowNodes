@@ -618,7 +618,11 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
 }
 
 
-function ConnectionCtrl($scope) {
+function ConnectionCtrl($scope, $location) {
+
+    $scope.goToUrl = function (something) {
+        $location.path(something);
+    };
     //define a way for a node to know color based on connectionType
     $scope.BgColorClass = 'explain';
     $scope.colorSwitcher = function () {
