@@ -102,7 +102,10 @@ app.resource('scrape');
 app.post('/admin/indexAllResources', adminController.indexAllResources);
 app.post('/admin/indexAllConnections', adminController.indexAllConnections);
 
-app.resource('users');
+app.resource('users', function() {
+    this.member.get('getUserTriplets');
+});
+
 app.resource('edges');
 app.resource('comments', function () {
     this.member.get('getRelatedComments');

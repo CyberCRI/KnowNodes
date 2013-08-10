@@ -18,6 +18,13 @@ angular.module('KnowNodesApp.directives', [])
         };
     })
 
+    .directive('infoLine', function () {
+        return {
+            restrict: "A",
+            templateUrl: 'partials/directiveTemplates/infoLine',
+            replace: true
+        };
+    })
     .directive('concept', function () {
         return {
             restrict: 'EAC',
@@ -182,6 +189,9 @@ angular.module('KnowNodesApp.directives', [])
 
                 scope.userDisplayName = function () {
                     return $rootScope.userDisplayName;
+                };
+                scope.userKN_ID = function () {
+                    return $rootScope.user.KN_ID;
                 };
             },
             templateUrl: 'partials/directiveTemplates/topBarLogin',
