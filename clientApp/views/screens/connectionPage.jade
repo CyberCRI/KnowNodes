@@ -11,25 +11,15 @@ div.container-fluid
             div(start-resource)
             div(connection)
             div(end-resource)
-            p.info-line
-              em.info-time {{(triplet.connection.__CreatedOn__) | timeAgo}} by
-              em.info-name {{triplet.connection.creator.firstName}} {{triplet.connection.creator.lastName}}
-              span
-                a.pull-right.info-comment(ng-href="/connection/:{{triplet.connection.KN_ID}}", ng-switch on="triplet.commentCount")
-                  span.info-comment-exist(ng-switch-default) {{triplet.commentCount}} comments
-                  span(ng-switch-when="0") comment
+            div(info-line)
+
         div(ng-switch-when="true")
           div.triplet
             div(end-resource)
             div(connection)
             div(start-resource)
-            p
-              em.info-time {{(triplet.connection.__CreatedOn__) | timeAgo}} by
-              em.info-name {{triplet.connection.creator.firstName}} {{triplet.connection.creator.lastName}}
-              span
-                a.pull-right.info-comment(ng-href="/connection/:{{triplet.connection.KN_ID}}", ng-switch on="triplet.commentCount")
-                  span.info-comment-exist(ng-switch-default) {{triplet.commentCount}} comments
-                  span(ng-switch-when="0") comment
+            div(info-line)
+
 
     div.span21.offset3
       div(comment-section='{{knownode.connection.KN_ID}}')
