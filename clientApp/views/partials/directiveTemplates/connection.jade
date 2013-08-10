@@ -1,4 +1,4 @@
-div.l-connection(ng-class="colorSwitcher()")
+div.l-connection(ng-class="colorSwitcher()", ng-click="goToUrl('/connection/' + triplet.connection.KN_ID)")
   div.connection-title
     a(ng-href="/connection/{{triplet.connection.KN_ID}}") {{triplet.connection.title}}
     div(vote)

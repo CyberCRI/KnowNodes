@@ -7,7 +7,7 @@ function TopBarCtrl($scope, $location, resource) {
         $scope.mapButton = (path === 'concept' || path === 'article' || path === 'resource');
         $scope.resourceButton = (current.$route.controller.name === "MapCtrl");
 
-        $scope.resourceId = current.params.id;
+        $scope.resourceIdf = current.params.id;
     });
 
     $scope.$on('searchResultSelected', function (event, result) {
@@ -179,11 +179,15 @@ function MapCtrl($scope, $routeParams) {
 
 function TripletListCtrl($scope, $routeParams, $location, userService, resource, wikipedia, wikinode) {
 
+    $scope.goToUrl = function (something) {
+        $location.path(something);
+    };
+
     $scope.orderProp = "-(upvotes-downvotes)";
     // First, check whether the resource is a KN Resource or a Wikipedia Article
     if ($routeParams.id != null) {
         // KN Resource
-        resource.get($routeParams.id).then(function (resource) {
+            resource.get($routeParams.id).then(function (resource) {
             $scope.concept = resource;
 
             $scope.rootNodeExists = true;
@@ -253,7 +257,11 @@ function TripletListCtrl($scope, $routeParams, $location, userService, resource,
 }
 
 
-function IndexCtrl($scope, $http, userService) {
+function IndexCtrl($scope, $http, userService, $location) {
+
+    $scope.goToUrl = function (something) {
+        $location.path(something);
+    };
 
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
     $scope.knownodeList = {};
