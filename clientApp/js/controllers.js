@@ -7,7 +7,7 @@ function TopBarCtrl($scope, $location, resource) {
         $scope.mapButton = (path === 'concept' || path === 'article' || path === 'resource');
         $scope.resourceButton = (current.$route.controller.name === "MapCtrl");
 
-        $scope.resourceIdf = current.params.id;
+        $scope.resourceId = current.params.id;
     });
 
     $scope.$on('searchResultSelected', function (event, result) {
