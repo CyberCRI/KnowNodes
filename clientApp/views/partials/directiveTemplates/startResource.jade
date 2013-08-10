@@ -1,4 +1,4 @@
-div.resource
+div.resource(ng-click="goToUrl('/article/' + triplet.startResource.KN_ID)")
   div.resource-title
     a(ng-href="/article/{{triplet.startResource.KN_ID}}", title="{{triplet.startResource.title}}") {{triplet.startResource.title}}
   a.source-button(ng-href="{{triplet.startResource.url}}", title="{{triplet.startResource.url}}", ng-show="triplet.startResource.url", target="_blank") source
