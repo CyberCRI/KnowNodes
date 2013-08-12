@@ -96,6 +96,7 @@ function LoginCtrl($scope, $http, $location, $rootScope, $window, loginModal) {
                     return $scope.loginerror = true;
                 }
                 $rootScope.user = data;
+                console.log("user:",$rootScope.user);
                 if($scope.newUser === true) {
                     $location.path('/');
                 } else {
@@ -726,4 +727,21 @@ function VoteCtrl($scope, $http, loginModal) {
 
 
     };
+}
+
+function UserProfilePageCtrl($scope, $location, $http, $routeParams, userService) {
+
+    $scope.knownodeList = {};
+    $scope.isUserLoggedIn = userService.isUserLoggedIn();
+
+    $http.get("/connections/"+ $routeParams.id + "/getTripletsByUserId").success(function (data, status, headers, config) {
+        $scope.knownodeList = data;
+        console.log("knownodeList:",data);
+    });
+
+    $scope.goToUrl = function (something) {
+        $location.path(something);
+    };
+
+    $scope.orderProp = "-(upvotes - downvotes)";
 }

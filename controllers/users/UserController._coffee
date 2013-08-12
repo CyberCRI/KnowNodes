@@ -1,6 +1,7 @@
 Controller = require '../Controller'
 ConnectionDAO = require '../../dao/ConnectionDAO'
-Connection = require '../../model/Connection'
+Connection = require '../../model/User'
+
 
 module.exports = class ConnectionController extends Controller
 
