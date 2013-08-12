@@ -521,7 +521,7 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
                         var addResource = true;
                         // First item is the create resource option
                         for (i = 0; i < results.resources.length; i++) {
-                            suggestions.results.push({id: results.resources[i].KN_ID, text: results.resources[i].title});
+                            suggestions.results.push({id: results.resources[i].KN_ID, text: results.resources[i].title, type: 'Knownodes resource'});
                             if (query.term.toLowerCase() == results.resources[i].title.toLowerCase()) {
                                 addResource = false;
                             }
@@ -563,6 +563,9 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
             }
             if (node.type === 'Wikipedia Article') {
                 markup += "<td class='suggestion-image'><img src='img/wikipedia-icon.png'/></td>";
+            }
+            if (node.type === 'Knownodes resource') {
+                markup += "<td class='suggestion-image'><img src='img/knownodes-logo.png'/></td>";
             }
             markup += "</tr></table>"
             return markup;
