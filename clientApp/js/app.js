@@ -70,6 +70,10 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['angulartics', 'angular
                 templateUrl: 'screens/connectionPage',
                 controller: ConnectionPageCtrl
             }).
+            when('/user/:id', {
+                templateUrl: 'screens/userProfilePage',
+                controller: UserProfilePageCtrl
+            }).
             otherwise({
                 redirectTo: '/'
             });

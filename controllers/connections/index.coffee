@@ -24,3 +24,6 @@ module.exports =
 
   hottestTriplets: (request, response) ->
     new ConnectionController(request).hottestTriplets(Callback.bind(response))
+
+  getTripletsByUserId: (request, response) ->
+    new ConnectionController(request).getTripletsByUserId(Callback.bind(response))
