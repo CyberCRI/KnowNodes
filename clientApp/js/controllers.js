@@ -730,14 +730,18 @@ function VoteCtrl($scope, $http, loginModal) {
 }
 
 function UserProfilePageCtrl($scope, $location, $http, $routeParams, userService) {
+
+    $scope.knownodeList = {};
+    $scope.isUserLoggedIn = userService.isUserLoggedIn();
+
+    $http.get("/connections/"+ $routeParams.id + "/getTripletsByUserId").success(function (data, status, headers, config) {
+        $scope.knownodeList = data;
+        console.log("knownodeList:",data);
+    });
+
     $scope.goToUrl = function (something) {
         $location.path(something);
     };
 
-    $scope.isUserLoggedIn = userService.isUserLoggedIn();
-    $scope.knownodeList = {};
     $scope.orderProp = "-(upvotes - downvotes)";
-    $http.get("/users/getUserConnections").success(function (data, status, headers, config) {
-        $scope.knownodeList = data;
-    });
 }

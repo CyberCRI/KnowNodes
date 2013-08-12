@@ -18,3 +18,7 @@ module.exports = class ConnectionController extends Controller
 
   hottestTriplets: (_) ->
     @dao.hottestTriplets(@getLoggedUserIdIfExists(), _)
+
+  getTripletsByUserId: (_) ->
+    console.log("controllerProfile")
+    @dao.getTripletsByUserId(@getId() ,@getLoggedUserIdIfExists(), _)

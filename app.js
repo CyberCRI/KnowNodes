@@ -91,7 +91,9 @@ app.resource('connections', function() {
     this.collection.post('latestTriplets');
     this.collection.post('hottestTriplets');
     this.member.get('getTripletByConnectionId');
+    this.member.get('getTripletsByUserId');
 });
+
 app.post('/vote/voteUp',voteController.voteUp );
 app.post('/vote/voteDown',voteController.voteDown );
 app.post('/vote/cancelVote',voteController.cancelVote );
@@ -101,10 +103,6 @@ app.resource('scrape');
 
 app.post('/admin/indexAllResources', adminController.indexAllResources);
 app.post('/admin/indexAllConnections', adminController.indexAllConnections);
-
-app.resource('users', function() {
-    this.member.get('getUserTriplets');
-});
 
 app.resource('edges');
 app.resource('comments', function () {

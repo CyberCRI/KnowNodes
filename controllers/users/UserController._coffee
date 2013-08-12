@@ -2,6 +2,7 @@ Controller = require '../Controller'
 ConnectionDAO = require '../../dao/ConnectionDAO'
 Connection = require '../../model/User'
 
+
 module.exports = class ConnectionController extends Controller
 
   constructor: (@request) ->
@@ -18,3 +19,7 @@ module.exports = class ConnectionController extends Controller
 
   hottestTriplets: (_) ->
     @dao.hottestTriplets(@getLoggedUserIdIfExists(), _)
+
+  getTripletsByUserId: (_) ->
+    console.log("controllerProfile")
+    @dao.getTripletsByUserId(@getId() ,@getLoggedUserIdIfExists(), _)
