@@ -100,6 +100,8 @@ app.post('/vote/cancelVote',voteController.cancelVote );
 
 
 app.resource('scrape');
+app.resource('users');
+
 
 app.post('/admin/indexAllResources', adminController.indexAllResources);
 app.post('/admin/indexAllConnections', adminController.indexAllConnections);
