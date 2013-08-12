@@ -74,7 +74,7 @@ module.exports = class Connection extends NodeWrapper
       nodes.push toPush
     nodes
 
-  @getTripletByUserId: (userProfileId, userId, _) ->
+  @getTripletsByUserId: (userProfile, user, _) ->
     nodes = []
 
     if user == "no user"
@@ -83,12 +83,9 @@ module.exports = class Connection extends NodeWrapper
       user.node.id = 0
 
     query = """
-            START userProfile=node({userProfileNodeId}), user=node(#{user.node.id})
-            MATCH (userProfile) -[:CREATED_BY]-> (connection)
-            WITH connection
-            WHERE connection.nodeType = "kn_Edge"
-            MATCH (startResource) -[:RELATED_TO]-> (connection) -[:RELATED_TO]-> (endResource),
-            (connection) -[:CREATED_BY]- (connectionCreator),
+            START connectionCreator=node({userProfileNodeId}), user=node(#{user.node.id})
+            MATCH (connection) -[:CREATED_BY]- (connectionCreator),
+            (startResource) -[:RELATED_TO]- (connection) -[:RELATED_TO]-> (endResource),
             (startResource) -[:CREATED_BY]- (startResourceCreator),
             (endResource) -[:CREATED_BY]- (endResourceCreator),
             (connection) -[?:COMMENT_OF]- (connectionComments),
@@ -101,7 +98,8 @@ module.exports = class Connection extends NodeWrapper
             WHERE startResource <> endResource
             AND startResourceOtherConnections <> connection
             AND endResourceOtherConnections <> connection
-            RETURN connection, startResource, endResource, connectionCreator, startResourceCreator, endResourceCreator, connectionCreator,
+            AND connection.nodeType = "kn_Edge"
+            RETURN connection, startResource, endResource, connectionCreator, startResourceCreator, endResourceCreator,
             count(distinct connectionComments) AS commentCount,
             count(distinct upvotes) AS upvoteCount,
             count(distinct downvotes) AS downvoteCount,
@@ -109,7 +107,6 @@ module.exports = class Connection extends NodeWrapper
             count(distinct endResourceOtherConnections) AS endResourceOtherConnectionCount,
             hasVotedUp, hasVotedDown
             """
-    userProfile = @find(userProfileId, _)
     params =
       userProfileNodeId: userProfile.node.id
 

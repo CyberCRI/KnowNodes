@@ -44,3 +44,11 @@ module.exports = class ConnectionDAO
     else
       user = User.find(userId, _)
     Connection.hottestTriplets(user, _)
+
+  getTripletsByUserId: (profileUserId, currentUserId, _) ->
+    if currentUserId == "no user"
+      currentUser = currentUserId
+    else
+      currentUser = User.find(currentUserId, _)
+    profileUser = User.find(profileUserId, _)
+    Connection.getTripletsByUserId(profileUser, currentUser, _)

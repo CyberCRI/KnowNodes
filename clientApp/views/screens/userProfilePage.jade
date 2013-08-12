@@ -6,8 +6,8 @@ div.container-fluid
 
     div.location-info.span9.offset3
       accordion
-        accordion-group(heading="{{user.firstname + user.lastname}}", is-open='true')
-          div.knownode-body
+        accordion-group(heading="{{knownodeList[0].connection.creator.firstName + knownodeList[0].connection.creator.lastName}}", is-open='true')
+          //div.knownode-body
             div(ng-bind-html-unsafe="user.bodyText")
     div.span21.offset3.sort-div
       span.btn.btn-link.sort-header sort:
