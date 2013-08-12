@@ -43,7 +43,7 @@ module.exports = class Connection extends NodeWrapper
       WHERE startResource <> endResource
       AND startResourceOtherConnections <> connection
       AND endResourceOtherConnections <> connection
-      RETURN connection, startResource, endResource, connectionCreator, startResourceCreator, endResourceCreator, connectionCreator,
+      RETURN connection, startResource, endResource, startResourceCreator, endResourceCreator, connectionCreator,
       count(distinct connectionComments) AS commentCount,
       count(distinct upvotes) AS upvoteCount,
       count(distinct downvotes) AS downvoteCount,
@@ -102,7 +102,7 @@ module.exports = class Connection extends NodeWrapper
       WHERE startResource <> endResource
       AND startResourceOtherConnections <> connection
       AND endResourceOtherConnections <> connection
-      RETURN upvote, downvote, connection, startResource, endResource, connectionCreator, startResourceCreator, endResourceCreator, connectionCreator,
+      RETURN upvote, downvote, connection, startResource, endResource, startResourceCreator, endResourceCreator, connectionCreator,
       count(connectionComments) AS connectionCommentsCount,
       count(startResourceOtherConnections) AS startResourceOtherConnectionsCount,
       count(endResourceOtherConnections) AS endResourceOtherConnectionsCount
@@ -152,7 +152,7 @@ module.exports = class Connection extends NodeWrapper
       WHERE startResource <> endResource
       AND startResourceOtherConnections <> connection
       AND endResourceOtherConnections <> connection
-      RETURN connection, startResource, endResource, connectionCreator, startResourceCreator, endResourceCreator, connectionCreator,
+      RETURN connection, startResource, endResource, startResourceCreator, endResourceCreator, connectionCreator,
       count(distinct connectionComments) AS commentCount,
       count(distinct upvotes) AS upvoteCount,
       count(distinct downvotes) AS downvoteCount,
