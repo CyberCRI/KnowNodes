@@ -664,9 +664,6 @@
                margin-left: 0 !important;
       }
 
-
-
-
       // Space grid-sized controls properly if multiple per line
       .controls-row [class*="span"] + [class*="span"] {
         margin-left: @fluidGridGutterWidth;
@@ -677,6 +674,26 @@
       .offsetX (@gridColumns);
     }
 
+    .row-fluid.hack {
+      width: 100%;
+      .clearfix();
+      [class*="span"] {
+        .input-block-level();
+        float: left;
+        float: left;
+        margin-left: @fluidGridGutterWidth;
+        *margin-left: @fluidGridGutterWidth - (.5 / @gridRowWidth * 100 * 1%);
+      }
+
+      // Space grid-sized controls properly if multiple per line
+      .controls-row [class*="span"] + [class*="span"] {
+        margin-left: @fluidGridGutterWidth;
+      }
+
+      // generate .spanX and .offsetX
+      .spanX (@gridColumns);
+      .offsetX (@gridColumns);
+    }
   }
 
   .input(@gridColumnWidth, @gridGutterWidth) {

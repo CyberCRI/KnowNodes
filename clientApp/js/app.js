@@ -19,15 +19,15 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['angulartics', 'angular
                 controller: IndexCtrl
             }).
             when('/about', {
-                templateUrl: 'partials/about',
+                templateUrl: 'screens/about',
                 controller: StaticPageCtrl
             }).
             when('/terms', {
-                templateUrl: 'partials/terms',
+                templateUrl: 'screens/terms',
                 controller: StaticPageCtrl
             }).
             when('/newUserGuide', {
-                templateUrl: 'partials/newUserGuide',
+                templateUrl: 'screens/newUserGuide',
                 controller: StaticPageCtrl
             }).
             when('/login', {
