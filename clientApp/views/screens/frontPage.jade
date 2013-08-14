@@ -20,12 +20,35 @@ div.container-fluid
         img.intro-img(src="/img/fg-frontpage.png")
         h4 Connections from you and other generate a collective knowledge network.
   div.row-fluid
-    div.span21.offset3.sort-div
-      h2 Top Connections
-      span.btn.btn-link.sort-header sort:
-      div.btn-group(data-toggle="buttons-radio")
-        button.btn.btn-link.active(type="button", ng-click="orderProp='-(upvotes - downvotes)'") Popular
-        button.btn.btn-link(type="button", ng-click="orderProp='-(connection.hotness)'") Hot
-        button.btn.btn-link(type="button", ng-click="orderProp='-connection.__CreatedOn__'") New
+    div.span9.offset3(style="margin:0px;")
+      div(triplet-input).input-interface
+    div.location-info.span9.offset3
+      accordion
+        accordion-group(heading="Below is a list of top connections other people have created. You can: ", is-open='true')
+          div.knowode-body
+            p
+              strong Explore
+              span &nbsp;any resource or connection by clicking on them
+            p
+              strong Create
+              span &nbsp;your own connections
+            p
+              strong Vote
+              span &nbsp;on the quality of the connection
+            p
+              strong Comment
+              span &nbsp;about any connection
+            p
+              strong Sort
+              span &nbsp;the results according to popularity or date
+            p
+              strong Search
+              span &nbsp;our database using the search box on the top
 
-    div(triplet-list)
+  div.span21.offset3.sort-div(style="margin-left:0px")
+    span.btn.btn-link.sort-header sort:
+    div.btn-group(data-toggle="buttons-radio")
+      button.btn.btn-link.active(type="button", ng-click="orderProp='-(upvotes - downvotes)'") Popular
+      button.btn.btn-link(type="button", ng-click="orderProp='-connection.__CreatedOn__'") New
+        //button.btn.btn-link(type="button", ng-click="orderProp='votes'") Popular
+  div(triplet-list)

@@ -2,7 +2,7 @@ div.container-fluid
   div.topbar-gap &nbsp
   div.row-fluid
     div.span9.offset3(style="margin:0px;")
-      triplet-input.input-interface
+      div(triplet-input).input-interface
 
     div.connection-triplet.span9.offset3
       div(ng-repeat="triplet in knownodeList | orderBy: orderProp", ng-switch on="triplet.otherResource.id == triplet.connection.fromNodeId")
