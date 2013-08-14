@@ -143,10 +143,14 @@ app.post('/logout', function(req, res){
 
 app.post('/login', function (req, res, next) {
     passport.authenticate('local', function (err, user, info) {
-        if (err) { return next(err); }
+        if (err) {
+            console.log("login error:", err);
+            return next(err); }
         if (!user) {
             //req.flash('error', info.message);
             //return res.redirect('/login')
+            console.log("no user:", err);
+
             return res.send('ERROR');
         }
         req.logIn(user, function (err) {
