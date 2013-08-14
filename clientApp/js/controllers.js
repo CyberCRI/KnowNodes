@@ -89,15 +89,12 @@ function LoginCtrl($scope, $http, $location, $rootScope, $window, loginModal) {
     };
 
     $scope.performLogin = function () {
-        console.log("loginform:", $scope.loginForm);
         $http.post('/login', $scope.loginForm).
             success(function (data, status, headers, config) {
                 if (data === 'ERROR') {
-                    console.log("error!");
                     return $scope.loginerror = true;
                 }
                 $rootScope.user = data;
-                console.log("user:",$rootScope.user);
                 if($scope.newUser === true) {
                     $location.path('/');
                 } else {
@@ -501,7 +498,6 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
                             if (status == 404) {
                                 scrape.url(query.term)
                                     .success(function (data) {
-                                        console.log("scrapeUrl result", data);
                                         query.callback({ results: [
                                             { title: data.title, body: data.body, image: data.image, url: query.term, type: 'Link to Resource', id: "scrape" }
                                         ]});})
@@ -694,14 +690,12 @@ function VoteCtrl($scope, $http, loginModal) {
                 $scope.downActive = false;
                 $http.post('/vote/voteUp/',{connectionId:$scope.triplet.connection.KN_ID});
                 $scope.triplet.upvotes += 1;
-                console.log("voteUp")
             }
             if($scope.upActive === false) {
                 $scope.downActive = false;
                 $scope.upVoteClass = "";
                 $http.post('/vote/cancelVote/',{connectionId:$scope.triplet.connection.KN_ID});
                 $scope.triplet.upvotes -= 1;
-                console.log("voteUpCancelled")
             }
         }
         if(voteType === "down") {
@@ -710,14 +704,12 @@ function VoteCtrl($scope, $http, loginModal) {
                 $scope.upActive = false;
                 $http.post('/vote/voteDown/',{connectionId:$scope.triplet.connection.KN_ID});
                 $scope.triplet.downvotes += 1;
-                console.log("voteDown")
             }
             if($scope.downActive === false) {
                 $scope.upActive = false;
                 $scope.downVoteClass = "";
                 $http.post('/vote/cancelVote/',{connectionId:$scope.triplet.connection.KN_ID});
                 $scope.triplet.downvotes -= 1;
-                console.log("voteDownCancelled")
             }
         }
 
@@ -740,7 +732,6 @@ function UserProfilePageCtrl($scope, $location, $http, $routeParams, userService
 
     $http.get("/connections/"+ $routeParams.id + "/getTripletsByUserId").success(function (data, status, headers, config) {
         $scope.knownodeList = data;
-        console.log("knownodeList:",data);
     });
 
     $scope.goToUrl = function (something) {

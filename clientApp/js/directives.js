@@ -288,7 +288,7 @@ angular.module('KnowNodesApp.directives', [])
 
     .directive('tripletInput', ['$http', function ($http) {
         return {
-            restrict: 'E',
+            restrict: 'A',
             templateUrl: 'partials/directiveTemplates/tripletInput',
             controller: TripletInputCtrl,
             replace: true
