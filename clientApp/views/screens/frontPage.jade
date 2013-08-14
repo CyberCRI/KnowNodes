@@ -5,10 +5,11 @@ div.container-fluid
     div.alert.alert-block.intro-box.span21.offset3
       button.close(type="button", data-dismiss="alert") &times;
       div.span6
-        h4 Knownodes empowers you to share your knowledge.
+        h3 Knownodes is a collaborative platform for creating highly interactive connections between knowledge.
         br
-        h4 Every new connection you create helps to make knowledge more accessible for others.
-        a(href="/about") &nbspLearn more
+        h3 With each connection we create, we make the web a better place.
+
+        a.btn.btn-inverse(href="/about") &nbspLearn more
       h4.span15.offset1 Here's how it works:
       div.span5.offset1
         img.intro-img(src="/img/frontpage1.png")
@@ -18,10 +19,8 @@ div.container-fluid
         h4 You explain how the two are related.
       div.span5
         img.intro-img(src="/img/fg-frontpage.png")
-        h4 Connections from you and other generate a collective knowledge network.
+        h4 Connections from you and others generate a collective knowledge network.
   div.row-fluid
-    div.span9.offset3(style="margin:0px;")
-      div(triplet-input).input-interface
     div.location-info.span9.offset3
       accordion
         accordion-group(heading="Below is a list of top connections other people have created. You can: ", is-open='true')
@@ -44,6 +43,18 @@ div.container-fluid
             p
               strong Search
               span &nbsp;our database using the search box on the top
+            p
+              strong Visualize
+              span &nbsp;the connections and navigate them in a map
+            p
+              strong Share
+              span &nbsp;with others your knowledge
+            p
+              strong Learn
+              span &nbsp;unexpected new things
+
+    div.span9.offset3
+      div(triplet-input).input-interface
 
   div.span21.offset3.sort-div(style="margin-left:0px")
     span.btn.btn-link.sort-header sort:
