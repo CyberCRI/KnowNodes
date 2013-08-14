@@ -191,7 +191,12 @@ angular.module('KnowNodesApp.directives', [])
                     return $rootScope.userDisplayName;
                 };
                 scope.userKN_ID = function () {
-                    return $rootScope.user.KN_ID;
+                    if (!$rootScope.user) {
+                        return ""
+                    }
+                    else {
+                        return $rootScope.user.KN_ID;
+                    }
                 };
             },
             templateUrl: 'partials/directiveTemplates/topBarLogin',

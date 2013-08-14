@@ -1,11 +1,11 @@
 div.connection-vote-buttons
   div(ng-show="isUserLoggedIn")
     button.button-base.button-voteup(type="button", ng-click="vote('up')", ng-class="upVoteClass") +
-    p.vote-count {{triplet.upvotes-triplet.downvotes}}
+    p.vote-count {{1+triplet.upvotes-triplet.downvotes}}
     button.button-base.button-votedown(type="button", ng-click="vote('down')", ng-class="downVoteClass") -
   div(ng-hide="isUserLoggedIn")
     button.button-base.button-voteup(type="button", ng-click="showPrompt()", ng-class="upVoteClass") +
-    p.vote-count {{triplet.upvotes-triplet.downvotes}}
+    p.vote-count {{1+triplet.upvotes-triplet.downvotes}}
     button.button-base.button-votedown(type="button", ng-click="showPrompt()", ng-class="downVoteClass") -
     span.not-logged-prompt(ng-show="prompt") you need to be logged in to do that
   //div(ng-hide="isUserLoggedIn")

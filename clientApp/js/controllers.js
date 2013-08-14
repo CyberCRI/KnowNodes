@@ -83,16 +83,17 @@ function LoginCtrl($scope, $http, $location, $rootScope, $window, loginModal) {
                 $scope.loginForm.username = userForm.email;
                 $scope.loginForm.password = userForm.password;
                 $scope.newUser = true;
-                $scope.performLogin();
-                $location.path('/');
+                return $scope.performLogin();
             });
 
     };
 
     $scope.performLogin = function () {
+        console.log("loginform:", $scope.loginForm);
         $http.post('/login', $scope.loginForm).
             success(function (data, status, headers, config) {
                 if (data === 'ERROR') {
+                    console.log("error!");
                     return $scope.loginerror = true;
                 }
                 $rootScope.user = data;
