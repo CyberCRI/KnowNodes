@@ -9,6 +9,7 @@ module.exports = class ConnectionDAO
     @logger = new Logger('ConnectionDAO')
 
   create: (data, userId, _) ->
+
     startResource = Resource.find(data.fromNodeId, _)
     endResource = Resource.find(data.toNodeId, _)
     creator = User.find(userId, _)
