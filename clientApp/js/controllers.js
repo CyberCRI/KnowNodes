@@ -420,9 +420,15 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
             // Get source wikinode and create connection
             wikinode.getOrCreate($scope.startResource.title).success(function (createdStartResource) {
                 $scope.startResource = createdStartResource;
-                createConnection();
             });
-        } else if ($scope.endResource.type === 'Wikipedia Article') {
+        } else if ($scope.startResource.type === 'Link to Resource') {
+            // create url resource and create connection
+            delete $scope.startResource.type; // type is used only client-side, should not be persisted
+            resource.create($scope.startResource).then(function (createdStartResource) {
+                $scope.startResource = createdStartResource;
+            });
+        }
+        if ($scope.endResource.type === 'Wikipedia Article') {
             // Get target wikinode and create connection
             wikinode.getOrCreate($scope.endResource.title).success(function (createdEndResource) {
                 $scope.endResource = createdEndResource;

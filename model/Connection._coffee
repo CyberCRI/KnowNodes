@@ -14,6 +14,9 @@ module.exports = class Connection extends NodeWrapper
 
   # Overrides parent method to make sure the resource has a CREATED_BY relationship
   @create: (data, creator, _) ->
+    console.log("data:", data)
+    console.log("creator:", creator)
+
     data.active = true
     created = super(data, _)
     creator.setAsCreator(created, _)
