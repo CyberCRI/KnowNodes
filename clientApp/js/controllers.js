@@ -407,7 +407,7 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
         $scope.submitted = true;
         // TODO Handle case where connection direction is reversed
         // TODO Cleanup
-        formatStartResource()
+        formatStartResource();
         };
 
     function formatStartResource() {
@@ -424,7 +424,7 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
             // Get source wikinode and create connection
             wikinode.getOrCreate($scope.startResource.title).success(function (createdStartResource) {
                 $scope.startResource = createdStartResource;
-                formatEndResource()
+                formatEndResource();
             });
         } else if ($scope.startResource.type === 'Link to Resource') {
             console.log("startResource: ", $scope.startResource);
@@ -432,12 +432,15 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
             delete $scope.startResource.type; // type is used only client-side, should not be persisted
             resource.create($scope.startResource).then(function (createdStartResource) {
                 $scope.startResource = createdStartResource;
-                formatEndResource()
+                formatEndResource();
                 console.log("startResource2: ", createdStartResource);
 
             });
+        } else {
+            formatEndResource();
         }
     };
+
     function formatEndResource() {
 
 

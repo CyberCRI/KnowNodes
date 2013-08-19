@@ -11,6 +11,7 @@ angular.module('KnowNodesApp.services', [])
         };
 
         serviceReturned.getConnectedUser = function () {
+
             if ($rootScope.user) {
                 $rootScope.user.displayName = serviceReturned.getUserDisplayName();
             }
@@ -18,7 +19,8 @@ angular.module('KnowNodesApp.services', [])
         };
 
         serviceReturned.getUserDisplayName = function () {
-            if ($rootScope.user) {
+
+            if ($rootScope.user !=null) {
                 return $rootScope.user.firstName + " " + $rootScope.user.lastName;
             }
             return '';
