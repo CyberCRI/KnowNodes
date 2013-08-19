@@ -5,7 +5,8 @@ div.container-fluid(ng-controller="LoginCtrl")
       div.span12
         h2 Login
         div(class="text-error", ng-show='loginerror').span12
-          p We're in closed beta. If something with the username or password we provided isn't working. please contact us :)
+          p Something with the username or password you provided isn't working. Try again, or contact us at knownodes@gmail.com
+
         p
           label(for='username') eMail:
           input(ng-model='loginForm.username', name='username', type='email', autofocus, required, style="width:100%;")

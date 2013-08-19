@@ -163,7 +163,11 @@ angular.module('KnowNodesApp.services', [])
                 var deferred = $q.defer();
                 $http.post('/resources', resourceData)
                     .success(function (data, status, headers, config) {
+                        console.log("resourceData:", data);
                         deferred.resolve(data)
+                        console.log("resourceDataresolved:", data);
+
+
                     })
                     .error(function (data, status, headers) {
                         console.log('Resource creation failed with error code : ' + status);
@@ -171,7 +175,10 @@ angular.module('KnowNodesApp.services', [])
                         deferred.resolve(null);
                     });
                 ;
+                console.log("resourcePromise:", deferred.promise);
+
                 return deferred.promise;
+
             },
 
             delete: function (id) {

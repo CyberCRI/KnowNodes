@@ -407,6 +407,10 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
         $scope.submitted = true;
         // TODO Handle case where connection direction is reversed
         // TODO Cleanup
+        formatStartResource()
+        };
+
+    function formatStartResource() {
         if ($scope.startResource.type === 'Wikipedia Article' && $scope.endResource.type === 'Wikipedia Article') {
             // Get both wikinodes and create connection
             $q.all([wikinode.getOrCreate($scope.startResource.title),
@@ -420,14 +424,23 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
             // Get source wikinode and create connection
             wikinode.getOrCreate($scope.startResource.title).success(function (createdStartResource) {
                 $scope.startResource = createdStartResource;
+                formatEndResource()
             });
         } else if ($scope.startResource.type === 'Link to Resource') {
+            console.log("startResource: ", $scope.startResource);
             // create url resource and create connection
             delete $scope.startResource.type; // type is used only client-side, should not be persisted
             resource.create($scope.startResource).then(function (createdStartResource) {
                 $scope.startResource = createdStartResource;
+                formatEndResource()
+                console.log("startResource2: ", createdStartResource);
+
             });
         }
+    };
+    function formatEndResource() {
+
+
         if ($scope.endResource.type === 'Wikipedia Article') {
             // Get target wikinode and create connection
             wikinode.getOrCreate($scope.endResource.title).success(function (createdEndResource) {
@@ -450,6 +463,7 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
 
         var startResourceId = $scope.startResource.KN_ID;
         var endResourceId = $scope.endResource.KN_ID;
+        console.log("startID: ", $scope.startResource, "endId: ", $scope.endResource)
         connection.create(startResourceId, $scope.connectionTitle, $scope.connectionType, endResourceId)
             .success(function (data, status) {
                 $route.reload();
