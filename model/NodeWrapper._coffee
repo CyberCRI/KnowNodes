@@ -106,6 +106,12 @@ module.exports = class NodeWrapper
     if value?
       @node.index(@getNodeType(), key, value.toLowerCase(), _)
 
+  getProperty: (key, _) ->
+    return @node.data[key]
+
+  setProperty: (key, value, _) ->
+    @node.data[key] = value
+
   getRelationshipWith: (target, relationshipType, _) ->
     query = [
       "START user = node({sourceId}), target = node({targetId})",

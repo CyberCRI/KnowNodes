@@ -6,7 +6,7 @@ var express = require('express')
   , adminController = require('./controllers/admin/index')
   , voteController = require('./controllers/vote/index')
 
-    , Resource = require('express-resource-new')
+  , Resource = require('express-resource-new')
   //, Resource = require('express-resource')
   , http = require('http')
   , passport = require('passport')
@@ -105,6 +105,7 @@ app.resource('users');
 
 app.post('/admin/indexAllResources', adminController.indexAllResources);
 app.post('/admin/indexAllConnections', adminController.indexAllConnections);
+app.post('/admin/hashAllPasswords', adminController.hashAllPasswords);
 
 app.resource('edges');
 app.resource('users');
@@ -151,6 +152,7 @@ app.post('/login', function (req, res, next) {
             //return res.redirect('/login')
             console.log("no user:", err);
 
+            // FIXME send an explicit HTTP code
             return res.send('ERROR');
         }
         req.logIn(user, function (err) {

@@ -33,7 +33,9 @@
         "request":"2.21.0",
         "loggly": "0.3.11",
         "less": "1.4.0",
-        "validator": "latest"
+        "validator": "latest",
+        "node-uuid": "latest",
+        "bcrypt": "latest"
     },
     "engines": {
         "node": "0.8.x"
