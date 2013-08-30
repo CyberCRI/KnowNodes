@@ -8,7 +8,10 @@
         nodemailer = require('nodemailer'),
 
         LOG = require('../modules/log'),
+        // TODO Remove reference to deprecated DB
         DB = require('../DB/knownodeDB'),
+        bcrypt = require('bcrypt'),
+        User = require('../model/User')
 
         basicURL = 'http://www.knownodes.com/',
         //basicURL = 'http://localhost:3000/',
@@ -48,18 +51,17 @@
             return done(null, id);
         });
 
-
         passport.use(new LocalStrategy(
             function (email, password, done) {
-                process.nextTick(function () {
-                    findByEmail(email, null, function (err, user) {
-                        if (err) { return done(err); }
-                        if (!user) { return done(null, false); }
-                        if (user.password !== password) { return done(null, false); }
-
-
+                findByEmail(email, null, function(err, user) {
+                    if (err) { return done(err); }
+                    if (!user) { return done(null, false); }
+                    var isPasswordCorrect = bcrypt.compareSync(password, user.password);
+                    if (isPasswordCorrect) {
                         return done(null, user);
-                    });
+                    } else {
+                        return done(null, false);
+                    }
                 });
             }
         ));
