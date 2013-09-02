@@ -23,5 +23,6 @@ module.exports = class AdminController extends Controller
     for user in users
       password = user.getProperty('password', _)
       if (password? and not (password.indexOf('$2a$04$') is 0)) # Make sure password is not already hashed
-        hash = bcrypt.hashSync(password, 4)
-        console.log hash
+        hashedPassword = bcrypt.hashSync(password, 4)
+        user.setProperty('password', hashedPassword, _)
+        user.save _
