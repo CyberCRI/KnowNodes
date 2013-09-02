@@ -55,7 +55,7 @@ module.exports = class User extends NodeWrapper
   #      specifying the indexed fields of an entity should be declarative
   index: (_) ->
     super _
-    indexProperty('email', _)
+    @indexTextProperty('email', _)
 
   save: (_) ->
     super _
