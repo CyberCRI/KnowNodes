@@ -9,3 +9,5 @@ module.exports = class UserValidator extends NodeValidator
   validate: (data, _) ->
     super data
     @check(data.__CreatedOn__).notNull().isInt()
+    @check(data.email).notEmpty()
+    @check(data.password).notEmpty()

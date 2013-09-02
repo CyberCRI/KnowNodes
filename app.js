@@ -100,7 +100,10 @@ app.post('/vote/cancelVote',voteController.cancelVote );
 
 
 app.resource('scrape');
-app.resource('users');
+
+app.resource('users', function() {
+    this.member.get('findByEmail');
+});
 
 
 app.post('/admin/indexAllResources', adminController.indexAllResources);

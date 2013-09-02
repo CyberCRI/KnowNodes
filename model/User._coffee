@@ -2,6 +2,7 @@ NodeWrapper = require './NodeWrapper'
 Type = require './Type'
 UserValidator = require './validation/userValidator'
 cache = require 'memory-cache'
+bcrypt = require 'bcrypt'
 
 module.exports = class User extends NodeWrapper
 
@@ -15,6 +16,11 @@ module.exports = class User extends NodeWrapper
 
   @wrap: (node) -> new User(node)
 
+  @create: (data, _) ->
+    hashedPassword = bcrypt.hashSync(data.password, 4)
+    data.password = hashedPassword
+    super(data, _)
+
   @findById: (id, _) ->
     user = cache.get 'USER_' + id
     if not user?
@@ -24,6 +30,9 @@ module.exports = class User extends NodeWrapper
       user = new User(userNode)
       cache.put('USER_' + user.getId(), user, 1000)
     return user
+
+  @findByEmail: (email, _) ->
+    @findByTextProperty('email', _)
 
   ###
         INSTANCE METHODS
@@ -41,6 +50,12 @@ module.exports = class User extends NodeWrapper
 
   validate: ->
     new UserValidator().validate(@node.data)
+
+  # TODO Instead of having to override the index() method,
+  #      specifying the indexed fields of an entity should be declarative
+  index: (_) ->
+    super _
+    indexProperty('email', _)
 
   save: (_) ->
     super _
