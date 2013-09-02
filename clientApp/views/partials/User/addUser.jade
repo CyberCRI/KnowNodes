@@ -2,7 +2,7 @@ div.subheader
   div.topbar-gap &nbsp
   div.span23.offset1
     h2.subheader Register
-    form(ng-submit='submitUser(user)')
+    form(name="loginForm", ng-submit='submitUser(user)')
       p
         label(for='email') Your eMail:
         input(type='email', ng-model='user.email', name='email', required)

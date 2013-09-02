@@ -1,25 +1,18 @@
 Controller = require '../Controller'
-ConnectionDAO = require '../../dao/ConnectionDAO'
-Connection = require '../../model/User'
+UserDAO = require '../../dao/UserDAO'
+User = require '../../model/User'
 
-
-module.exports = class ConnectionController extends Controller
+module.exports = class UserController extends Controller
 
   constructor: (@request) ->
-    super(@request, new ConnectionDAO())
+    super(@request, new UserDAO())
 
   getId: ->
-    @request.params.connection
+    @request.params.user
 
-  getTripletByConnectionId: (_) ->
-    @dao.getTripletByConnectionId(@getId(), @getLoggedUserIdIfExists(), _)
+  create: (_) ->
+    User.create(@request.body, _)
 
-  latestTriplets: (_) ->
-    Connection.latestTriplets _
-
-  hottestTriplets: (_) ->
-    @dao.hottestTriplets(@getLoggedUserIdIfExists(), _)
-
-  getTripletsByUserId: (_) ->
-    console.log("controllerProfile")
-    @dao.getTripletsByUserId(@getId() ,@getLoggedUserIdIfExists(), _)
+  findByEmail: (_) ->
+    email = @request.body.email
+    User.findByEmail(email, _)
