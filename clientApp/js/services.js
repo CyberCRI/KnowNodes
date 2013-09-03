@@ -2,31 +2,40 @@
 
 angular.module('KnowNodesApp.services', [])
 
-    .factory('userService', function ($rootScope) {
-        var serviceReturned = {};
+    .factory('userService', function ($rootScope, $http) {
+        return {
 
-        serviceReturned.isUserLoggedIn = function () {
-            return $rootScope.user
+            create: function (userData) {
+                return $http.post('/users', userData);
+            },
 
-        };
+            login: function (data) {
+                return $http.post('/login', data);
+            },
 
-        serviceReturned.getConnectedUser = function () {
+            logout: function () {
+                return $http.post('/logout');
+            },
 
-            if ($rootScope.user) {
-                $rootScope.user.displayName = serviceReturned.getUserDisplayName();
+            isUserLoggedIn: function () {
+                return $rootScope.user
+            },
+
+            getConnectedUser: function () {
+                if ($rootScope.user) {
+                    $rootScope.user.displayName = serviceReturned.getUserDisplayName();
+                }
+                return $rootScope.user;
+            },
+
+            getUserDisplayName: function () {
+                if ($rootScope.user !=null) {
+                    return $rootScope.user.firstName + " " + $rootScope.user.lastName;
+                }
+                return '';
             }
-            return $rootScope.user;
+
         };
-
-        serviceReturned.getUserDisplayName = function () {
-
-            if ($rootScope.user !=null) {
-                return $rootScope.user.firstName + " " + $rootScope.user.lastName;
-            }
-            return '';
-        };
-
-        return serviceReturned;
     })
 
     .factory('PassKnownode', function () {
