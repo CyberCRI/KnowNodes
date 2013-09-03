@@ -17,12 +17,3 @@ module.exports = class AdminController extends Controller
     connections = Connection.listAll(_)
     for connection in connections
       connection.index _
-
-  hashAllPasswords: (_) ->
-    users = User.listAll(_)
-    for user in users
-      password = user.getProperty('password', _)
-      if (password? and not (password.indexOf('$2a$04$') is 0)) # Make sure password is not already hashed
-        hashedPassword = bcrypt.hashSync(password, 4)
-        user.setProperty('password', hashedPassword, _)
-        user.save _
