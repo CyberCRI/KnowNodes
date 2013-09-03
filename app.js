@@ -108,7 +108,6 @@ app.resource('users', function() {
 
 app.post('/admin/indexAllResources', adminController.indexAllResources);
 app.post('/admin/indexAllConnections', adminController.indexAllConnections);
-app.post('/admin/hashAllPasswords', adminController.hashAllPasswords);
 
 app.resource('edges');
 app.resource('users');
