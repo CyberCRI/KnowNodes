@@ -72,24 +72,23 @@ function ChatCtrl($scope, $timeout, $rootScope, angularFireCollection) {
     };
 }
 
-function LoginCtrl($scope, $http, $location, $rootScope, $window, loginModal) {
+function LoginCtrl($scope, $location, $rootScope, $window, loginModal, userService) {
 
     $scope.loginForm = {};
     $scope.userForm = {};
     $scope.newUser;
     $scope.submitUser = function (userForm) {
-        $http.post('/users', userForm).
+        userService.create(userForm).
             success(function (data, status, headers, config) {
                 $scope.loginForm.username = userForm.email;
                 $scope.loginForm.password = userForm.password;
                 $scope.newUser = true;
                 return $scope.performLogin();
             });
-
     };
 
     $scope.performLogin = function () {
-        $http.post('/login', $scope.loginForm).
+        userService.login($scope.loginForm).
             success(function (data, status, headers, config) {
                 if (data === 'ERROR') {
                     return $scope.loginerror = true;
@@ -110,8 +109,8 @@ function LoginCtrl($scope, $http, $location, $rootScope, $window, loginModal) {
 }
 
 
-function LogoutCtrl($http, $location, $rootScope) {
-    $http.post('/logout').
+function LogoutCtrl($location, $rootScope, userService) {
+    userService.logout().
         success(function (data) {
             if (data.success === 'Logout') {
                 $rootScope.user = null;
