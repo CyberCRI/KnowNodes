@@ -142,7 +142,6 @@ module.exports = class Connection extends NodeWrapper
     return connection
 
   @latestTriplets: (user, _) ->
-    console.log("we are at the model")
     now = Date.now()
     aWeekAgo = now - 1000 * 60 * 60 * 24 * 7 # Seven days
     luceneQuery = "__CreatedOn__:[#{aWeekAgo} TO #{now}]"

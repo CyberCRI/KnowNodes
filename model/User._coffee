@@ -24,8 +24,7 @@ module.exports = class User extends NodeWrapper
   @findById: (id, _) ->
     user = cache.get 'USER_' + id
     if not user?
-      db = @getDB()
-      userNode = db.getIndexedNode('kn_User', 'KN_ID', id, _)
+      userNode = @DB.getIndexedNode('kn_User', 'KN_ID', id, _)
       # TODO Check user exists
       user = new User(userNode)
       cache.put('USER_' + user.getId(), user, 1000)
@@ -33,6 +32,18 @@ module.exports = class User extends NodeWrapper
 
   @findByEmail: (email, _) ->
     @findByTextProperty('email', _)
+
+  @karma: (id, _) ->
+    user = @findById(id, _)
+    query = """
+            START user=node(#{user.node.id})
+            MATCH (connection) -[:CREATED_BY]- (user),
+            (connection) -[?:VOTED_UP]- (upvotes),
+            (connection) -[?:VOTED_DOWN]- (downvotes)
+            WHERE connection.nodeType = 'kn_Edge'
+            RETURN count(upvotes) - count(downvotes) AS karma
+            """
+    @DB.query(query, null, _)[0]
 
   ###
         INSTANCE METHODS
@@ -46,7 +57,7 @@ module.exports = class User extends NodeWrapper
 
   setAsCreator: (created, _) ->
     properties = {creationDate: new Date()}
-    @node.createRelationshipTo(created.node, 'CREATED_BY', properties, _)
+    created.node.createRelationshipTo(@node, 'CREATED_BY', properties, _)
 
   validate: ->
     new UserValidator().validate(@node.data)
@@ -89,4 +100,3 @@ module.exports = class User extends NodeWrapper
   cancelVote: (target, _) ->
     @deleteRelationshipIfExists(target, 'VOTED_UP', _)
     @deleteRelationshipIfExists(target, 'VOTED_DOWN', _)
-

@@ -11,3 +11,6 @@ module.exports =
 
   findByEmail: (request, response) ->
     new UserController(request).findByEmail(Callback.bind(response))
+
+  karma: (request, response) ->
+    new UserController(request).karma(Callback.bind(response))

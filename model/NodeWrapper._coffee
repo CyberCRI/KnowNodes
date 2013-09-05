@@ -10,6 +10,7 @@ module.exports = class NodeWrapper
 
   @DB: new Neo4j.GraphDatabase(DBConf.getDBURL('neo4j'))
 
+  # TODO Remove
   @getDB: -> @DB
 
   @getNodeType: ->
