@@ -16,3 +16,6 @@ module.exports = class UserController extends Controller
   findByEmail: (_) ->
     email = @request.body.email
     User.findByEmail(email, _)
+
+  karma: (_) ->
+    User.karma(@getId(), _)
