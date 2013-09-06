@@ -7,4 +7,8 @@ module.exports = class UserDAO
     @logger = new Logger('UserDAO')
 
   read: (id, _) ->
-    User.find(id, _)
+    user = User.find(id, _)
+    delete user.node._data.data.password
+    karma = User.karma(id, _)
+    user.setProperty('karma', karma)
+    user

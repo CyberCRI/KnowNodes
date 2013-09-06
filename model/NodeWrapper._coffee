@@ -107,10 +107,10 @@ module.exports = class NodeWrapper
     if value?
       @node.index(@getNodeType(), key, value.toLowerCase(), _)
 
-  getProperty: (key, _) ->
+  getProperty: (key) ->
     return @node.data[key]
 
-  setProperty: (key, value, _) ->
+  setProperty: (key, value) ->
     @node.data[key] = value
 
   getRelationshipWith: (target, relationshipType, _) ->

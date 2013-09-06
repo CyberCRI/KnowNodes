@@ -18,4 +18,5 @@ module.exports = class UserController extends Controller
     User.findByEmail(email, _)
 
   karma: (_) ->
-    User.karma(@getId(), _)
+    karma = User.karma(@getId(), _)
+    return {karma: karma}

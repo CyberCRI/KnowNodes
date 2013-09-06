@@ -175,9 +175,6 @@ angular.module('KnowNodesApp.directives', [])
         return {
             restrict: 'AC',
             transclude: true,
-            scope: {
-                'href': '@'
-            },
             link: function (scope) {
                 scope.location = function (href) {
                     return href.substr(1) === $location.url().substr(1);
@@ -197,6 +194,9 @@ angular.module('KnowNodesApp.directives', [])
                     else {
                         return $rootScope.user.KN_ID;
                     }
+                };
+                scope.loggedUser = function () {
+                    return $rootScope.user;
                 };
             },
             templateUrl: 'partials/directiveTemplates/topBarLogin',
