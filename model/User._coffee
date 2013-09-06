@@ -43,7 +43,7 @@ module.exports = class User extends NodeWrapper
             WHERE connection.nodeType = 'kn_Edge'
             RETURN count(upvotes) - count(downvotes) AS karma
             """
-    @DB.query(query, null, _)[0]
+    @DB.query(query, null, _)[0].karma
 
   ###
         INSTANCE METHODS

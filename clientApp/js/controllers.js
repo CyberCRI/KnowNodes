@@ -89,7 +89,7 @@ function LoginCtrl($scope, $location, $rootScope, $window, loginModal, userServi
 
     $scope.performLogin = function () {
         userService.login($scope.loginForm).
-            success(function (data, status, headers, config) {
+            then(function (data, status, headers, config) {
                 if (data === 'ERROR') {
                     return $scope.loginerror = true;
                 }

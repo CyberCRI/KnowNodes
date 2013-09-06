@@ -2,7 +2,7 @@
 
 angular.module('KnowNodesApp.services', [])
 
-    .factory('userService', function ($rootScope, $http) {
+    .factory('userService', function ($rootScope, $http, $q) {
         return {
 
             create: function (userData) {
@@ -10,7 +10,16 @@ angular.module('KnowNodesApp.services', [])
             },
 
             login: function (data) {
-                return $http.post('/login', data);
+                var deferred = $q.defer();
+                var promise = $http.post('/login', data);
+                promise.then(function(result) {
+                    var user = result.data;
+                    $http.get('/users/' + user.KN_ID + '/karma').then(function(karma) {
+                        user.karma = karma.data.karma;
+                        deferred.resolve(user);
+                    });
+                });
+                return deferred.promise;
             },
 
             logout: function () {
