@@ -7,8 +7,8 @@ div.container-fluid
     div.location-info.span9.offset3
       accordion
         accordion-group(heading="{{knownodeList[0].connection.creator.firstName}} {{knownodeList[0].connection.creator.lastName}}", is-open='true')
-          //div.knownode-body
-            div(ng-bind-html-unsafe="user.bodyText")
+          div.knownode-body
+            div.help-hover(title="Total votes user have received from his connections") {{loggedUser().karma}} Connection points
     div.span21.offset3.sort-div
       span.btn.btn-link.sort-header sort:
       div.btn-group(data-toggle="buttons-radio")
