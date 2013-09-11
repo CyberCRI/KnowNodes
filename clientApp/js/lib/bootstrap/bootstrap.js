@@ -1210,6 +1210,7 @@
     })
   }
 
+
   $.fn.tooltip.Constructor = Tooltip
 
   $.fn.tooltip.defaults = {
@@ -1222,6 +1223,7 @@
   , delay: 0
   , html: false
   }
+
 
 }(window.jQuery);/* ===========================================================
  * bootstrap-popover.js v2.2.1

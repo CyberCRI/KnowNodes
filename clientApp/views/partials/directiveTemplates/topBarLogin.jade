@@ -2,6 +2,7 @@ span
   span(ng-hide="isLoggedIn()")
     a(href="/login") Login/Register
   a(ng-show="isLoggedIn()", ng-href="/user/{{userKN_ID()}}")
-    span Hello {{userDisplayName()}} ({{loggedUser().karma}})
+    span Hello {{userDisplayName()}}
+    span.help-hover(title="This number represents the total votes your connections have received") [{{loggedUser().karma}}]
       span
         a.topbar-logout(ng-show="isLoggedIn()", href="/logout") Logout
