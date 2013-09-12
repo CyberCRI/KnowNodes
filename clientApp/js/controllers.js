@@ -581,10 +581,10 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
                 markup += "<td class='suggestion-info'><div class='suggestion-title'>" + node.text + "</div></td>";
             }
             if (node.type === 'Wikipedia Article') {
-                markup += "<td class='suggestion-image'><img src='img/wikipedia-icon.png'/></td>";
+                markup += "<td class='suggestion-image'><img src='img/wikipedia-icon.png' style='height:1.5em; max-width:none;'/></td>";
             }
             if (node.type === 'Knownodes resource') {
-                markup += "<td class='suggestion-image'><img src='img/knownodes-logo.png'/></td>";
+                markup += "<td class='suggestion-image'><img src='img/knownodes-logo.png' style='height:1.5em; max-width:none;'/></td>";
             }
             markup += "</tr></table>"
             return markup;
