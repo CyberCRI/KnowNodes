@@ -23,12 +23,7 @@ module.exports = class ConnectionDAO
     connection.update(newData, _)
     return connection
 
-  delete: (id, _) ->
-    connection = Connection.find(id, _)
-    connection.delete _
-
   getTripletByConnectionId: (id, userId, _) ->
-    console.log("we are at the dao")
     if userId == "no user"
       user = userId
     else

@@ -3,10 +3,11 @@ module.exports = class Exception
 
   @Type =
     NOT_IMPLEMENTED: 'NotImplemented'
-    ENTITY_NOT_FOUND: 'EntityNotFound'
+    NOT_FOUND: 'NotFound'
     ILLEGAL_ARGUMENT: 'IllegalArgument'
     UNSUPPORTED_OPERATION: 'UnsupportedOperation'
-    UNAUTHORIZED_OPERATION: 'UnauthorizedOperation'
+    UNAUTHORIZED: 'Unauthorized'
+    FORBIDDEN: 'Forbidden'
 
   @exception: (type, message) ->
     type: type
@@ -17,10 +18,10 @@ module.exports = class Exception
     @exception(@Type.NOT_IMPLEMENTED, "You should implement method #{methodName}")
 
   @entityNotFound: (nodeType, id) ->
-    @exception(@Type.ENTITY_NOT_FOUND, "No #{nodeType} found for id : #{id}")
+    @exception(@Type.NOT_FOUND, "No #{nodeType} found for id : #{id}")
 
-  @entityNotFound: (nodeType, key, value) ->
-    @exception(@Type.ENTITY_NOT_FOUND, "No #{nodeType} found for #{key} : #{value}")
+  @notFound: (nodeType, key, value) ->
+    @exception(@Type.NOT_FOUND, "No #{nodeType} found for #{key} : #{value}")
 
   @illegalArgument: (argumentValue, methodName) ->
     @exception(@Type.ILLEGAL_ARGUMENT, "#{argumentValue} is not a valid value for method #{methodName}")
@@ -31,5 +32,8 @@ module.exports = class Exception
   @unsupportedOperation: (methodName, reason) ->
     @exception(@Type.UNSUPPORTED_OPERATION, "#{methodName} is not supported : #{reason}")
 
-  @unauthorizedOperation: (methodName, details) ->
-    @exception(@Type.UNAUTHORIZED_OPERATION, "#{methodName} is not allowed : #{details}")
+  @unauthorized: (methodName, details) ->
+    @exception(@Type.UNAUTHORIZED, "#{methodName} is not allowed, you should be logged in : #{details}")
+
+  @forbidden: (methodName, details) ->
+    @exception(@Type.FORBIDDEN, "#{methodName} is forbidden (requires higher authorization level) : #{details}")

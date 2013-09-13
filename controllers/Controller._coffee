@@ -1,4 +1,5 @@
 Error = require '../error/Error'
+User = require '../model/User'
 
 module.exports = class Controller
 
@@ -31,12 +32,13 @@ module.exports = class Controller
     @checkUserLoggedIn("getLoggedUserId")
     @request.user.KN_ID
 
+  getLoggedUser: (_) ->
+    User.wrap(@request.user)
+
   getLoggedUserIdIfExists: ->
     if @request.user?
-      console.log("user exists")
       return @request.user.KN_ID
     else
-      console.log("user does not exist")
-      return "no user"
+      return null
 
 

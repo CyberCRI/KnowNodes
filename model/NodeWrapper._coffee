@@ -8,10 +8,7 @@ module.exports = class NodeWrapper
         CLASS METHODS
   ###
 
-  @DB: new Neo4j.GraphDatabase(DBConf.getDBURL('neo4j'))
-
-  # TODO Remove
-  @getDB: -> @DB
+  @DB = new Neo4j.GraphDatabase(DBConf.getDBURL('neo4j'))
 
   @getNodeType: ->
     throw Error.notImplemented('NodeWrapper.getNodeType()')
@@ -73,6 +70,8 @@ module.exports = class NodeWrapper
     if not @node?
       throw Error.illegalArgument(@node, 'NodeWrapper.constructor()')
 
+  getDB: -> NodeWrapper.DB
+
   getId: ->
     @node.data['KN_ID']
 
@@ -92,6 +91,14 @@ module.exports = class NodeWrapper
 
   delete: (_) ->
     @node.delete _
+
+  forceDelete: (_) ->
+    query = """
+      START node=node(#{@node.id})
+      MATCH node-[rel]-()
+      DELETE node, rel
+    """
+    @getDB().query(query, _)
 
   index: (_) ->
     @indexProperty('KN_ID', _)
@@ -134,12 +141,11 @@ module.exports = class NodeWrapper
   deleteRelationshipIfExists: (target, relationshipType, _) ->
     rel = @getRelationshipWith(target, relationshipType, _)
     if rel?
-      console.log("rel deleted", rel)
       rel.del(_)
 
-    ###
-          METHODS TO IMPLEMENT
-    ###
+  ###
+        METHODS TO IMPLEMENT
+  ###
 
   getNodeType: ->
     @node.data['nodeType']

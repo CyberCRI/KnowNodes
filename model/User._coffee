@@ -59,6 +59,9 @@ module.exports = class User extends NodeWrapper
     properties = {creationDate: new Date()}
     created.node.createRelationshipTo(@node, 'CREATED_BY', properties, _)
 
+  isCreatorOf: (content, _) ->
+    @hasRelationshipWith(content, 'CREATED_BY', _)
+
   validate: ->
     new UserValidator().validate(@node.data)
 
