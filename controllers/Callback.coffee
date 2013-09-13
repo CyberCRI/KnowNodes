@@ -11,12 +11,15 @@ module.exports =
 
       handleCustomError = (error, response) ->
         switch error.type
-          when Error.Type.ENTITY_NOT_FOUND
-            getLogger().info(error.message)
-            response.json(404, error.message)
-          when Error.Type.UNAUTHORIZED_OPERATION
+          when Error.Type.UNAUTHORIZED
             getLogger().info(error.message)
             response.json(401, error.message)
+          when Error.Type.FORBIDDEN
+            getLogger().info(error.message)
+            response.json(403, error.message)
+          when Error.Type.NOT_FOUND
+            getLogger().info(error.message)
+            response.json(404, error.message)
           else
             getLogger().error(error.message)
             response.json(500, error.message)
