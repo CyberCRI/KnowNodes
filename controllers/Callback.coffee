@@ -11,6 +11,9 @@ module.exports =
 
       handleCustomError = (error, response) ->
         switch error.type
+          when Error.Type.BAD_REQUEST
+            getLogger().info(error.message)
+            response.json(400, error.message)
           when Error.Type.UNAUTHORIZED
             getLogger().info(error.message)
             response.json(401, error.message)

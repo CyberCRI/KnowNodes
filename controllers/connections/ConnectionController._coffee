@@ -11,6 +11,14 @@ module.exports = class ConnectionController extends Controller
   getId: ->
     @request.params.connection
 
+  create: (_) ->
+    if (not @request.body.fromNodeId?)
+      Error.badRequest('fromNodeId', 'String', @request.body.fromNodeId)
+    else if (not @request.body.toNodeId?)
+      Error.badRequest('toNodeId', 'String', @request.body.toNodeId)
+    else
+      super
+
   destroy: (_) ->
     # Make sure creator made the request
     connection = Connection.find(@getId(), _)

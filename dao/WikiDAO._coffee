@@ -18,7 +18,7 @@ module.exports = class WikiDAO
     try
       Resource.findByUrl(url, _) # Return resource if exists
     catch error
-      if error.isCustom and error.type is Error.Type.ENTITY_NOT_FOUND
+      if error.isCustom and error.type is Error.Type.NOT_FOUND
         # Resource does not exist, proceed to create it
         data =
           title: title
