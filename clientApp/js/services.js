@@ -128,6 +128,8 @@ angular.module('KnowNodesApp.services', [])
             var deferred = $q.defer();
             wikipedia.getArticle(resource.title).then(function (article) {
                 if (article != null) {
+                    if (resource.bodyText == null)
+                        resource.bodyText = article.extract;
                     resource.wikipediaLinks = article.links;
                 }
                 deferred.resolve(resource);
