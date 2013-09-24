@@ -1,6 +1,6 @@
 'use strict';
 
-function TopBarCtrl($scope, $location, resource) {
+function TopBarCtrl($rootScope, $scope, $location, resource, userService) {
 
     $scope.$on('$routeChangeSuccess', function (event, current, previous) {
         var path = $location.path().split('/')[1];
@@ -8,6 +8,13 @@ function TopBarCtrl($scope, $location, resource) {
         $scope.resourceButton = (current.$route.controller.name === "MapCtrl");
 
         $scope.resourceId = current.params.id;
+
+        // Load Karma if necessary
+        if ($rootScope.user != null && $rootScope.user.karma == null) {
+            userService.getKarma($rootScope.user).success(function (response) {
+                $rootScope.user.karma = response.karma;
+            });
+        }
     });
 
     $scope.$on('searchResultSelected', function (event, result) {
@@ -94,7 +101,7 @@ function LoginCtrl($scope, $location, $rootScope, $window, loginModal, userServi
                     return $scope.loginerror = true;
                 }
                 $rootScope.user = data;
-                if($scope.newUser === true) {
+                if ($scope.newUser === true) {
                     $location.path('/');
                 } else {
                     $window.history.back();
@@ -102,7 +109,7 @@ function LoginCtrl($scope, $location, $rootScope, $window, loginModal, userServi
             });
     };
 
-    $scope.closeLoginModal = function(){
+    $scope.closeLoginModal = function () {
         loginModal.close();
     };
 
@@ -185,7 +192,7 @@ function TripletListCtrl($scope, $routeParams, $location, userService, resource,
     // First, check whether the resource is a KN Resource or a Wikipedia Article
     if ($routeParams.id != null) {
         // KN Resource
-            resource.get($routeParams.id).then(function (resource) {
+        resource.get($routeParams.id).then(function (resource) {
             $scope.concept = resource;
 
             $scope.rootNodeExists = true;
@@ -347,7 +354,7 @@ function StaticPageCtrl($scope) {
 function ConnectionPageCtrl($scope, $http, $routeParams, userService) {
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
     $scope.knownodeList = {};
-    $http.get("/connections/"+ $routeParams.id + "/getTripletByConnectionId").success(function (data, status, headers, config) {
+    $http.get("/connections/" + $routeParams.id + "/getTripletByConnectionId").success(function (data, status, headers, config) {
         $scope.knownodeList = data;
     });
 
@@ -357,7 +364,7 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
 
     $scope.reversedDirection = false;
 
-    $scope.$watch('concept', function(newValue) {
+    $scope.$watch('concept', function (newValue) {
         if ($scope.startResource == null)
             $scope.startResource = newValue;
     });
@@ -367,7 +374,7 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
         $scope[result.resourceName] = result.resource;
     });
 
-    $scope.swapResources = function() {
+    $scope.swapResources = function () {
         $scope.reversedDirection = !$scope.reversedDirection;
         var start = $scope.startResource;
         var end = $scope.endResource;
@@ -407,7 +414,7 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
         // TODO Handle case where connection direction is reversed
         // TODO Cleanup
         formatStartResource();
-        };
+    };
 
     function formatStartResource() {
         if ($scope.startResource.type === 'Wikipedia Article' && $scope.endResource.type === 'Wikipedia Article') {
@@ -490,7 +497,7 @@ function ResourceInputCtrl($scope) {
         $scope.$emit('resourceSelected', {resourceName: $scope.resourceName, resource: $scope.resource});
     }
 
-    $scope.clear = function() {
+    $scope.clear = function () {
         $scope.resource = null;
         emit();
     };
@@ -502,7 +509,7 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
 
     var lastQuery = "";
     $scope.searchBoxOptions = {
-        width:"off",
+        width: "off",
         dropdownAutoWidth: true,
         minimumInputLength: 3,
         query: function (query) {
@@ -522,7 +529,8 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
                                     .success(function (data) {
                                         query.callback({ results: [
                                             { title: data.title, body: data.body, image: data.image, url: query.term, type: 'Link to Resource', id: "scrape" }
-                                        ]});})
+                                        ]});
+                                    })
                                     .error(function () {
                                         console.log("Cannot scrape URL")
                                         query.callback({ results: [
@@ -683,7 +691,7 @@ function VoteCtrl($scope, $http, loginModal) {
     //    loginModal.close();
     //};
 
-    $scope.showPrompt = function() {
+    $scope.showPrompt = function () {
         $scope.prompt = true;
     };
 
@@ -704,41 +712,41 @@ function VoteCtrl($scope, $http, loginModal) {
         $scope.downVoteClass = "";
     }
 
-    $scope.vote = function(voteType) {
+    $scope.vote = function (voteType) {
 
-        if(voteType === "up") {
+        if (voteType === "up") {
             $scope.upActive = !$scope.upActive;
-            if($scope.upActive === true) {
+            if ($scope.upActive === true) {
                 $scope.downActive = false;
-                $http.post('/vote/voteUp/',{connectionId:$scope.triplet.connection.KN_ID});
+                $http.post('/vote/voteUp/', {connectionId: $scope.triplet.connection.KN_ID});
                 $scope.triplet.upvotes += 1;
             }
-            if($scope.upActive === false) {
+            if ($scope.upActive === false) {
                 $scope.downActive = false;
                 $scope.upVoteClass = "";
-                $http.post('/vote/cancelVote/',{connectionId:$scope.triplet.connection.KN_ID});
+                $http.post('/vote/cancelVote/', {connectionId: $scope.triplet.connection.KN_ID});
                 $scope.triplet.upvotes -= 1;
             }
         }
-        if(voteType === "down") {
+        if (voteType === "down") {
             $scope.downActive = !$scope.downActive;
-            if($scope.downActive === true) {
+            if ($scope.downActive === true) {
                 $scope.upActive = false;
-                $http.post('/vote/voteDown/',{connectionId:$scope.triplet.connection.KN_ID});
+                $http.post('/vote/voteDown/', {connectionId: $scope.triplet.connection.KN_ID});
                 $scope.triplet.downvotes += 1;
             }
-            if($scope.downActive === false) {
+            if ($scope.downActive === false) {
                 $scope.upActive = false;
                 $scope.downVoteClass = "";
-                $http.post('/vote/cancelVote/',{connectionId:$scope.triplet.connection.KN_ID});
+                $http.post('/vote/cancelVote/', {connectionId: $scope.triplet.connection.KN_ID});
                 $scope.triplet.downvotes -= 1;
             }
         }
 
-        if($scope.upActive === true) {
+        if ($scope.upActive === true) {
             $scope.upVoteClass = "active";
             $scope.downVoteClass = "";
-        } else if ($scope.downActive === true){
+        } else if ($scope.downActive === true) {
             $scope.downVoteClass = "active";
             $scope.upVoteClass = "";
         }
@@ -752,7 +760,7 @@ function UserProfilePageCtrl($scope, $location, $http, $routeParams, userService
     $scope.knownodeList = {};
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
 
-    $http.get("/connections/"+ $routeParams.id + "/getTripletsByUserId").success(function (data, status, headers, config) {
+    $http.get("/connections/" + $routeParams.id + "/getTripletsByUserId").success(function (data, status, headers, config) {
         $scope.knownodeList = data;
     });
 

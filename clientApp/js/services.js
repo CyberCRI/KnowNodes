@@ -22,6 +22,10 @@ angular.module('KnowNodesApp.services', [])
                 return deferred.promise;
             },
 
+            getKarma: function (user) {
+                return $http.get('/users/' + user.KN_ID + '/karma');
+            },
+
             logout: function () {
                 return $http.post('/logout');
             },
