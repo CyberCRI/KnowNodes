@@ -548,17 +548,32 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
                         var addResource = true;
                         // First item is the create resource option
                         for (i = 0; i < results.resources.length; i++) {
-                            suggestions.results.push({id: results.resources[i].KN_ID, text: results.resources[i].title, type: 'Knownodes resource'});
+                            suggestions.results.push({
+                                id: results.resources[i].KN_ID,
+                                text: results.resources[i].title,
+                                type: 'Knownodes resource'
+
+                            });
                             if (query.term.toLowerCase() == results.resources[i].title.toLowerCase()) {
                                 addResource = false;
                             }
                             ;
                         }
                         for (i = 0; i < results.wikipediaArticles.length; i++) {
-                            suggestions.results.push({id: results.wikipediaArticles[i].title, text: results.wikipediaArticles[i].title, type: 'Wikipedia Article'});
+                            console.log(results.wikipediaArticles[i]);
+                            suggestions.results.push({
+                                id: results.wikipediaArticles[i].title,
+                                text: results.wikipediaArticles[i].title,
+                                type: 'Wikipedia Article',
+                                snippet: results.wikipediaArticles[i].snippet
+                            });
                         }
                         if (addResource == true) {
-                            suggestions.results.unshift({id: 'create_data_option_id', title: query.term, text: 'Create Resource : ' + query.term, type: 'Create Resource'});
+                            suggestions.results.unshift({
+                                id: 'create_data_option_id',
+                                title: query.term,
+                                text: 'Create Resource : ' + query.term,
+                                type: 'Create Resource'});
                         }
                         query.callback(suggestions);
                     });
@@ -589,7 +604,7 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
                 markup += "<td class='suggestion-info'><div class='suggestion-title'>" + node.text + "</div></td>";
             }
             if (node.type === 'Wikipedia Article') {
-                markup += "<td class='suggestion-image'><img src='img/wikipedia-icon.png' style='height:1.5em; max-width:none;'/></td>";
+                markup += "<td class='suggestion-image'>" + node.snippet + "<img src='img/wikipedia-icon.png' style='height:1.5em; max-width:none;'/></td>";
             }
             if (node.type === 'Knownodes resource') {
                 markup += "<td class='suggestion-image'><img src='img/knownodes-logo.png' style='height:1.5em; max-width:none;'/></td>";
