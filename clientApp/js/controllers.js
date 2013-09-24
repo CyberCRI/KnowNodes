@@ -551,8 +551,8 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
                             suggestions.results.push({
                                 id: results.resources[i].KN_ID,
                                 text: results.resources[i].title,
-                                type: 'Knownodes resource'
-
+                                type: 'Knownodes resource',
+                                snippet: results.resources[i].bodyText
                             });
                             if (query.term.toLowerCase() == results.resources[i].title.toLowerCase()) {
                                 addResource = false;
@@ -560,7 +560,6 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
                             ;
                         }
                         for (i = 0; i < results.wikipediaArticles.length; i++) {
-                            console.log(results.wikipediaArticles[i]);
                             suggestions.results.push({
                                 id: results.wikipediaArticles[i].title,
                                 text: results.wikipediaArticles[i].title,
@@ -601,10 +600,10 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
                     markup += "<div class='suggestion-body create-resource scrap-body'><p class='scrap-body-text'>" + node.body + "</p><img onerror='this.style.display = \"none\"' class='scrap-body-img' src=" + node.image + "></img></div></td>";
                 }
             } else {
-                markup += "<td class='suggestion-info'><div class='suggestion-title'>" + node.text + "</div></td>";
+                markup += "<td class='suggestion-info'><div class='suggestion-title'>" + node.text + "<br />" + node.snippet + "</div></td>";
             }
             if (node.type === 'Wikipedia Article') {
-                markup += "<td class='suggestion-image'>" + node.snippet + "<img src='img/wikipedia-icon.png' style='height:1.5em; max-width:none;'/></td>";
+                markup += "<td class='suggestion-image'><img src='img/wikipedia-icon.png' style='height:1.5em; max-width:none;'/></td>";
             }
             if (node.type === 'Knownodes resource') {
                 markup += "<td class='suggestion-image'><img src='img/knownodes-logo.png' style='height:1.5em; max-width:none;'/></td>";
