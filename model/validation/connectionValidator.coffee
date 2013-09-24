@@ -7,7 +7,6 @@ module.exports = class ConnectionValidator extends NodeValidator
     super Type.CONNECTION
 
   validate: (data, _) ->
-    console.log data
     super data
     @check(data.__CreatedOn__).notNull().isInt()
     @check(data.title).notEmpty()
