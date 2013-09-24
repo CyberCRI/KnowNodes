@@ -1,8 +1,8 @@
-NodeWrapper = require './NodeWrapper'
+OwnedEntity = require './OwnedEntity'
 Type = require './Type'
 ConnectionValidator = require './validation/connectionValidator'
 
-module.exports = class Connection extends NodeWrapper
+module.exports = class Connection extends OwnedEntity
 
   ###
         CLASS METHODS
@@ -11,16 +11,6 @@ module.exports = class Connection extends NodeWrapper
   @getNodeType: -> Type.CONNECTION
 
   @wrap: (node) -> new Connection(node)
-
-  # Overrides parent method to make sure the resource has a CREATED_BY relationship
-  @create: (data, creator, _) ->
-    console.log("data:", data)
-    console.log("creator:", creator)
-
-    data.active = true
-    created = super(data, _)
-    creator.setAsCreator(created, _)
-    return created
 
   @getTripletByConnectionId: (id, user, _) ->
     nodes = []
@@ -263,9 +253,6 @@ module.exports = class Connection extends NodeWrapper
         INSTANCE METHODS
   ###
 
-  constructor: (node) ->
-    super node
-
   validate: ->
     new ConnectionValidator().validate(@node.data)
 
@@ -280,4 +267,8 @@ module.exports = class Connection extends NodeWrapper
     if (count is 0)
       @forceDelete _
     else
-      console.log 'Should disown, not delete'
+      @disown _
+
+  disown: (_) ->
+    @setProperty('status', 'deleted');
+    @save _

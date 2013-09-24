@@ -1,11 +1,11 @@
-NodeWrapper = require './NodeWrapper'
+OwnedEntity = require './OwnedEntity'
 Type = require './Type'
 ResourceValidator = require './validation/resourceValidator'
 Connection = require './Connection'
 Error = require '../error/Error'
 User = require './User'
 
-module.exports = class Resource extends NodeWrapper
+module.exports = class Resource extends OwnedEntity
 
   ###
         CLASS METHODS
@@ -14,13 +14,6 @@ module.exports = class Resource extends NodeWrapper
   @getNodeType: -> Type.RESOURCE
 
   @wrap: (node) -> new Resource(node)
-
-  # Overrides parent method to make sure the resource has a CREATED_BY relationship
-  @create: (data, creator, _) ->
-    data.active = true
-    created = super(data, _)
-    creator.setAsCreator(created, _)
-    return created
 
   @searchByKeyword: (userQuery, _) ->
     nodes = []
@@ -94,9 +87,6 @@ module.exports = class Resource extends NodeWrapper
   ###
         INSTANCE METHODS
   ###
-
-  constructor: (node) ->
-    super node
 
   connectTo: (other, user, data, _) ->
     Connection.connect(@, other, user, data, _)

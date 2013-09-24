@@ -130,9 +130,7 @@ module.exports = class NodeWrapper
       sourceId: @node.id
       targetId: target.node.id
     result = NodeWrapper.DB.query(query, params, _)[0]
-    console.log("user.id:", @node.id)
     if result?
-      console.log("result:", result.relationship)
       result.relationship
 
   hasRelationshipWith: (target, relationshipType, _) ->
