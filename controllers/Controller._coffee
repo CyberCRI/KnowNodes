@@ -39,6 +39,6 @@ module.exports = class Controller
     if @request.user?
       return @request.user.KN_ID
     else
-      return null
+      return "no user"
 
 
