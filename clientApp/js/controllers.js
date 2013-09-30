@@ -582,33 +582,48 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
         },
 
         formatResult: function (node) {
+            $(function() { $('.tip').tooltip(); });
+
+            function strip(html)
+            {
+                var tmp = document.createElement("DIV");
+                tmp.innerHTML = html;
+                return tmp.textContent || tmp.innerText || "";
+            }
+
             var markup = "<table class='suggestion'><tr>";
 
             if (node.type === 'Create Resource') {
                 markup += "<td class='suggestion-info'><div class='suggestion-title create-resource'>" + node.text + "</div></td>";
             } else if (node.type === "Link to Resource") {
                 markup += "<td class='suggestion-info'><div class='suggestion-title create-resource'>Create Resource: " + node.title + "</div>";
+                console.log("body+img", node);
                 if (node.body === undefined && node.image != null) {
                     markup += "<div class='suggestion-body create-resource scrap-body'><p class='scrap-body-text'></p><img onerror='this.style.display = \"none\"' class='scrap-body-img' src=" + node.image + "></img></div></td>";
                 }
                 else if (node.body === undefined && node.image === undefined) {
                 }
-                else if (node.image === undefined) {
-                    markup += "<div class='suggestion-body create-resource scrap-body'><p class='scrap-body-text'>" + node.body + "</p></div></td>";
+                else if (node.image === null) {
+                    markup += "<div class='suggestion-body create-resource scrap-body tip'>" + node.body + "</p></div></td>";
                 }
                 else {
-                    markup += "<div class='suggestion-body create-resource scrap-body'><p class='scrap-body-text'>" + node.body + "</p><img onerror='this.style.display = \"none\"' class='scrap-body-img' src=" + node.image + "></img></div></td>";
+                    markup += "<div class='suggestion-body create-resource scrap-body'>" + node.body + "</p><img onerror='this.style.display = \"none\"' class='scrap-body-img' src=" + node.image + "></img></div></td>";
                 }
-            } else {
-                markup += "<td class='suggestion-info'><div class='suggestion-title'>" + node.text + "<br />" + node.snippet + "</div></td>";
+            } else if(node.snippet === undefined){
+                markup += "<td class='suggestion-info'><div class='suggestion-title' data-placement='right'>" + node.text+ "</div></td>";
+            }
+            else {
+                markup += "<td class='suggestion-info'><div class='suggestion-title tip' data-toggle='tooltip' data-placement='right' data-original-title='" + strip(node.snippet) + "'>" + node.text+ "</div></td>";
             }
             if (node.type === 'Wikipedia Article') {
-                markup += "<td class='suggestion-image'><img src='img/wikipedia-icon.png' style='height:1.5em; max-width:none;'/></td>";
+                markup += "<td class='suggestion-image'><img src='img/wikipedia-icon.png' style='height:1.5em; max-width:none; position: absolute; right: 5px;'/></td>";
             }
             if (node.type === 'Knownodes resource') {
-                markup += "<td class='suggestion-image'><img src='img/knownodes-logo.png' style='height:1.5em; max-width:none;'/></td>";
+                markup += "<td class='suggestion-image'><img src='img/knownodes-logo.png' style='height:1.5em; max-width:none; position: absolute; right: 5px;'/></td>";
             }
+
             markup += "</tr></table>"
+
             return markup;
         }
     };
