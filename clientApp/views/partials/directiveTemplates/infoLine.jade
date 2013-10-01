@@ -2,7 +2,12 @@ p.info-line
   em.info-time {{(triplet.connection.__CreatedOn__) | timeAgo}} by
   a(ng-href="/user/{{triplet.connection.creator.KN_ID}}")
     em.info-name {{triplet.connection.creator.firstName}} {{triplet.connection.creator.lastName}}
-  span
-    a.pull-right.info-comment(ng-href="/connection/{{triplet.connection.KN_ID}}", ng-switch on="triplet.commentCount")
-      span.info-comment-exist(ng-switch-default) {{triplet.commentCount}} comments
-      span(ng-switch-when="0") comment
+
+
+
+  a.pull-right.info-comment(ng-href="/connection/{{triplet.connection.KN_ID}}", ng-switch on="triplet.commentCount")
+    span.info-comment-exist(ng-switch-default) {{triplet.commentCount}} comments
+    span(ng-switch-when="0") comment
+  span.pull-right(ng-show='checkOwnership(triplet.connection.creator.KN_ID)')
+    button.btn.btn-link.btn-trash(type="button", title="Delete this connection", ng-click="deleteConnection(triplet.connection.id, $index)")
+      i.icon-trash

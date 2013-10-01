@@ -60,6 +60,15 @@ module.exports = class Connection extends OwnedEntity
         connection: item.connection.data
       toPush.commentCount = item.commentCount
       toPush.connection.creator = item.connectionCreator.data
+      if toPush.connection.status is "deleted"
+        toPush.connection.creator.firstName = "deleted"
+        toPush.connection.creator.lastName = " "
+        toPush.connection.creator.KN_ID = "deleted"
+        toPush.connection.creator.dateOfBirth = "deleted"
+        toPush.connection.creator.email = "deleted"
+        toPush.connection.creator.email = "deleted"
+        toPush.connection.creator.password = "deleted"
+
       toPush.startResource.creator = item.startResourceCreator.data
       toPush.endResource.creator = item.endResourceCreator.data
       toPush.startResource.connectionCount = item.startResourceOtherConnectionCount
@@ -92,6 +101,7 @@ module.exports = class Connection extends OwnedEntity
             AND startResourceOtherConnections <> connection
             AND endResourceOtherConnections <> connection
             AND connection.nodeType = "kn_Edge"
+            AND NOT(HAS(connection.status))
             RETURN connection, startResource, endResource, connectionCreator, startResourceCreator, endResourceCreator,
             count(distinct connectionComments) AS commentCount,
             count(distinct upvotes) AS upvoteCount,
@@ -116,6 +126,14 @@ module.exports = class Connection extends OwnedEntity
         connection: item.connection.data
       toPush.commentCount = item.commentCount
       toPush.connection.creator = item.connectionCreator.data
+      if toPush.connection.status is "deleted"
+        toPush.connection.creator.firstName = "deleted"
+        toPush.connection.creator.lastName = " "
+        toPush.connection.creator.KN_ID = "deleted"
+        toPush.connection.creator.dateOfBirth = "deleted"
+        toPush.connection.creator.email = "deleted"
+        toPush.connection.creator.email = "deleted"
+        toPush.connection.creator.password = "deleted"
       toPush.startResource.creator = item.startResourceCreator.data
       toPush.endResource.creator = item.endResourceCreator.data
       toPush.startResource.connectionCount = item.startResourceOtherConnectionCount
@@ -230,6 +248,7 @@ module.exports = class Connection extends OwnedEntity
     results = @DB.query(cypherQuery, null, _)
     nodes = []
     for item in results
+
       toPush =
         upvotes: item.upvoteCount
         downvotes: item.downvoteCount
@@ -238,15 +257,27 @@ module.exports = class Connection extends OwnedEntity
         startResource: item.startResource.data
         endResource: item.endResource.data
         connection: item.connection.data
+
       toPush.commentCount = item.commentCount
       toPush.connection.creator = item.connectionCreator.data
+      if toPush.connection.status is "deleted"
+        toPush.connection.creator.firstName = "deleted"
+        toPush.connection.creator.lastName = " "
+        toPush.connection.creator.KN_ID = "deleted"
+        toPush.connection.creator.dateOfBirth = "deleted"
+        toPush.connection.creator.email = "deleted"
+        toPush.connection.creator.email = "deleted"
+        toPush.connection.creator.password = "deleted"
+
       hot = hotness(item.upvoteCount, item.downvoteCount, item.connection.data['__CreatedOn__'])
       toPush.connection.hotness = hot
       toPush.startResource.creator = item.startResourceCreator.data
       toPush.endResource.creator = item.endResourceCreator.data
       toPush.startResource.connectionCount = item.startResourceOtherConnectionCount
       toPush.endResource.connectionCount = item.endResourceOtherConnectionCount
+
       nodes.push toPush
+
     nodes
 
   ###
@@ -266,8 +297,10 @@ module.exports = class Connection extends OwnedEntity
     count = @getDB().query(query, _)[0].connectionCount
     if (count is 0)
       @forceDelete _
+      return "forceDelete"
     else
       @disown _
+      return "disown"
 
   disown: (_) ->
     @setProperty('status', 'deleted');
