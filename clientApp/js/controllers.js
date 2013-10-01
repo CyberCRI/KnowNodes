@@ -183,14 +183,13 @@ function MapCtrl($scope, $routeParams) {
 
 
 function TripletListCtrl($scope, $routeParams, $location, userService, resource, wikipedia, wikinode) {
-
     $scope.goToUrl = function (something) {
         $location.path(something);
-    };
+};
 
     $scope.orderProp = "-(upvotes-downvotes)";
-    // First, check whether the resource is a KN Resource or a Wikipedia Article
-    if ($routeParams.id != null) {
+        // First, check whether the resource is a KN Resource or a Wikipedia Article
+        if ($routeParams.id != null) {
         // KN Resource
         resource.get($routeParams.id).then(function (resource) {
             $scope.concept = resource;
@@ -233,31 +232,7 @@ function TripletListCtrl($scope, $routeParams, $location, userService, resource,
     $scope.currentKnownode = {};
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
 
-    $scope.checkOwnership = function (userId) {
-        if (userService.isUserLoggedIn()) {
-            return userId === userService.getConnectedUser().id;
-        }
-        return false;
-    }
     $scope.$broadcast('rootNodeExists', {rootNodeExists: true});
-
-    $scope.deleteArticle = function (id, index) {
-        if (confirm("Are you sure you want to delete this post?")) {
-            resource.delete(id)
-                .success(function () {
-                    $scope.knownodeList.splice(index, 1);
-                })
-        }
-    };
-
-    $scope.isOwner = function (id) {
-        if (userService.isUserLoggedIn()) {
-            return userService.getConnectedUser().id === id;
-        }
-        return false;
-    }
-
-    $scope.start = +new Date();
 
 }
 
@@ -433,7 +408,6 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
                 formatEndResource();
             });
         } else if ($scope.startResource.type === 'Link to Resource') {
-            console.log("startResource: ", $scope.startResource);
             // create url resource and create connection
             delete $scope.startResource.type; // type is used only client-side, should not be persisted
             resource.create($scope.startResource).then(function (createdStartResource) {
@@ -597,7 +571,6 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
                 markup += "<td class='suggestion-info'><div class='suggestion-title create-resource'>" + node.text + "</div></td>";
             } else if (node.type === "Link to Resource") {
                 markup += "<td class='suggestion-info'><div class='suggestion-title create-resource'>Create Resource: " + node.title + "</div>";
-                console.log("body+img", node);
                 if (node.body === undefined && node.image != null) {
                     markup += "<div class='suggestion-body create-resource scrap-body'><p class='scrap-body-text'></p><img onerror='this.style.display = \"none\"' class='scrap-body-img' src=" + node.image + "></img></div></td>";
                 }
@@ -636,7 +609,7 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
                     resourceModal.open(result.title).then(function (createdResource) {
                         createdResource.type = 'Resource';
                         $scope.$emit('searchResultSelected', createdResource);
-                    });
+                      });
                     break;
                 case 'Link to Resource':
                     $scope.$emit('searchResultSelected', {
@@ -798,4 +771,36 @@ function UserProfilePageCtrl($scope, $location, $http, $routeParams, userService
     };
 
     $scope.orderProp = "-(upvotes - downvotes)";
+}
+
+function InfoLineCtrl($scope, userService, $http) {
+
+    $scope.checkOwnership = function(ownerId){
+        if (userService.isUserLoggedIn()) {
+            return ownerId === userService.getConnectedUser().KN_ID;
+        }
+        return false;
+    }
+    $scope.deleteConnection = function (id, index) {
+        console.log(index);
+        if (confirm("Are you sure you want to delete this connection? " + $scope.triplet.startResource.title +" "+ $scope.triplet.connection.title +" "+ $scope.triplet.endResource.title)) {
+            $http.delete('/connections/'+ $scope.triplet.connection.KN_ID).success(function (data, status, headers, config) {
+                console.log(data);
+                alert("the connection has been successfully deleted");
+                if (data == "forceDelete") {
+                    alert("the connection has been successfully deleted");
+                    console.log($scope.knownodeList);
+                    console.log(index);
+                    $scope.knownodeList.splice(index, 1);
+                    console.log($scope.knownodeList);
+                    $scope.$apply();
+                } else if (data === "disown") {
+                    alert("Connection is now disowned. It isn't completely deleted, since stuff has already been connected or commented on it");
+                    $scope.knownodeList[index].connection.creator.firstName = "DELETED";
+                    $scope.triplet.connection.creator.lastName = "";
+                }
+
+                });
+        }
+    }
 }

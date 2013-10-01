@@ -22,7 +22,8 @@ angular.module('KnowNodesApp.directives', [])
         return {
             restrict: "A",
             templateUrl: 'partials/directiveTemplates/infoLine',
-            replace: true
+            replace: true,
+            controller: InfoLineCtrl
         };
     })
     .directive('concept', function () {

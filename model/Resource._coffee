@@ -81,6 +81,14 @@ module.exports = class Resource extends OwnedEntity
       toPush.endResource.connectionCount = item.endResourceConnectionCount
       toPush.endResource.creator = item.endResourceCreator.data
       toPush.connection.creator = item.connectionCreator.data
+      if toPush.connection.status is "deleted"
+        toPush.connection.creator.firstName = "deleted"
+        toPush.connection.creator.lastName = " "
+        toPush.connection.creator.KN_ID = "deleted"
+        toPush.connection.creator.dateOfBirth = "deleted"
+        toPush.connection.creator.email = "deleted"
+        toPush.connection.creator.email = "deleted"
+        toPush.connection.creator.password = "deleted"
       nodes.push toPush
     nodes
 
