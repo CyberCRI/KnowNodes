@@ -28,13 +28,16 @@ module.exports = class NodeWrapper
     return created
 
   @find: (id, _) ->
+    console.log("find:", id)
     @findByProperty('KN_ID', id, _)
 
   @findByTextProperty: (key, value, _) ->
+    console.log("findByTextProp", key, value)
     @findByProperty(key, value.toLowerCase(), _)
 
   @findByProperty: (key, value, _) ->
     node = @DB.getIndexedNode(@getNodeType(), key, value, _)
+    console.log("findByProp", @getNodeType(), key, value, node)
     if not node?
       throw Error.entityNotFound(@getNodeType(), key, value)
     else
