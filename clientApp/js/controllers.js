@@ -720,12 +720,14 @@ function VoteCtrl($scope, $http, loginModal) {
             $scope.upActive = !$scope.upActive;
             if ($scope.upActive === true) {
                 $scope.downActive = false;
+                console.log("up+vote:",$scope.triplet.connection.KN_ID);
                 $http.post('/vote/voteUp/', {connectionId: $scope.triplet.connection.KN_ID});
                 $scope.triplet.upvotes += 1;
             }
             if ($scope.upActive === false) {
                 $scope.downActive = false;
                 $scope.upVoteClass = "";
+                console.log("cancel+vote:",$scope.triplet.connection.KN_ID);
                 $http.post('/vote/cancelVote/', {connectionId: $scope.triplet.connection.KN_ID});
                 $scope.triplet.upvotes -= 1;
             }
