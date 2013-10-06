@@ -44,7 +44,8 @@ module.exports = class Resource extends OwnedEntity
 
     query = """
       START resource=node({resourceNodeId}), user=node(#{user.node.id})
-      MATCH (resource) -[:RELATED_TO]- (connection) -[:RELATED_TO]- (endResource) -[:CREATED_BY]- (endResourceCreator),
+      MATCH (resource) -[:RELATED_TO]- (connection) -[:RELATED_TO]- (endResource),
+      endResource -[?:CREATED_BY]- (endResourceCreator),
       (otherConnections)-[?:RELATED_TO]-(endResource),
       (connection) -[?:VOTED_UP]- (upvotes),
       (downvotes) -[?:VOTED_DOWN]- (connection),
@@ -79,7 +80,7 @@ module.exports = class Resource extends OwnedEntity
         commentCount: item.commentCount
       toPush.startResource.connectionCount = item.startResourceConnectionCount
       toPush.endResource.connectionCount = item.endResourceConnectionCount
-      toPush.endResource.creator = item.endResourceCreator.data
+      toPush.endResource.creator = item.endResourceCreator?.data?
       toPush.connection.creator = item.connectionCreator.data
       if toPush.connection.status is "deleted"
         toPush.connection.creator.firstName = "deleted"

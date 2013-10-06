@@ -24,8 +24,8 @@ module.exports = class Connection extends OwnedEntity
       START connection=node({connectionNodeId}), user=node(#{user.node.id})
       MATCH (startResource) -[:RELATED_TO]-> (connection) -[:RELATED_TO]-> (endResource),
       (connection) -[:CREATED_BY]- (connectionCreator),
-      (startResource) -[:CREATED_BY]- (startResourceCreator),
-      (endResource) -[:CREATED_BY]- (endResourceCreator),
+      (startResource) -[?:CREATED_BY]- (startResourceCreator),
+      (endResource) -[?:CREATED_BY]- (endResourceCreator),
       (connection) -[?:COMMENT_OF]- (connectionComments),
       (connection) -[?:VOTED_UP]- (upvotes),
       (connection) -[?:VOTED_DOWN]- (downvotes),
@@ -69,8 +69,8 @@ module.exports = class Connection extends OwnedEntity
         toPush.connection.creator.email = "deleted"
         toPush.connection.creator.password = "deleted"
 
-      toPush.startResource.creator = item.startResourceCreator.data
-      toPush.endResource.creator = item.endResourceCreator.data
+      toPush.startResource.creator = item.startResourceCreator?.data
+      toPush.endResource.creator = item.endResourceCreator?.data
       toPush.startResource.connectionCount = item.startResourceOtherConnectionCount
       toPush.endResource.connectionCount = item.endResourceOtherConnectionCount
       nodes.push toPush
@@ -88,8 +88,8 @@ module.exports = class Connection extends OwnedEntity
             START connectionCreator=node({userProfileNodeId}), user=node(#{user.node.id})
             MATCH (connection) -[:CREATED_BY]- (connectionCreator),
             (startResource) -[:RELATED_TO]- (connection) -[:RELATED_TO]-> (endResource),
-            (startResource) -[:CREATED_BY]- (startResourceCreator),
-            (endResource) -[:CREATED_BY]- (endResourceCreator),
+            (startResource) -[?:CREATED_BY]- (startResourceCreator),
+            (endResource) -[?:CREATED_BY]- (endResourceCreator),
             (connection) -[?:COMMENT_OF]- (connectionComments),
             (connection) -[?:VOTED_UP]- (upvotes),
             (connection) -[?:VOTED_DOWN]- (downvotes),
@@ -134,8 +134,8 @@ module.exports = class Connection extends OwnedEntity
         toPush.connection.creator.email = "deleted"
         toPush.connection.creator.email = "deleted"
         toPush.connection.creator.password = "deleted"
-      toPush.startResource.creator = item.startResourceCreator.data
-      toPush.endResource.creator = item.endResourceCreator.data
+      toPush.startResource.creator = item.startResourceCreator?.data
+      toPush.endResource.creator = item.endResourceCreator?.data
       toPush.startResource.connectionCount = item.startResourceOtherConnectionCount
       toPush.endResource.connectionCount = item.endResourceOtherConnectionCount
       nodes.push toPush
@@ -158,8 +158,8 @@ module.exports = class Connection extends OwnedEntity
       START connection=node:kn_Edge('#{luceneQuery}'), user=node('#{user.node.id}')
       MATCH (startResource) -[:RELATED_TO]-> (connection) -[:RELATED_TO]-> (endResource),
       (connection) -[:CREATED_BY]- (connectionCreator),
-      (startResource) -[:CREATED_BY]- (startResourceCreator),
-      (endResource) -[:CREATED_BY]- (endResourceCreator),
+      (startResource) -[?:CREATED_BY]- (startResourceCreator),
+      (endResource) -[?:CREATED_BY]- (endResourceCreator),
       (connection) -[?:COMMENT_OF]- (connectionComments),
       (user) -[upvote?:VOTED_UP] - (connection)
       (user) -[downvote?:VOTED_DOWN] - (connection)
@@ -185,8 +185,8 @@ module.exports = class Connection extends OwnedEntity
         endResource: item.startResource.data
       toPush.commentCount = item.connectionCommentsCounts
       toPush.connection.creator = item.connectionCreator.data
-      toPush.startResource.creator = item.startResourceCreator.data
-      toPush.endResource.creator = item.endResourceCreator.data
+      toPush.startResource.creator = item.startResourceCreator?.data
+      toPush.endResource.creator = item.endResourceCreator?.data
       toPush.startResource.otherConnectionsCount = item.startResourceOtherConnectionsCount
       toPush.endResource.otherConnectionsCount = item.endResourceOtherConnectionsCount
       toPush.votedUp = item.upvote?
@@ -206,8 +206,8 @@ module.exports = class Connection extends OwnedEntity
       START connection=node:kn_Edge('#{luceneQuery}'), user=node(#{user.node.id})
       MATCH (startResource) -[:RELATED_TO]-> (connection) -[:RELATED_TO]-> (endResource),
       (connection) -[:CREATED_BY]- (connectionCreator),
-      (startResource) -[:CREATED_BY]- (startResourceCreator),
-      (endResource) -[:CREATED_BY]- (endResourceCreator),
+      (startResource) -[?:CREATED_BY]- (startResourceCreator),
+      (endResource) -[?:CREATED_BY]- (endResourceCreator),
       (connection) -[?:COMMENT_OF]- (connectionComments),
       (connection) -[?:VOTED_UP]- (upvotes),
       (connection) -[?:VOTED_DOWN]- (downvotes),
@@ -271,8 +271,8 @@ module.exports = class Connection extends OwnedEntity
 
       hot = hotness(item.upvoteCount, item.downvoteCount, item.connection.data['__CreatedOn__'])
       toPush.connection.hotness = hot
-      toPush.startResource.creator = item.startResourceCreator.data
-      toPush.endResource.creator = item.endResourceCreator.data
+      toPush.startResource.creator = item.startResourceCreator?.data
+      toPush.endResource.creator = item.endResourceCreator?.data
       toPush.startResource.connectionCount = item.startResourceOtherConnectionCount
       toPush.endResource.connectionCount = item.endResourceOtherConnectionCount
 
