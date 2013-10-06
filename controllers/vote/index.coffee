@@ -4,7 +4,6 @@ VoteController = require('./VoteController')
 module.exports =
 
   voteUp: (request, response) ->
-    console.log(request)
     new VoteController(request).voteUp(Callback.bind(response))
 
   voteDown: (request, response) ->
