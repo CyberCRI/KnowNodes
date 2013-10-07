@@ -31,7 +31,7 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['angulartics', 'angular
                 controller: StaticPageCtrl
             }).
             when('/login', {
-                templateUrl: 'partials/User/login',
+                templateUrl: 'screens/login',
                 controller: LoginCtrl
             }).
             when('/logout', {
@@ -39,7 +39,7 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['angulartics', 'angular
                 controller: LogoutCtrl
             }).
             when('/addUser', {
-                templateUrl: 'partials/User/addUser',
+                templateUrl: 'screens/addUser',
                 controller: LoginCtrl
             }).
             when('/deleteUser/:id', {
