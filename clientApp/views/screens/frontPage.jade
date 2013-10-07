@@ -2,7 +2,7 @@ div.container-fluid
   div.topbar-gap &nbsp
 
   div.row-fluid.hack
-    div.alert.alert-block.intro-box.span21.offset3
+    div.alert.alert-block.intro-box.span21.offset3(ng-hide="isUserLoggedIn")
       button.close(type="button", data-dismiss="alert") &times;
       div.span6
         h3 Knownodes is a new way to create and share interactive connections.
