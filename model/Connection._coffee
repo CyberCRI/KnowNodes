@@ -142,6 +142,9 @@ module.exports = class Connection extends OwnedEntity
     nodes
 
   @connect: (startResource, endResource, user, data, _) ->
+    console.log("connectModel:start", startResource)
+    console.log("connectModel:end", endResource)
+    console.log("connectModel:user", user)
     relationshipData =
       creationDate: new Date()
     connection = @create(data, user, _)
