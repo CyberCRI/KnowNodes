@@ -396,7 +396,6 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
             // Get source wikinode and create connection
             wikinode.getOrCreate($scope.startResource.title).success(function (createdStartResource) {
                 $scope.startResource = createdStartResource;
-                console.log("startResource format:", createdStartResource);
                 formatEndResource();
             });
         } else if ($scope.startResource.type === 'Link to Resource') {
@@ -405,7 +404,6 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
             resource.create($scope.startResource).then(function (createdStartResource) {
                 $scope.startResource = createdStartResource;
                 formatEndResource();
-                console.log("startResource2: ", createdStartResource);
 
             });
         } else {
@@ -414,13 +412,10 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
     };
 
     function formatEndResource() {
-
-
         if ($scope.endResource.type === 'Wikipedia Article') {
             // Get target wikinode and create connection
             wikinode.getOrCreate($scope.endResource.title).success(function (createdEndResource) {
                 $scope.endResource = createdEndResource;
-                console.log("endResource format:", createdEndResource);
                 createConnection();
             });
         } else if ($scope.endResource.type === 'Link to Resource') {

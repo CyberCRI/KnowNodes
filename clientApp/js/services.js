@@ -14,10 +14,13 @@ angular.module('KnowNodesApp.services', [])
                 var promise = $http.post('/login', data);
                 promise.then(function(result) {
                     var user = result.data;
-                    $http.get('/users/' + user.KN_ID + '/karma').then(function(karma) {
-                        user.karma = karma.data.karma;
-                        deferred.resolve(user);
-                    });
+                    console.log("userServise:", result.data);
+                    if(user != "ERROR"){
+                        $http.get('/users/' + user.KN_ID + '/karma').then(function(karma) {
+                            user.karma = karma.data.karma;
+                            deferred.resolve(user);
+                        });
+                    }
                 });
                 return deferred.promise;
             },
