@@ -1,22 +1,28 @@
 Controller = require '../Controller'
-UserDAO = require '../../dao/UserDAO'
-User = require '../../model/User'
+Triplets = require '../../data/Triplets'
+Users = require '../../data/Users'
 
 module.exports = class UserController extends Controller
 
   constructor: (@request) ->
-    super(@request, new UserDAO())
+    super(@request, Users)
 
   getId: ->
     @request.params.user
 
   create: (_) ->
-    User.create(@request.body, _)
+    # Skip logged in check
+    @dataService.create(@request.body, _)
 
   findByEmail: (_) ->
     email = @request.body.email
-    User.findByEmail(email, _)
+    @dataService.findByEmail(email, _)
 
   karma: (_) ->
-    karma = User.karma(@getId(), _)
+    karma = @dataService.karma(@getId(), _)
     return {karma: karma}
+
+  triplets: (_) ->
+    userId = @getId()
+    loggedUserId = @getLoggedUserIdIfExists()
+    Triplets.findByUserId(userId, loggedUserId, _)

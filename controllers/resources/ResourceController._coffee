@@ -1,10 +1,10 @@
-Controller = require '../Controller'
-ResourceDAO = require '../../dao/ResourceDAO'
+OwnedEntityController = require '../OwnedEntityController'
+Resources = require '../../data/Resources'
 
-module.exports = class ResourceController extends Controller
+module.exports = class ResourceController extends OwnedEntityController
 
   constructor: (@request) ->
-    super(@request, new ResourceDAO())
+    super(@request, Resources)
 
   getId: ->
     @request.params.resource
@@ -12,11 +12,11 @@ module.exports = class ResourceController extends Controller
   searchByKeyword: (_) ->
     # TODO Remove the useless string sanitization
     query = @request.params.resource.replace /:/g, ''
-    @dao.searchByKeyword(query, _)
+    @dataService.searchByKeyword(query, _)
 
   findByUrl: (_) ->
     url = @request.body.url
-    @dao.findByUrl(url, _)
+    @dataService.findByUrl(url, _)
 
   findTripletsByResourceId: (_) ->
-    @dao.findTripletsByResourceId(@getId(),@getLoggedUserIdIfExists(), _)
+    @dataService.findTripletsByResourceId(@getId(), @getLoggedUserIfExists(_), _)

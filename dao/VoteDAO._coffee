@@ -1,5 +1,5 @@
-Connection = require '../model/Connection'
-User = require '../model/User'
+Connections = require '../data/Connections'
+Users = require '../data/Users'
 Logger = require '../log/logger'
 
 module.exports = class VoteDAO
@@ -8,16 +8,16 @@ module.exports = class VoteDAO
     @logger = new Logger('VoteDAO')
 
   voteUp: (userId, targetId, _) ->
-    user = User.find(userId, _)
-    target = Connection.find(targetId, _)
+    user = UserService.find(userId, _)
+    target = ConnectionService.find(targetId, _)
     user.voteUp(target, _)
 
   voteDown: (userId, targetId, _) ->
-    user = User.find(userId, _)
-    target = Connection.find(targetId, _)
+    user = UserService.find(userId, _)
+    target = ConnectionService.find(targetId, _)
     user.voteDown(target, _)
 
   cancelVote: (userId, targetId, _) ->
-    user = User.find(userId, _)
-    target = Connection.find(targetId, _)
+    user = UserService.find(userId, _)
+    target = ConnectionService.find(targetId, _)
     user.cancelVote(target, _)

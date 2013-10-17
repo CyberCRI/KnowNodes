@@ -1,4 +1,4 @@
-User = require '../model/User'
+UserService = require '../model/UserService'
 Logger = require '../log/logger'
 
 module.exports = class UserDAO
@@ -7,8 +7,8 @@ module.exports = class UserDAO
     @logger = new Logger('UserDAO')
 
   read: (id, _) ->
-    user = User.find(id, _)
+    user = UserService.find(id, _)
     delete user.node._data.data.password
-    karma = User.karma(id, _)
+    karma = UserService.karma(id, _)
     user.setProperty('karma', karma)
     user

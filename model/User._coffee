@@ -1,53 +1,11 @@
 NodeWrapper = require './NodeWrapper'
 Type = require './Type'
-UserValidator = require './validation/userValidator'
+UserValidator = require './validation/UserValidator'
 cache = require 'memory-cache'
 bcrypt = require 'bcrypt'
+Error = require '../error/Error'
 
 module.exports = class User extends NodeWrapper
-
-  @VALIDATOR = new UserValidator
-
-  ###
-        CLASS METHODS
-  ###
-
-  @getNodeType: -> Type.USER
-
-  @wrap: (node) -> new User(node)
-
-  @create: (data, _) ->
-    hashedPassword = bcrypt.hashSync(data.password, 4)
-    data.password = hashedPassword
-    super(data, _)
-
-  @findById: (id, _) ->
-    user = cache.get 'USER_' + id
-    if not user?
-      userNode = @DB.getIndexedNode('kn_User', 'KN_ID', id, _)
-      # TODO Check user exists
-      user = new User(userNode)
-      cache.put('USER_' + user.getId(), user, 1000)
-    return user
-
-  @findByEmail: (email, _) ->
-    @findByTextProperty('email', _)
-
-  @karma: (id, _) ->
-    user = @findById(id, _)
-    query = """
-            START user=node(#{user.node.id})
-            MATCH (connection) -[:CREATED_BY]- (user),
-            (connection) -[?:VOTED_UP]- (upvotes),
-            (connection) -[?:VOTED_DOWN]- (downvotes)
-            WHERE connection.nodeType = 'kn_Edge'
-            RETURN count(upvotes) - count(downvotes) AS karma
-            """
-    @DB.query(query, null, _)[0].karma
-
-  ###
-        INSTANCE METHODS
-  ###
 
   isLoggedIn: ->
     @node?
@@ -73,6 +31,8 @@ module.exports = class User extends NodeWrapper
     cache.put('USER_' + @getId(), @, 1000)
 
   voteUp: (target, _) ->
+    if not target?
+      throw Error.illegalArgument(target, 'User.voteUp()')
     @deleteRelationshipIfExists(target, 'VOTED_DOWN', _)
     if @hasVotedUp(target, _)
       return "already voted up"
@@ -83,6 +43,8 @@ module.exports = class User extends NodeWrapper
     @hasRelationshipWith(target, 'VOTED_UP', _)
 
   voteDown: (target, _) ->
+    if not target?
+      throw Error.illegalArgument(target, 'User.voteDown()')
     @deleteRelationshipIfExists(target, 'VOTED_UP', _)
     if @hasVotedDown(target, _)
       return "already voted down"

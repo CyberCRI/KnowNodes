@@ -1,28 +1,32 @@
 Error = require '../error/Error'
-User = require '../model/User'
+Users = require '../data/Users'
 
 module.exports = class Controller
 
-  constructor: (@request, @dao) ->
+  constructor: (@request, @dataService) ->
 
   getId: ->
-    throw Error.notImplemented('NodeWrapper.wrap()')
+    throw Error.notImplemented('Controller.getId()')
+
+  getEntity: (_) ->
+    @dataService.find(@getId(), _)
 
   create: (_) ->
     @checkUserLoggedIn('Controller.create()')
-    @dao.create(@request.body, @request.user.KN_ID, _)
+    @dataService.create(@request.body, _)
 
   show: (_) ->
-    @dao.read(@getId(), _)
+    @getEntity(_)
 
   update: (_) ->
-    # Make sure the KN_ID in request body is the same as the ID in URL parameter
-    data = @request.body
-    data.KN_ID = @getId()
-    @dao.update(@getId(), data, _)
+    newData = @request.body
+    newData.KN_ID = @getId() # Match KN_ID in request body with ID in URL
+    entity = @getEntity(_)
+    entity.update(newData, _)
 
   destroy: (_) ->
-    @dao.delete(@getId(), _)
+    entity = @getEntity(_)
+    entity.delete(_)
 
   checkUserLoggedIn: (methodName) ->
     if not @request.user?
@@ -33,12 +37,16 @@ module.exports = class Controller
     @request.user.KN_ID
 
   getLoggedUser: (_) ->
-    User.wrap(@request.user)
+    Users.find(@getLoggedUserId(), _)
 
   getLoggedUserIdIfExists: ->
     if @request.user?
-      return @request.user.KN_ID
+      @request.user.KN_ID
     else
-      return "no user"
+      null
 
-
+  getLoggedUserIfExists: (_) ->
+    if @request.user?
+      @getLoggedUser(_)
+    else
+      null
