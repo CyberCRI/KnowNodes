@@ -357,7 +357,7 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
         $scope.endResource = start;
     }
 
-    $scope.bgColor = 'auto-generated';
+    $scope.bgColor = 'explain';
 
     $scope.isFormValid = function () {
         return $scope.startResource != null && $scope.endResource != null
@@ -366,10 +366,11 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
     };
 
     $scope.connectionTitle = '';
-    $scope.connectionType = 'Choose link type';
+
     $scope.dropText = 'Drop files here...';
     $scope.errorMessage = null;
     $scope.reversedDirection = false;
+    $scope.connectionType = 'explain';
     $scope.categoryClick = function (category) {
         $scope.bgColor = category;
         $scope.connectionType = category;
