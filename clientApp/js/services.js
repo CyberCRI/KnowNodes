@@ -341,4 +341,17 @@ angular.module('KnowNodesApp.services', [])
         };
     }])
 
+    .factory('triplet', ['$http', function ($http) {
+        return {
+
+            findByUserId: function (userId) {
+                return $http.get('/users/' + userId + '/triplets');
+            },
+
+            findByConnectionId: function (connectionId) {
+                return $http.get('/connections/' + connectionId + '/triplet');
+            }
+        };
+    }])
+
     .value('version', '0.2');

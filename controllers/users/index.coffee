@@ -14,3 +14,6 @@ module.exports =
 
   karma: (request, response) ->
     new UserController(request).karma(Callback.bind(response))
+
+  triplets: (request, response) ->
+    new UserController(request).triplets(Callback.bind(response))

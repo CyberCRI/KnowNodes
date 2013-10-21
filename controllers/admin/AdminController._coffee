@@ -6,8 +6,6 @@ bcrypt = require 'bcrypt'
 
 module.exports = class AdminController extends Controller
 
-  constructor: (@request) ->
-
   indexAllResources: (_) ->
     resources = Resource.listAll(_)
     for resource in resources

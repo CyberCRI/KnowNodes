@@ -78,41 +78,43 @@ app.configure('production', function(){
 });
 */
 
-// routing
+// NEW API
+
+app.resource('users', function() {
+    this.member.get('findByEmail');
+    this.member.get('karma');
+    this.member.get('triplets');
+});
+
 app.resource('resources', function() {
     this.member.get('searchByKeyword');
     this.member.get('triplets');
     this.collection.post('findByUrl');
 });
 
-app.resource('wiki');
-
 app.resource('connections', function() {
     this.collection.post('latestTriplets');
     this.collection.post('hottestTriplets');
-    this.member.get('getTripletByConnectionId');
-    this.member.get('getTripletsByUserId');
+    this.member.get('triplet');
 });
+
+require('./model/Notification'); // Load mongoose schema for notifications
+app.resource('notifications');
+
+app.resource('wiki');
 
 app.post('/vote/voteUp',voteController.voteUp );
 app.post('/vote/voteDown',voteController.voteDown );
 app.post('/vote/cancelVote',voteController.cancelVote );
 
-
 app.resource('scrape');
-
-app.resource('users', function() {
-    this.member.get('findByEmail');
-});
-
 
 app.post('/admin/indexAllResources', adminController.indexAllResources);
 app.post('/admin/indexAllConnections', adminController.indexAllConnections);
 
+// OLD API
+
 app.resource('edges');
-app.resource('users', function () {
-    this.member.get('karma');
-});
 
 app.resource('comments', function () {
     this.member.get('getRelatedComments');

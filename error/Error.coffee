@@ -1,5 +1,5 @@
 
-module.exports = class Exception
+module.exports = class Error
 
   @Type =
     BAD_REQUEST: 'BadRequest'
@@ -10,35 +10,35 @@ module.exports = class Exception
     ILLEGAL_ARGUMENT: 'IllegalArgument'
     UNSUPPORTED_OPERATION: 'UnsupportedOperation'
 
-  @exception: (type, message) ->
+  @error: (type, message) ->
     type: type
     message: "#{type} - #{message}"
     isCustom: true
 
   @badRequest: (attributeName, expected, actualValue) ->
-    @exception(@Type.BAD_REQUEST, "#{attributeName} was expected to be of type #{expected}, but received #{actualValue}")
+    @error(@Type.BAD_REQUEST, "#{attributeName} was expected to be of type #{expected}, but received #{actualValue}")
 
   @unauthorized: (methodName, details) ->
-    @exception(@Type.UNAUTHORIZED, "#{methodName} is not allowed, you should be logged in : #{details}")
+    @error(@Type.UNAUTHORIZED, "#{methodName} is not allowed, you should be logged in : #{details}")
 
   @forbidden: (methodName, details) ->
-    @exception(@Type.FORBIDDEN, "#{methodName} is forbidden (requires higher authorization level) : #{details}")
+    @error(@Type.FORBIDDEN, "#{methodName} is forbidden (requires higher authorization level) : #{details}")
 
   @notFound: (nodeType, key, value) ->
-    @exception(@Type.NOT_FOUND, "No #{nodeType} found for #{key} : #{value}")
+    @error(@Type.NOT_FOUND, "No #{nodeType} found for #{key} : #{value}")
 
   @notImplemented: (methodName) ->
-    @exception(@Type.NOT_IMPLEMENTED, "You should implement method #{methodName}")
+    @error(@Type.NOT_IMPLEMENTED, "You should implement method #{methodName}")
 
   @entityNotFound: (nodeType, id) ->
-    @exception(@Type.NOT_FOUND, "No #{nodeType} found for id : #{id}")
+    @error(@Type.NOT_FOUND, "No #{nodeType} found for id : #{id}")
 
   @illegalArgument: (argumentValue, methodName) ->
-    @exception(@Type.ILLEGAL_ARGUMENT, "#{argumentValue} is not a valid value for method #{methodName}")
+    @error(@Type.ILLEGAL_ARGUMENT, "#{argumentValue} is not a valid value for method #{methodName}")
 
   @unsupportedOperation: (methodName) ->
-    @exception(@Type.UNSUPPORTED_OPERATION, methodName)
+    @error(@Type.UNSUPPORTED_OPERATION, methodName)
 
   @unsupportedOperation: (methodName, reason) ->
-    @exception(@Type.UNSUPPORTED_OPERATION, "#{methodName} is not supported : #{reason}")
+    @error(@Type.UNSUPPORTED_OPERATION, "#{methodName} is not supported : #{reason}")
 
