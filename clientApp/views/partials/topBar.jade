@@ -5,4 +5,6 @@ div.topbar
   span
       a.button-a.button-dark(ng-href="/map/{{resourceId}}", ng-show="mapButton") Map mode
       a.button-a.button-dark(ng-href="/article/{{resourceId}}", ng-show="resourceButton") List mode
-      span(top-bar-login).topbar-login
+      button.btn.button-base.button-notification.topbar-login
+        i.icon-globe
+      span.topbar-login(top-bar-login)
