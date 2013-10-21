@@ -345,7 +345,11 @@ angular.module('KnowNodesApp.services', [])
         return {
 
             findByUserId: function (userId) {
-                return $http.get('/user/' + userId + '/triplets');
+                return $http.get('/users/' + userId + '/triplets');
+            },
+
+            findByConnectionId: function (connectionId) {
+                return $http.get('/connections/' + connectionId + '/triplet');
             }
         };
     }])

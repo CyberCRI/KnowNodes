@@ -1,5 +1,7 @@
 Resources = require './Resources'
 Users = require './Users'
+Type = require '../model/Type'
+Error = require '../error/Error'
 
 module.exports =
 

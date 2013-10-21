@@ -1,6 +1,7 @@
 OwnedEntityController = require '../OwnedEntityController'
 Connections = require '../../data/Connections'
 Resources = require '../../data/Resources'
+Triplets = require '../../data/Triplets'
 Error = require '../../error/Error'
 
 module.exports = class ConnectionController extends OwnedEntityController
@@ -31,14 +32,11 @@ module.exports = class ConnectionController extends OwnedEntityController
     else
       Error.forbidden('Connection Deletion', 'You should be the creator of the connection you wish to delete')
 
-  getTripletByConnectionId: (_) ->
-    @dataService.getTripletByConnectionId(@getId(), @getLoggedUserIdIfExists(), _)
+  triplet: (_) ->
+    Triplets.findByConnectionId(@getId(), @getLoggedUserIdIfExists(), _)
 
   latestTriplets: (_) ->
     @dataService.latestTriplets(@getLoggedUserIfExists(_), _)
 
   hottestTriplets: (_) ->
     @dataService.hottestTriplets(@getLoggedUserIfExists(_), _)
-
-  getTripletsByUserId: (_) ->
-    @dataService.getTripletsByUserId(@getId() ,@getLoggedUserIfExists(_), _)
