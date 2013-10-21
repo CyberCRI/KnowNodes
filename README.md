@@ -9,4 +9,4 @@ www.knownodes.com
 Want to create a local version or contribute? everything is in the wiki:
 https://github.com/CyberCRI/KnowNodes/wiki
 
-Knownodes is released under the Mozilla Public License Version 2.0, see LICENSE.txt.
+Licence: CC0 http://creativecommons.org/publicdomain/zero/1.0/
