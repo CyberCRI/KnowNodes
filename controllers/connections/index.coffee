@@ -15,15 +15,11 @@ module.exports =
   destroy: (request, response) ->
     new ConnectionController(request).destroy(Callback.bind(response))
 
-  getTripletByConnectionId: (request, response) ->
-    console.log("we are at the controller index")
-    new ConnectionController(request).getTripletByConnectionId(Callback.bind(response))
+  triplet: (request, response) ->
+    new ConnectionController(request).triplet(Callback.bind(response))
 
   latestTriplets: (request, response) ->
     new ConnectionController(request).latestTriplets(Callback.bind(response))
 
   hottestTriplets: (request, response) ->
     new ConnectionController(request).hottestTriplets(Callback.bind(response))
-
-  getTripletsByUserId: (request, response) ->
-    new ConnectionController(request).getTripletsByUserId(Callback.bind(response))
