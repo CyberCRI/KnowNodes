@@ -95,7 +95,7 @@ app.resource('resources', function() {
 app.resource('connections', function() {
     this.collection.post('latestTriplets');
     this.collection.post('hottestTriplets');
-    this.member.get('getTripletByConnectionId');
+    this.member.get('triplet');
 });
 
 require('./model/Notification'); // Load mongoose schema for notifications

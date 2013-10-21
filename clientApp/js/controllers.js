@@ -326,10 +326,10 @@ function StaticPageCtrl($scope) {
 }
 
 
-function ConnectionPageCtrl($scope, $http, $routeParams, userService) {
+function ConnectionPageCtrl($scope, $routeParams, userService, triplet) {
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
     $scope.knownodeList = {};
-    $http.get("/connections/" + $routeParams.id + "/getTripletByConnectionId").success(function (data, status, headers, config) {
+    triplet.findByConnectionId($routeParams.id).success(function (data) {
         $scope.knownodeList = data;
     });
 
@@ -747,12 +747,12 @@ function VoteCtrl($scope, $http, loginModal) {
     };
 }
 
-function UserProfilePageCtrl($scope, $location, $http, $routeParams, userService) {
+function UserProfilePageCtrl($scope, $location, $routeParams, userService, triplet) {
 
     $scope.knownodeList = {};
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
 
-    $http.get("/connections/" + $routeParams.id + "/getTripletsByUserId").success(function (data, status, headers, config) {
+    triplet.findByUserId($routeParams.id).success( function(data) {
         $scope.knownodeList = data;
     });
 
