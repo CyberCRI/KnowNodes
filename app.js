@@ -14,6 +14,8 @@ var express = require('express')
   , path = require('path')
   , MongoStore = require('connect-mongo')(express)
   , ConfigSettings = require('./config/settings')
+  , mongoose = require('mongoose')
+  , DBConf = require('./config/DB.conf.js')
 
 // passport: Login initialization
 passportConfig.initializePassport();
@@ -98,7 +100,6 @@ app.resource('connections', function() {
     this.member.get('triplet');
 });
 
-require('./model/Notification'); // Load mongoose schema for notifications
 app.resource('notifications');
 
 app.resource('wiki');
@@ -208,7 +209,12 @@ app.get('/', function(request, response) {
 });
 */
 
-// let's do it!
-http.createServer(app).listen(app.get('port'), function () {
-    console.log("Express server listening on port " + app.get('port'));
+mongoose.connect(DBConf.getDBURL('mongoDB').url);
+mongoose.connection.once('open', function() {
+    console.log('mongoose : connected to MongoDB')
+    // Start Web Server
+    http.createServer(app).listen(app.get('port'), function () {
+        console.log("Express server listening on port " + app.get('port'));
+    });
 });
+

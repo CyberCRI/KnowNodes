@@ -1,5 +1,6 @@
 Controller = require '../Controller'
 Connections = require '../../data/Connections'
+Votes = require '../../data/Votes'
 
 module.exports = class VoteController extends Controller
 
@@ -12,15 +13,15 @@ module.exports = class VoteController extends Controller
   voteUp: (_) ->
     user = @getLoggedUser _
     target = @findTarget _
-    user.voteUp(target, _)
+    Votes.voteUp(target, user, _)
 
   voteDown: (_) ->
     user = @getLoggedUser _
     target = @findTarget _
-    user.voteDown(target, _)
+    Votes.voteDown(target, user, _)
 
   cancelVote: (_) ->
     user = @getLoggedUser _
     target = @findTarget _
-    user.cancelVote(target, _)
+    Votes.cancelVote(target, user, _)
 

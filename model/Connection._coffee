@@ -1,8 +1,11 @@
-NodeWrapper = require './NodeWrapper'
+OwnedNodeWrapper = require './OwnedNodeWrapper'
 Type = require './Type'
 ConnectionValidator = require './validation/ConnectionValidator'
 
-module.exports = class Connection extends NodeWrapper
+module.exports = class Connection extends OwnedNodeWrapper
+
+  @getter title: ->
+    @getProperty('title')
 
   validate: ->
     new ConnectionValidator().validate(@node.data)

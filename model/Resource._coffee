@@ -1,11 +1,11 @@
-NodeWrapper = require './NodeWrapper'
+OwnedNodeWrapper = require './OwnedNodeWrapper'
 Type = require './Type'
 ResourceValidator = require './validation/ResourceValidator'
 Connection = require './Connection'
 Error = require '../error/Error'
 User = require './User'
 
-module.exports = class Resource extends NodeWrapper
+module.exports = class Resource extends OwnedNodeWrapper
 
   validate: ->
     new ResourceValidator().validate(@node.data)
