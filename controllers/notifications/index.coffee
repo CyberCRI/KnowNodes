@@ -3,5 +3,8 @@ NotificationController = require('./NotificationController')
 
 module.exports =
 
+  create: (request, response) ->
+    new NotificationController(request).markNotificationsAsRead(Callback.bind(response))
+
   index: (request, response) ->
-    new NotificationController(request).index(Callback.bind(response))
+    new NotificationController(request).getNotificationsForLoggedInUser(Callback.bind(response))

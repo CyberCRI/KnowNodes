@@ -17,11 +17,11 @@ module.exports = class ConnectionController extends OwnedEntityController
     if (not data.fromNodeId?)
       throw Error.badRequest('fromNodeId', 'String', data.fromNodeId)
     if (not data.toNodeId?)
-      Error.badRequest('toNodeId', 'String', @request.body.toNodeId)
+      throw Error.badRequest('toNodeId', 'String', @request.body.toNodeId)
     startResource = Resources.find(data.fromNodeId, _)
     endResource = Resources.find(data.toNodeId, _)
     creator = @getLoggedUser _
-    @dataService.create(startResource, endResource, creator, data, _)
+    Connections.create(startResource, endResource, creator, data, _)
 
   destroy: (_) ->
     # Make sure creator made the request

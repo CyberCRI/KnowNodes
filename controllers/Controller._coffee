@@ -29,11 +29,14 @@ module.exports = class Controller
     entity.delete(_)
 
   checkUserLoggedIn: (methodName) ->
-    if not @request.user?
+    if not @isUserLoggedIn()
       throw Error.unauthorizedOperation(methodName, 'User should be logged in')
 
+  isUserLoggedIn: ->
+    @request.user?
+
   getLoggedUserId: ->
-    @checkUserLoggedIn("getLoggedUserId")
+    @checkUserLoggedIn("Controller.getLoggedUserId()")
     @request.user.KN_ID
 
   getLoggedUser: (_) ->

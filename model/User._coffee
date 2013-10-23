@@ -7,6 +7,9 @@ Error = require '../error/Error'
 
 module.exports = class User extends NodeWrapper
 
+  @getter fullName: ->
+    "#{@getProperty('firstName')} #{@getProperty('lastName')}"
+
   isLoggedIn: ->
     @node?
 

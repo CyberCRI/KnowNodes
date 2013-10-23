@@ -80,7 +80,7 @@ module.exports =
 
     connection = Connections.find(connectionId, _)
 
-    if (userId)
+    if userId?
       user = Users.find(userId, _)
       userNodeId = user.node.id
     else

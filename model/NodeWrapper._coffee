@@ -4,14 +4,22 @@ NodeWrappers = require '../data/NodeWrappers'
 
 module.exports = class NodeWrapper
 
+  @getter = (props) =>
+    @::__defineGetter__ name, getter for name, getter of props
+
+  @setter = (props) =>
+    @::__defineSetter__ name, setter for name, setter of props
+
+  @getter id: ->
+    @getProperty('KN_ID')
+
   constructor: (@node) ->
     if not @node?
       throw Error.illegalArgument(@node, 'NodeWrapper.constructor()')
 
   getDB: -> GraphDB.get()
 
-  getId: ->
-    @node.data['KN_ID']
+  getId: -> @node.data['KN_ID'] # Old getter, consider removal
 
   save: (_) ->
     @validate()
@@ -78,6 +86,10 @@ module.exports = class NodeWrapper
     rel = @getRelationshipWith(target, relationshipType, _)
     if rel?
       rel.del(_)
+
+  checkNodeType: (expectedType) ->
+    if @getNodeType() is not expectedType
+      throw Error.wrongType(expectedType, @getNodeType())
 
   ###
         METHODS TO IMPLEMENT
