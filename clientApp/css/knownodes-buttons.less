@@ -73,6 +73,12 @@
     background: @inspire-color;
   }
 
+  &:focus {
+    color: @inspire-content;
+    text-decoration: none;
+    background: @inspire-color;
+  }
+
 }
 
 .btn.button-inspire.active {
@@ -96,6 +102,12 @@
     top: 4px;
   }
 
+  &:focus {
+    color: @inspire-content;
+    text-decoration: none;
+    background: @inspire-color;
+  }
+
 }
 .button-explain{
   width: 110px;
@@ -117,6 +129,11 @@
     background: @explain-color;
   }
 
+  &:focus {
+    color:@explain-content;
+    text-decoration: none;
+    background: @explain-color;
+  }
 }
 
 .btn.button-explain.active {
@@ -138,6 +155,12 @@
     text-decoration: none;
     background: @explain-color;
     top: 4px;
+  }
+  &:focus {
+
+    color:@explain-content;
+    text-decoration: none;
+    background: @explain-color;
   }
 
 }
@@ -163,6 +186,12 @@
     background: @critique-color;
   }
 
+  &:focus {
+
+    color:@critique-content;
+    text-decoration: none;
+    background: @critique-color;
+  }
 }
 
 .btn.button-critique.active {
@@ -186,6 +215,12 @@
     top: 4px;
   }
 
+  &:focus {
+
+    color:@critique-content;
+    text-decoration: none;
+    background: @critique-color;
+  }
 }
 
 .button-dark{
@@ -209,6 +244,12 @@
     top: 4px;
     box-shadow: none;
     color:white;
+    text-decoration: none;
+    background: @grey60;
+  }
+  &:focus {
+
+    color:@white;
     text-decoration: none;
     background: @grey60;
   }
@@ -392,4 +433,36 @@
   background-color:transparent;
   box-shadow:none;
   -webkit-box-shadow:none;
+}
+
+.button-notification {
+  height: 25px;
+  background: @inspire-color;
+  box-shadow: 0 4px 0 @inspire-shadow;
+  color: @inspire-content;
+  border-radius: 0;
+  &:hover{
+    color: @inspire-content;
+
+    box-shadow: 0 2px 0 @inspire-shadow;
+    text-decoration: none;
+    background: @inspire-color;
+  }
+
+  &:active {
+
+    color: @inspire-content;
+
+    box-shadow: none;
+    text-decoration: none;
+    background: @inspire-color;
+  }
+
+  &:focus {
+
+    color: @inspire-content;
+    text-decoration: none;
+    background: @inspire-color;
+  }
+
 }
