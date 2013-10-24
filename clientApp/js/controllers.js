@@ -43,9 +43,9 @@ function TopBarCtrl($rootScope, $scope, $location, resource, userService) {
 
 function NotificationsCtrl($scope, notification) {
 
-    $scope.notifications = notification.processedNotifications;
-    console.log($scope.notifications);
-
+    notification.getNotifications(function(result) {
+        $scope.notifications = result;
+    });
 }
 
 function CreateResourceModalCtrl($scope, dialog, resource) {
