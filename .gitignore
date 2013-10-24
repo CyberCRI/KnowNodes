@@ -13,8 +13,12 @@ npm-debug.log
 log/*.js
 model/*.js
 model/**/*.js
+data/*.js
 dao/*.js
 error/*.js
+
+DB/GraphDB.js
+
 clientApp/css/colorschema.css
 
 clientApp/css/styles.css
