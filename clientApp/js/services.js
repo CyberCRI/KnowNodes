@@ -357,7 +357,7 @@ angular.module('KnowNodesApp.services', [])
 
                         break;
                     case "vote":
-                        service.processedNotifications[processedNotification].actionDescription = "voted";
+                        service.processedNotifications[processedNotification].actionDescription = "voted on";
                         service.processedNotifications[processedNotification].showActor = "false";
                         service.processedNotifications[processedNotification].targetType = "triplet";
                         break;
