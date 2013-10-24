@@ -64,7 +64,7 @@
 
         nodes = [];
         return Connections.find(connectionId, __cb(_, __frame, 3, 19, function ___(__0, __1) { connection = __1; return (function __$findByConnectionId__2(__then) {
-            if (userId) {
+            if ((userId != null)) {
               return Users.find(userId, __cb(_, __frame, 5, 15, function ___(__0, __2) { user = __2;
                 userNodeId = user.node.id; __then(); }, true)); } else {
 

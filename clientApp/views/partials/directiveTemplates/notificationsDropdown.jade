@@ -1,12 +1,13 @@
-ul.dropdown-menu Notifications
-  li.notifications-title(ng-repeat="notification in notifications")
+ul.dropdown-menu.notifications-box
+  p.notification-title Notifications
+  li.notification(ng-repeat="notification in notifications")
     span
-      a(ng-hide="notification.showActor=='false' || notification.actorCount=='true'", ng-href="/user/{{notification.actor.KN_ID}}") {{notification.actor.userName+" "}}
-      a(ng-show="notification.showActor=='false'") Someone{{" "}}
+      a(ng-hide="notification.showActor=='false' || notification.actors.length > 1", ng-href="/user/{{notification.actor.KN_ID}}") {{notification.actor.userName+" "}}
+      span(ng-show="notification.showActor=='false' && notification.actors.length == 1") Someone{{" "}}
       //a(ng-show="actor=='many known'")
-      a(ng-show="notification.actorCount=='true'") {{notification.actorCount}} peers
+      span(ng-show="notification.actors.length > 1") {{notification.actors.length +" peers "}}
 
-    span {{notification.actionDescription}}
+    span {{notification.actionDescription+ " "}}
 
       span(ng-show="notification.targetType=='triplet'")
         a(href="/article/{{notification.target.startResource.KN_ID}}") {{notification.target.startResource.title + " "}}
