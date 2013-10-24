@@ -1,6 +1,6 @@
 OwnedNodeWrapper = require './OwnedNodeWrapper'
 Type = require './Type'
-ResourceValidator = require './validation/ResourceValidator'
+ResourceValidator = require './validation/resourceValidator'
 Connection = require './Connection'
 Error = require '../error/Error'
 User = require './User'

@@ -1,6 +1,6 @@
 OwnedNodeWrapper = require './OwnedNodeWrapper'
 Type = require './Type'
-ConnectionValidator = require './validation/ConnectionValidator'
+ConnectionValidator = require './validation/connectionValidator'
 
 module.exports = class Connection extends OwnedNodeWrapper
 
