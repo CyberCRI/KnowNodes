@@ -1,0 +1,18 @@
+ul.dropdown-menu.notifications-box
+  p.notification-title Notifications
+  li.notification(ng-repeat="notification in notifications")
+    span
+      a(ng-hide="notification.showActor=='false' || notification.actors.length > 1", ng-href="/user/{{notification.actor.id}}") {{notification.actor.fullName+" "}}
+      span(ng-show="notification.showActor=='false' && notification.actors.length == 1") Someone{{" "}}
+      //a(ng-show="actor=='many known'")
+      span(ng-show="notification.actors.length > 1") {{notification.actors.length +" peers "}}
+
+    span {{notification.actionDescription+ " "}}
+
+      span(ng-show="notification.target.type=='kn_Edge'")
+        a(href="/connection/{{notification.triplet.connection.id}}") {{notification.triplet.startResource.title + " " + notification.triplet.connection.title + " " + notification.triplet.endResource.title}}
+
+      a(ng-show="notification.targetType=='KN_'", ng-href="/article/{{notification.target.id}}") {{notification.target.title}}
+
+    p
+      em.info-time {{(notification.createdOn) | timeAgo}}
