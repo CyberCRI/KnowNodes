@@ -1,21 +1,26 @@
 mongoose = require 'mongoose'
+Type = require './Type'
 
 notificationSchema = mongoose.Schema({
   notifiedUserId: String
   actor:
     id: String
-    name: String
+    fullName: String
   action: String
-  target: mongoose.Schema.Types.Mixed
-  createdOn: { type: Date, default: Date.now }
+  target:
+    id: String
+    title: String
+    type: { type: String, enum: [Type.RESOURCE, Type.CONNECTION] }
+  creationDate: { type: Date, default: Date.now }
   alreadyRead: { type: Boolean, default: false }
+  triplet: mongoose.Schema.Types.Mixed
 })
 
 model = mongoose.model('Notification', notificationSchema)
 
 model.Action =
-  COMMENTED: 'commented'
-  UPVOTED: 'upvoted'
-  CONNECTED: 'connected'
+  COMMENTED: 'comment'
+  UPVOTED: 'vote'
+  CONNECTED: 'create'
 
 module.exports = model

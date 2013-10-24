@@ -330,12 +330,12 @@ function ConnectionPageCtrl($scope, $routeParams, userService, triplet) {
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
     $scope.knownodeList = {};
     triplet.findByConnectionId($routeParams.id).success(function (data) {
-        $scope.knownodeList = data;
+        $scope.knownodeList = [data];
     });
 
 }
 
-function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, connection) {
+function TripletInputCtrl($scope, $rootScope, $route, wikinode, resource, connection) {
 
     $scope.reversedDirection = false;
 
