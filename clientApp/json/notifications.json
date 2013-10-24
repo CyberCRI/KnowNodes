@@ -542,5 +542,107 @@
         }
     },
     "commentCount": 0
+},
+{
+    "notifiedUserId": "886b41da-7a27-4115-a600-f5986c66d31b",
+    "action": "create",
+    "_id": "52692adea829937a30000002",
+    "__v": 0,
+    "alreadyRead": false,
+    "creationDate": "2013-10-24T14:12:46.641Z",
+    "target": {
+        "id": "2a2652aa-86d3-4f7a-9786-ef928d5d7a55",
+        "title": "Updated",
+        "type": "kn_Post"
+    },
+    "actor": {
+        "id": "886b41da-7a27-4115-a600-f5986c66d31b",
+        "fullName": "Mikael Couzic"
+    }
 
-}]
+},
+    {
+        "notifiedUserId": "886b41da-7a27-4115-a600-f5986c66d31b",
+        "action": "vote",
+        "triplet": {
+            "upvotes": 1,
+            "downvotes": 0,
+            "userUpvoted": null,
+            "userDownvoted": null,
+            "startResource": {
+                "title": "Postman (Chrome extension)",
+                "active": true,
+                "KN_ID": "2113d9f1-700b-41ff-8a01-189fbccd82cb",
+                "__CreatedOn__": 1374661249288,
+                "nodeType": "kn_Post",
+                "creator": {
+                    "dateOfBirth": "2013-05-31T22:00:00.000Z",
+                    "lastName": "Couzic",
+                    "email": "mikaelcouzic@yahoo.fr",
+                    "__CreatedOn__": "2013-06-10T13:21:56.250Z",
+                    "KN_ID": "886b41da-7a27-4115-a600-f5986c66d31b",
+                    "nodeType": "kn_User",
+                    "firstName": "Mikael",
+                    "password": "$2a$04$LpCWIpgvezHfZUGdtRcLTe8gxqdYLlOW6aTuV8KbkhOhOvuEQKFMC"
+                },
+                "connectionCount": 1,
+                "id": "2113d9f1-700b-41ff-8a01-189fbccd82cb"
+            },
+            "endResource": {
+                "active": true,
+                "title": "HTTP Client",
+                "KN_ID": "fcfb8f1f-4bc6-46ed-9955-f086d20711a9",
+                "__CreatedOn__": 1374661282528,
+                "nodeType": "kn_Post",
+                "creator": {
+                    "dateOfBirth": "2013-05-31T22:00:00.000Z",
+                    "lastName": "Couzic",
+                    "email": "mikaelcouzic@yahoo.fr",
+                    "__CreatedOn__": "2013-06-10T13:21:56.250Z",
+                    "KN_ID": "886b41da-7a27-4115-a600-f5986c66d31b",
+                    "nodeType": "kn_User",
+                    "firstName": "Mikael",
+                    "password": "$2a$04$LpCWIpgvezHfZUGdtRcLTe8gxqdYLlOW6aTuV8KbkhOhOvuEQKFMC"
+                },
+                "connectionCount": 0,
+                "id": "fcfb8f1f-4bc6-46ed-9955-f086d20711a9"
+            },
+            "connection": {
+                "connectionType": "explain",
+                "title": "is a",
+                "fromNodeId": "2113d9f1-700b-41ff-8a01-189fbccd82cb",
+                "toNodeId": "fcfb8f1f-4bc6-46ed-9955-f086d20711a9",
+                "active": true,
+                "KN_ID": "06c7cd25-726b-4984-8313-1e1d32820df1",
+                "__CreatedOn__": 1374661288044,
+                "nodeType": "kn_Edge",
+                "creator": {
+                    "dateOfBirth": "2013-05-31T22:00:00.000Z",
+                    "lastName": "Couzic",
+                    "email": "mikaelcouzic@yahoo.fr",
+                    "__CreatedOn__": "2013-06-10T13:21:56.250Z",
+                    "KN_ID": "886b41da-7a27-4115-a600-f5986c66d31b",
+                    "nodeType": "kn_User",
+                    "firstName": "Mikael",
+                    "password": "$2a$04$LpCWIpgvezHfZUGdtRcLTe8gxqdYLlOW6aTuV8KbkhOhOvuEQKFMC"
+                },
+                "id": "06c7cd25-726b-4984-8313-1e1d32820df1"
+            },
+            "commentCount": 0,
+            "type": "Triplet"
+        },
+        "_id": "5269350470471b7834000002",
+        "__v": 0,
+        "alreadyRead": false,
+        "creationDate": "2013-10-24T14:56:04.789Z",
+        "target": {
+            "id": "06c7cd25-726b-4984-8313-1e1d32820df1",
+            "title": "is a",
+            "type": "kn_Edge"
+        },
+        "actor": {
+            "id": "886b41da-7a27-4115-a600-f5986c66d31b",
+            "fullName": "Mikael Couzic"
+        }
+    }]
+
