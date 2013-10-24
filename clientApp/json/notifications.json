@@ -1,0 +1,546 @@
+[{
+    "timeStamp": 1378388572877,
+    "alreadyRead": false,
+    "action": "create",
+    "actor": {
+        "userName": "Mikael Couzic the iii",
+        "id": "886b41da-7a27-4115-a600-f5986c66d31b"
+        },
+    "target": {
+        "bodyText": "<p>A software program that runs on an Android device</p>",
+        "title": "Android Application",
+        "active": true,
+        "id": "59a5c1b6-0f68-4d1f-ad46-34a5b4cd68d3",
+        "__CreatedOn__": 1378388572877,
+        "nodeType": "kn_Post",
+        "creator": {
+            "dateOfBirth": "2013-05-31T22:00:00.000Z",
+            "lastName": "Couzic",
+            "email": "mikaelcouzic@yahoo.fr",
+            "__CreatedOn__": "2013-06-10T13:21:56.250Z",
+            "id": "886b41da-7a27-4115-a600-f5986c66d31b",
+            "nodeType": "kn_User",
+            "firstName": "Mikael",
+            "password": "$2a$04$LpCWIpgvezHfZUGdtRcLTe8gxqdYLlOW6aTuV8KbkhOhOvuEQKFMC"
+            }
+    },
+    "commentCount": 0,
+    "connectionCount": 1,
+    "upvotes": 2,
+    "downvotes": 0,
+    "userUpvoted": null,
+    "userDownvoted": null
+},
+    {
+        "timeStamp": 1378388572977,
+        "alreadyRead": false,
+        "action": "vote",
+        "actor": {
+            "userName": "Mikael Couzic the iii",
+            "id": "886b41da-7a27-4115-a600-f5986c66d31b"
+        },
+        "target": {
+        "startResource": {
+            "bodyText": "<p>A software program that runs on an Android device</p>",
+            "title": "Android Application",
+            "active": true,
+            "id": "59a5c1b6-0f68-4d1f-ad46-34a5b4cd68d3",
+            "__CreatedOn__": 1378388572877,
+            "nodeType": "kn_Post",
+            "creator": {
+                "dateOfBirth": "2013-05-31T22:00:00.000Z",
+                "lastName": "Couzic",
+                "email": "mikaelcouzic@yahoo.fr",
+                "__CreatedOn__": "2013-06-10T13:21:56.250Z",
+                "id": "886b41da-7a27-4115-a600-f5986c66d31b",
+                "nodeType": "kn_User",
+                "firstName": "Mikael",
+                "password": "$2a$04$LpCWIpgvezHfZUGdtRcLTe8gxqdYLlOW6aTuV8KbkhOhOvuEQKFMC"
+            }
+        },
+        "endResource": {
+            "title": "Java (programming language)",
+            "resourceType": "Wikipedia Article",
+            "url": "http://en.wikipedia.org/wiki/Java_(programming_language)",
+            "active": true,
+            "id": "40c806ad-7a8a-41c5-b69e-c82ff65de394",
+            "__CreatedOn__": 1378388711923,
+            "nodeType": "kn_Post",
+            "creator": {
+                "dateOfBirth": "2013-05-31T22:00:00.000Z",
+                "lastName": "Couzic",
+                "email": "mikaelcouzic@yahoo.fr",
+                "__CreatedOn__": "2013-06-10T13:21:56.250Z",
+                "id": "886b41da-7a27-4115-a600-f5986c66d31b",
+                "nodeType": "kn_User",
+                "firstName": "Mikael",
+                "password": "$2a$04$LpCWIpgvezHfZUGdtRcLTe8gxqdYLlOW6aTuV8KbkhOhOvuEQKFMC"
+            }
+        },
+        "connection": {
+            "connectionType": "explain",
+            "title": "are written in",
+            "fromNodeId": "59a5c1b6-0f68-4d1f-ad46-34a5b4cd68d3",
+            "toNodeId": "40c806ad-7a8a-41c5-b69e-c82ff65de394",
+            "active": true,
+            "id": "2086cf88-caf6-400e-91d1-ef517b630041",
+            "__CreatedOn__": 1378388713905,
+            "nodeType": "kn_Edge",
+            "creator": {
+                "dateOfBirth": "2013-05-31T22:00:00.000Z",
+                "lastName": "Couzic",
+                "email": "mikaelcouzic@yahoo.fr",
+                "__CreatedOn__": "2013-06-10T13:21:56.250Z",
+                "id": "886b41da-7a27-4115-a600-f5986c66d31b",
+                "nodeType": "kn_User",
+                "firstName": "Mikael",
+                "password": "$2a$04$LpCWIpgvezHfZUGdtRcLTe8gxqdYLlOW6aTuV8KbkhOhOvuEQKFMC"
+            }
+        },
+        "id": "886b41da-7a27-4115-a600-f5986c66d31b"
+
+        },
+        "commentCount": 0,
+        "connectionCount": 1,
+        "upvotes": 2,
+        "downvotes": 0,
+        "userUpvoted": null,
+        "userDownvoted": null
+    },
+{
+    "timeStamp": 1378389972877,
+    "alreadyRead": true,
+    "action": "comment",
+    "actor": {
+        "userName": "ava gerver",
+        "id": "e9d8dafb-b00f-40d4-aec2-25a6b701958d"
+        },
+
+    "upvotes": 1,
+    "downvotes": 0,
+    "userUpvoted": null,
+    "userDownvoted": null,
+    "target": {
+    "startResource": {
+        "title": "Miki",
+        "url": "http://en.wikipedia.org/wiki/Miki",
+        "active": true,
+        "resourceType": "Wikipedia Article",
+        "id": "5e726918-8d65-4978-af36-c57bfb3ceebc",
+        "__CreatedOn__": 1374850225572,
+        "nodeType": "kn_Post",
+        "creator": {
+            "id": "e9d8dafb-b00f-40d4-aec2-25a6b701958d",
+            "firstName": "Ava",
+            "__CreatedOn__": 1372688811551,
+            "password": "$2a$04$tYlY12MHKiorqxAXFIVn7uAgpG7aImBWPYuvHaHGyQjDuBPbGBhxu",
+            "email": "ava.gerver@gmail.com",
+            "lastName": "Gerver",
+            "dateOfBirth": "2013-06-30T22:00:00.000Z",
+            "nodeType": "kn_User"
+        },
+        "connectionCount": 2
+    },
+    "endResource": {
+        "active": true,
+        "title": "of me",
+        "id": "72d8a2ed-cddb-4d77-90ff-a0cfc7ae5383",
+        "__CreatedOn__": 1374850275090,
+        "nodeType": "kn_Post",
+        "creator": {
+            "id": "e9d8dafb-b00f-40d4-aec2-25a6b701958d",
+            "firstName": "Ava",
+            "__CreatedOn__": 1372688811551,
+            "password": "$2a$04$tYlY12MHKiorqxAXFIVn7uAgpG7aImBWPYuvHaHGyQjDuBPbGBhxu",
+            "email": "ava.gerver@gmail.com",
+            "lastName": "Gerver",
+            "dateOfBirth": "2013-06-30T22:00:00.000Z",
+            "nodeType": "kn_User"
+        },
+        "connectionCount": 0
+    },
+    "connection": {
+        "connectionType": "inspire",
+        "title": "is a friend",
+        "fromNodeId": "5e726918-8d65-4978-af36-c57bfb3ceebc",
+        "toNodeId": "72d8a2ed-cddb-4d77-90ff-a0cfc7ae5383",
+        "active": true,
+        "id": "51f9e962-624d-4647-8372-96a1a392aa8d",
+        "__CreatedOn__": 1374850280360,
+        "nodeType": "kn_Edge",
+        "creator": {
+            "id": "e9d8dafb-b00f-40d4-aec2-25a6b701958d",
+            "firstName": "Ava",
+            "__CreatedOn__": 1372688811551,
+            "password": "$2a$04$tYlY12MHKiorqxAXFIVn7uAgpG7aImBWPYuvHaHGyQjDuBPbGBhxu",
+            "email": "ava.gerver@gmail.com",
+            "lastName": "Gerver",
+            "dateOfBirth": "2013-06-30T22:00:00.000Z",
+            "nodeType": "kn_User"
+        }
+    }
+    },
+    "commentCount": 0
+
+},
+{
+    "timeStamp": 1378399972877,
+    "alreadyRead": true,
+    "action": "vote",
+    "actor": {
+        "userName": "ava gerver",
+        "id": "e9d8dafb-b00f-40d4-aec2-25a6b701958d"
+    },
+
+    "upvotes": 1,
+    "downvotes": 0,
+    "userUpvoted": null,
+    "userDownvoted": null,
+    "target": {
+    "startResource": {
+        "title": "Miki",
+        "url": "http://en.wikipedia.org/wiki/Miki",
+        "active": true,
+        "resourceType": "Wikipedia Article",
+        "id": "5e726918-8d65-4978-af36-c57bfb3ceebc",
+        "__CreatedOn__": 1374850225572,
+        "nodeType": "kn_Post",
+        "creator": {
+            "id": "e9d8dafb-b00f-40d4-aec2-25a6b701958d",
+            "firstName": "Ava",
+            "__CreatedOn__": 1372688811551,
+            "password": "$2a$04$tYlY12MHKiorqxAXFIVn7uAgpG7aImBWPYuvHaHGyQjDuBPbGBhxu",
+            "email": "ava.gerver@gmail.com",
+            "lastName": "Gerver",
+            "dateOfBirth": "2013-06-30T22:00:00.000Z",
+            "nodeType": "kn_User"
+        },
+        "connectionCount": 2
+    },
+    "endResource": {
+        "active": true,
+        "title": "of me",
+        "id": "72d8a2ed-cddb-4d77-90ff-a0cfc7ae5383",
+        "__CreatedOn__": 1374850275090,
+        "nodeType": "kn_Post",
+        "creator": {
+            "id": "e9d8dafb-b00f-40d4-aec2-25a6b701958d",
+            "firstName": "Ava",
+            "__CreatedOn__": 1372688811551,
+            "password": "$2a$04$tYlY12MHKiorqxAXFIVn7uAgpG7aImBWPYuvHaHGyQjDuBPbGBhxu",
+            "email": "ava.gerver@gmail.com",
+            "lastName": "Gerver",
+            "dateOfBirth": "2013-06-30T22:00:00.000Z",
+            "nodeType": "kn_User"
+        },
+        "connectionCount": 0
+    },
+    "connection": {
+        "connectionType": "inspire",
+        "title": "is a friend",
+        "fromNodeId": "5e726918-8d65-4978-af36-c57bfb3ceebc",
+        "toNodeId": "72d8a2ed-cddb-4d77-90ff-a0cfc7ae5383",
+        "active": true,
+        "id": "51f9e962-624d-4647-8372-96a1a392aa8d",
+        "__CreatedOn__": 1374850280360,
+        "nodeType": "kn_Edge",
+        "creator": {
+            "id": "e9d8dafb-b00f-40d4-aec2-25a6b701958d",
+            "firstName": "Ava",
+            "__CreatedOn__": 1372688811551,
+            "password": "$2a$04$tYlY12MHKiorqxAXFIVn7uAgpG7aImBWPYuvHaHGyQjDuBPbGBhxu",
+            "email": "ava.gerver@gmail.com",
+            "lastName": "Gerver",
+            "dateOfBirth": "2013-06-30T22:00:00.000Z",
+            "nodeType": "kn_User"
+        }
+    }
+    },
+    "commentCount": 0
+
+},
+{
+    "timeStamp": 1378399972887,
+    "alreadyRead": true,
+    "action": "vote",
+    "actor": {
+        "userName": "Mikael Couzic",
+        "id": "886b41da-7a27-4115-a600-f5986c66d31b"
+    },
+
+    "upvotes": 1,
+    "downvotes": 0,
+    "userUpvoted": null,
+    "userDownvoted": null,
+    "target": {
+    "startResource": {
+        "title": "Miki",
+        "url": "http://en.wikipedia.org/wiki/Miki",
+        "active": true,
+        "resourceType": "Wikipedia Article",
+        "id": "5e726918-8d65-4978-af36-c57bfb3ceebc",
+        "__CreatedOn__": 1374850225572,
+        "nodeType": "kn_Post",
+        "creator": {
+            "id": "e9d8dafb-b00f-40d4-aec2-25a6b701958d",
+            "firstName": "Ava",
+            "__CreatedOn__": 1372688811551,
+            "password": "$2a$04$tYlY12MHKiorqxAXFIVn7uAgpG7aImBWPYuvHaHGyQjDuBPbGBhxu",
+            "email": "ava.gerver@gmail.com",
+            "lastName": "Gerver",
+            "dateOfBirth": "2013-06-30T22:00:00.000Z",
+            "nodeType": "kn_User"
+        },
+        "connectionCount": 2
+    },
+    "endResource": {
+        "active": true,
+        "title": "of me",
+        "id": "72d8a2ed-cddb-4d77-90ff-a0cfc7ae5383",
+        "__CreatedOn__": 1374850275090,
+        "nodeType": "kn_Post",
+        "creator": {
+            "id": "e9d8dafb-b00f-40d4-aec2-25a6b701958d",
+            "firstName": "Ava",
+            "__CreatedOn__": 1372688811551,
+            "password": "$2a$04$tYlY12MHKiorqxAXFIVn7uAgpG7aImBWPYuvHaHGyQjDuBPbGBhxu",
+            "email": "ava.gerver@gmail.com",
+            "lastName": "Gerver",
+            "dateOfBirth": "2013-06-30T22:00:00.000Z",
+            "nodeType": "kn_User"
+        },
+        "connectionCount": 0
+    },
+    "connection": {
+        "connectionType": "inspire",
+        "title": "is a friend",
+        "fromNodeId": "5e726918-8d65-4978-af36-c57bfb3ceebc",
+        "toNodeId": "72d8a2ed-cddb-4d77-90ff-a0cfc7ae5383",
+        "active": true,
+        "id": "51f9e962-624d-4647-8372-96a1a392aa8d",
+        "__CreatedOn__": 1374850280360,
+        "nodeType": "kn_Edge",
+        "creator": {
+            "id": "e9d8dafb-b00f-40d4-aec2-25a6b701958d",
+            "firstName": "Ava",
+            "__CreatedOn__": 1372688811551,
+            "password": "$2a$04$tYlY12MHKiorqxAXFIVn7uAgpG7aImBWPYuvHaHGyQjDuBPbGBhxu",
+            "email": "ava.gerver@gmail.com",
+            "lastName": "Gerver",
+            "dateOfBirth": "2013-06-30T22:00:00.000Z",
+            "nodeType": "kn_User"
+        }
+    }
+    },
+    "commentCount": 0
+
+},
+{
+    "timeStamp": 1378399972888,
+    "alreadyRead": false,
+    "action": "comment",
+    "actor": {
+        "userName": "Mikael Couzic",
+        "id": "886b41da-7a27-4115-a600-f5986c66d31b"
+    },
+
+    "upvotes": 1,
+    "downvotes": 0,
+    "userUpvoted": null,
+    "userDownvoted": null,
+    "target": {
+    "startResource": {
+        "title": "Miki",
+        "url": "http://en.wikipedia.org/wiki/Miki",
+        "active": true,
+        "resourceType": "Wikipedia Article",
+        "id": "5e726918-8d65-4978-af36-c57bfb3ceebc",
+        "__CreatedOn__": 1374850225572,
+        "nodeType": "kn_Post",
+        "creator": {
+            "id": "e9d8dafb-b00f-40d4-aec2-25a6b701958d",
+            "firstName": "Ava",
+            "__CreatedOn__": 1372688811551,
+            "password": "$2a$04$tYlY12MHKiorqxAXFIVn7uAgpG7aImBWPYuvHaHGyQjDuBPbGBhxu",
+            "email": "ava.gerver@gmail.com",
+            "lastName": "Gerver",
+            "dateOfBirth": "2013-06-30T22:00:00.000Z",
+            "nodeType": "kn_User"
+        },
+        "connectionCount": 2
+    },
+    "endResource": {
+        "active": true,
+        "title": "of me",
+        "id": "72d8a2ed-cddb-4d77-90ff-a0cfc7ae5383",
+        "__CreatedOn__": 1374850275090,
+        "nodeType": "kn_Post",
+        "creator": {
+            "id": "e9d8dafb-b00f-40d4-aec2-25a6b701958d",
+            "firstName": "Ava",
+            "__CreatedOn__": 1372688811551,
+            "password": "$2a$04$tYlY12MHKiorqxAXFIVn7uAgpG7aImBWPYuvHaHGyQjDuBPbGBhxu",
+            "email": "ava.gerver@gmail.com",
+            "lastName": "Gerver",
+            "dateOfBirth": "2013-06-30T22:00:00.000Z",
+            "nodeType": "kn_User"
+        },
+        "connectionCount": 0
+    },
+    "connection": {
+        "connectionType": "inspire",
+        "title": "is a friend",
+        "fromNodeId": "5e726918-8d65-4978-af36-c57bfb3ceebc",
+        "toNodeId": "72d8a2ed-cddb-4d77-90ff-a0cfc7ae5383",
+        "active": true,
+        "id": "51f9e962-624d-4647-8372-96a1a392aa8d",
+        "__CreatedOn__": 1374850280360,
+        "nodeType": "kn_Edge",
+        "creator": {
+            "id": "e9d8dafb-b00f-40d4-aec2-25a6b701958d",
+            "firstName": "Ava",
+            "__CreatedOn__": 1372688811551,
+            "password": "$2a$04$tYlY12MHKiorqxAXFIVn7uAgpG7aImBWPYuvHaHGyQjDuBPbGBhxu",
+            "email": "ava.gerver@gmail.com",
+            "lastName": "Gerver",
+            "dateOfBirth": "2013-06-30T22:00:00.000Z",
+            "nodeType": "kn_User"
+        }
+    }
+    },
+    "commentCount": 0
+
+},
+    {
+        "timeStamp": 1378399972388,
+        "alreadyRead": true,
+        "action": "comment",
+        "actor": {
+            "userName": "Mikael Couzic",
+            "id": "886b41da-7a27-4115-a600-f5986c66d31b"
+        },
+
+        "upvotes": 1,
+        "downvotes": 0,
+        "userUpvoted": null,
+        "userDownvoted": null,
+        "target": {
+        "startResource": {
+            "title": "Miki",
+            "url": "http://en.wikipedia.org/wiki/Miki",
+            "active": true,
+            "resourceType": "Wikipedia Article",
+            "id": "5e726918-8d65-4978-af36-c57bfb3ceebc",
+            "__CreatedOn__": 1374850225572,
+            "nodeType": "kn_Post",
+            "creator": {
+                "id": "e9d8dafb-b00f-40d4-aec2-25a6b701958d",
+                "firstName": "Ava",
+                "__CreatedOn__": 1372688811551,
+                "password": "$2a$04$tYlY12MHKiorqxAXFIVn7uAgpG7aImBWPYuvHaHGyQjDuBPbGBhxu",
+                "email": "ava.gerver@gmail.com",
+                "lastName": "Gerver",
+                "dateOfBirth": "2013-06-30T22:00:00.000Z",
+                "nodeType": "kn_User"
+            },
+            "connectionCount": 2
+        },
+        "endResource": {
+            "active": true,
+            "title": "of me",
+            "id": "72d8a2ed-cddb-4d77-90ff-a0cfc7ae5383",
+            "__CreatedOn__": 1374850275090,
+            "nodeType": "kn_Post",
+            "creator": {
+                "id": "e9d8dafb-b00f-40d4-aec2-25a6b701958d",
+                "firstName": "Ava",
+                "__CreatedOn__": 1372688811551,
+                "password": "$2a$04$tYlY12MHKiorqxAXFIVn7uAgpG7aImBWPYuvHaHGyQjDuBPbGBhxu",
+                "email": "ava.gerver@gmail.com",
+                "lastName": "Gerver",
+                "dateOfBirth": "2013-06-30T22:00:00.000Z",
+                "nodeType": "kn_User"
+            },
+            "connectionCount": 0
+        },
+        "connection": {
+            "connectionType": "inspire",
+            "title": "is a friend",
+            "fromNodeId": "5e726918-8d65-4978-af36-c57bfb3ceebc",
+            "toNodeId": "72d8a2ed-cddb-4d77-90ff-a0cfc7ae5383",
+            "active": true,
+            "id": "51f9e962-624d-4647-8372-96a1a392aa8d",
+            "__CreatedOn__": 1374850280360,
+            "nodeType": "kn_Edge",
+            "creator": {
+                "id": "e9d8dafb-b00f-40d4-aec2-25a6b701958d",
+                "firstName": "Ava",
+                "__CreatedOn__": 1372688811551,
+                "password": "$2a$04$tYlY12MHKiorqxAXFIVn7uAgpG7aImBWPYuvHaHGyQjDuBPbGBhxu",
+                "email": "ava.gerver@gmail.com",
+                "lastName": "Gerver",
+                "dateOfBirth": "2013-06-30T22:00:00.000Z",
+                "nodeType": "kn_User"
+            }
+        }
+        },
+        "commentCount": 0
+
+},
+{
+    "timeStamp": 1378399972388,
+    "alreadyRead": true,
+    "action": "follow",
+    "actor": {
+        "userName": "Mikael Couzic",
+        "id": "886b41da-7a27-4115-a600-f5986c66d31b"
+    },
+
+    "upvotes": 1,
+    "downvotes": 0,
+    "userUpvoted": null,
+    "userDownvoted": null,
+    "target": {
+        "title": "Miki",
+        "url": "http://en.wikipedia.org/wiki/Miki",
+        "active": true,
+        "resourceType": "Wikipedia Article",
+        "id": "5e726918-8d65-4978-af36-c57bfb3ceebc",
+        "__CreatedOn__": 1374850225572,
+        "nodeType": "kn_Post",
+        "creator": {
+            "id": "e9d8dafb-b00f-40d4-aec2-25a6b701958d",
+            "firstName": "Ava",
+            "__CreatedOn__": 1372688811551,
+            "password": "$2a$04$tYlY12MHKiorqxAXFIVn7uAgpG7aImBWPYuvHaHGyQjDuBPbGBhxu",
+            "email": "ava.gerver@gmail.com",
+            "lastName": "Gerver",
+            "dateOfBirth": "2013-06-30T22:00:00.000Z",
+            "nodeType": "kn_User"
+        },
+        "connectionCount": 2,
+        "connectionCount": 0
+    },
+    "connection": {
+        "connectionType": "inspire",
+        "title": "is a friend",
+        "fromNodeId": "5e726918-8d65-4978-af36-c57bfb3ceebc",
+        "toNodeId": "72d8a2ed-cddb-4d77-90ff-a0cfc7ae5383",
+        "active": true,
+        "id": "51f9e962-624d-4647-8372-96a1a392aa8d",
+        "__CreatedOn__": 1374850280360,
+        "nodeType": "kn_Edge",
+        "creator": {
+            "id": "e9d8dafb-b00f-40d4-aec2-25a6b701958d",
+            "firstName": "Ava",
+            "__CreatedOn__": 1372688811551,
+            "password": "$2a$04$tYlY12MHKiorqxAXFIVn7uAgpG7aImBWPYuvHaHGyQjDuBPbGBhxu",
+            "email": "ava.gerver@gmail.com",
+            "lastName": "Gerver",
+            "dateOfBirth": "2013-06-30T22:00:00.000Z",
+            "nodeType": "kn_User"
+        }
+    },
+    "commentCount": 0
+
+}]

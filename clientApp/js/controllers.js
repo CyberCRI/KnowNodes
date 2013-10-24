@@ -41,6 +41,12 @@ function TopBarCtrl($rootScope, $scope, $location, resource, userService) {
     });
 }
 
+function NotificationsCtrl($scope, notification) {
+
+    $scope.notifications = notification.processedNotifications;
+    console.log($scope.notifications);
+
+}
 
 function CreateResourceModalCtrl($scope, dialog, resource) {
 

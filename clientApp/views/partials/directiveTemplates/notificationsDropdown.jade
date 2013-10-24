@@ -1,0 +1,19 @@
+ul.dropdown-menu Notifications
+  li.notifications-title(ng-repeat="notification in notifications")
+    span
+      a(ng-hide="notification.showActor=='false' || notification.actorCount=='true'", ng-href="/user/{{notification.actor.KN_ID}}") {{notification.actor.userName+" "}}
+      a(ng-show="notification.showActor=='false'") Someone{{" "}}
+      //a(ng-show="actor=='many known'")
+      a(ng-show="notification.actorCount=='true'") {{notification.actorCount}} peers
+
+    span {{notification.actionDescription}}
+
+      span(ng-show="notification.targetType=='triplet'")
+        a(href="/article/{{notification.target.startResource.KN_ID}}") {{notification.target.startResource.title + " "}}
+        a(href="/connection/{{notification.target.connection.KN_ID}}") {{notification.target.connection.title + " "}}
+        a(href="/article/{{notification.target.endResource.KN_ID}}") {{notification.target.endResource.title}}
+
+      a(ng-show="notification.targetType=='resource'", ng-href="/article/{{notification.target.startResource.KN_ID}}") {{notification.target.title}}
+
+    p
+      em.info-time {{(notification.createdOn) | timeAgo}}
