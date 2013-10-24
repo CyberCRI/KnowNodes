@@ -341,6 +341,122 @@ angular.module('KnowNodesApp.services', [])
         };
     }])
 
+
+    .service('notification', ['$http', function($http) {
+
+        var service = {};
+
+        service.processedNotifications = [];
+
+        function addPropertiesForClient() {
+            for(var processedNotification in service.processedNotifications){
+                switch(service.processedNotifications[processedNotification].action) {
+                    case "create":
+                        service.processedNotifications[processedNotification].actionDescription = "added a new connection to";
+                        service.processedNotifications[processedNotification].targetType = "resource";
+
+                        break;
+                    case "vote":
+                        service.processedNotifications[processedNotification].actionDescription = "voted";
+                        service.processedNotifications[processedNotification].showActor = "false";
+                        service.processedNotifications[processedNotification].targetType = "triplet";
+                        break;
+                    case "follow":
+                        service.processedNotifications[processedNotification].actionDescription = "is following";
+                        service.processedNotifications[processedNotification].targetType = "resource";
+
+                        break;
+                    case "comment":
+                        service.processedNotifications[processedNotification].actionDescription = "commented on";
+                        service.processedNotifications[processedNotification].targetType = "triplet";
+                        break;
+                }
+            }
+
+        };
+
+        function getNotifications() {
+            $http.get('json/notifications.json').success(function(result){
+                service.processedNotifications = result;
+                console.log("raw json", service.processedNotifications);
+                service.processedNotifications = aggregateByTargetAndAction(service.processedNotifications);
+                console.log("after aggregation", service.processedNotifications);
+                addPropertiesForClient();
+                console.log("after adding properties", service.processedNotifications);
+
+            });
+        }
+
+        function aggregateByTargetAndAction(notifications) {
+            if (notifications.length == 0)
+                return [];
+
+            var result = [],
+                notificationsCount = notifications.length,
+                x, y;
+
+            function pushNotification(notification) {
+                notification.actorIds = [notification.actor.id];
+                notification.actors = [notification.actor];
+                notification.actionCount = 1;
+                result.push(notification);
+            }
+
+            pushNotification(notifications[0]);
+
+            for (x = 1; x < notificationsCount; x++) {
+                var duplicateIndex = -1;
+                for (y = 0; y < result.length; y++) {
+                    if (notifications[x].target.id === result[y].target.id &&
+                        notifications[x].action === result[y].action) {
+                        duplicateIndex = y;
+                        break;
+                    }
+                }
+                if (duplicateIndex >= 0) {
+                    var duplicateResult = result[duplicateIndex];
+                    duplicateResult.actionCount++;
+                    if (!(notifications[x].actor.id in duplicateResult.actorIds)) {
+                        duplicateResult.actorIds.push(notifications[x].actor.id);
+                        duplicateResult.actors.push(notifications[x].actor);
+                    }
+                } else {
+                    pushNotification(notifications[x]);
+                }
+            }
+            return result;
+        }
+
+        function countActors(actors){
+            var uniqueActors = [];
+            actors.forEach(function(element) {
+                if(!(element in uniqueActors)){
+                    uniqueActors.push(element);
+                }
+
+            });
+            (actor in actors)
+
+            if(newArr.actorCount) {
+                newArr.actorCount += 1;
+            } else {
+                newArr.actorCount = 1;
+            }
+        }
+
+        function incrementActionCount(newArr){
+            if(newArr.actionCount) {
+                newArr.actionCount += 1;
+            } else {
+                newArr.actionCount = 1;
+            }
+        }
+
+        getNotifications();
+
+        return service;
+    }])
+
     .factory('triplet', ['$http', function ($http) {
         return {
 

@@ -67,6 +67,7 @@ app.configure(function(){
     app.use('/js', express.static(path.join(__dirname, 'clientApp/js')));
     app.use('/css', express.static(path.join(__dirname, 'clientApp/css')));
     app.use('/img', express.static(path.join(__dirname, 'clientApp/img')));
+    app.use('/json', express.static(path.join(__dirname, 'clientApp/json')));
     app.use(app.router);
 });
 

@@ -436,33 +436,19 @@
 }
 
 .button-notification {
-  height: 25px;
-  background: @inspire-color;
-  box-shadow: 0 4px 0 @inspire-shadow;
-  color: @inspire-content;
-  border-radius: 0;
-  &:hover{
-    color: @inspire-content;
-
-    box-shadow: 0 2px 0 @inspire-shadow;
-    text-decoration: none;
-    background: @inspire-color;
-  }
-
-  &:active {
-
-    color: @inspire-content;
-
-    box-shadow: none;
-    text-decoration: none;
-    background: @inspire-color;
-  }
-
-  &:focus {
-
-    color: @inspire-content;
-    text-decoration: none;
-    background: @inspire-color;
-  }
-
+  padding: 10px;
+  margin-top: 12px;
+  height: 15px;
+  position:relative;
+}
+.notification-count{
+  position: absolute;
+  top: -7px;
+  right: -4px;
+  padding-left: 7px;
+  padding-right: 7px;
+  background: #a82400;
+  font-size: .8em;
+  color: #fff;
+  border-radius: 10px;
 }

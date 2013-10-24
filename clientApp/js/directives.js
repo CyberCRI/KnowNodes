@@ -366,6 +366,27 @@ angular.module('KnowNodesApp.directives', [])
             //update();
         }
     })
+
+    .directive('notifications', function() {
+        return {
+            restrict: 'A',
+            transclude: true,
+            templateUrl: 'partials/directiveTemplates/notifications',
+            replace: true,
+            controller: NotificationsCtrl
+        };
+    })
+
+    .directive('notificationsDropdown', function() {
+        return {
+            restrict: 'A',
+            transclude: true,
+            templateUrl: 'partials/directiveTemplates/notificationsDropdown',
+            replace: true,
+            controller: NotificationsCtrl
+        };
+    })
+
     .directive('searchBox', ['$http', function ($http) {
         return {
             restrict: 'EA',
