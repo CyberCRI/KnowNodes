@@ -346,44 +346,38 @@ angular.module('KnowNodesApp.services', [])
 
         var service = {};
 
-        service.processedNotifications = [];
-
-        function addPropertiesForClient() {
-            for(var processedNotification in service.processedNotifications){
-                switch(service.processedNotifications[processedNotification].action) {
+        function addPropertiesForClient(aggregatedNotifications) {
+            for(var processedNotification in aggregatedNotifications){
+                switch(aggregatedNotifications[processedNotification].action) {
                     case "create":
-                        service.processedNotifications[processedNotification].actionDescription = "added a new connection to";
-                        service.processedNotifications[processedNotification].targetType = "resource";
+                        aggregatedNotifications[processedNotification].actionDescription = "added a new connection to";
+                        aggregatedNotifications[processedNotification].targetType = "resource";
 
                         break;
                     case "vote":
-                        service.processedNotifications[processedNotification].actionDescription = "voted on";
-                        service.processedNotifications[processedNotification].showActor = "false";
-                        service.processedNotifications[processedNotification].targetType = "triplet";
+                        aggregatedNotifications[processedNotification].actionDescription = "voted on";
+                        aggregatedNotifications[processedNotification].showActor = "false";
+                        aggregatedNotifications[processedNotification].targetType = "triplet";
                         break;
                     case "follow":
-                        service.processedNotifications[processedNotification].actionDescription = "is following";
-                        service.processedNotifications[processedNotification].targetType = "resource";
+                        aggregatedNotifications[processedNotification].actionDescription = "is following";
+                        aggregatedNotifications[processedNotification].targetType = "resource";
 
                         break;
                     case "comment":
-                        service.processedNotifications[processedNotification].actionDescription = "commented on";
-                        service.processedNotifications[processedNotification].targetType = "triplet";
+                        aggregatedNotifications[processedNotification].actionDescription = "commented on";
+                        aggregatedNotifications[processedNotification].targetType = "triplet";
                         break;
                 }
             }
 
         };
 
-        function getNotifications() {
-            $http.get('json/notifications.json').success(function(result){
-                service.processedNotifications = result;
-                console.log("raw json", service.processedNotifications);
-                service.processedNotifications = aggregateByTargetAndAction(service.processedNotifications);
-                console.log("after aggregation", service.processedNotifications);
-                addPropertiesForClient();
-                console.log("after adding properties", service.processedNotifications);
-
+        service.getNotifications = function (callback) {
+            $http.get('/notifications').success(function(result){
+                var aggregatedNotifications = aggregateByTargetAndAction(result);
+                addPropertiesForClient(aggregatedNotifications);
+                callback(aggregatedNotifications);
             });
         }
 
@@ -426,33 +420,6 @@ angular.module('KnowNodesApp.services', [])
             }
             return result;
         }
-
-        function countActors(actors){
-            var uniqueActors = [];
-            actors.forEach(function(element) {
-                if(!(element in uniqueActors)){
-                    uniqueActors.push(element);
-                }
-
-            });
-            (actor in actors)
-
-            if(newArr.actorCount) {
-                newArr.actorCount += 1;
-            } else {
-                newArr.actorCount = 1;
-            }
-        }
-
-        function incrementActionCount(newArr){
-            if(newArr.actionCount) {
-                newArr.actionCount += 1;
-            } else {
-                newArr.actionCount = 1;
-            }
-        }
-
-        getNotifications();
 
         return service;
     }])
