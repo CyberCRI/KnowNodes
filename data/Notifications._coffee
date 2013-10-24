@@ -24,13 +24,20 @@ module.exports =
     connection.checkNodeType(Type.CONNECTION)
     triplet = Triplets.findByConnectionId(connection.id, null, _)
     triplet.type = Type.TRIPLET
+    triplet.startResource.id = triplet.startResource.KN_ID
+    triplet.connection.id = triplet.connection.KN_ID
+    triplet.endResource.id = triplet.endResource.KN_ID
     @create({
       notifiedUserId: notifiedUser.id
       actor:
         id: actor.id
-        name: actor.fullName
+        fullName: actor.fullName
       action: Notification.Action.UPVOTED
-      target: triplet
+      target:
+        id: connection.id
+        title: connection.title
+        type: Type.CONNECTION
+      triplet: triplet
       })
 
   notifyConnectionCreated: (startResource, endResource, connection, actor, _) ->
@@ -52,13 +59,18 @@ module.exports =
         user.notifiedFor = endResource
         usersToNotify.push user
     for user in usersToNotify
+      resource = user.notifiedFor
+      console.log resource.id
       @create({
         notifiedUserId: user.id
         actor:
           id: actor.id
-          name: actor.fullName
+          fullName: actor.fullName
         action: Notification.Action.CONNECTED
-        target: user.notifiedFor.node._data.data
+        target:
+          id: resource.id
+          title: resource.title
+          type: Type.RESOURCE
       })
     connection
 
