@@ -1,6 +1,6 @@
 NodeWrapper = require './NodeWrapper'
 Type = require './Type'
-UserValidator = require './validation/userValidator'
+UserValidator = require './validation/UserValidator'
 cache = require 'memory-cache'
 bcrypt = require 'bcrypt'
 Error = require '../error/Error'
