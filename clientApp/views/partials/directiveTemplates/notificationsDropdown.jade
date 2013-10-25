@@ -15,4 +15,4 @@ ul.dropdown-menu.notifications-box
       a(ng-show="notification.targetType=='KN_'", ng-href="/article/{{notification.target.id}}") {{notification.target.title}}
 
     p
-      em.info-time {{(notification.createdOn) | timeAgo}}
+      em.info-time {{(notification.creationDate) | timeAgo}}

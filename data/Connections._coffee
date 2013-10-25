@@ -1,6 +1,6 @@
 OwnedEntities = require './OwnedEntities'
 Type = require './../model/Type'
-ConnectionValidator = require './../model/validation/ConnectionValidator'
+ConnectionValidator = require './../model/validation/connectionValidator'
 Connection = require './../model/Connection'
 Notifications = require './Notifications'
 Error = require '../error/Error'
