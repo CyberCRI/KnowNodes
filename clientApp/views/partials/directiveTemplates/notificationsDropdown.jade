@@ -1,6 +1,6 @@
 ul.dropdown-menu.notifications-box
   p.notification-title Notifications
-  li.notification(ng-repeat="notification in notifications")
+  li.notification(ng-repeat="notification in notifications | orderBy:'creationDate':true", style="{{getStyle(notification.alreadyRead)}}")
     span
       a(ng-hide="notification.showActor=='false' || notification.actors.length > 1", ng-href="/user/{{notification.actor.id}}") {{notification.actor.fullName+" "}}
       span(ng-show="notification.showActor=='false' && notification.actors.length == 1") Someone{{" "}}
