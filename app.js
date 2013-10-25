@@ -101,7 +101,9 @@ app.resource('connections', function() {
     this.member.get('triplet');
 });
 
-app.resource('notifications');
+app.resource('notifications', function() {
+    this.collection.post('markAllAsRead');
+});
 
 app.resource('wiki');
 

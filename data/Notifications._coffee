@@ -82,3 +82,9 @@ module.exports =
       RETURN distinct userToNotify
     """
     GraphDB.get().query(query, _)
+
+  markAllAsRead: (userId, _) ->
+    conditions = { notifiedUserId: userId, alreadyRead:false }
+    update = { alreadyRead:true }
+    options = { multi: true }
+    Notification.update(conditions, update, options, _)

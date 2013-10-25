@@ -11,5 +11,5 @@ module.exports = class NotificationController extends Controller
   getNotificationsForLoggedInUser: (_) ->
     Notifications.findByNotifiedUserId(@getLoggedUserId(), _)
 
-  markNotificationsAsRead : (_) ->
-    # TODO Implement
+  markAllAsRead : (_) ->
+    Notifications.markAllAsRead(@getLoggedUserId(), _)
