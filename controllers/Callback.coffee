@@ -24,7 +24,7 @@ module.exports =
             getLogger().info(error.message)
             response.json(404, error.message)
           else
-            getLogger().error(error.message)
+            getLogger().error(error)
             response.json(500, error.message)
 
       handleError = (error, response) ->
