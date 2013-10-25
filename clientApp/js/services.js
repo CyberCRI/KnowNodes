@@ -377,6 +377,7 @@ angular.module('KnowNodesApp.services', [])
             $http.get('/notifications').success(function(result){
                 var aggregatedNotifications = aggregateByTargetAndAction(result);
                 addPropertiesForClient(aggregatedNotifications);
+                console.log(aggregatedNotifications);
                 callback(aggregatedNotifications);
             });
         }
@@ -400,6 +401,7 @@ angular.module('KnowNodesApp.services', [])
 
             for (x = 1; x < notificationsCount; x++) {
                 var duplicateIndex = -1;
+
                 for (y = 0; y < result.length; y++) {
                     if (notifications[x].target.id === result[y].target.id &&
                         notifications[x].action === result[y].action) {
@@ -421,7 +423,18 @@ angular.module('KnowNodesApp.services', [])
             return result;
         }
 
+        var markedAsRead = false;
+        service.markAllAsRead = function() {
+            if (markedAsRead) {
+                return;
+            } else {
+                markedAsRead = true;
+                $http.post('/notifications/markAllAsRead', {});
+            }
+        };
+
         return service;
+
     }])
 
     .factory('triplet', ['$http', function ($http) {

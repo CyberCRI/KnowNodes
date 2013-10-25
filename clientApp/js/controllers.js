@@ -45,7 +45,23 @@ function NotificationsCtrl($scope, notification) {
 
     notification.getNotifications(function(result) {
         $scope.notifications = result;
+        var isReadCount = _.countBy(result, function(notification) {
+            return notification.alreadyRead;
+        });
+        $scope.unreadCount = isReadCount.false;
     });
+
+    $scope.getStyle = function(isRead) {
+        if (isRead)
+            return 'background-color:lightgrey';
+        else
+            return '';
+    };
+
+    $scope.markAllAsRead = function() {
+        $scope.unreadCount = 0;
+        notification.markAllAsRead();
+    }
 }
 
 function CreateResourceModalCtrl($scope, dialog, resource) {
