@@ -1,7 +1,7 @@
 NodeWrappers = require './NodeWrappers'
 User = require './../model/User'
 Type = require './../model/Type'
-UserValidator = require './../model/validation/userValidator'
+UserValidator = require './../model/validation/UserValidator'
 cache = require 'memory-cache'
 bcrypt = require 'bcrypt'
 

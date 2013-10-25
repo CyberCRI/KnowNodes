@@ -1,4 +1,4 @@
-NodeValidator = require './nodeValidator'
+NodeValidator = require './NodeValidator'
 Type = require '../Type'
 
 module.exports = class ConnectionValidator extends NodeValidator
