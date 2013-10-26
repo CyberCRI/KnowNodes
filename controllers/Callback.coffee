@@ -1,4 +1,4 @@
-Logger = require '../log/logger'
+Logger = require '../log/Logger'
 Error = require '../error/Error'
 
 module.exports =

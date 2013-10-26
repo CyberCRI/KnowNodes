@@ -1,5 +1,5 @@
 LogModule = require '../modules/log'
-Logger = require '../log/logger'
+Logger = require '../log/Logger'
 
 module.exports =
 
