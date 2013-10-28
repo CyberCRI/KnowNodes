@@ -2,6 +2,7 @@ OwnedEntityController = require '../OwnedEntityController'
 Connections = require '../../data/Connections'
 Resources = require '../../data/Resources'
 Triplets = require '../../data/Triplets'
+Comments = require '../../data/Comments'
 Error = require '../../error/Error'
 
 module.exports = class ConnectionController extends OwnedEntityController
@@ -14,23 +15,14 @@ module.exports = class ConnectionController extends OwnedEntityController
 
   create: (_) ->
     data = @request.body
-    if (not data.fromNodeId?)
+    if not data.fromNodeId?
       throw Error.badRequest('fromNodeId', 'String', data.fromNodeId)
-    if (not data.toNodeId?)
+    if not data.toNodeId?
       throw Error.badRequest('toNodeId', 'String', @request.body.toNodeId)
     startResource = Resources.find(data.fromNodeId, _)
     endResource = Resources.find(data.toNodeId, _)
     creator = @getLoggedUser _
     Connections.create(startResource, endResource, creator, data, _)
-
-  destroy: (_) ->
-    # Make sure creator made the request
-    connection = @dataService.find(@getId(), _)
-    user = @getLoggedUser(_)
-    if (user.isCreatorOf(connection, _))
-      connection.delete _
-    else
-      Error.forbidden('Connection Deletion', 'You should be the creator of the connection you wish to delete')
 
   triplet: (_) ->
     Triplets.findByConnectionId(@getId(), @getLoggedUserIdIfExists(), _)
@@ -40,3 +32,6 @@ module.exports = class ConnectionController extends OwnedEntityController
 
   hottestTriplets: (_) ->
     @dataService.hottestTriplets(@getLoggedUserIfExists(_), _)
+
+  comments: (_) ->
+    Comments.findByConnectionId(@getId(), _)

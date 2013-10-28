@@ -13,7 +13,7 @@ module.exports = class Connections extends OwnedEntities
 
   # Make sure no connection is made without start and end resources
   @create: (startResource, endResource, creator, data, _) ->
-    if (not startResource? or not endResource? or not creator? or not data?)
+    if not startResource? or not endResource? or not creator? or not data?
       throw Error.illegalArgument('null', 'Connections.create()')
     connection = super(data, creator, _)
     startResource.node.createRelationshipTo(connection.node, 'RELATED_TO', {}, _)
