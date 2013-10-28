@@ -96,10 +96,13 @@ app.resource('resources', function() {
 });
 
 app.resource('connections', function() {
+    this.member.get('triplet');
     this.collection.post('latestTriplets');
     this.collection.post('hottestTriplets');
-    this.member.get('triplet');
+    this.member.get('comments');
 });
+
+app.resource('comments');
 
 app.resource('notifications', function() {
     this.collection.post('markAllAsRead');
@@ -120,9 +123,6 @@ app.post('/admin/indexAllConnections', adminController.indexAllConnections);
 
 app.resource('edges');
 
-app.resource('comments', function () {
-    this.member.get('getRelatedComments');
-});
 app.resource('concepts', function () {
     //this.collection.get('getRelatedKnownodes');
     this.member.get('getRelatedKnownodes');

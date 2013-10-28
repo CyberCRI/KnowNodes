@@ -23,3 +23,6 @@ module.exports =
 
   hottestTriplets: (request, response) ->
     new ConnectionController(request).hottestTriplets(Callback.bind(response))
+
+  comments: (request, response) ->
+    new ConnectionController(request).comments(Callback.bind(response))
