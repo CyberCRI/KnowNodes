@@ -188,6 +188,7 @@ function TripletListCtrl($scope, $routeParams, $location, userService, resource,
 };
 
     $scope.orderProp = "-(upvotes-downvotes)";
+
         // First, check whether the resource is a KN Resource or a Wikipedia Article
         if ($routeParams.id != null) {
         // KN Resource
@@ -762,8 +763,8 @@ function UserProfilePageCtrl($scope, $location, $http, $routeParams, userService
     $scope.goToUrl = function (something) {
         $location.path(something);
     };
-
-    $scope.orderProp = "-(upvotes - downvotes)";
+    // Dmitry Mod - show by default the most recent connection the user made on his page
+    $scope.orderProp = "-connection.__CreatedOn__";
 }
 
 function InfoLineCtrl($scope, userService, $http) {
