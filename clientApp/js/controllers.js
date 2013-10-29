@@ -438,7 +438,9 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
         console.log("startID: ", startResourceId, "endId: ", endResourceId);
         connection.create(startResourceId, $scope.connectionTitle, $scope.connectionType, endResourceId)
             .success(function (data, status) {
-                $route.reload();
+               // Dmitry Mod - When a triplet is added, redirect user to their profile page
+                window.location = '/user/' + $rootScope.user.KN_ID;
+               // $route.reload();
             })
             .error(function (data, status) {
                 console.log('Connection creation failed with error : ' + status);
