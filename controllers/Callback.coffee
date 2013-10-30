@@ -38,6 +38,6 @@ module.exports =
         handleError(error, response)
       else
         if result.node?
-          response.json(result.node._data.data)
+          result.toJSON( (error, json) -> response.json(json) )
         else
           response.json(result)

@@ -17,3 +17,6 @@ module.exports = class CommentController extends OwnedEntityController
     connection = Connections.find(data.connectionId, _)
     user = @getLoggedUser(_)
     @dataService.create(data, connection, user, _)
+
+  destroy: (_) ->
+    super(_, true) # Force deletion

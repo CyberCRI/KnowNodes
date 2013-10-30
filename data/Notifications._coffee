@@ -60,7 +60,6 @@ module.exports =
         usersToNotify.push user
     for user in usersToNotify
       resource = user.notifiedFor
-      console.log resource.id
       @create({
         notifiedUserId: user.id
         actor:

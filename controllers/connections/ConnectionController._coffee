@@ -34,4 +34,5 @@ module.exports = class ConnectionController extends OwnedEntityController
     @dataService.hottestTriplets(@getLoggedUserIfExists(_), _)
 
   comments: (_) ->
-    Comments.findByConnectionId(@getId(), _)
+    connection = Connections.find(@getId(), _)
+    Comments.findByConnection(connection, _)

@@ -1,6 +1,7 @@
 OwnedNodeWrapper = require './OwnedNodeWrapper'
 Type = require './Type'
 CommentValidator = require './validation/CommentValidator'
+CommentConverter = require './conversion/CommentConverter'
 
 module.exports = class Comment extends OwnedNodeWrapper
 
@@ -12,3 +13,6 @@ module.exports = class Comment extends OwnedNodeWrapper
 
   delete: (_) ->
     @forceDelete _
+
+  getConverter: ->
+    CommentConverter

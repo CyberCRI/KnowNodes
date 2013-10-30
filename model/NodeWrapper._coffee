@@ -1,6 +1,7 @@
 GraphDB = require '../DB/GraphDB'
 Error = require '../error/Error'
 NodeWrappers = require '../data/NodeWrappers'
+DefaultConverter = require './conversion/DefaultConverter'
 
 module.exports = class NodeWrapper
 
@@ -45,6 +46,9 @@ module.exports = class NodeWrapper
       DELETE node, rel
     """
     @getDB().query(query, _)
+
+  toJSON: (_) ->
+    @getConverter().toJSON(@, _)
 
   index: (_) ->
     @indexProperty('KN_ID', _)
@@ -97,6 +101,9 @@ module.exports = class NodeWrapper
 
   getNodeType: ->
     @node.data['nodeType']
+
+  getConverter: ->
+    DefaultConverter
 
   validate: ->
     throw Error.notImplemented('NodeWrapper.getValidator()')
