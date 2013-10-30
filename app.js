@@ -121,29 +121,6 @@ app.post('/admin/indexAllConnections', adminController.indexAllConnections);
 
 // OLD API
 
-app.resource('edges');
-
-app.resource('concepts', function () {
-    //this.collection.get('getRelatedKnownodes');
-    this.member.get('getRelatedKnownodes');
-    this.member.get('getRelatedComments');
-    this.resource('knownodes', function() {
-    });
-});
-app.resource('knownodes', function () {
-    this.member.get('getRelatedKnownodes');
-    this.member.get('getRelatedComments');
-    this.member.get('getNodesByKeyword');
-
-    this.collection.post('getResourceByUrl');
-    this.collection.post('wikinodeIfExists');
-    this.collection.post('wikinode');
-    this.collection.post('scrapeUrl');
-
-    this.resource('knownodes', { id: 'related' });
-    this.resource('files');
-    this.resource('comments');
-});
 app.resource('files', { name: 'knownodeFiles', id: 'files'});
 //app.get('/concepts/:cid/knownodes/:kid', require('./routes/API.concept').load, require('./routes/API.knownode').load);
 
