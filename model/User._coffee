@@ -1,6 +1,7 @@
 NodeWrapper = require './NodeWrapper'
 Type = require './Type'
 UserValidator = require './validation/UserValidator'
+UserConverter = require './conversion/UserConverter'
 cache = require 'memory-cache'
 bcrypt = require 'bcrypt'
 Error = require '../error/Error'
@@ -22,6 +23,9 @@ module.exports = class User extends NodeWrapper
 
   validate: ->
     new UserValidator().validate(@node.data)
+
+  getConverter: ->
+    UserConverter
 
   # TODO Instead of having to override the index() method,
   #      specifying the indexed fields of an entity should be declarative

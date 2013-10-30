@@ -1,29 +1,38 @@
 OwnedEntities = require './OwnedEntities'
 Type = require './../model/Type'
 Comment = require './../model/Comment'
+Notifications = require './Notifications'
 
 module.exports = class Comments extends OwnedEntities
 
-  @getNodeType: -> Type.COMMENT
+  @getNodeType: ->
+    Type.COMMENT
 
-  @wrap: (node) -> new Comment(node)
+  @wrap: (node) ->
+    new Comment(node)
 
   @create: (data, connection, creator, _) ->
     if not data? or not connection? or not creator?
       throw Error.illegalArgument('null', 'Comments.create()')
     comment = super(data, creator, _)
     comment.node.createRelationshipTo(connection.node, 'COMMENT_OF', {}, _)
+    # TODO Notify comment created
     comment
 
-  @findByConnectionId: (connection, _) ->
-    @logger.logDebug @currentModule, "getAllComments #{nodeId}"
-    query = [
-      'START root=node({nodeId})',
-      'MATCH (root) <-[r:COMMENT_OF*]- (comment) -[u:CREATED_BY]-> (commentUser)',
-      'RETURN comment, r, commentUser'
-    ].join('\n');
+  @findByConnection: (connection, _) ->
+
+    query = """
+      START connection = node({connectionId})
+      MATCH (connection) <-[:COMMENT_OF]- (comment) -[:CREATED_BY]-> (user)
+      RETURN comment, user
+    """
 
     params =
-      nodeId: nodeId
+      connectionId: connection.node.id
 
-    @queryAndFormatCommentResults query, params, _
+    results = @DB.query(query, params, _)
+    comments = []
+    for row in results
+      comment = new Comment(row.comment)
+      comments.push(comment.toJSON(_))
+    comments

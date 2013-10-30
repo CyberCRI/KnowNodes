@@ -450,4 +450,21 @@ angular.module('KnowNodesApp.services', [])
         };
     }])
 
+    .factory('comment', ['$http', function ($http) {
+        return {
+
+            create: function (text, connectionId) {
+                var data = {
+                    connectionId: connectionId,
+                    bodyText: text
+                };
+                return $http.post('/comments', data);
+            },
+
+            findByConnectionId: function (connectionId) {
+                return $http.get('/connections/' + connectionId + '/comments');
+            }
+        };
+    }])
+
     .value('version', '0.2');

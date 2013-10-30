@@ -292,11 +292,11 @@ function DeleteUserCtrl($scope, $http, $location, $routeParams) {
 }
 
 
-function commentCtrl($scope, $http, $routeParams, userService, broadcastService) {
+function commentCtrl($scope, $routeParams, broadcastService, comment) {
     var objectId = $routeParams.id;
     $scope.comments = [];
 
-    $http.get('/comments/:' + objectId)
+    comment.findByConnectionId(objectId)
         .success(function (data, status, headers, config) {
             $scope.comments = data.success;
         });
@@ -311,7 +311,7 @@ function commentCtrl($scope, $http, $routeParams, userService, broadcastService)
 }
 
 
-function addCommentCtrl($scope, $http, $routeParams, userService, broadcastService) {
+function addCommentCtrl($scope, $routeParams, userService, broadcastService, comment) {
     var objectId = $routeParams.id;
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
 
@@ -326,8 +326,8 @@ function addCommentCtrl($scope, $http, $routeParams, userService, broadcastServi
 
         $scope.form.originalObject.id = originalObjectId || $scope.form.originalObject.id;
 
-        $http.post('/comments', $scope.form).
-            success(function (data, status, headers, config) {
+        comment.create($scope.form.comment.bodyText, $scope.form.originalObject.id)
+            .success(function (data, status, headers, config) {
                 if (data.success) {
                     var comment = data.success;
                     comment.user = userService.getConnectedUser();
