@@ -341,9 +341,14 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
     $scope.reversedDirection = false;
 
     $scope.$watch('concept', function (newValue) {
-        if ($scope.startResource == null)
-            $scope.startResource = newValue;
+
+    if ($scope.startResource == null)
+        $scope.startResource = newValue;
     });
+
+
+
+
 
     $scope.$on('resourceSelected', function (event, result) {
         event.stopPropagation();
@@ -357,6 +362,7 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
         $scope.startResource = end;
         $scope.endResource = start;
     }
+
 
     $scope.bgColor = 'explain';
 
@@ -440,7 +446,7 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
         connection.create(startResourceId, $scope.connectionTitle, $scope.connectionType, endResourceId)
             .success(function (data, status) {
                // Dmitry Mod - When a triplet is added, redirect user to their profile page
-                window.location = '/user/' + $rootScope.user.KN_ID;
+                window.location = '/user/' + $rootScope.user.KN_ID + '/' + $scope.startResource.KN_ID;
                // $route.reload();
             })
             .error(function (data, status) {
@@ -461,8 +467,8 @@ function ResourceInputCtrl($scope) {
 
     function emit() {
         $scope.$emit('resourceSelected', {resourceName: $scope.resourceName, resource: $scope.resource});
-    }
 
+    }
     $scope.clear = function () {
         $scope.resource = null;
         emit();
@@ -751,7 +757,7 @@ function VoteCtrl($scope, $http, loginModal) {
     };
 }
 
-function UserProfilePageCtrl($scope, $location, $http, $routeParams, userService) {
+function UserProfilePageCtrl($scope, $location, $http, $routeParams, resource, userService) {
 
     $scope.knownodeList = {};
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
@@ -765,6 +771,19 @@ function UserProfilePageCtrl($scope, $location, $http, $routeParams, userService
     };
     // Dmitry Mod - show by default the most recent connection the user made on his page
     $scope.orderProp = "-connection.__CreatedOn__";
+
+    if ($routeParams.rid) {
+
+        // First, check whether the resource is a KN Resource or a Wikipedia Article
+            // KN Resource
+            resource.get($routeParams.rid).then(function (resource) {
+                $scope.startResource = resource;
+
+
+            });
+
+
+    }
 }
 
 function InfoLineCtrl($scope, userService, $http) {
