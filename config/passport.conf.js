@@ -4,7 +4,6 @@
         GoogleStrategy = require('passport-google').Strategy,
         LocalStrategy = require('passport-local').Strategy,
 
-        emailConf = require('./email.conf'),
         nodemailer = require('nodemailer'),
 
         LOG = require('../modules/log'),
