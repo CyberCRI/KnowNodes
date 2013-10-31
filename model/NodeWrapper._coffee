@@ -1,7 +1,7 @@
 GraphDB = require '../DB/GraphDB'
 Error = require '../error/Error'
 NodeWrappers = require '../data/NodeWrappers'
-DefaultConverter = require './conversion/DefaultConverter'
+NodeConverter = require './conversion/NodeConverter'
 
 module.exports = class NodeWrapper
 
@@ -13,6 +13,9 @@ module.exports = class NodeWrapper
 
   @getter id: ->
     @getProperty('KN_ID')
+
+  @getter creationDate: ->
+    @getProperty('__CreatedOn__')
 
   constructor: (@node) ->
     if not @node?
@@ -95,15 +98,15 @@ module.exports = class NodeWrapper
     if @getNodeType() is not expectedType
       throw Error.wrongType(expectedType, @getNodeType())
 
+  getNodeType: ->
+    @node.data['nodeType']
+
   ###
         METHODS TO IMPLEMENT
   ###
 
-  getNodeType: ->
-    @node.data['nodeType']
-
   getConverter: ->
-    DefaultConverter
+    NodeConverter
 
   validate: ->
     throw Error.notImplemented('NodeWrapper.getValidator()')

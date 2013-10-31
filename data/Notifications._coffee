@@ -9,7 +9,7 @@ Error = require '../error/Error'
 module.exports =
 
   findByNotifiedUserId: (notifiedUserId, _) ->
-    Notification.find( {notifiedUserId: notifiedUserId}, _)
+    Notification.find({notifiedUserId: notifiedUserId}, _)
 
   create: (data) ->
     notification = new Notification(data)
@@ -38,15 +38,15 @@ module.exports =
         title: connection.title
         type: Type.CONNECTION
       triplet: triplet
-      })
+    })
 
   notifyConnectionCreated: (startResource, endResource, connection, actor, _) ->
     startResource.checkNodeType(Type.RESOURCE)
     endResource.checkNodeType(Type.RESOURCE)
     ids = []
     usersToNotify = []
-    result1 = @getNotifiedUsersForConnectedResource(startResource, _)
-    result2 = @getNotifiedUsersForConnectedResource(endResource, _)
+    result1 = @getUsersToNotifyForConnectedResource(startResource, _)
+    result2 = @getUsersToNotifyForConnectedResource(endResource, _)
     for element in result1
       user = new User(element.userToNotify)
       ids.push user.id
@@ -73,7 +73,7 @@ module.exports =
       })
     connection
 
-  getNotifiedUsersForConnectedResource: (resource, _) ->
+  getUsersToNotifyForConnectedResource: (resource, _) ->
     query = """
       START resource=node(#{resource.node.id})
       MATCH resource-[?:CREATED_BY]-userToNotify,
@@ -82,8 +82,22 @@ module.exports =
     """
     GraphDB.get().query(query, _)
 
+  notifyCommentCreated: (comment, connection, actor, _) ->
+    userToNotify = connection.getCreator _
+    @create({
+      notifiedUserId: userToNotify.id
+      actor:
+        id: actor.id
+        fullName: actor.fullName
+      action: Notification.Action.COMMENTED
+      target:
+        id: connection.id
+        title: connection.title
+        type: Type.CONNECTION
+    })
+
   markAllAsRead: (userId, _) ->
-    conditions = { notifiedUserId: userId, alreadyRead:false }
-    update = { alreadyRead:true }
+    conditions = { notifiedUserId: userId, alreadyRead: false }
+    update = { alreadyRead: true }
     options = { multi: true }
     Notification.update(conditions, update, options, _)

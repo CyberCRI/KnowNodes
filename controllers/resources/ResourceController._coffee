@@ -1,5 +1,6 @@
 OwnedEntityController = require '../OwnedEntityController'
 Resources = require '../../data/Resources'
+Triplets = require '../../data/Triplets'
 
 module.exports = class ResourceController extends OwnedEntityController
 
@@ -19,4 +20,4 @@ module.exports = class ResourceController extends OwnedEntityController
     @dataService.findByUrl(url, _)
 
   findTripletsByResourceId: (_) ->
-    @dataService.findTripletsByResourceId(@getId(), @getLoggedUserIfExists(_), _)
+    Triplets.findByResourceId(@getId(), @getLoggedUserIfExists(_), _)

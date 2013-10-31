@@ -13,4 +13,5 @@ module.exports = class ConnectionValidator extends NodeValidator
     @check(data.connectionType).notEmpty()
     @check(data.fromNodeId).notEmpty()
     @check(data.toNodeId).notEmpty()
+    @check(data.fromNodeId).not(data.toNodeId)
     data.active = @sanitize(data.active).toBoolean()

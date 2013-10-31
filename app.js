@@ -83,6 +83,8 @@ app.configure('production', function(){
 
 // NEW API
 
+app.resource('gexf');
+
 app.resource('users', function() {
     this.member.get('findByEmail');
     this.member.get('karma');
@@ -97,9 +99,12 @@ app.resource('resources', function() {
 
 app.resource('connections', function() {
     this.member.get('triplet');
-    this.collection.post('latestTriplets');
-    this.collection.post('hottestTriplets');
     this.member.get('comments');
+});
+
+app.resource('triplets', function() {
+    this.collection.post('latest');
+    this.collection.post('hottest');
 });
 
 app.resource('comments');
