@@ -1,14 +1,27 @@
 OwnedNodeWrapper = require './OwnedNodeWrapper'
 Type = require './Type'
 ConnectionValidator = require './validation/ConnectionValidator'
+ConnectionConverter = require './conversion/ConnectionConverter'
 
 module.exports = class Connection extends OwnedNodeWrapper
 
   @getter title: ->
     @getProperty('title')
 
+  @getter startResourceId: ->
+    @getProperty('fromNodeId')
+
+  @getter endResourceId: ->
+    @getProperty('toNodeId')
+
+  @getter status: ->
+    @getProperty('status')
+
   validate: ->
     new ConnectionValidator().validate(@node.data)
+
+  getConverter: ->
+    ConnectionConverter
 
   delete: (_) ->
     # Make sure has no comments

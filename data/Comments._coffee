@@ -16,7 +16,7 @@ module.exports = class Comments extends OwnedEntities
       throw Error.illegalArgument('null', 'Comments.create()')
     comment = super(data, creator, _)
     comment.node.createRelationshipTo(connection.node, 'COMMENT_OF', {}, _)
-    # TODO Notify comment created
+    Notifications.notifyCommentCreated(comment, connection, creator, _)
     comment
 
   @findByConnection: (connection, _) ->

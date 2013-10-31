@@ -35,7 +35,8 @@
         "less": "1.4.0",
         "validator": "latest",
         "node-uuid": "latest",
-        "bcrypt": "latest"
+        "bcrypt": "latest",
+        "jstoxml": "latest"
     },
     "engines": {
         "node": "0.8.x"

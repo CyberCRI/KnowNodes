@@ -467,4 +467,17 @@ angular.module('KnowNodesApp.services', [])
         };
     }])
 
+    .factory('triplets', ['$http', function ($http) {
+        return {
+
+            latest: function () {
+                return $http.post('/triplets/latest');
+            },
+
+            hottest: function () {
+                return $http.post('/triplets/hottest');
+            }
+        };
+    }])
+
     .value('version', '0.2');

@@ -1,12 +1,12 @@
 OwnedNodeWrapper = require './OwnedNodeWrapper'
 Type = require './Type'
 CommentValidator = require './validation/CommentValidator'
-CommentConverter = require './conversion/CommentConverter'
+OwnedNodeConverter = require './conversion/OwnedNodeConverter'
 
 module.exports = class Comment extends OwnedNodeWrapper
 
-  @getter title: ->
-    @getProperty('title')
+  @getter text: ->
+    @getProperty('bodyText')
 
   validate: ->
     new CommentValidator().validate(@node.data)
@@ -15,4 +15,4 @@ module.exports = class Comment extends OwnedNodeWrapper
     @forceDelete _
 
   getConverter: ->
-    CommentConverter
+    OwnedNodeConverter

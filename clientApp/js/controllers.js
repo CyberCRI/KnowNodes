@@ -150,40 +150,6 @@ function LogoutCtrl($location, $rootScope, userService) {
 }
 
 
-function ConceptListCtrl($scope, $http, $routeParams, userService) {
-
-    $scope.isUserLoggedIn = userService.isUserLoggedIn();
-    var showtoggle2 = false;
-    $scope.plusToggle = function (classToToggle) {
-        if (showtoggle2) {
-            showtoggle2 = false;
-        } else {
-            showtoggle2 = classToToggle;
-        }
-        return showtoggle2;
-    };
-
-    angular.forEach($scope.edges, function (value, id) {
-        if ($routeParams.id === value.source1.id) {
-            $scope.subtitletest = value.source1.title;
-        }
-        if ($routeParams.id === value.source2.id) {
-            $scope.subtitletest = value.source2.title;
-        }
-    });
-
-    $http.get('/concepts').success(function (data, status, headers, config) {
-        if (data.error) {
-            alert(data.error);
-            return;
-        }
-        $scope.conceptList = data.success;
-    });
-
-    $scope.orderProp = "date";
-}
-
-
 function MapCtrl($scope, $routeParams) {
     $(document).ready(function () {
         var css = jQuery("<link>");
@@ -259,7 +225,7 @@ function TripletListCtrl($scope, $routeParams, $location, userService, resource,
 }
 
 
-function IndexCtrl($scope, $http, userService, $location) {
+function IndexCtrl($scope, userService, $location, triplets) {
 
     $scope.goToUrl = function (something) {
         $location.path(something);
@@ -268,7 +234,7 @@ function IndexCtrl($scope, $http, userService, $location) {
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
     $scope.knownodeList = {};
     $scope.orderProp = "-(upvotes - downvotes)";
-    $http.post("/connections/hottestTriplets").success(function (data, status, headers, config) {
+    triplets.hottest().success(function (data, status, headers, config) {
         $scope.knownodeList = data;
     });
 }

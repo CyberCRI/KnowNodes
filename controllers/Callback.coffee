@@ -39,5 +39,7 @@ module.exports =
       else
         if result.node?
           result.toJSON( (error, json) -> response.json(json) )
+        else if typeof result == 'string' || result instanceof String
+          response.send(result)
         else
           response.json(result)
