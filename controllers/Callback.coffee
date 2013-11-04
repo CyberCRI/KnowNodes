@@ -1,5 +1,6 @@
 Logger = require '../log/Logger'
 Error = require '../error/Error'
+ArrayConverter = require '../model/conversion/ArrayConverter'
 
 module.exports =
 
@@ -37,9 +38,11 @@ module.exports =
       if error
         handleError(error, response)
       else
-        if result.node?
+        if result.hasConverter?()
           result.toJSON( (error, json) -> response.json(json) )
-        else if typeof result == 'string' || result instanceof String
+        else if typeof result == 'string' or result instanceof String
           response.send(result)
+        else if result.constructor is Array
+          ArrayConverter.toJSON(result, (error, convertedArray) -> response.json(convertedArray) )
         else
           response.json(result)

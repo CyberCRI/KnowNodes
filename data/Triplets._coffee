@@ -52,8 +52,7 @@ module.exports =
       startResource = new Resource(row.startResource, row.startResourceCreator)
       endResource = new Resource(row.endResource, row.endResourceCreator)
       triplet = new Triplet(connection, startResource, endResource, data)
-      json = triplet.toJSON _
-      triplets.push json
+      triplets.push triplet
     triplets
 
   extractData: (row) ->
@@ -124,8 +123,7 @@ module.exports =
       else
         throw 'Should never happen : one of those two conditions should have been true, there must be an error in the code (Triplets.findByResourceId())'
       triplet = new Triplet(connection, startResource, endResource, data)
-      json = triplet.toJSON _
-      triplets.push json
+      triplets.push triplet
     triplets
 
 
@@ -163,7 +161,7 @@ module.exports =
 
     result = GraphDB.get().query(query, _)[0]
     triplet = @extractTriplet(result)
-    triplet.toJSON _
+    triplet
 
 
   extractTriplet: (row) ->
@@ -207,8 +205,7 @@ module.exports =
     triplets = []
     for row in results
       triplet = @extractTriplet(row)
-      json = triplet.toJSON _
-      triplets.push json
+      triplets.push triplet
     triplets
 
 
@@ -266,6 +263,5 @@ module.exports =
     for row in results
       triplet = @extractTriplet(row)
       triplet.data.hotness = hotness(row.upvoteCount, row.downvoteCount, triplet.connection.creationDate)
-      json = triplet.toJSON _
-      triplets.push json
+      triplets.push triplet
     triplets
