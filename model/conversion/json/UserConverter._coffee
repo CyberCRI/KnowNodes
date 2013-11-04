@@ -18,3 +18,4 @@ module.exports = class UserConverter extends NodeConverter
       fullName: "deleted"
       KN_ID: "deleted"
       id: "deleted"
+    json

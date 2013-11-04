@@ -2,6 +2,28 @@
 
 angular.module('KnowNodesApp.services', [])
 
+    .factory('Users', ['$http', function ($http) {
+
+        var service = {};
+
+        service.login = function(username, password) {
+            $http.post('/auth/local', {username: username, password: password})
+                .success(function(user) {
+                    service.loggedUser = user;
+            });
+        };
+
+//        service.loginGoogle = function(username) {
+//
+//        };
+//
+//        service.loginFacebook = function(username, password) {
+//
+//        };
+
+        return service;
+    }])
+
     .factory('userService', function ($rootScope, $http, $q) {
         return {
 

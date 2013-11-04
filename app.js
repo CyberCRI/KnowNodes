@@ -2,21 +2,22 @@
  * Module dependencies.
  */
 var express = require('express')
-  , controller = require('./controllers')
-  , adminController = require('./controllers/admin/index')
-  , voteController = require('./controllers/vote/index')
-  , GexfController = require('./controllers/gexf/index')
+    , controller = require('./controllers')
+    , adminController = require('./controllers/admin/index')
+    , voteController = require('./controllers/vote/index')
+    , GexfController = require('./controllers/gexf/index')
+    , UserConverter = require('./model/conversion/json/UserConverter')
 
-  , Resource = require('express-resource-new')
-  //, Resource = require('express-resource')
-  , http = require('http')
-  , passport = require('passport')
-  , passportConfig = require('./config/passport.conf')
-  , path = require('path')
-  , MongoStore = require('connect-mongo')(express)
-  , ConfigSettings = require('./config/settings')
-  , mongoose = require('mongoose')
-  , DBConf = require('./config/DB.conf.js')
+    , Resource = require('express-resource-new')
+    //, Resource = require('express-resource')
+    , http = require('http')
+    , passport = require('passport')
+    , passportConfig = require('./config/passport.conf')
+    , path = require('path')
+    , MongoStore = require('connect-mongo')(express)
+    , ConfigSettings = require('./config/settings')
+    , mongoose = require('mongoose')
+    , DBConf = require('./config/DB.conf.js')
 
 // passport: Login initialization
 passportConfig.initializePassport();
@@ -24,23 +25,8 @@ passportConfig.initializePassport();
 var app = express();
 var settings = ConfigSettings.getSettings();
 
-function errorHandler(err, req, res, next) {
-    res.status(500);
-    res.json(err);
-    //res.render('error', { error: err });
-}
-
-function clientErrorHandler(err, req, res, next) {
-    if (req.xhr) {
-        res.send(500, { error: 'Something blew up!' });
-    } else {
-        next(err);
-    }
-}
-
-
 // configuration
-app.configure(function(){
+app.configure(function () {
     app.set('port', process.env.PORT || 3000);
     app.set('views', path.join(__dirname, 'clientApp/views'));
     app.set('view engine', 'jade');
@@ -73,50 +59,50 @@ app.configure(function(){
 });
 
 /*
-app.configure('development', function(){
-  app.use(errorHandler);
-});
+ app.configure('development', function(){
+ app.use(errorHandler);
+ });
 
-app.configure('production', function(){
-    app.use(clientErrorHandler);
-});
-*/
+ app.configure('production', function(){
+ app.use(clientErrorHandler);
+ });
+ */
 
 // NEW API
 
-app.resource('users', function() {
+app.resource('users', function () {
     this.member.get('findByEmail');
     this.member.get('karma');
     this.member.get('triplets');
 });
 
-app.resource('resources', function() {
+app.resource('resources', function () {
     this.member.get('searchByKeyword');
     this.member.get('triplets');
     this.collection.post('findByUrl');
 });
 
-app.resource('connections', function() {
+app.resource('connections', function () {
     this.member.get('triplet');
     this.member.get('comments');
 });
 
-app.resource('triplets', function() {
+app.resource('triplets', function () {
     this.collection.post('latest');
     this.collection.post('hottest');
 });
 
 app.resource('comments');
 
-app.resource('notifications', function() {
+app.resource('notifications', function () {
     this.collection.post('markAllAsRead');
 });
 
 app.resource('wiki');
 
-app.post('/vote/voteUp',voteController.voteUp );
-app.post('/vote/voteDown',voteController.voteDown );
-app.post('/vote/cancelVote',voteController.cancelVote );
+app.post('/vote/voteUp', voteController.voteUp);
+app.post('/vote/voteDown', voteController.voteDown);
+app.post('/vote/cancelVote', voteController.cancelVote);
 
 app.resource('scrape');
 
@@ -127,33 +113,55 @@ app.get('/gexf/triplet/:connectionId', GexfController.exportTriplet);
 app.get('/gexf/userTriplets/:userId', GexfController.exportUserTriplets);
 app.get('/gexf/resourceTriplets/:resourceId', GexfController.exportResourceTriplets);
 
+// AUTH
+
+app.post('/auth/local', function (req, res, next) {
+    passport.authenticate('local', function (err, user, info) {
+        if (err) {
+            throw error;
+        } else if (!user) {
+            console.log("no user:", err);
+            return res.json("403", {
+                message: {
+                    status: "error",
+                    message: "incorrect username/password ?"
+                }
+            });
+        } else {
+            req.logIn(user, function (err) {
+                if (err) {
+                    throw err;
+                    next(err);
+                    return res.json("500", {
+                        message: {
+                            status: "error",
+                            message: "Server Error"
+                        }
+                    });
+                } else {
+                    console.log('login success');
+                    UserConverter.toJSON(user, function (err, result) {
+                        res.json({
+                            message: {
+                                status: "success",
+                                message: "User logged in"
+                            },
+                            user: result
+                        });
+                    });
+                }
+            });
+        }
+    })(req, res, next);
+});
+
 // OLD API
 
 app.resource('files', { name: 'knownodeFiles', id: 'files'});
-//app.get('/concepts/:cid/knownodes/:kid', require('./routes/API.concept').load, require('./routes/API.knownode').load);
 
-app.post('/logout', function(req, res){
+app.post('/logout', function (req, res) {
     req.logout();
     res.json({ success: "Logout" });
-});
-
-app.post('/login', function (req, res, next) {
-    passport.authenticate('local', function (err, user, info) {
-        if (err) {
-            console.log("login error:", err);
-            return next(err); }
-        if (!user) {
-            //req.flash('error', info.message);
-            //return res.redirect('/login')
-            console.log("no user:", err);
-
-            // FIXME send an explicit HTTP code
-            return res.send('ERROR');
-        }
-        req.logIn(user, function (err) {
-            return err ? next(err) : res.send(user);
-        });
-    })(req, res, next);
 });
 
 app.get('/auth/facebook',
@@ -191,14 +199,8 @@ app.get('/screens/:name', controller.screens);
 // routing fallback - MUST (!!) be the last line of all routing
 app.get('*', controller.index);
 
-/*
-app.get('/', function(request, response) {
-    response.redirect('/knownodes');
-});
-*/
-
 mongoose.connect(DBConf.getDBURL('mongoDB').url);
-mongoose.connection.once('open', function() {
+mongoose.connection.once('open', function () {
     console.log('mongoose : connected to MongoDB')
     // Start Web Server
     http.createServer(app).listen(app.get('port'), function () {

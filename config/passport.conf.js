@@ -7,10 +7,9 @@
         nodemailer = require('nodemailer'),
 
         LOG = require('../modules/log'),
-        // TODO Remove reference to deprecated DB
-        DB = require('../DB/knownodeDB'),
         bcrypt = require('bcrypt'),
-        User = require('../model/User')
+        User = require('../model/User'),
+        Users = require('../data/Users'),
 
         basicURL = 'http://www.knownodes.com/',
         //basicURL = 'http://localhost:3000/',
@@ -18,48 +17,54 @@
         FACEBOOK_APP_ID = "138799776273826",
         FACEBOOK_APP_SECRET = "6e3e885f57d1eaaca309509a7e86479a";
 
-    function findByEmail(email, profile, fn) {
-        DB.User.all({ where: { email: email }}, function (err, user) {
-            if (err) {
-                return fn(err, profile);
+    function findByEmail(email, fn) {
+        var callback = function (error, result) {
+            if (error) {
+                throw error;
+                return fn(error);
+            } else {
+                return fn(null, result);
             }
-            return fn(err, user[0]);
-        });
+        };
+        Users.findByEmail(email, callback);
     }
 
     exports.ensureAuthenticated = function (req, res, next) {
-        if (req.isAuthenticated()) { return next(); }
+        if (req.isAuthenticated()) {
+            return next();
+        }
         res.redirect('/login');
     };
 
     exports.initializePassport = function () {
 
         passport.serializeUser(function (user, done) {
-            done(null, user);
-        });
-
-        passport.deserializeUser(function (id, done) {
-            /*
-            DB.User.all({ where: { KN_ID: id }}, function(err, user) {
-                if(err) {
-                    return done(err, null);
-                }
-                return done(err, user[0]);
+            user.toJSON(function(error, result) {
+                done(error, result);
             });
-           */
-            return done(null, id);
         });
 
-        passport.use(new LocalStrategy(
+        passport.deserializeUser(function (user, done) {
+            return done(null, user);
+        });
+
+        passport.use(new LocalStrategy({
+                usernameField: 'email',
+                passwordField: 'password'
+            },
             function (email, password, done) {
-                findByEmail(email, null, function(err, user) {
-                    if (err) { return done(err); }
-                    if (!user) { return done(null, false); }
-                    var isPasswordCorrect = bcrypt.compareSync(password, user.password);
-                    if (isPasswordCorrect) {
-                        return done(null, user);
-                    } else {
+                findByEmail(email, function (err, user) {
+                    if (err) {
+                        return done(err);
+                    } else if (!user) {
                         return done(null, false);
+                    } else {
+                        var isPasswordCorrect = bcrypt.compareSync(password, user.password);
+                        if (isPasswordCorrect) {
+                            return done(null, user);
+                        } else {
+                            return done(null, false);
+                        }
                     }
                 });
             }
@@ -78,8 +83,7 @@
 
                 if (profile.emails && profile.emails.length > 0) {
                     return findByEmail(profile.emails[0].value, profile, function (err, user) {
-                        if (err)
-                        {
+                        if (err) {
                             return DB.User.create({
                                 email: user.emails[0].value,
                                 firstName: user.first_name,
@@ -92,23 +96,22 @@
                     });
                 }
                 return done(null, profile);
-        }));
+            }));
 
         passport.use(new GoogleStrategy({
                 returnURL: basicURL + 'auth/google/callback',
                 realm: basicURL
             },
-            function(identifier, profile, done) {
+            function (identifier, profile, done) {
                 // asynchronous verification, for effect...
                 console.log('arrived');
                 process.nextTick(function () {
 
                     profile.identifier = identifier;
 
-                    if(profile.emails && profile.emails.length > 0){
-                        return findByEmail(profile.emails[0].value, profile, function(err, user){
-                            if(err)
-                            {
+                    if (profile.emails && profile.emails.length > 0) {
+                        return findByEmail(profile.emails[0].value, profile, function (err, user) {
+                            if (err) {
                                 return DB.User.create({
                                     email: user.emails[0].value,
                                     firstName: user.name.givenName,
@@ -125,12 +128,6 @@
                     }
 
                     return done(null, profile);
-                    /*
-
-                    User.findByOpenID({ openId: identifier }, function (err, user) {
-                        return done(err, user);
-                    });
-                    */
                 });
             }
         ));

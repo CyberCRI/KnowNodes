@@ -11,6 +11,9 @@ module.exports = class User extends NodeWrapper
   @getter fullName: ->
     "#{@getProperty('firstName')} #{@getProperty('lastName')}"
 
+  @getter password: ->
+    @getProperty('password')
+
   isLoggedIn: ->
     @node?
 
