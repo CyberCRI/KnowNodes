@@ -1,7 +1,8 @@
 OwnedNodeWrapper = require './OwnedNodeWrapper'
 Type = require './Type'
-ConnectionValidator = require './validation/ConnectionValidator'
-ConnectionConverter = require './conversion/ConnectionConverter'
+Validator = require './validation/ConnectionValidator'
+JsonConverter = require './conversion/json/ConnectionConverter'
+GexfConverter = require './conversion/gexf/ConnectionConverter'
 
 module.exports = class Connection extends OwnedNodeWrapper
 
@@ -18,10 +19,15 @@ module.exports = class Connection extends OwnedNodeWrapper
     @getProperty('status')
 
   validate: ->
-    new ConnectionValidator().validate(@node.data)
+    new Validator().validate(@node.data)
 
-  getConverter: ->
-    ConnectionConverter
+  getJsonConverter: ->
+    JsonConverter
+
+  hasGexfConverter: -> true
+
+  toGEXF: (_) ->
+    GexfConverter.toGEXF(@, _)
 
   delete: (_) ->
     # Make sure has no comments

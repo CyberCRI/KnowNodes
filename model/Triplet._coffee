@@ -1,4 +1,5 @@
-TripletConverter = require './conversion/TripletConverter'
+JsonConverter = require './conversion/json/TripletConverter'
+GexfConverter = require './conversion/gexf/TripletConverter'
 
 module.exports = class Triplet
 
@@ -6,7 +7,12 @@ module.exports = class Triplet
     if not @connection? or not @startResource? or not endResource? or not data?
       throw Error.illegalArgument('null', 'Triplet.constructor()')
 
-  hasConverter: -> true
+  hasJsonConverter: -> true
 
   toJSON: (_) ->
-    TripletConverter.toJSON(@, _)
+    JsonConverter.toJSON(@, _)
+
+  hasGexfConverter: -> true
+
+  toGEXF: (_) ->
+    GexfConverter.toGEXF(@, _)
