@@ -11,10 +11,6 @@ module.exports =
           _content: [
             {
               _name: 'attvalue'
-              _attrs: { for: 'bodyText', value: connection.text }
-            }
-            {
-              _name: 'attvalue'
               _attrs: { for: 'title', value: connection.title }
             }
             {

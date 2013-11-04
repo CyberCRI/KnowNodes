@@ -81,10 +81,6 @@ module.exports =
               _content: [
                 {
                   _name: 'attribute'
-                  _attrs: {id: 'bodyText', title: 'bodyText', type: 'string'}
-                }
-                {
-                  _name: 'attribute'
                   _attrs: {id: 'title', title: 'title', type: 'string'}
                 }
                 {

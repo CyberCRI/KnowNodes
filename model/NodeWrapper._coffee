@@ -17,6 +17,9 @@ module.exports = class NodeWrapper
   @getter creationDate: ->
     @getProperty('__CreatedOn__')
 
+  @getter nodeType: ->
+    @getProperty('nodeType')
+
   constructor: (@node) ->
     if not @node?
       throw Error.illegalArgument(@node, 'NodeWrapper.constructor()')
