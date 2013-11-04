@@ -12,6 +12,9 @@ module.exports = class Resource extends OwnedNodeWrapper
   @getter title: ->
     @getProperty('title')
 
+  @getter bodyText: ->
+    @getProperty('bodyText')
+
   validate: ->
     new ResourceValidator().validate(@node.data)
 
