@@ -28,7 +28,7 @@ module.exports = class Users extends NodeWrappers
       user
 
   @findByEmail: (email, _) ->
-    @findByTextProperty('email', _)
+    @findByTextProperty('email', email, _)
 
   @karma: (id, _) ->
     user = @findById(id, _)

@@ -239,7 +239,7 @@ module.exports =
                     count(distinct startResourceConnections) AS startResourceConnectionCount,
                     count(distinct endResourceConnections) AS endResourceConnectionCount
                   ORDER BY connection.__CreatedOn__ DESC
-                  LIMIT 20
+                  LIMIT 200
                   """
     noveltyInDays = (creationDate) ->
       seconds = creationDate / 1000 - 1370000000
