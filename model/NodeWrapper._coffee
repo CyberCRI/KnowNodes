@@ -50,6 +50,8 @@ module.exports = class NodeWrapper
     """
     @getDB().query(query, _)
 
+  hasConverter: -> true
+
   toJSON: (_) ->
     @getConverter().toJSON(@, _)
 
