@@ -1,7 +1,7 @@
 GraphDB = require '../DB/GraphDB'
 Error = require '../error/Error'
 NodeWrappers = require '../data/NodeWrappers'
-NodeConverter = require './conversion/NodeConverter'
+NodeConverter = require './conversion/json/NodeConverter'
 
 module.exports = class NodeWrapper
 
@@ -50,10 +50,10 @@ module.exports = class NodeWrapper
     """
     @getDB().query(query, _)
 
-  hasConverter: -> true
+  hasJsonConverter: -> true
 
   toJSON: (_) ->
-    @getConverter().toJSON(@, _)
+    @getJsonConverter().toJSON(@, _)
 
   index: (_) ->
     @indexProperty('KN_ID', _)
@@ -107,7 +107,7 @@ module.exports = class NodeWrapper
         METHODS TO IMPLEMENT
   ###
 
-  getConverter: ->
+  getJsonConverter: ->
     NodeConverter
 
   validate: ->

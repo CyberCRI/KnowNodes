@@ -3,5 +3,11 @@ GexfController = require('./GexfController')
 
 module.exports =
 
-  index: (request, response) ->
-    new GexfController(request).getSampleXML(Callback.bind(response))
+  exportTriplet: (request, response) ->
+    new GexfController(request).exportTriplet(Callback.bind(response))
+
+  exportUserTriplets: (request, response) ->
+    new GexfController(request).exportUserTriplets(Callback.bind(response))
+
+  exportResourceTriplets: (request, response) ->
+    new GexfController(request).exportResourceTriplets(Callback.bind(response))

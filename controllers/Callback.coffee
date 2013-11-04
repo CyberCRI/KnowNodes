@@ -1,6 +1,7 @@
 Logger = require '../log/Logger'
 Error = require '../error/Error'
 ArrayConverter = require '../model/conversion/ArrayConverter'
+jstoxml = require 'jstoxml'
 
 module.exports =
 
@@ -38,11 +39,14 @@ module.exports =
       if error
         handleError(error, response)
       else
-        if result.hasConverter?()
+        if result.hasJsonConverter?()
           result.toJSON( (error, json) -> response.json(json) )
-        else if typeof result == 'string' or result instanceof String
-          response.send(result)
         else if result.constructor is Array
           ArrayConverter.toJSON(result, (error, convertedArray) -> response.json(convertedArray) )
+        else if result._name is 'gexf'
+          xml = jstoxml.toXML(result, { header: true, indent: '  ' })
+          response.send(xml)
+        else if result.constructor is String
+          response.send(result)
         else
           response.json(result)

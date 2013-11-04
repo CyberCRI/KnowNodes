@@ -1,6 +1,6 @@
 module.exports =
 
-  toGexfFormat: (connection, _) ->
+  toGEXF: (connection, _) ->
     connectionCreator = connection.getCreator _
     gexf =
       _name: 'edge'

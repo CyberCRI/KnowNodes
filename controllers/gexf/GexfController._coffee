@@ -1,12 +1,21 @@
 Controller = require '../Controller'
 parser = require 'jstoxml'
-TripletConverter = require './TripletConverter'
 Triplets = require '../../data/Triplets'
+GexfRenderer = require '../../model/conversion/gexf/GexfRenderer'
 
 module.exports = class GexfController extends Controller
 
-  getSampleXML: (_) ->
-    triplet = Triplets.findByConnectionId('2086cf88-caf6-400e-91d1-ef517b630041', @getLoggedUserIdIfExists(), _)
-    json = TripletConverter.toGexfFormat(triplet, _)
-    xml = parser.toXML(json, { header: true, indent: '  ' })
-    xml
+  exportTriplet: (_) ->
+    connectionId = @request.params.connectionId
+    triplet = Triplets.findByConnectionId(connectionId, @getLoggedUserIdIfExists(), _)
+    triplet.toGEXF _
+
+  exportUserTriplets: (_) ->
+    userId = @request.params.userId
+    triplets = Triplets.findByUserId(userId, @getLoggedUserIdIfExists(), _)
+    GexfRenderer.renderTriplets(triplets, _)
+
+  exportResourceTriplets: (_) ->
+    resourceId = @request.params.resourceId
+    triplets = Triplets.findByResourceId(resourceId, @getLoggedUserIfExists(_), _)
+    GexfRenderer.renderTriplets(triplets, _)

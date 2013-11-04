@@ -13,6 +13,7 @@ npm-debug.log
 log/*.js
 model/*.js
 model/**/*.js
+model/conversion/**/*.js
 data/*.js
 dao/*.js
 error/*.js

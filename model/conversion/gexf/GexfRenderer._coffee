@@ -3,15 +3,24 @@ ConnectionConverter = require './ConnectionConverter'
 
 module.exports =
 
+  renderTriplets: (triplets, _) ->
+    resources = []
+    connections = []
+    for triplet in triplets
+      resources.push triplet.startResource
+      resources.push triplet.endResource
+      connections.push triplet.connection
+    @render(resources, connections, _)
+
   render: (resources, connections, _) ->
 
     nodes = []
     for resource in resources
-      nodes.push ResourceConverter.toGexfFormat(resource, _)
+      nodes.push ResourceConverter.toGEXF(resource, _)
 
     edges = []
     for connection in connections
-      edges.push ConnectionConverter.toGexfFormat(connection, _)
+      edges.push ConnectionConverter.toGEXF(connection, _)
 
     gexf =
       _name: 'gexf'

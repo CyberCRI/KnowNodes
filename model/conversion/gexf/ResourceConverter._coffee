@@ -1,6 +1,6 @@
 module.exports =
 
-  toGexfFormat: (resource, _) ->
+  toGEXF: (resource, _) ->
     resourceCreator = resource.getCreator _
     gexf =
       _name: 'node'

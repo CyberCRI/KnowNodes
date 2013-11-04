@@ -1,7 +1,7 @@
 NodeWrapper = require './NodeWrapper'
 Type = require './Type'
 UserValidator = require './validation/UserValidator'
-UserConverter = require './conversion/UserConverter'
+UserConverter = require './conversion/json/UserConverter'
 cache = require 'memory-cache'
 bcrypt = require 'bcrypt'
 Error = require '../error/Error'
@@ -24,7 +24,7 @@ module.exports = class User extends NodeWrapper
   validate: ->
     new UserValidator().validate(@node.data)
 
-  getConverter: ->
+  getJsonConverter: ->
     UserConverter
 
   # TODO Instead of having to override the index() method,

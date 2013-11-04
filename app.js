@@ -5,6 +5,7 @@ var express = require('express')
   , controller = require('./controllers')
   , adminController = require('./controllers/admin/index')
   , voteController = require('./controllers/vote/index')
+  , GexfController = require('./controllers/gexf/index')
 
   , Resource = require('express-resource-new')
   //, Resource = require('express-resource')
@@ -83,8 +84,6 @@ app.configure('production', function(){
 
 // NEW API
 
-app.resource('gexf');
-
 app.resource('users', function() {
     this.member.get('findByEmail');
     this.member.get('karma');
@@ -123,6 +122,10 @@ app.resource('scrape');
 
 app.post('/admin/indexAllResources', adminController.indexAllResources);
 app.post('/admin/indexAllConnections', adminController.indexAllConnections);
+
+app.get('/gexf/triplet/:connectionId', GexfController.exportTriplet);
+app.get('/gexf/userTriplets/:userId', GexfController.exportUserTriplets);
+app.get('/gexf/resourceTriplets/:resourceId', GexfController.exportResourceTriplets);
 
 // OLD API
 
@@ -180,12 +183,12 @@ app.get('/auth/google/callback',
         res.redirect('/');
     });
 
-// routing fallback - MUST (!!) be the last line of all routing
 app.get('/', controller.index);
 app.get('/partials/:dir/:name', controller.partialsDir);
 app.get('/partials/:name', controller.partials);
 app.get('/screens/:name', controller.screens);
 
+// routing fallback - MUST (!!) be the last line of all routing
 app.get('*', controller.index);
 
 /*
