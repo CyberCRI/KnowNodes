@@ -132,6 +132,11 @@ app.get('/gexf/resourceTriplets/:resourceId', GexfController.exportResourceTripl
 app.resource('files', { name: 'knownodeFiles', id: 'files'});
 //app.get('/concepts/:cid/knownodes/:kid', require('./routes/API.concept').load, require('./routes/API.knownode').load);
 
+app.resource('concepts', function () {
+    this.member.get('getRelatedKnownodes');
+});
+app.resource('knownodes');
+
 app.post('/logout', function(req, res){
     req.logout();
     res.json({ success: "Logout" });
@@ -190,12 +195,6 @@ app.get('/screens/:name', controller.screens);
 
 // routing fallback - MUST (!!) be the last line of all routing
 app.get('*', controller.index);
-
-/*
-app.get('/', function(request, response) {
-    response.redirect('/knownodes');
-});
-*/
 
 mongoose.connect(DBConf.getDBURL('mongoDB').url);
 mongoose.connection.once('open', function() {
