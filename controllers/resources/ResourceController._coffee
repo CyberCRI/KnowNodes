@@ -11,9 +11,7 @@ module.exports = class ResourceController extends OwnedEntityController
     @request.params.resource
 
   searchByKeyword: (_) ->
-    # TODO Remove the useless string sanitization
-    query = @request.params.resource.replace /:/g, ''
-    @dataService.searchByKeyword(query, _)
+    @dataService.searchByKeyword(@getId(), _)
 
   findByUrl: (_) ->
     url = @request.body.url
