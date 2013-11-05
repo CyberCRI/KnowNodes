@@ -39,7 +39,9 @@ module.exports =
       if error
         handleError(error, response)
       else
-        if result.hasJsonConverter?()
+        if not result
+          response.send('OK')
+        else if result.hasJsonConverter?()
           result.toJSON( (error, json) -> response.json(json) )
         else if result.constructor is Array
           ArrayConverter.toJSON(result, (error, convertedArray) -> response.json(convertedArray) )

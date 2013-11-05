@@ -674,7 +674,7 @@ function VoteCtrl($scope, $http, loginModal) {
         $scope.prompt = true;
     };
 
-    if ($scope.triplet.userUpvoted != null) {
+    if ($scope.triplet.userUpvoted) {
         $scope.upVoteClass = "active";
         $scope.upActive = true;
         $scope.triplet.upvotes += 1;
@@ -682,8 +682,7 @@ function VoteCtrl($scope, $http, loginModal) {
         $scope.upVoteClass = "";
     }
 
-
-    if ($scope.triplet.userDownvoted != null) {
+    if ($scope.triplet.userDownvoted) {
         $scope.downVoteClass = "active";
         $scope.downActive = true;
         $scope.triplet.downvotes += 1;

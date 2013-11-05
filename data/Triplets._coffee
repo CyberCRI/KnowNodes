@@ -32,12 +32,14 @@ module.exports =
               (startResourceConnections)-[?:RELATED_TO]-(startResource),
               (endResourceConnections)-[?:RELATED_TO]-(endResource)
             WHERE NOT(HAS(connection.status))
-            RETURN connection, startResource, endResource, startResourceCreator, endResourceCreator, hasVotedUp, hasVotedDown,
+            RETURN connection, startResource, endResource, startResourceCreator, endResourceCreator,
               count(distinct connectionComments) AS commentCount,
               count(distinct upvotes) AS upvoteCount,
               count(distinct downvotes) AS downvoteCount,
               count(distinct startResourceConnections) AS startResourceConnectionCount,
-              count(distinct endResourceConnections) AS endResourceConnectionCount
+              count(distinct endResourceConnections) AS endResourceConnectionCount,
+              count(distinct hasVotedUp) AS userVotedUp,
+              count(distinct hasVotedDown) AS userVotedDown
             """
     params =
       userNodeId: user.node.id
@@ -60,8 +62,8 @@ module.exports =
     data =
       upvotes: row.upvoteCount
       downvotes: row.downvoteCount
-      userUpvoted: row.hasVotedUp?
-      userDownvoted: row.hasVotedDown?
+      userUpvoted: row.userVotedUp is 1
+      userDownvoted: row.userVotedDown is 1
       commentCount: row.commentCount
       startResourceConnectionCount: row.startResourceConnectionCount
       endResourceConnectionCount: row.endResourceConnectionCount
@@ -88,11 +90,13 @@ module.exports =
               (user) -[hasVotedUp?:VOTED_UP]-> (connection),
               (user) -[hasVotedDown?:VOTED_DOWN]-> (connection),
               (connection) -[?:COMMENT_OF]- (comments)
-            RETURN connection, connectionCreator, resource, resourceCreator, otherResource, otherResourceCreator, hasVotedUp, hasVotedDown,
+            RETURN connection, connectionCreator, resource, resourceCreator, otherResource, otherResourceCreator,
               count(distinct comments) AS commentCount,
               count(distinct otherResourceConnections) AS otherResourceConnectionCount,
               count(distinct upvotes) AS upVoteCount,
-              count(distinct downvotes) AS downVoteCount
+              count(distinct downvotes) AS downVoteCount,
+              count(distinct hasVotedUp) AS userVotedUp,
+              count(distinct hasVotedDown) AS userVotedDown
             """
     outgoingQuery = query(outgoingRelation)
     incomingQuery = query(incomingRelation)
@@ -163,9 +167,10 @@ module.exports =
               count(distinct downvotes) AS downvoteCount,
               count(distinct startResourceConnections) AS startResourceConnectionCount,
               count(distinct endResourceConnections) AS endResourceConnectionCount,
-              hasVotedUp, hasVotedDown
+              count(distinct hasVotedUp) AS userVotedUp,
+              count(distinct hasVotedDown) AS userVotedDown
             """
-
+    console.log query
     result = GraphDB.get().query(query, _)[0]
     triplet = @extractTriplet(result)
     triplet
@@ -190,23 +195,25 @@ module.exports =
       userNodeId = 0
 
     cypherQuery = """
-                  START connection=node:kn_Edge('#{luceneQuery}'), user=node(#{userNodeId})
-                  MATCH (startResource) -[:RELATED_TO]-> (connection) -[:RELATED_TO]-> (endResource),
-                    (connection) -[:CREATED_BY]- (connectionCreator),
-                    (startResource) -[:CREATED_BY]- (startResourceCreator),
-                    (endResource) -[:CREATED_BY]- (endResourceCreator),
-                    (connection) -[?:COMMENT_OF]- (connectionComments),
-                    (user) -[upvote?:VOTED_UP] - (connection),
-                    (user) -[downvote?:VOTED_DOWN] - (connection),
-                    (startResourceConnections)-[?:RELATED_TO]-(startResource),
-                    (endResourceConnections)-[?:RELATED_TO]-(endResource)
-                  RETURN upvote, downvote, connection, startResource, endResource, startResourceCreator, endResourceCreator, connectionCreator,
-                    count(connectionComments) AS connectionCommentsCount,
-                    count(startResourceConnections) AS startResourceConnectionCount,
-                    count(endResourceConnections) AS endResourceConnectionCount
-                  ORDER BY connection.__CreatedOn__ DESC
-                  LIMIT 100
-                  """
+            START connection=node:kn_Edge('#{luceneQuery}'), user=node(#{userNodeId})
+            MATCH (startResource) -[:RELATED_TO]-> (connection) -[:RELATED_TO]-> (endResource),
+              (connection) -[:CREATED_BY]- (connectionCreator),
+              (startResource) -[:CREATED_BY]- (startResourceCreator),
+              (endResource) -[:CREATED_BY]- (endResourceCreator),
+              (connection) -[?:COMMENT_OF]- (connectionComments),
+              (user) -[hasVotedUp?:VOTED_UP] - (connection),
+              (user) -[hasVotedDown?:VOTED_DOWN] - (connection),
+              (startResourceConnections)-[?:RELATED_TO]-(startResource),
+              (endResourceConnections)-[?:RELATED_TO]-(endResource)
+            RETURN upvote, downvote, connection, startResource, endResource, startResourceCreator, endResourceCreator, connectionCreator,
+              count(connectionComments) AS connectionCommentsCount,
+              count(startResourceConnections) AS startResourceConnectionCount,
+              count(endResourceConnections) AS endResourceConnectionCount,
+              count(distinct hasVotedUp) AS userVotedUp,
+              count(distinct hasVotedDown) AS userVotedDown
+            ORDER BY connection.__CreatedOn__ DESC
+            LIMIT 100
+          """
 
     results = GraphDB.get().query(cypherQuery, null, _)
     triplets = []
@@ -227,27 +234,29 @@ module.exports =
       userNodeId = 0
 
     cypherQuery = """
-                  START connection=node:kn_Edge('#{luceneQuery}'), user=node(#{userNodeId})
-                  MATCH (startResource) -[:RELATED_TO]-> (connection) -[:RELATED_TO]-> (endResource),
-                    (connection) -[:CREATED_BY]- (connectionCreator),
-                    (startResource) -[:CREATED_BY]- (startResourceCreator),
-                    (endResource) -[:CREATED_BY]- (endResourceCreator),
-                    (connection) -[?:COMMENT_OF]- (connectionComments),
-                    (connection) -[?:VOTED_UP]- (upvotes),
-                    (connection) -[?:VOTED_DOWN]- (downvotes),
-                    (user) -[hasVotedUp?:VOTED_UP]-> (connection),
-                    (user) -[hasVotedDown?:VOTED_DOWN]-> (connection),
-                    (startResourceConnections) -[?:RELATED_TO]- (startResource),
-                    (endResourceConnections) -[?:RELATED_TO]- (endResource)
-                  RETURN connection, startResource, endResource, connectionCreator, startResourceCreator, endResourceCreator, hasVotedUp, hasVotedDown,
-                    count(distinct connectionComments) AS commentCount,
-                    count(distinct upvotes) AS upvoteCount,
-                    count(distinct downvotes) AS downvoteCount,
-                    count(distinct startResourceConnections) AS startResourceConnectionCount,
-                    count(distinct endResourceConnections) AS endResourceConnectionCount
-                  ORDER BY connection.__CreatedOn__ DESC
-                  LIMIT 20
-                  """
+            START connection=node:kn_Edge('#{luceneQuery}'), user=node(#{userNodeId})
+            MATCH (startResource) -[:RELATED_TO]-> (connection) -[:RELATED_TO]-> (endResource),
+              (connection) -[:CREATED_BY]- (connectionCreator),
+              (startResource) -[:CREATED_BY]- (startResourceCreator),
+              (endResource) -[:CREATED_BY]- (endResourceCreator),
+              (connection) -[?:COMMENT_OF]- (connectionComments),
+              (connection) -[?:VOTED_UP]- (upvotes),
+              (connection) -[?:VOTED_DOWN]- (downvotes),
+              (user) -[hasVotedUp?:VOTED_UP]-> (connection),
+              (user) -[hasVotedDown?:VOTED_DOWN]-> (connection),
+              (startResourceConnections) -[?:RELATED_TO]- (startResource),
+              (endResourceConnections) -[?:RELATED_TO]- (endResource)
+            RETURN connection, startResource, endResource, connectionCreator, startResourceCreator, endResourceCreator,
+              count(distinct connectionComments) AS commentCount,
+              count(distinct upvotes) AS upvoteCount,
+              count(distinct downvotes) AS downvoteCount,
+              count(distinct startResourceConnections) AS startResourceConnectionCount,
+              count(distinct endResourceConnections) AS endResourceConnectionCount,
+              count(distinct hasVotedUp) AS userVotedUp,
+              count(distinct hasVotedDown) AS userVotedDown
+            ORDER BY connection.__CreatedOn__ DESC
+            LIMIT 20
+          """
     noveltyInDays = (creationDate) ->
       seconds = creationDate / 1000 - 1370000000
       seconds / (3600 * 24) # Days
