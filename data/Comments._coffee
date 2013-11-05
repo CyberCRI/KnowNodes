@@ -34,5 +34,5 @@ module.exports = class Comments extends OwnedEntities
     comments = []
     for row in results
       comment = new Comment(row.comment)
-      comments.push(comment.toJSON(_))
+      comments.push comment
     comments
