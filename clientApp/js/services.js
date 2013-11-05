@@ -2,28 +2,6 @@
 
 angular.module('KnowNodesApp.services', [])
 
-    .factory('Users', ['$http', function ($http) {
-
-        var service = {};
-
-        service.login = function(username, password) {
-            $http.post('/auth/local', {username: username, password: password})
-                .success(function(user) {
-                    service.loggedUser = user;
-            });
-        };
-
-//        service.loginGoogle = function(username) {
-//
-//        };
-//
-//        service.loginFacebook = function(username, password) {
-//
-//        };
-
-        return service;
-    }])
-
     .factory('userService', function ($rootScope, $http, $q) {
         return {
 
@@ -33,17 +11,21 @@ angular.module('KnowNodesApp.services', [])
 
             login: function (data) {
                 var deferred = $q.defer();
-                var promise = $http.post('/login', data);
-                promise.then(function(result) {
-                    var user = result.data;
-                    console.log("userServise:", result.data);
-                    if(user != "ERROR"){
-                        $http.get('/users/' + user.KN_ID + '/karma').then(function(karma) {
-                            user.karma = karma.data.karma;
-                            deferred.resolve(user);
-                        });
-                    }
-                });
+                var promise = $http.post('/auth/local', data);
+                promise.then(
+                    function (result) {
+                        var user = result.data.user;
+                        if (user) {
+                            $http.get('/users/' + user.KN_ID + '/karma').then(function (karma) {
+                                user.karma = karma.data.karma;
+                                deferred.resolve(user);
+                            });
+                        }
+                    },
+                    function (error) {
+                        console.log(error);
+                        alert('Problem occured : ' + error.data.message.message);
+                    });
                 return deferred.promise;
             },
 
@@ -52,7 +34,7 @@ angular.module('KnowNodesApp.services', [])
             },
 
             logout: function () {
-                return $http.post('/logout');
+                return $http.post('/auth/logout');
             },
 
             isUserLoggedIn: function () {
@@ -61,13 +43,6 @@ angular.module('KnowNodesApp.services', [])
 
             getConnectedUser: function () {
                 return $rootScope.user;
-            },
-
-            getUserDisplayName: function () {
-                if ($rootScope.user !=null) {
-                    return $rootScope.user.firstName + " " + $rootScope.user.lastName;
-                }
-                return '';
             }
 
         };
@@ -239,7 +214,7 @@ angular.module('KnowNodesApp.services', [])
                 //    });
             },
 
-            findByUrl: function(url) {
+            findByUrl: function (url) {
                 return $http.post('/resources/findByUrl', {url: url});
             }
 
@@ -364,13 +339,13 @@ angular.module('KnowNodesApp.services', [])
     }])
 
 
-    .service('notification', ['$http', function($http) {
+    .service('notification', ['$http', function ($http) {
 
         var service = {};
 
         function addPropertiesForClient(aggregatedNotifications) {
-            for(var processedNotification in aggregatedNotifications){
-                switch(aggregatedNotifications[processedNotification].action) {
+            for (var processedNotification in aggregatedNotifications) {
+                switch (aggregatedNotifications[processedNotification].action) {
                     case "create":
                         aggregatedNotifications[processedNotification].actionDescription = "added a new connection to";
                         aggregatedNotifications[processedNotification].targetType = "resource";
@@ -396,7 +371,7 @@ angular.module('KnowNodesApp.services', [])
         };
 
         service.getNotifications = function (callback) {
-            $http.get('/notifications').success(function(result){
+            $http.get('/notifications').success(function (result) {
                 var aggregatedNotifications = aggregateByTargetAndAction(result);
                 addPropertiesForClient(aggregatedNotifications);
                 console.log(aggregatedNotifications);
@@ -446,7 +421,7 @@ angular.module('KnowNodesApp.services', [])
         }
 
         var markedAsRead = false;
-        service.markAllAsRead = function() {
+        service.markAllAsRead = function () {
             if (markedAsRead) {
                 return;
             } else {
