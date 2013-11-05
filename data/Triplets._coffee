@@ -9,8 +9,8 @@ Error = require '../error/Error'
 
 module.exports =
 
-  findByUserId: (userId, loggedUserId, _) ->
 
+  findByUserId: (userId, loggedUserId, _) ->
     user = Users.find(userId, _)
 
     if loggedUserId?
@@ -55,6 +55,7 @@ module.exports =
       triplets.push triplet
     triplets
 
+
   extractData: (row) ->
     data =
       upvotes: row.upvoteCount
@@ -66,64 +67,70 @@ module.exports =
       endResourceConnectionCount: row.endResourceConnectionCount
     data
 
+
   findByResourceId: (resourceId, user, _) ->
     if user?
       userNodeId = user.node.id
     else
       userNodeId = 0
 
-    query = """
-            START thisResource=node({resourceNodeId}), user=node(#{userNodeId})
-            MATCH (thisResource) -[:RELATED_TO]- (connection) -[:RELATED_TO]- (thatResource),
-              (thisResource) -[:CREATED_BY]- (thisResourceCreator),
-              (thatResource) -[:CREATED_BY]- (thatResourceCreator),
-              (thatResourceConnections)-[?:RELATED_TO]-(thatResource),
+    outgoingRelation = '(resource) -[:RELATED_TO]-> (connection) -[:RELATED_TO]-> (otherResource)'
+    incomingRelation = '(resource) <-[:RELATED_TO]- (connection) <-[:RELATED_TO]- (otherResource)'
+    query = (relation) -> """
+            START resource = node({resourceNodeId}), user = node(#{userNodeId})
+            MATCH #{relation},
+              (resource) -[:CREATED_BY]- (resourceCreator),
+              (otherResource) -[:CREATED_BY]- (otherResourceCreator),
+              (otherResource) -[?:RELATED_TO]- (otherResourceConnections),
               (connection) -[?:VOTED_UP]- (upvotes),
               (connection) -[?:VOTED_DOWN]- (downvotes),
               (connection) -[:CREATED_BY]- (connectionCreator),
               (user) -[hasVotedUp?:VOTED_UP]-> (connection),
               (user) -[hasVotedDown?:VOTED_DOWN]-> (connection),
               (connection) -[?:COMMENT_OF]- (comments)
-            RETURN connection, connectionCreator, thisResource, thisResourceCreator, thatResource, thatResourceCreator, hasVotedUp, hasVotedDown,
+            RETURN connection, connectionCreator, resource, resourceCreator, otherResource, otherResourceCreator, hasVotedUp, hasVotedDown,
               count(distinct comments) AS commentCount,
-              count(distinct thatResourceConnections) AS thatResourceConnectionCount,
+              count(distinct otherResourceConnections) AS otherResourceConnectionCount,
               count(distinct upvotes) AS upVoteCount,
               count(distinct downvotes) AS downVoteCount
             """
+    outgoingQuery = query(outgoingRelation)
+    incomingQuery = query(incomingRelation)
+
     resource = Resources.find(resourceId, _)
     params =
       resourceNodeId: resource.node.id
-
-    results = GraphDB.get().query(query, params, _)
+    outgoingResults = GraphDB.get().query(outgoingQuery, params, _)
+    incomingResults = GraphDB.get().query(incomingQuery, params, _)
+    resourceConnectionCount = outgoingResults.length + incomingResults.length
     triplets = []
-    for row in results
+
+    makeTriplet = (row, startResource, endResource, startResourceConnectionCount, endResourceConnectionCount) ->
       data =
         upvotes: row.upVoteCount
         downvotes: row.downVoteCount
         userUpvoted: row.hasVotedUp?
         userDownvoted: row.hasVotedDown?
         commentCount: row.commentCount
+        startResourceConnectionCount: startResourceConnectionCount
+        endResourceConnectionCount: endResourceConnectionCount
       connection = new Connection(row.connection, row.connectionCreator)
-      thisResource = new Resource(row.thisResource, row.thisResourceCreator)
-      thatResource = new Resource(row.thatResource, row.thatResourceCreator)
+      new Triplet(connection, startResource, endResource, data)
 
-      startResource
-      endResource
+    for row in outgoingResults
+      startResource = new Resource(row.resource, row.resourceCreator)
+      endResource = new Resource(row.otherResource, row.otherResourceCreator)
+      startResourceConnectionCount = resourceConnectionCount
+      endResourceConnectionCount = row.otherResourceConnectionCount
+      triplets.push makeTriplet(row, startResource, endResource, startResourceConnectionCount, endResourceConnectionCount)
 
-      if thisResource.id is connection.startResourceId and thatResource.id is connection.endResourceId
-        startResource = thisResource
-        endResource = thatResource
-        data.startResourceConnectionCount = results.length
-        data.endResourceConnectionCount = row.thatResourceConnectionCount
-      else if thisResource.id is connection.endResourceId and thatResource.id is connection.startResourceId
-        startResource = thatResource
-        endResource = thisResource
-        data.startResourceConnectionCount = row.thatResourceConnectionCount
-        data.endResourceConnectionCount = results.length
-      else
-        throw 'Should never happen : one of those two conditions should have been true, there must be an error in the code (Triplets.findByResourceId())'
-      triplet = new Triplet(connection, startResource, endResource, data)
-      triplets.push triplet
+    for row in incomingResults
+      startResource = new Resource(row.otherResource, row.otherResourceCreator)
+      endResource = new Resource(row.resource, row.resourceCreator)
+      startResourceConnectionCount = row.otherResourceConnectionCount
+      endResourceConnectionCount = resourceConnectionCount
+      triplets.push makeTriplet(row, startResource, endResource, startResourceConnectionCount, endResourceConnectionCount)
+
     triplets
 
 
