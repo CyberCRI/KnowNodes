@@ -12,8 +12,12 @@ module.exports =
   toJSON: (array, _) ->
     convertedArray = []
     for element in array
-      if not element.hasJsonConverter?()
-        throw 'ArrayConverter.toJSON - Impossible to convert element to JSON : #{element}'
-      convertedElement = element.toJSON _
-      convertedArray.push convertedElement
+      if element.hasJsonConverter?()
+        convertedElement = element.toJSON _
+        convertedArray.push convertedElement
+      else if element.constructor.name is 'model' # Mongoose Model
+        convertedArray.push element
+      else
+        console.log 'WARNING - ArrayConverter.toJSON() : No strategy to convert this element', element
+        convertedArray.push element
     convertedArray

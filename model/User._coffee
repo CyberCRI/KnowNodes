@@ -67,3 +67,4 @@ module.exports = class User extends NodeWrapper
   cancelVote: (target, _) ->
     @deleteRelationshipIfExists(target, 'VOTED_UP', _)
     @deleteRelationshipIfExists(target, 'VOTED_DOWN', _)
+    return "vote canceled"

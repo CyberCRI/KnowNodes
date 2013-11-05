@@ -24,9 +24,11 @@ module.exports = class Resources extends OwnedEntities
     regex = '(?i).*' + userQuery + '.*'
     params = {regex: regex}
     results = @DB.query(cypherQuery, params, _)
+    resources = []
     for item in results
-      nodes.push item.results.data
-    nodes
+      resource = new Resource(item.results)
+      resources.push resource
+    resources
 
   @findByUrl: (url, _) ->
     @findByTextProperty('url', url, _)

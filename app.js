@@ -122,6 +122,11 @@ app.post('/auth/local', AuthController.loginLocal);
 
 app.resource('files', { name: 'knownodeFiles', id: 'files'});
 
+app.resource('concepts', function () {
+    this.member.get('getRelatedKnownodes');
+});
+app.resource('knownodes');
+
 app.post('/auth/logout', function (req, res) {
     req.logout();
     res.json({ success: "Logout" });

@@ -9,8 +9,8 @@ Error = require '../error/Error'
 
 module.exports =
 
+  
   findByUserId: (userId, loggedUserId, _) ->
-
     user = Users.find(userId, _)
 
     if loggedUserId?
@@ -32,12 +32,14 @@ module.exports =
               (startResourceConnections)-[?:RELATED_TO]-(startResource),
               (endResourceConnections)-[?:RELATED_TO]-(endResource)
             WHERE NOT(HAS(connection.status))
-            RETURN connection, startResource, endResource, startResourceCreator, endResourceCreator, hasVotedUp, hasVotedDown,
+            RETURN connection, startResource, endResource, startResourceCreator, endResourceCreator,
               count(distinct connectionComments) AS commentCount,
               count(distinct upvotes) AS upvoteCount,
               count(distinct downvotes) AS downvoteCount,
               count(distinct startResourceConnections) AS startResourceConnectionCount,
-              count(distinct endResourceConnections) AS endResourceConnectionCount
+              count(distinct endResourceConnections) AS endResourceConnectionCount,
+              count(distinct hasVotedUp) AS userVotedUp,
+              count(distinct hasVotedDown) AS userVotedDown
             """
     params =
       userNodeId: user.node.id
@@ -55,16 +57,18 @@ module.exports =
       triplets.push triplet
     triplets
 
+
   extractData: (row) ->
     data =
       upvotes: row.upvoteCount
       downvotes: row.downvoteCount
-      userUpvoted: row.hasVotedUp?
-      userDownvoted: row.hasVotedDown?
+      userUpvoted: row.userVotedUp is 1
+      userDownvoted: row.userVotedDown is 1
       commentCount: row.commentCount
       startResourceConnectionCount: row.startResourceConnectionCount
       endResourceConnectionCount: row.endResourceConnectionCount
     data
+
 
   findByResourceId: (resourceId, user, _) ->
     if user?
@@ -72,58 +76,65 @@ module.exports =
     else
       userNodeId = 0
 
-    query = """
-            START thisResource=node({resourceNodeId}), user=node(#{userNodeId})
-            MATCH (thisResource) -[:RELATED_TO]- (connection) -[:RELATED_TO]- (thatResource),
-              (thisResource) -[:CREATED_BY]- (thisResourceCreator),
-              (thatResource) -[:CREATED_BY]- (thatResourceCreator),
-              (thatResourceConnections)-[?:RELATED_TO]-(thatResource),
+    outgoingRelation = '(resource) -[:RELATED_TO]-> (connection) -[:RELATED_TO]-> (otherResource)'
+    incomingRelation = '(resource) <-[:RELATED_TO]- (connection) <-[:RELATED_TO]- (otherResource)'
+    query = (relation) -> """
+            START resource = node({resourceNodeId}), user = node(#{userNodeId})
+            MATCH #{relation},
+              (resource) -[:CREATED_BY]- (resourceCreator),
+              (otherResource) -[:CREATED_BY]- (otherResourceCreator),
+              (otherResource) -[?:RELATED_TO]- (otherResourceConnections),
               (connection) -[?:VOTED_UP]- (upvotes),
               (connection) -[?:VOTED_DOWN]- (downvotes),
               (connection) -[:CREATED_BY]- (connectionCreator),
               (user) -[hasVotedUp?:VOTED_UP]-> (connection),
               (user) -[hasVotedDown?:VOTED_DOWN]-> (connection),
               (connection) -[?:COMMENT_OF]- (comments)
-            RETURN connection, connectionCreator, thisResource, thisResourceCreator, thatResource, thatResourceCreator, hasVotedUp, hasVotedDown,
+            RETURN connection, connectionCreator, resource, resourceCreator, otherResource, otherResourceCreator,
               count(distinct comments) AS commentCount,
-              count(distinct thatResourceConnections) AS thatResourceConnectionCount,
+              count(distinct otherResourceConnections) AS otherResourceConnectionCount,
               count(distinct upvotes) AS upVoteCount,
-              count(distinct downvotes) AS downVoteCount
+              count(distinct downvotes) AS downVoteCount,
+              count(distinct hasVotedUp) AS userVotedUp,
+              count(distinct hasVotedDown) AS userVotedDown
             """
+    outgoingQuery = query(outgoingRelation)
+    incomingQuery = query(incomingRelation)
+
     resource = Resources.find(resourceId, _)
     params =
       resourceNodeId: resource.node.id
-
-    results = GraphDB.get().query(query, params, _)
+    outgoingResults = GraphDB.get().query(outgoingQuery, params, _)
+    incomingResults = GraphDB.get().query(incomingQuery, params, _)
+    resourceConnectionCount = outgoingResults.length + incomingResults.length
     triplets = []
-    for row in results
+
+    makeTriplet = (row, startResource, endResource, startResourceConnectionCount, endResourceConnectionCount) ->
       data =
         upvotes: row.upVoteCount
         downvotes: row.downVoteCount
         userUpvoted: row.hasVotedUp?
         userDownvoted: row.hasVotedDown?
         commentCount: row.commentCount
+        startResourceConnectionCount: startResourceConnectionCount
+        endResourceConnectionCount: endResourceConnectionCount
       connection = new Connection(row.connection, row.connectionCreator)
-      thisResource = new Resource(row.thisResource, row.thisResourceCreator)
-      thatResource = new Resource(row.thatResource, row.thatResourceCreator)
+      new Triplet(connection, startResource, endResource, data)
 
-      startResource
-      endResource
+    for row in outgoingResults
+      startResource = new Resource(row.resource, row.resourceCreator)
+      endResource = new Resource(row.otherResource, row.otherResourceCreator)
+      startResourceConnectionCount = resourceConnectionCount
+      endResourceConnectionCount = row.otherResourceConnectionCount
+      triplets.push makeTriplet(row, startResource, endResource, startResourceConnectionCount, endResourceConnectionCount)
 
-      if thisResource.id is connection.startResourceId and thatResource.id is connection.endResourceId
-        startResource = thisResource
-        endResource = thatResource
-        data.startResourceConnectionCount = results.length
-        data.endResourceConnectionCount = row.thatResourceConnectionCount
-      else if thisResource.id is connection.endResourceId and thatResource.id is connection.startResourceId
-        startResource = thatResource
-        endResource = thisResource
-        data.startResourceConnectionCount = row.thatResourceConnectionCount
-        data.endResourceConnectionCount = results.length
-      else
-        throw 'Should never happen : one of those two conditions should have been true, there must be an error in the code (Triplets.findByResourceId())'
-      triplet = new Triplet(connection, startResource, endResource, data)
-      triplets.push triplet
+    for row in incomingResults
+      startResource = new Resource(row.otherResource, row.otherResourceCreator)
+      endResource = new Resource(row.resource, row.resourceCreator)
+      startResourceConnectionCount = row.otherResourceConnectionCount
+      endResourceConnectionCount = resourceConnectionCount
+      triplets.push makeTriplet(row, startResource, endResource, startResourceConnectionCount, endResourceConnectionCount)
+
     triplets
 
 
@@ -156,9 +167,10 @@ module.exports =
               count(distinct downvotes) AS downvoteCount,
               count(distinct startResourceConnections) AS startResourceConnectionCount,
               count(distinct endResourceConnections) AS endResourceConnectionCount,
-              hasVotedUp, hasVotedDown
+              count(distinct hasVotedUp) AS userVotedUp,
+              count(distinct hasVotedDown) AS userVotedDown
             """
-
+    console.log query
     result = GraphDB.get().query(query, _)[0]
     triplet = @extractTriplet(result)
     triplet
@@ -183,23 +195,25 @@ module.exports =
       userNodeId = 0
 
     cypherQuery = """
-                  START connection=node:kn_Edge('#{luceneQuery}'), user=node(#{userNodeId})
-                  MATCH (startResource) -[:RELATED_TO]-> (connection) -[:RELATED_TO]-> (endResource),
-                    (connection) -[:CREATED_BY]- (connectionCreator),
-                    (startResource) -[:CREATED_BY]- (startResourceCreator),
-                    (endResource) -[:CREATED_BY]- (endResourceCreator),
-                    (connection) -[?:COMMENT_OF]- (connectionComments),
-                    (user) -[upvote?:VOTED_UP] - (connection),
-                    (user) -[downvote?:VOTED_DOWN] - (connection),
-                    (startResourceConnections)-[?:RELATED_TO]-(startResource),
-                    (endResourceConnections)-[?:RELATED_TO]-(endResource)
-                  RETURN upvote, downvote, connection, startResource, endResource, startResourceCreator, endResourceCreator, connectionCreator,
-                    count(connectionComments) AS connectionCommentsCount,
-                    count(startResourceConnections) AS startResourceConnectionCount,
-                    count(endResourceConnections) AS endResourceConnectionCount
-                  ORDER BY connection.__CreatedOn__ DESC
-                  LIMIT 100
-                  """
+            START connection=node:kn_Edge('#{luceneQuery}'), user=node(#{userNodeId})
+            MATCH (startResource) -[:RELATED_TO]-> (connection) -[:RELATED_TO]-> (endResource),
+              (connection) -[:CREATED_BY]- (connectionCreator),
+              (startResource) -[:CREATED_BY]- (startResourceCreator),
+              (endResource) -[:CREATED_BY]- (endResourceCreator),
+              (connection) -[?:COMMENT_OF]- (connectionComments),
+              (user) -[hasVotedUp?:VOTED_UP] - (connection),
+              (user) -[hasVotedDown?:VOTED_DOWN] - (connection),
+              (startResourceConnections)-[?:RELATED_TO]-(startResource),
+              (endResourceConnections)-[?:RELATED_TO]-(endResource)
+            RETURN upvote, downvote, connection, startResource, endResource, startResourceCreator, endResourceCreator, connectionCreator,
+              count(connectionComments) AS connectionCommentsCount,
+              count(startResourceConnections) AS startResourceConnectionCount,
+              count(endResourceConnections) AS endResourceConnectionCount,
+              count(distinct hasVotedUp) AS userVotedUp,
+              count(distinct hasVotedDown) AS userVotedDown
+            ORDER BY connection.__CreatedOn__ DESC
+            LIMIT 100
+          """
 
     results = GraphDB.get().query(cypherQuery, null, _)
     triplets = []
@@ -220,27 +234,29 @@ module.exports =
       userNodeId = 0
 
     cypherQuery = """
-                  START connection=node:kn_Edge('#{luceneQuery}'), user=node(#{userNodeId})
-                  MATCH (startResource) -[:RELATED_TO]-> (connection) -[:RELATED_TO]-> (endResource),
-                    (connection) -[:CREATED_BY]- (connectionCreator),
-                    (startResource) -[:CREATED_BY]- (startResourceCreator),
-                    (endResource) -[:CREATED_BY]- (endResourceCreator),
-                    (connection) -[?:COMMENT_OF]- (connectionComments),
-                    (connection) -[?:VOTED_UP]- (upvotes),
-                    (connection) -[?:VOTED_DOWN]- (downvotes),
-                    (user) -[hasVotedUp?:VOTED_UP]-> (connection),
-                    (user) -[hasVotedDown?:VOTED_DOWN]-> (connection),
-                    (startResourceConnections) -[?:RELATED_TO]- (startResource),
-                    (endResourceConnections) -[?:RELATED_TO]- (endResource)
-                  RETURN connection, startResource, endResource, connectionCreator, startResourceCreator, endResourceCreator, hasVotedUp, hasVotedDown,
-                    count(distinct connectionComments) AS commentCount,
-                    count(distinct upvotes) AS upvoteCount,
-                    count(distinct downvotes) AS downvoteCount,
-                    count(distinct startResourceConnections) AS startResourceConnectionCount,
-                    count(distinct endResourceConnections) AS endResourceConnectionCount
-                  ORDER BY connection.__CreatedOn__ DESC
-                  LIMIT 200
-                  """
+            START connection=node:kn_Edge('#{luceneQuery}'), user=node(#{userNodeId})
+            MATCH (startResource) -[:RELATED_TO]-> (connection) -[:RELATED_TO]-> (endResource),
+              (connection) -[:CREATED_BY]- (connectionCreator),
+              (startResource) -[:CREATED_BY]- (startResourceCreator),
+              (endResource) -[:CREATED_BY]- (endResourceCreator),
+              (connection) -[?:COMMENT_OF]- (connectionComments),
+              (connection) -[?:VOTED_UP]- (upvotes),
+              (connection) -[?:VOTED_DOWN]- (downvotes),
+              (user) -[hasVotedUp?:VOTED_UP]-> (connection),
+              (user) -[hasVotedDown?:VOTED_DOWN]-> (connection),
+              (startResourceConnections) -[?:RELATED_TO]- (startResource),
+              (endResourceConnections) -[?:RELATED_TO]- (endResource)
+            RETURN connection, startResource, endResource, connectionCreator, startResourceCreator, endResourceCreator,
+              count(distinct connectionComments) AS commentCount,
+              count(distinct upvotes) AS upvoteCount,
+              count(distinct downvotes) AS downvoteCount,
+              count(distinct startResourceConnections) AS startResourceConnectionCount,
+              count(distinct endResourceConnections) AS endResourceConnectionCount,
+              count(distinct hasVotedUp) AS userVotedUp,
+              count(distinct hasVotedDown) AS userVotedDown
+            ORDER BY connection.__CreatedOn__ DESC
+            LIMIT 200
+          """
     noveltyInDays = (creationDate) ->
       seconds = creationDate / 1000 - 1370000000
       seconds / (3600 * 24) # Days
