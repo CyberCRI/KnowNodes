@@ -6,6 +6,7 @@ var express = require('express')
     , adminController = require('./controllers/admin/index')
     , voteController = require('./controllers/vote/index')
     , GexfController = require('./controllers/gexf/index')
+    , AuthController = require('./controllers/auth/AuthController')
     , UserConverter = require('./model/conversion/json/UserConverter')
 
     , Resource = require('express-resource-new')
@@ -115,51 +116,13 @@ app.get('/gexf/resourceTriplets/:resourceId', GexfController.exportResourceTripl
 
 // AUTH
 
-app.post('/auth/local', function (req, res, next) {
-    passport.authenticate('local', function (err, user, info) {
-        if (err) {
-            throw error;
-        } else if (!user) {
-            console.log("no user:", err);
-            return res.json("403", {
-                message: {
-                    status: "error",
-                    message: "incorrect username/password ?"
-                }
-            });
-        } else {
-            req.logIn(user, function (err) {
-                if (err) {
-                    throw err;
-                    next(err);
-                    return res.json("500", {
-                        message: {
-                            status: "error",
-                            message: "Server Error"
-                        }
-                    });
-                } else {
-                    console.log('login success');
-                    UserConverter.toJSON(user, function (err, result) {
-                        res.json({
-                            message: {
-                                status: "success",
-                                message: "User logged in"
-                            },
-                            user: result
-                        });
-                    });
-                }
-            });
-        }
-    })(req, res, next);
-});
+app.post('/auth/local', AuthController.loginLocal);
 
 // OLD API
 
 app.resource('files', { name: 'knownodeFiles', id: 'files'});
 
-app.post('/logout', function (req, res) {
+app.post('/auth/logout', function (req, res) {
     req.logout();
     res.json({ success: "Logout" });
 });
