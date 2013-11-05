@@ -264,7 +264,7 @@ function commentCtrl($scope, $routeParams, broadcastService, comment) {
 
     comment.findByConnectionId(objectId)
         .success(function (data, status, headers, config) {
-            $scope.comments = data.success;
+            $scope.comments = data;
         });
 
     $scope.addComment = function () {
