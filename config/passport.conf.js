@@ -12,7 +12,7 @@
         Users = require('../data/Users'),
 
         basicURL = 'http://www.knownodes.com/',
-        //basicURL = 'http://localhost:3000/',
+//        basicURL = 'http://localhost:3000/',
 
         FACEBOOK_APP_ID = "138799776273826",
         FACEBOOK_APP_SECRET = "6e3e885f57d1eaaca309509a7e86479a";
@@ -82,7 +82,7 @@
                 logger.logActivity('facebook profile', prof);
 
                 if (profile.emails && profile.emails.length > 0) {
-                    return findByEmail(profile.emails[0].value, profile, function (err, user) {
+                    return findByEmail(profile.emails[0].value, function (err, user) {
                         if (err) {
                             return DB.User.create({
                                 email: user.emails[0].value,
@@ -110,7 +110,7 @@
                     profile.identifier = identifier;
 
                     if (profile.emails && profile.emails.length > 0) {
-                        return findByEmail(profile.emails[0].value, profile, function (err, user) {
+                        return findByEmail(profile.emails[0].value, function (err, user) {
                             if (err) {
                                 return DB.User.create({
                                     email: user.emails[0].value,
