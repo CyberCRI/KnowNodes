@@ -35,8 +35,12 @@ module.exports = class User extends NodeWrapper
   index: (_) ->
     super _
     @indexTextProperty('email', _)
+    ##@indexTextProperty('firstName', _)
+    ##@indexTextProperty('lastName', _)
 
-  save: (_) ->
+
+
+    save: (_) ->
     super _
     cache.put('USER_' + @getId(), @, 1000)
 

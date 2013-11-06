@@ -15,3 +15,5 @@ module.exports = class AdminController extends Controller
     connections = Connection.listAll(_)
     for connection in connections
       connection.index _
+
+  ##indexAllUsers
