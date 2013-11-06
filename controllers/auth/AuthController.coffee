@@ -3,6 +3,7 @@ passportConfig = require('../../config/passport.conf')
 
 module.exports =
 
+
   loginLocal: (request, response, next) ->
     passport.authenticate("local", (err, user, info) ->
       if err
