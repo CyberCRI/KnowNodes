@@ -6,6 +6,7 @@ module.exports =
 
   loginLocal: (request, response, next) ->
     passport.authenticate("local", (err, user, info) ->
+      console.log(user)
       if err
         throw error
       else if user
@@ -24,7 +25,7 @@ module.exports =
         response.json "403",
           message:
             status: "error"
-            message: "incorrect username/password ?"
+            message: "incorrect username/password"
 
 
     ) request, response, next

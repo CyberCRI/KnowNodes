@@ -11,7 +11,7 @@
         User = require('../model/User'),
         Users = require('../data/Users'),
 
-        basicURL = 'http://www.knownodes.com/',
+        basicURL = 'http://www.libreop.us/',
 //        basicURL = 'http://localhost:3000/',
 
         FACEBOOK_APP_ID = "138799776273826",

@@ -117,6 +117,7 @@ function LoginCtrl($scope, $location, $rootScope, $window, loginModal, userServi
     };
 
     $scope.performLogin = function () {
+        console.log("login:", $scope.loginForm);
         userService.login($scope.loginForm).
             then(function (data, status, headers, config) {
                 if (data === 'ERROR') {

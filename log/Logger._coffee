@@ -11,7 +11,7 @@ module.exports = class Logger
       auth:
         username: "dorgarbash"
         password: "dorIsGarbash1"
-      subdomain: "knownodes"
+      subdomain: "libreop"
     @logglyLogger = Loggly.createClient logglyConfig
 
   log: (level, content) ->
