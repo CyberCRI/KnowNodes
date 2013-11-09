@@ -11,8 +11,8 @@
         User = require('../model/User'),
         Users = require('../data/Users'),
 
-        basicURL = 'http://www.knownodes.com/',
-//        basicURL = 'http://localhost:3000/',
+       // basicURL = 'http://www.knownodes.com/',
+        basicURL = 'http://localhost:3000/',
 
         FACEBOOK_APP_ID = "138799776273826",
         FACEBOOK_APP_SECRET = "6e3e885f57d1eaaca309509a7e86479a";
