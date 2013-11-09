@@ -10,6 +10,7 @@ angular.module('KnowNodesApp.services', [])
             },
 
             login: function (data) {
+                console.log("trying to login");
                 var deferred = $q.defer();
                 var promise = $http.post('/auth/local', data);
                 promise.then(
