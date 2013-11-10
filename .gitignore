@@ -40,4 +40,6 @@ clientApp/css/variables.css
 
 clientApp/css/bootup.css
 config/*.*
+*/.DS_Store
 .DS_Store
+.DS_Store?
