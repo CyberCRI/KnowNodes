@@ -1,7 +1,6 @@
 node_modules/
-config/DB.conf.js
+config/*.*
 .idea/
-config/settings.js
 *.js.map
 controllers/**/*.js
 modules/**/*.js
@@ -19,6 +18,12 @@ dao/*.js
 error/*.js
 
 DB/GraphDB.js
+!chardinjs.css
+clientApp/css/colorschema.css
+
+clientApp/css/styles.css
+
+clientApp/css/variables.css
 
 clientApp/css/colorschema.css
 
@@ -26,16 +31,5 @@ clientApp/css/styles.css
 
 clientApp/css/variables.css
 
-clientApp/css/variables.css
-
-clientApp/css/colorschema.css
-
-clientApp/css/colorschema.css
-
-clientApp/css/styles.css
-
-clientApp/css/variables.css
-
-clientApp/css/variables.css
 
 clientApp/css/bootup.css

@@ -1,18 +1,14 @@
 LogDB = require '../DB/LogDB'
 Loggly = require 'loggly'
-
+LogglyConf = require '../config/loggly.conf'
 module.exports = class Logger
 
   constructor: (source) ->
     @source = source
     # TODO Remove magic number
     @currentStage = 3
-    logglyConfig =
-      auth:
-        username: "dorgarbash"
-        password: "dorIsGarbash1"
-      subdomain: "libreop"
-    @logglyLogger = Loggly.createClient logglyConfig
+
+    @logglyLogger = Loggly.createClient LogglyConfig.getLogglyConf()
 
   log: (level, content) ->
     message = "#{level}: #{@source} - #{content}"
