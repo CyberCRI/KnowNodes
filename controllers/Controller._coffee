@@ -1,55 +1,41 @@
 Error = require '../error/Error'
-Users = require '../data/Users'
 
 module.exports = class Controller
 
-  constructor: (@request, @dataService) ->
+  constructor: (@request, @dao) ->
 
   getId: ->
-    throw Error.notImplemented('Controller.getId()')
-
-  getEntity: (_) ->
-    @dataService.find(@getId(), _)
+    throw Error.notImplemented('NodeWrapper.wrap()')
 
   create: (_) ->
     @checkUserLoggedIn('Controller.create()')
-    @dataService.create(@request.body, _)
+    @dao.create(@request.body, @request.user.KN_ID, _)
 
   show: (_) ->
-    @getEntity(_)
+    @dao.read(@getId(), _)
 
   update: (_) ->
-    newData = @request.body
-    newData.KN_ID = @getId() # Match KN_ID in request body with ID in URL
-    entity = @getEntity(_)
-    entity.update(newData, _)
+    # Make sure the KN_ID in request body is the same as the ID in URL parameter
+    data = @request.body
+    data.KN_ID = @getId()
+    @dao.update(@getId(), data, _)
 
   destroy: (_) ->
-    entity = @getEntity(_)
-    entity.delete(_)
+    @dao.delete(@getId(), _)
 
   checkUserLoggedIn: (methodName) ->
-    if not @isUserLoggedIn()
-      throw Error.unauthorized(methodName, 'User should be logged in')
-
-  isUserLoggedIn: ->
-    @request.user?
+    if not @request.user?
+      throw Error.unauthorizedOperation(methodName, 'User should be logged in')
 
   getLoggedUserId: ->
-    @checkUserLoggedIn("Controller.getLoggedUserId()")
+    @checkUserLoggedIn("getLoggedUserId")
     @request.user.KN_ID
-
-  getLoggedUser: (_) ->
-    Users.find(@getLoggedUserId(), _)
 
   getLoggedUserIdIfExists: ->
     if @request.user?
-      @request.user.KN_ID
+      console.log("user exists")
+      return @request.user.KN_ID
     else
-      null
+      return "no user"
 
-  getLoggedUserIfExists: (_) ->
-    if @request.user?
-      @getLoggedUser(_)
-    else
-      null
+

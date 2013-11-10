@@ -1,54 +1,30 @@
-div.container-fluid
-  div.topbar-gap &nbsp
+div.center-div
 
-  div.row-fluid.hack
-    div.alert.alert-block.intro-box.span21.offset3(ng-hide="isUserLoggedIn")
-      button.close(type="button", data-dismiss="alert") &times;
-      div.span6
-        h3 P2P Science Alliance is an open network of collaborations in science.
+  div.l-frontpage-image
+    img(src="/img/fg-frontpage.png")
+    h2.l-frontpage-title.frontpage-title Knownodes empowers you - to organise the web
+    h2.l-frontpage-title-bottom.frontpage-title By putting knowledge into connections - you empower others
+  div.frontpage__bg-image
+    h3.span23.offset1.frontpage__first-timer First timer? Browse the examples below,
+      a(href="/about") &nbspLearn about how it works
+      span ,&nbsp
+      a(href="http://stps.co/r/0EBJTGN/") and how to open your Phd!
 
-        a.btn.btn-inverse(href="/about") &nbspLearn more
-      h4.span15.offset1 Here's how it works:
-      div.span5.offset1
-        img.intro-img(src="/img/frontpage1.png")
-        h4 Choose two peers that work together or should collaborate.
-      div.span5
-        img.intro-img(src="/img/frontpage2.png")
-        h4 Describe the result of the collaboration.
-      div.span5
-        img.intro-img(src="/img/fg-frontpage.png")
-        h4 The collaboration becomes a part of the open P2P Science Alliance database.
-  div.row-fluid
-    div.location-info.span9.offset3
-      accordion
-          accordion-group(heading="P2P Science Alliance helps you connect with other researchers and share your collaborator networks. You can: ", is-open='true')
-            div.knowode-body
-              p
-                strong Explore
-                span &nbsp;the existing collaboration networks
-              p
-                strong Add
-                span &nbsp;your own collaborations, both ongoing and potential ones
-              p
-                strong Vote and Comment
-                span &nbsp;on any collaboration that is yours or somebody else's
-              p
-                strong Search
-                span &nbsp;our database using the search box on the top
-              p
-                strong Suggest
-                span &nbsp;possible collaborations, both for yourself and for the others
-              p
-                strong Self-organize
-                span &nbsp;with other collaborators and networks to do projects together
+    h4.span23.offset1 Interesting people have started to share their knowledge on knownodes, check out some examples:
 
-    div.span9.offset3
-      div(triplet-input).input-interface
-
-  div.span21.offset3.sort-div(style="margin-left:0px")
-    span.btn.btn-link.sort-header sort:
-    div.btn-group(data-toggle="buttons-radio")
-      button.btn.btn-link.active(type="button", ng-click="orderProp='-(upvotes - downvotes)'") Popular
-      button.btn.btn-link(type="button", ng-click="orderProp='-connection.__CreatedOn__'") New
-        //button.btn.btn-link(type="button", ng-click="orderProp='votes'") Popular
-  div(triplet-list)
+    h3.span11.offset1
+      a(href="/resource/5747482b-7689-4179-98bd-f5c732517d00") Open your Phd project
+    h3.span11.offset1
+      a(href="/resource/7c03ddca-3446-4fad-a723-d914dbdfbed3") Sudo room - Matt Senate(Hacker)
+    h3.span11.offset1
+      a(href="/resource/4aa4ca30-2543-4b05-a739-849902e36531") Mimicry - Sebastien Treguer(Engineer, clean energy)
+    h3.span11.offset1
+      a(href="/resource/2b3f1592-d48a-4daa-a473-20df49c31f2d") How can we include citizen science in earthquake and fire engineering research? - Professor Muki Haklay(Researcher, citizen science)
+    h3.span11.offset1
+      a(href="/resource/a17aa977-91cc-460e-b794-3221bf2ab5ca") Dynamic body and space - Catalina Quijano(Teacher)
+    h3.span11.offset1
+      a(href="/resource/4aa4ca30-2543-4b05-a739-849902e36531") Knownodes - Dor Garbash(Phd student)
+    h3.span11.offset1
+      a(href="/resource/57ebbdf1-8ba9-4fe1-8a4a-9a7890fef6f1") Modularity in biology
+    h3.span11.offset1
+      a(href="/resource/5262bfd2-b77b-48bf-8cd1-1dfbd884a187") What is life?

@@ -11,7 +11,7 @@
  }]);
  */
 // Declare app level module which depends on filters, and services
-var KnowNodesAppModule = angular.module('KnowNodesApp', ['angulartics', 'angulartics.ga', 'firebase','ngSanitize', 'ui', 'ui.directives', '$strap', 'KnowNodesApp.filters', 'KnowNodesApp.services', 'KnowNodesApp.directives', 'ui.bootstrap', 'ui.select2']).
+var KnowNodesAppModule = angular.module('KnowNodesApp', ['firebase','ngSanitize', 'ui', 'ui.directives', '$strap', 'KnowNodesApp.filters', 'KnowNodesApp.services', 'KnowNodesApp.directives', 'ui.bootstrap', 'ui.select2']).
     config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
         $routeProvider.
             when('/', {
@@ -19,28 +19,28 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['angulartics', 'angular
                 controller: IndexCtrl
             }).
             when('/about', {
-                templateUrl: 'screens/about',
+                templateUrl: 'partials/about',
                 controller: StaticPageCtrl
             }).
             when('/terms', {
-                templateUrl: 'screens/terms',
+                templateUrl: 'partials/terms',
                 controller: StaticPageCtrl
             }).
             when('/newUserGuide', {
-                templateUrl: 'screens/newUserGuide',
+                templateUrl: 'partials/newUserGuide',
                 controller: StaticPageCtrl
             }).
             when('/login', {
-                templateUrl: 'screens/login',
+                templateUrl: 'partials/User/login',
                 controller: LoginCtrl
             }).
             when('/logout', {
-                templateUrl: 'screens/frontPage',
+                templateUrl: 'partials/User/login',
                 controller: LogoutCtrl
             }).
             when('/addUser', {
-                templateUrl: 'screens/addUser',
-                controller: LoginCtrl
+                templateUrl: 'partials/User/addUser',
+                controller: AddUserCtrl
             }).
             when('/deleteUser/:id', {
                 templateUrl: 'partials/User/deleteUser',
@@ -51,28 +51,24 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['angulartics', 'angular
                 controller: MapCtrl
             }).
             when('/concept/:id', {
-                templateUrl: 'screens/tripletListPage',
+                templateUrl: 'screens/tripletList',
                 controller: TripletListCtrl
             }).
             when('/article/:id', {
-                templateUrl: 'screens/tripletListPage',
+                templateUrl: 'screens/tripletList',
                 controller: TripletListCtrl
             }).
             when('/resource/:id', {
-                templateUrl: 'screens/tripletListPage',
+                templateUrl: 'screens/tripletList',
                 controller: TripletListCtrl
             }).
             when('/wikipedia/:title', {
-                templateUrl: 'screens/tripletListPage',
+                templateUrl: 'screens/tripletList',
                 controller: TripletListCtrl
             }).
-            when('/connection/:id', {
+            when('/edge/:id', {
                 templateUrl: 'screens/connectionPage',
                 controller: ConnectionPageCtrl
-            }).
-            when('/user/:id', {
-                templateUrl: 'screens/userProfilePage',
-                controller: UserProfilePageCtrl
             }).
             otherwise({
                 redirectTo: '/'

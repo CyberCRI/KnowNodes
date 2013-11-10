@@ -11,7 +11,7 @@ module.exports = class Log extends BaseModule
       auth:
         username: "dorgarbash"
         password: "dorIsGarbash1"
-      subdomain: "libreop"
+      subdomain: "knownodes"
 
     @client = loggly.createClient config
 

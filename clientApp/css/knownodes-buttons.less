@@ -1,454 +1,256 @@
-.button-base {
-  display: inline-block;
+.basic-button {
+  display: block;
+  width: 110px;
+  height: 25px;
+  background: #666666;
   overflow: hidden;
-  text-align: center;
-  border-radius: 4px;
-  box-shadow: 0 4px 0;
-  text-decoration: none;
-  font-family: "Roboto", sans-serif;
-  font-size: 15px;
-  vertical-align: middle;
-  border: transparent;
-  cursor: pointer;
 
-  &:hover {
-    position: relative;
-    top: 2px;
-    text-decoration: none;
-    text-shadow: none;
-  }
-
-  &:active {
-    position: relative;
-    top: 4px;
-    text-decoration: none;
-
-  }
-}
-
-.button-a {
-  display: inline-block;
-  overflow: hidden;
+  color: #fff;
   text-align: center;
   font: 1em/25px "Roboto", sans-serif;
+
   border-radius: 4px;
-  box-shadow: 0 4px 0;
+  box-shadow: 0 4px 0 #525252;
+  display:inline-block;
+}
+
+button.basic-button {
   text-decoration: none;
 }
 
-.button:hover {
+button.basic-button:hover {
   position: relative;
-  box-shadow: 0 2px 0;
+  box-shadow: 0 2px 0 #525252;
   top: 2px;
 }
 
-.button:active {
+button.basic-button:active {
   position: relative;
   box-shadow: none;
   top: 4px;
 }
-/* BUTTON COLORS */
+
+/*
+a.button:hover {
+    position: relative;
+    box-shadow: none;
+    top: 4px;
+}
+
+a.button:active {
+    position: relative;
+    height: 21px;
+    box-shadow: 0 -4px 0 #383838;
+    top: 8px;
+}
+*/
+
+
+/* EDGE CATEGORY BUTTONS */
+
+/* INSPIRE */
 
 .button-inspire {
+  display: block;
   width: 110px;
   height: 25px;
-  background: @inspire-color;
-  box-shadow: 0 4px 0 @inspire-shadow;
-  color: @inspire-content;
-  border-radius: 0;
-  &:hover{
-    color: @inspire-content;
+  background: #FEEB95;
+  overflow: hidden;
 
-    box-shadow: 0 2px 0 @inspire-shadow;
-    text-decoration: none;
-    background: @inspire-color;
-  }
+  color: #988D59;
+  text-align: center;
+  font: 1em/25px "Roboto", sans-serif;
 
-  &:active {
-
-    color: @inspire-content;
-
-    box-shadow: none;
-    text-decoration: none;
-    background: @inspire-color;
-  }
-
-  &:focus {
-    color: @inspire-content;
-    text-decoration: none;
-    background: @inspire-color;
-  }
-
+  border-radius: 4px;
+  box-shadow: 0 4px 0 #E5D487;
 }
 
-.btn.button-inspire.active {
-  box-shadow: none;
+a.button-inspire {
   text-decoration: none;
-  background: @inspire-color;
-  color: @inspire-content;
-  top: 4px;
-
-  &:hover{
-    box-shadow: none;
-    text-decoration: none;
-    background: @inspire-color;
-    top: 4px;
-  }
-
-  &:active {
-    box-shadow: none;
-    text-decoration: none;
-    background: @inspire-color;
-    top: 4px;
-  }
-
-  &:focus {
-    color: @inspire-content;
-    text-decoration: none;
-    background: @inspire-color;
-  }
-
 }
-.button-explain{
+
+a.button-inspire:hover {
+  position: relative;
+  box-shadow: 0 2px 0 #E5D487;
+  top: 2px;
+}
+
+a.button-inspire:active {
+  position: relative;
+  box-shadow: none;
+  top: 4px;
+}
+
+/* EXPLAIN */
+
+.button-explain {
+  display: block;
   width: 110px;
   height: 25px;
-  background: @explain-color;
-  box-shadow: 0 4px 0 @explain-shadow;
-  color: @explain-content;
-  border-radius: 4px 0 0 4px;
+  background: #AAC8E2;
+  overflow: hidden;
 
-  &:hover{
-    box-shadow: 0 2px 0 @explain-shadow;
-    text-decoration: none;
-    background: @explain-color;
-  }
+  color: #667888;
+  text-align: center;
+  font: 1em/25px "Roboto", sans-serif;
 
-  &:active {
-    box-shadow: none;
-    text-decoration: none;
-    background: @explain-color;
-  }
-
-  &:focus {
-    color:@explain-content;
-    text-decoration: none;
-    background: @explain-color;
-  }
+  border-radius: 4px;
+  box-shadow: 0 4px 0 #99B4CC;
 }
 
-.btn.button-explain.active {
-  box-shadow: none;
+a.button-explain {
   text-decoration: none;
-  background: @explain-color;
-  color: @explain-content;
-  top: 4px;
-
-  &:hover{
-    box-shadow: none;
-    text-decoration: none;
-    background: @explain-color;
-    top: 4px;
-  }
-
-  &:active {
-    box-shadow: none;
-    text-decoration: none;
-    background: @explain-color;
-    top: 4px;
-  }
-  &:focus {
-
-    color:@explain-content;
-    text-decoration: none;
-    background: @explain-color;
-  }
-
 }
 
+a.button-explain:hover {
+  position: relative;
+  box-shadow: 0 2px 0 #99B4CC;
+  top: 2px;
+}
 
-.button-critique{
+a.button-explain:active {
+  position: relative;
+  box-shadow: none;
+  top: 4px;
+}
+
+/* CRITIQUE */
+
+.button-critique {
+  display: block;
   width: 110px;
   height: 25px;
-  background: @critique-color;
-  box-shadow: 0 4px 0 @critique-shadow;
-  color: @critique-content;
-  border-radius: 0px 4px 4px 0px;
+  background: #BCDCB7;
+  overflow: hidden;
 
-  &:hover{
-    box-shadow: 0 2px 0 @critique-shadow;
-    text-decoration: none;
-    background: @critique-color;
-  }
+  color: #71846E;
+  text-align: center;
+  font: 1em/25px "Roboto", sans-serif;
 
-  &:active {
-    box-shadow: none;
-    text-decoration: none;
-    background: @critique-color;
-  }
-
-  &:focus {
-
-    color:@critique-content;
-    text-decoration: none;
-    background: @critique-color;
-  }
+  border-radius: 4px;
+  box-shadow: 0 4px 0 #AAC7A5;
 }
 
-.btn.button-critique.active {
-  box-shadow: none;
+a.button-critique {
   text-decoration: none;
-  background: @critique-color;
-  color: @critique-content;
+}
+
+a.button-critique:hover {
+  position: relative;
+  box-shadow: 0 2px 0 #AAC7A5;
+  top: 2px;
+}
+
+a.button-critique:active {
+  position: relative;
+  box-shadow: none;
   top: 4px;
-
-  &:hover{
-    box-shadow: none;
-    text-decoration: none;
-    background: @critique-color;
-    top: 4px;
-  }
-
-  &:active {
-    box-shadow: none;
-    text-decoration: none;
-    background: @critique-color;
-    top: 4px;
-  }
-
-  &:focus {
-
-    color:@critique-content;
-    text-decoration: none;
-    background: @critique-color;
-  }
 }
 
-.button-dark{
-  position:relative;
-  width: 95px;
+
+/* INLINE BUTTON GROUP */
+
+/* RIGHT BUTTON */
+
+.button-right {
+  display: block;
+  width: 110px;
   height: 25px;
-  background: @grey60;
-  box-shadow: 0 4px 0 @grey65;
-  color: @white;
-  text-decoration: none;
+  background: #5a5a5a;
+  overflow: hidden;
 
-  &:hover{
-    top: 2px;
-    box-shadow: 0 2px 0 @grey65;
-    color:white;
-    text-decoration: none;
-    background: @grey60;
-  }
-
-  &:active {
-    top: 4px;
-    box-shadow: none;
-    color:white;
-    text-decoration: none;
-    background: @grey60;
-  }
-  &:focus {
-
-    color:@white;
-    text-decoration: none;
-    background: @grey60;
-  }
-
-}
-
-.button-default{
-  width: 90px;
-  height: 25px;
-  background: @grey05;
-  box-shadow: 0 4px 0 @grey15;
-  color: #666666;
-  &:hover{
-    box-shadow: 0 2px 0 @grey15;
-    text-decoration: none;
-    background: @grey05;
-  }
-
-  &:active {
-    box-shadow: none;
-    text-decoration: none;
-    background: @grey05;
-
-  }
-}
-
-.button-voteup{
-  width: 25px;
-  height: 25px;
-  background: white;
-  box-shadow: 0 4px 0 @grey15;
-  color: #666666;
-  position: absolute;
-  right: 0px;
-  top: -11px;
-
-  &:hover{
-    box-shadow: 0 2px 0 @grey15;
-    text-decoration: none;
-    background: white;
-  }
-
-  &:active {
-    box-shadow: none;
-    text-decoration: none;
-    background: white;
-  }
-
-}
-
-.button-base.button-voteup {
-  &:hover{
-    top:-9px;
-    position:absolute;
-    box-shadow: 0 2px 0 @grey15;
-    text-decoration: none;
-    background: white;
-  }
-
-  &:active {
-    top:-7px;
-    position:absolute;
-    box-shadow: none;
-    text-decoration: none;
-    background: white;
-  }
-}
-
-.button-voteup.active {
-  box-shadow: none;
-  text-decoration: none;
-  background: white;
-  top: -7px;
-
-  &:hover{
-    box-shadow: none;
-    text-decoration: none;
-    background: white;
-    top: -7px;
-  }
-
-  &:active {
-    box-shadow: none;
-    text-decoration: none;
-    background: white;
-    top: -7px;
-  }
-
-}
-
-.button-votedown{
-  width: 25px;
-  height: 25px;
-  background: white;
-  box-shadow: 0 4px 0 @grey15;
-  color: #666666;
-  position: absolute;
-  right: 0px;
-  top: 51px;
-
-  &:hover{
-    box-shadow: 0 2px 0 @grey15;
-    text-decoration: none;
-    background: white;
-  }
-
-  &:active {
-    box-shadow: none;
-    text-decoration: none;
-    background: white;
-  }
-
-}
-
-.button-base.button-votedown {
-  &:hover{
-    top: 53px;
-    position:absolute;
-    box-shadow: 0 2px 0 @grey15;
-    text-decoration: none;
-    background: white;
-  }
-
-  &:active {
-    top: 55px;
-    position:absolute;
-    box-shadow: none;
-    text-decoration: none;
-    background: white;
-  }
-}
-
-.button-votedown.active {
-  box-shadow: none;
-  text-decoration: none;
-  background: white;
-  top: 55px;
-
-  &:hover{
-    box-shadow: none;
-    text-decoration: none;
-    background: white;
-    top: 55px;
-  }
-
-  &:active {
-    box-shadow: none;
-    text-decoration: none;
-    background: white;
-    top: 55px;
-  }
-
-}
-
-
-.button-submit{
-  width: 75px;
-  height: 28px;
-  background: @submit-color;
-  box-shadow: 0 4px 0 @submit-shadow;
-  color: @white;
-  font: 1em/28px "Roboto", sans-serif;
-
-  &:hover{
-    box-shadow: 0 2px 0 @submit-shadow;
-    text-decoration: none;
-    background: @submit-color;
-  }
-
-  &:active {
-    box-shadow: none;
-    text-decoration: none;
-    background: @submit-color;
-
-  }
-
-}
-
-.btn.active {
-  color:@active-red;
-  background-color:transparent;
-  box-shadow:none;
-  -webkit-box-shadow:none;
-}
-
-.button-notification {
-  padding: 10px;
-  margin-top: 12px;
-  height: 15px;
-  position:relative;
-}
-.notification-count{
-  position: absolute;
-  top: -7px;
-  right: -4px;
-  padding-left: 7px;
-  padding-right: 7px;
-  background: #a82400;
-  font-size: .8em;
   color: #fff;
-  border-radius: 10px;
+  text-align: center;
+  font: 1em/25px "MuseoSlab-500", sans-serif;
+
+  border-radius: 0 4px 4px 0;
+  box-shadow: 0 4px 0 #383838;
+  display:inline-block;
+
+}
+
+a.button-right {
+  text-decoration: none;
+}
+
+a.button-right:hover {
+  position: relative;
+  box-shadow: 0 2px 0 #383838;
+  top: 2px;
+}
+
+a.button-right:active {
+  position: relative;
+  box-shadow: none;
+  top: 4px;
+}
+
+/* MIDDLE BUTTON */
+
+.button-middle {
+  display: block;
+  width: 110px;
+  height: 25px;
+  background: #5a5a5a;
+  overflow: hidden;
+  margin: 0 -4px 0 -4px;
+
+  color: #fff;
+  text-align: center;
+  font: 1em/25px "MuseoSlab-500", sans-serif;
+
+  box-shadow: 0 4px 0 #383838;
+  display:inline-block;
+
+}
+
+a.button-middle {
+  text-decoration: none;
+}
+
+a.button-middle:hover {
+  position: relative;
+  box-shadow: 0 2px 0 #383838;
+  top: 2px;
+}
+
+a.button-middle:active {
+  position: relative;
+  box-shadow: none;
+  top: 4px;
+}
+
+/* LEFT BUTTON */
+
+.button-left {
+  display: block;
+  width: 110px;
+  height: 25px;
+  background: #5a5a5a;
+  overflow: hidden;
+
+  color: #fff;
+  text-align: center;
+  font: 1em/25px "MuseoSlab-500", sans-serif;
+
+  border-radius: 4px 0 0 4px;
+  box-shadow: 0 4px 0 #383838;
+  display:inline-block;
+
+}
+
+a.button-left {
+  text-decoration: none;
+}
+
+a.button-left:hover {
+  position: relative;
+  box-shadow: 0 2px 0 #383838;
+  top: 2px;
+}
+
+a.button-left:active {
+  position: relative;
+  box-shadow: none;
+  top: 4px;
 }

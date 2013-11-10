@@ -12,6 +12,9 @@ module.exports =
   update: (request, response) ->
     new ResourceController(request).update(Callback.bind(response))
 
+  destroy: (request, response) ->
+    new ResourceController(request).destroy(Callback.bind(response))
+
   searchByKeyword: (request, response) ->
     new ResourceController(request).searchByKeyword(Callback.bind(response))
 

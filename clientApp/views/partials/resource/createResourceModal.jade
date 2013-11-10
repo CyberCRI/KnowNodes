@@ -6,10 +6,10 @@
         label(for='title') Title:
         input(ng-model='resourceToCreate.title', ng-maxlength='350', name='title', required, autofocus, style="width:100%;").input_xxlarge
         span {{(350 -(resourceToCreate.title.length))}}
-    //  p
+    p
         label(for='url') URL:
         input(class="input-xxlarge", placeholder="Add URL here", ng-model='resourceToCreate.url', name='url', style="width:100%;")
-    //  p
+    p
         label(for='bodyText') Text body (abstract, summery or additional information): &nbsp;(optional)
         textarea(ui-tinymce, class="input-xxlarge", placeholder="Abstract or summery of the resource", ng-model='resourceToCreate.bodyText', name='bodyText', rows='5', style='width:100%')
 

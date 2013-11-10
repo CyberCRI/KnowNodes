@@ -1,11 +1,9 @@
-div.resource(ng-click="goToUrl('/article/' + triplet.startResource.KN_ID)")
+div.resource
   div.resource-title
-    a(ng-href="/article/{{triplet.startResource.KN_ID}}", title="{{triplet.startResource.title}}") {{triplet.startResource.title}}
-  a.source-button(ng-href="{{triplet.startResource.url}}", title="{{triplet.startResource.url}}", ng-show="triplet.startResource.url", target="_blank") source
-  a.source-button(href="/knownodeFiles/:{{triplet.startResource.fileId}}", target="_blank", ng-show="triplet.startResource.fileName", title="{{triplet.startResource.fileName}}")
+    a(ng-href="/article/{{triplet.otherResource.KN_ID}}", title="{{triplet.otherResource.title}}") {{triplet.otherResource.title}}
+  a.source-button(ng-href="{{triplet.otherResource.url}}", title="{{triplet.otherResource.url}}", ng-show="triplet.otherResource.url", target="_blank") source
+  a.source-button(href="/knownodeFiles/:{{triplet.otherResource.fileId}}", target="_blank", ng-show="triplet.otherResource.fileName", title="{{triplet.otherResource.fileName}}")
     i.titleIcon.icon-download
-  div.resource-counter(ng-switch on="triplet.startResourceConnectionCount")
-    span(ng-switch-default) {{triplet.startResourceConnectionCount}}
+  div.resource-counter(ng-switch on="triplet.otherConnectionsCount")
+    span(ng-switch-default) {{triplet.otherConnectionsCount}}
     span(ng-switch-when="0")
-
-

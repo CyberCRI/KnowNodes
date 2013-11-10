@@ -1,27 +1,18 @@
 Controller = require '../Controller'
-Connections = require '../../data/Connections'
-Votes = require '../../data/Votes'
+VoteDAO = require '../../dao/VoteDAO'
+User = require '../../model/User'
 
 module.exports = class VoteController extends Controller
 
   constructor: (@request) ->
-    super(@request, null)
-
-  findTarget: (_) ->
-    Connections.find(@request.body.connectionId, _)
+    super(@request, new VoteDAO)
 
   voteUp: (_) ->
-    user = @getLoggedUser _
-    target = @findTarget _
-    Votes.voteUp(target, user, _)
+    @dao.voteUp(@getLoggedUserId(), @request.body.connectionId, _)
 
   voteDown: (_) ->
-    user = @getLoggedUser _
-    target = @findTarget _
-    Votes.voteDown(target, user, _)
+    @dao.voteDown(@getLoggedUserId(), @request.body.connectionId, _)
 
   cancelVote: (_) ->
-    user = @getLoggedUser _
-    target = @findTarget _
-    Votes.cancelVote(target, user, _)
+    @dao.cancelVote(@getLoggedUserId(), @request.body.connectionId, _)
 

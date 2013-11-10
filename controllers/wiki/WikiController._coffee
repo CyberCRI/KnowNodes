@@ -1,15 +1,15 @@
 Controller = require '../Controller'
-WikiResources = require '../../data/WikiResources'
+WikiDAO = require '../../dao/WikiDAO'
 
 module.exports = class WikiController extends Controller
 
   constructor: (@request) ->
-    super(@request, null)
+    super(@request, new WikiDAO())
 
   findOrCreate: (_) ->
     @checkUserLoggedIn('WikiController.findOrCreate()')
-    WikiResources.findOrCreate(@request.body.title, @request.user.KN_ID, _)
+    @dao.findOrCreate(@request.body.title, @request.user.KN_ID, _)
 
   findByTitle: (_) ->
     title = @request.params.wiki
-    WikiResources.findByTitle(title, _)
+    @dao.findByTitle(title, _)

@@ -1,19 +1,40 @@
-Callback = require('../Callback')
-UserController = require('./UserController')
+###
+* This is the routing for the users. It calls /modules/user.js for implementing its actions.
+###
+userModule = require('../../modules/user')
+baseController = require('../baseController')
+user = new userModule
 
 module.exports =
+	options:
+		before: 
+			index: [baseController.isAdmin],
+			destroy: [baseController.isAdmin]
 
-  create: (request, response) ->
-    new UserController(request).create(Callback.bind(response))
+	index: (request, response) ->
+		cb = baseController.callBack response
+		user.getAllUsers cb
 
-  show: (request, response) ->
-    new UserController(request).show(Callback.bind(response))
+	show: (request, response) ->
+		cb = baseController.callBack response
+		id = request.params.user.replace /:/g, ''
+		user.getUserByNodeId id, cb
 
-  findByEmail: (request, response) ->
-    new UserController(request).findByEmail(Callback.bind(response))
+	create: (request, response) ->
+		cb = baseController.callBack response
+		user.saveNewUser request.body, cb
 
-  karma: (request, response) ->
-    new UserController(request).karma(Callback.bind(response))
+	destroy: (request, response) ->
+		cb = baseController.callBack response
+		id = request.params.user.replace /:/g, ''
+		user.deleteUser id, cb
 
-  triplets: (request, response) ->
-    new UserController(request).triplets(Callback.bind(response))
+	getByEmail: (request, response) ->
+		cb = baseController.callBack response
+		email = request.params.user.replace /:/g, ''
+		user.getUserByEmail email, cb
+
+	getByKnownodeId: (request, response) ->
+		cb = baseController.callBack response
+		knownodeId = request.params.user.replace /:/g, ''
+		user.getUserByKnownodeId knownodeId, cb

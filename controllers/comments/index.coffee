@@ -1,13 +1,26 @@
-CommentController = require('./CommentController')
-Callback = require('../Callback')
+###
+* This is the routing for the comments on edges / knownodes
+###
+commentModule = require('../../modules/comment')
+baseController = require('../baseController')
 
 module.exports =
+  options:
+    before:
+      create: [baseController.isLoggedIn],
+      destroy: [baseController.isAdmin]
+
+  show: (request, response) =>
+    module.exports.getRelatedComments request, response
 
   create: (request, response) ->
-    new CommentController(request).create(Callback.bind(response))
+    cb = baseController.callBack response
+    comment = new commentModule request.user
+    commentsOfId = request.body.originalObject.id.replace /:/g, ''
+    comment.createNewComment request.body.comment, commentsOfId, cb
 
-  show: (request, response) ->
-    new CommentController(request).show(Callback.bind(response))
-
-  destroy: (request, response) ->
-    new CommentController(request).destroy(Callback.bind(response))
+  getRelatedComments: (request, response) ->
+    cb = baseController.callBack response
+    comment = new commentModule request.user
+    commentsOfId = request.params.comment.replace /:/g, ''
+    comment.getAllCommentsOfKnownodeID commentsOfId, cb

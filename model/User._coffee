@@ -1,52 +1,52 @@
 NodeWrapper = require './NodeWrapper'
 Type = require './Type'
-UserValidator = require './validation/UserValidator'
-UserConverter = require './conversion/json/UserConverter'
+UserValidator = require './validation/userValidator'
 cache = require 'memory-cache'
-bcrypt = require 'bcrypt'
-Error = require '../error/Error'
 
 module.exports = class User extends NodeWrapper
 
-  @getter fullName: ->
-    "#{@getProperty('firstName')} #{@getProperty('lastName')}"
+  @VALIDATOR = new UserValidator
 
-  @getter password: ->
-    @getProperty('password')
+  ###
+        CLASS METHODS
+  ###
+
+  @getNodeType: -> Type.USER
+
+  @wrap: (node) -> new User(node)
+
+  @findById: (id, _) ->
+    user = cache.get 'USER_' + id
+    if not user?
+      db = @getDB()
+      userNode = db.getIndexedNode('kn_User', 'KN_ID', id, _)
+      # TODO Check user exists
+      user = new User(userNode)
+      cache.put('USER_' + user.getId(), user, 1000)
+    return user
+
+  ###
+        INSTANCE METHODS
+  ###
+
+  constructor: (node) ->
+    super node
 
   isLoggedIn: ->
     @node?
 
   setAsCreator: (created, _) ->
     properties = {creationDate: new Date()}
-    created.node.createRelationshipTo(@node, 'CREATED_BY', properties, _)
-
-  isCreatorOf: (content, _) ->
-    @hasRelationshipWith(content, 'CREATED_BY', _)
+    @node.createRelationshipTo(created.node, 'CREATED_BY', properties, _)
 
   validate: ->
     new UserValidator().validate(@node.data)
 
-  getJsonConverter: ->
-    UserConverter
-
-  # TODO Instead of having to override the index() method,
-  #      specifying the indexed fields of an entity should be declarative
-  index: (_) ->
-    super _
-    @indexTextProperty('email', _)
-    ##@indexTextProperty('firstName', _)
-    ##@indexTextProperty('lastName', _)
-
-
-
-    save: (_) ->
+  save: (_) ->
     super _
     cache.put('USER_' + @getId(), @, 1000)
 
   voteUp: (target, _) ->
-    if not target?
-      throw Error.illegalArgument(target, 'User.voteUp()')
     @deleteRelationshipIfExists(target, 'VOTED_DOWN', _)
     if @hasVotedUp(target, _)
       return "already voted up"
@@ -57,8 +57,6 @@ module.exports = class User extends NodeWrapper
     @hasRelationshipWith(target, 'VOTED_UP', _)
 
   voteDown: (target, _) ->
-    if not target?
-      throw Error.illegalArgument(target, 'User.voteDown()')
     @deleteRelationshipIfExists(target, 'VOTED_UP', _)
     if @hasVotedDown(target, _)
       return "already voted down"
@@ -71,4 +69,4 @@ module.exports = class User extends NodeWrapper
   cancelVote: (target, _) ->
     @deleteRelationshipIfExists(target, 'VOTED_UP', _)
     @deleteRelationshipIfExists(target, 'VOTED_DOWN', _)
-    return "vote canceled"
+

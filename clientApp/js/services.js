@@ -2,51 +2,30 @@
 
 angular.module('KnowNodesApp.services', [])
 
-    .factory('userService', function ($rootScope, $http, $q) {
-        return {
+    .factory('userService', function ($rootScope) {
+        var serviceReturned = {};
 
-            create: function (userData) {
-                return $http.post('/users', userData);
-            },
-
-            login: function (data) {
-                console.log("trying to login");
-                var deferred = $q.defer();
-                var promise = $http.post('/auth/local', data);
-                promise.then(
-                    function (result) {
-                        var user = result.data.user;
-                        if (user) {
-                            $http.get('/users/' + user.KN_ID + '/karma').then(function (karma) {
-                                user.karma = karma.data.karma;
-                                deferred.resolve(user);
-                            });
-                        }
-                    },
-                    function (error) {
-                        console.log(error);
-                        alert('Problem occured : ' + error.data.message.message);
-                    });
-                return deferred.promise;
-            },
-
-            getKarma: function (user) {
-                return $http.get('/users/' + user.KN_ID + '/karma');
-            },
-
-            logout: function () {
-                return $http.post('/auth/logout');
-            },
-
-            isUserLoggedIn: function () {
-                return $rootScope.user
-            },
-
-            getConnectedUser: function () {
-                return $rootScope.user;
-            }
+        serviceReturned.isUserLoggedIn = function () {
+            console.log("user:", $rootScope.user);
+            return $rootScope.user
 
         };
+
+        serviceReturned.getConnectedUser = function () {
+            if ($rootScope.user) {
+                $rootScope.user.displayName = serviceReturned.getUserDisplayName();
+            }
+            return $rootScope.user;
+        };
+
+        serviceReturned.getUserDisplayName = function () {
+            if ($rootScope.user) {
+                return $rootScope.user.firstName + " " + $rootScope.user.lastName;
+            }
+            return '';
+        };
+
+        return serviceReturned;
     })
 
     .factory('PassKnownode', function () {
@@ -130,8 +109,6 @@ angular.module('KnowNodesApp.services', [])
             var deferred = $q.defer();
             wikipedia.getArticle(resource.title).then(function (article) {
                 if (article != null) {
-                    if (resource.bodyText == null)
-                        resource.bodyText = article.extract;
                     resource.wikipediaLinks = article.links;
                 }
                 deferred.resolve(resource);
@@ -187,11 +164,7 @@ angular.module('KnowNodesApp.services', [])
                 var deferred = $q.defer();
                 $http.post('/resources', resourceData)
                     .success(function (data, status, headers, config) {
-                        console.log("resourceData:", data);
                         deferred.resolve(data)
-                        console.log("resourceDataresolved:", data);
-
-
                     })
                     .error(function (data, status, headers) {
                         console.log('Resource creation failed with error code : ' + status);
@@ -199,10 +172,7 @@ angular.module('KnowNodesApp.services', [])
                         deferred.resolve(null);
                     });
                 ;
-                console.log("resourcePromise:", deferred.promise);
-
                 return deferred.promise;
-
             },
 
             delete: function (id) {
@@ -215,7 +185,7 @@ angular.module('KnowNodesApp.services', [])
                 //    });
             },
 
-            findByUrl: function (url) {
+            findByUrl: function(url) {
                 return $http.post('/resources/findByUrl', {url: url});
             }
 
@@ -335,145 +305,6 @@ angular.module('KnowNodesApp.services', [])
 
             url: function (url) {
                 return $http.post('/scrape', {url: url});
-            }
-        };
-    }])
-
-
-    .service('notification', ['$http', function ($http) {
-
-        var service = {};
-
-        function addPropertiesForClient(aggregatedNotifications) {
-            for (var processedNotification in aggregatedNotifications) {
-                switch (aggregatedNotifications[processedNotification].action) {
-                    case "create":
-                        aggregatedNotifications[processedNotification].actionDescription = "added a new connection to";
-                        aggregatedNotifications[processedNotification].targetType = "resource";
-
-                        break;
-                    case "vote":
-                        aggregatedNotifications[processedNotification].actionDescription = "voted on";
-                        aggregatedNotifications[processedNotification].showActor = "false";
-                        aggregatedNotifications[processedNotification].targetType = "triplet";
-                        break;
-                    case "follow":
-                        aggregatedNotifications[processedNotification].actionDescription = "is following";
-                        aggregatedNotifications[processedNotification].targetType = "resource";
-
-                        break;
-                    case "comment":
-                        aggregatedNotifications[processedNotification].actionDescription = "commented on";
-                        aggregatedNotifications[processedNotification].targetType = "triplet";
-                        break;
-                }
-            }
-
-        };
-
-        service.getNotifications = function (callback) {
-            $http.get('/notifications').success(function (result) {
-                var aggregatedNotifications = aggregateByTargetAndAction(result);
-                addPropertiesForClient(aggregatedNotifications);
-                console.log(aggregatedNotifications);
-                callback(aggregatedNotifications);
-            });
-        }
-
-        function aggregateByTargetAndAction(notifications) {
-            if (notifications.length == 0)
-                return [];
-
-            var result = [],
-                notificationsCount = notifications.length,
-                x, y;
-
-            function pushNotification(notification) {
-                notification.actorIds = [notification.actor.id];
-                notification.actors = [notification.actor];
-                notification.actionCount = 1;
-                result.push(notification);
-            }
-
-            pushNotification(notifications[0]);
-
-            for (x = 1; x < notificationsCount; x++) {
-                var duplicateIndex = -1;
-
-                for (y = 0; y < result.length; y++) {
-                    if (notifications[x].target.id === result[y].target.id &&
-                        notifications[x].action === result[y].action) {
-                        duplicateIndex = y;
-                        break;
-                    }
-                }
-                if (duplicateIndex >= 0) {
-                    var duplicateResult = result[duplicateIndex];
-                    duplicateResult.actionCount++;
-                    if (!(notifications[x].actor.id in duplicateResult.actorIds)) {
-                        duplicateResult.actorIds.push(notifications[x].actor.id);
-                        duplicateResult.actors.push(notifications[x].actor);
-                    }
-                } else {
-                    pushNotification(notifications[x]);
-                }
-            }
-            return result;
-        }
-
-        var markedAsRead = false;
-        service.markAllAsRead = function () {
-            if (markedAsRead) {
-                return;
-            } else {
-                markedAsRead = true;
-                $http.post('/notifications/markAllAsRead', {});
-            }
-        };
-
-        return service;
-
-    }])
-
-    .factory('triplet', ['$http', function ($http) {
-        return {
-
-            findByUserId: function (userId) {
-                return $http.get('/users/' + userId + '/triplets');
-            },
-
-            findByConnectionId: function (connectionId) {
-                return $http.get('/connections/' + connectionId + '/triplet');
-            }
-        };
-    }])
-
-    .factory('comment', ['$http', function ($http) {
-        return {
-
-            create: function (text, connectionId) {
-                var data = {
-                    connectionId: connectionId,
-                    bodyText: text
-                };
-                return $http.post('/comments', data);
-            },
-
-            findByConnectionId: function (connectionId) {
-                return $http.get('/connections/' + connectionId + '/comments');
-            }
-        };
-    }])
-
-    .factory('triplets', ['$http', function ($http) {
-        return {
-
-            latest: function () {
-                return $http.post('/triplets/latest');
-            },
-
-            hottest: function () {
-                return $http.post('/triplets/hottest');
             }
         };
     }])

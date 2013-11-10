@@ -3,7 +3,7 @@
     "version": "0.0.2",
     "private": true,
     "scripts": {
-        "build": "_coffee -c controllers/.; _coffee -c data/.; _coffee -c DB/.; _coffee -c log/.; _coffee -c modules/.; _coffee -c model/.; _coffee -c error/.; lessc -x clientApp/css/bootup.less > clientApp/css/bootup.css",
+        "build": "_coffee -c controllers/.; _coffee -c log/.; _coffee -c modules/.; _coffee -c model/.; _coffee -c dao/.;  _coffee -c error/.; lessc -x clientApp/css/bootup.less > clientApp/css/bootup.css",
         "start": "node app",
         "postinstall": "npm run build"
     },
@@ -33,10 +33,7 @@
         "request":"2.21.0",
         "loggly": "0.3.11",
         "less": "1.4.0",
-        "validator": "latest",
-        "node-uuid": "latest",
-        "bcrypt": "latest",
-        "jstoxml": "latest"
+        "validator": "latest"
     },
     "engines": {
         "node": "0.8.x"

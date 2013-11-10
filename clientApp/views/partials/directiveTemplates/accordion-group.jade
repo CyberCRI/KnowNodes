@@ -1,6 +1,6 @@
 div.accordion-group.accordion-node
   div.accordion-heading
-    p.accordion-toggle(ng-click='isOpen = !isOpen', accordion-transclude='heading') {{heading}} {{concept.title}}
+    a.accordion-toggle(ng-click='isOpen = !isOpen', accordion-transclude='heading') {{heading}} {{concept.title}}
       i.icon-resize-vertical.pull-right
     div.accordion-body(collapse='!isOpen')
       div.accordion-inner(ng-transclude='ng-transclude')
