@@ -5,44 +5,42 @@ div.container-fluid
     div.alert.alert-block.intro-box.span21.offset3(ng-hide="isUserLoggedIn")
       button.close(type="button", data-dismiss="alert") &times;
       div.span6
-        h3 P2P Science Alliance is like an open source LinkedIn for researchers.
-        br
-        h3 Create and explore the networks of ongoing and potential collaborations across the disciplines and geographical borders.
+        h3 P2P Science Alliance is an open network of collaborations in science.
 
         a.btn.btn-inverse(href="/about") &nbspLearn more
       h4.span15.offset1 Here's how it works:
       div.span5.offset1
         img.intro-img(src="/img/frontpage1.png")
-        h4 You pick the two peers you wish to connect.
+        h4 Choose two peers that work together or should collaborate.
       div.span5
         img.intro-img(src="/img/frontpage2.png")
-        h4 You describe their relation, whether it is an ongoing or a potential one.
+        h4 Describe the result of the collaboration.
       div.span5
         img.intro-img(src="/img/fg-frontpage.png")
-        h4 Your connection becomes a part of an open and collective P2P Science Alliance database.
+        h4 The collaboration becomes a part of the open P2P Science Alliance database.
   div.row-fluid
     div.location-info.span9.offset3
       accordion
-        accordion-group(heading="P2P Science Alliance helps you connect with other researchers and share your collaborator networks. You can: ", is-open='true')
-          div.knowode-body
-            p
-              strong Explore
-              span &nbsp;the existing collaboration networks
-            p
-              strong Add
-              span &nbsp;your own collaborations, both ongoing and potential ones
-            p
-              strong Vote and Comment
-              span &nbsp;on any collaboration that is yours or somebody else's
-            p
-              strong Search
-              span &nbsp;our database using the search box on the top
-            p
-              strong Suggest
-              span &nbsp;possible collaborations, both for yourself and for the others
-            p
-              strong Self-organize
-              span &nbsp;with other collaborators and networks to do projects together
+          accordion-group(heading="P2P Science Alliance helps you connect with other researchers and share your collaborator networks. You can: ", is-open='true')
+            div.knowode-body
+              p
+                strong Explore
+                span &nbsp;the existing collaboration networks
+              p
+                strong Add
+                span &nbsp;your own collaborations, both ongoing and potential ones
+              p
+                strong Vote and Comment
+                span &nbsp;on any collaboration that is yours or somebody else's
+              p
+                strong Search
+                span &nbsp;our database using the search box on the top
+              p
+                strong Suggest
+                span &nbsp;possible collaborations, both for yourself and for the others
+              p
+                strong Self-organize
+                span &nbsp;with other collaborators and networks to do projects together
 
     div.span9.offset3
       div(triplet-input).input-interface
