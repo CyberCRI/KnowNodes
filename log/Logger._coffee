@@ -8,7 +8,7 @@ module.exports = class Logger
     @source = source
     # TODO Remove magic number
     @currentStage = 3
-    @logglyLogger = Loggly.createClient LogglyConf.getLogglyConf()
+    @logglyLogger = Loggly.createClient LogglyConf.getLogglyConfig()
 
   log: (level, content) ->
     message = "#{level}: #{@source} - #{content}"

@@ -6,7 +6,7 @@ module.exports =
 
   loginLocal: (request, response, next) ->
     passport.authenticate("local", (err, user, info) ->
-      console.log(user)
+      console.log("user", user)
       if err
         throw error
       else if user
@@ -26,6 +26,7 @@ module.exports =
           message:
             status: "error"
             message: "incorrect username/password"
+          prompt: "incorrect username/password"
 
 
     ) request, response, next

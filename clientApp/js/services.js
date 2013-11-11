@@ -25,7 +25,7 @@ angular.module('KnowNodesApp.services', [])
                     },
                     function (error) {
                         console.log(error);
-                        alert('Problem occured : ' + error.data.message.message);
+                        alert('Problem occured : ' + error.data.prompt);
                     });
                 return deferred.promise;
             },

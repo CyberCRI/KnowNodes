@@ -22,16 +22,20 @@ module.exports = class Users extends NodeWrappers
     user = cache.get 'USER_' + id
     if not user?
       userNode = @DB.getIndexedNode('kn_User', 'KN_ID', id, _)
+      console.log("userNode", userNode)
       # TODO Check user exists
       user = new User(userNode)
+      console.log("userNode2", user)
       cache.put('USER_' + user.getId(), user, 1000)
       user
 
   @findByEmail: (email, _) ->
+    console.log("email", email)
     @findByTextProperty('email', email, _)
 
   @karma: (id, _) ->
     user = @findById(id, _)
+    console.log("user:", user, id, user.node.id)
     query = """
             START user=node(#{user.node.id})
             MATCH (connection) -[:CREATED_BY]- (user),
