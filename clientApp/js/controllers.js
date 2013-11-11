@@ -491,14 +491,14 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
                             }
                             ;
                         }
-                        for (i = 0; i < results.wikipediaArticles.length; i++) {
-                            suggestions.results.push({
-                                id: results.wikipediaArticles[i].title,
-                                text: results.wikipediaArticles[i].title,
-                                type: 'Wikipedia Article',
-                                snippet: results.wikipediaArticles[i].snippet
-                            });
-                        }
+//                        for (i = 0; i < results.wikipediaArticles.length; i++) {
+//                            suggestions.results.push({
+//                                id: results.wikipediaArticles[i].title,
+//                                text: results.wikipediaArticles[i].title,
+//                                type: 'Wikipedia Article',
+//                                snippet: results.wikipediaArticles[i].snippet
+//                            });
+//                        }
                         if (addResource == true) {
                             suggestions.results.unshift({
                                 id: 'create_data_option_id',
