@@ -99,9 +99,9 @@ angular.module('KnowNodesApp.services', [])
             search: function (query) {
 
                 var handleResultsFromWikipedia = function (result) {
-                    if (result.data.query != null)
-                        return result.data.query.search;
-                    else return {};
+                    //if (result.data.query != null)
+                        //return result.data.query.search;
+                    return {};
                 };
 
                 var deferred = $q.defer();
