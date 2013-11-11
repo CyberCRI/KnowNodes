@@ -130,7 +130,7 @@ app.resource('concepts', function () {
 app.resource('knownodes');
 
 app.post('/auth/logout', function (req, res) {
-    req.logout();
+    req.logOut();
     res.json({ success: "Logout" });
 });
 
