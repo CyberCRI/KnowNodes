@@ -79,28 +79,6 @@ function CreateResourceModalCtrl($scope, dialog, resource) {
     };
 }
 
-
-function ChatCtrl($scope, $timeout, $rootScope, angularFireCollection) {
-    var el = document.getElementById("messagesDiv");
-    var url = 'https://knownodes.firebaseIO.com/chat';
-    $scope.messages = angularFireCollection(url, function () {
-        $timeout(function () {
-            el.scrollTop = el.scrollHeight;
-        });
-    });
-    $scope.addMessage = function () {
-        if (!$rootScope.userDisplayName) {
-            window.alert("you must be logged in to do that");
-        }
-        else {
-            $scope.messages.add({from: $rootScope.userDisplayName, content: $scope.message}, function () {
-                el.scrollTop = el.scrollHeight;
-            });
-        }
-        $scope.message = "";
-    };
-}
-
 function LoginCtrl($scope, $location, $rootScope, $window, loginModal, userService) {
 
     $scope.loginForm = {};

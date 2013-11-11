@@ -13,5 +13,6 @@ html(ng-app="KnowNodesApp")
 
     body(ng-controller="TopBarCtrl").background-color
       include partials/topBar
+      button.pull-right(onclick="TogetherJS(this); return false;") Start TogetherJS
       block content
       include partials/footer
