@@ -1,35 +1,47 @@
 
-module.exports = class Exception
+module.exports =
 
-  @Type =
+  Type:
+    BAD_REQUEST: 'BadRequest'
+    UNAUTHORIZED: 'Unauthorized'
+    FORBIDDEN: 'Forbidden'
+    NOT_FOUND: 'NotFound'
     NOT_IMPLEMENTED: 'NotImplemented'
-    ENTITY_NOT_FOUND: 'EntityNotFound'
     ILLEGAL_ARGUMENT: 'IllegalArgument'
     UNSUPPORTED_OPERATION: 'UnsupportedOperation'
-    UNAUTHORIZED_OPERATION: 'UnauthorizedOperation'
+    WRONG_TYPE: 'WrongType'
 
-  @exception: (type, message) ->
+  error: (type, message) ->
     type: type
     message: "#{type} - #{message}"
     isCustom: true
 
-  @notImplemented: (methodName) ->
-    @exception(@Type.NOT_IMPLEMENTED, "You should implement method #{methodName}")
+  badRequest: (attributeName, expected, actualValue) ->
+    @error(@Type.BAD_REQUEST, "#{attributeName} was expected to be of type #{expected}, but received #{actualValue}")
 
-  @entityNotFound: (nodeType, id) ->
-    @exception(@Type.ENTITY_NOT_FOUND, "No #{nodeType} found for id : #{id}")
+  unauthorized: (methodName, details) ->
+    @error(@Type.UNAUTHORIZED, "#{methodName} is not allowed, you should be logged in : #{details}")
 
-  @entityNotFound: (nodeType, key, value) ->
-    @exception(@Type.ENTITY_NOT_FOUND, "No #{nodeType} found for #{key} : #{value}")
+  forbidden: (methodName, details) ->
+    @error(@Type.FORBIDDEN, "#{methodName} is forbidden (requires higher authorization level) : #{details}")
 
-  @illegalArgument: (argumentValue, methodName) ->
-    @exception(@Type.ILLEGAL_ARGUMENT, "#{argumentValue} is not a valid value for method #{methodName}")
+  entityNotFound: (nodeType, id) ->
+    @notFound(nodeType, 'id', id)
 
-  @unsupportedOperation: (methodName) ->
-    @exception(@Type.UNSUPPORTED_OPERATION, methodName)
+  notFound: (nodeType, key, value) ->
+    @error(@Type.NOT_FOUND, "No #{nodeType} found for #{key} : #{value}")
 
-  @unsupportedOperation: (methodName, reason) ->
-    @exception(@Type.UNSUPPORTED_OPERATION, "#{methodName} is not supported : #{reason}")
+  notImplemented: (methodName) ->
+    @error(@Type.NOT_IMPLEMENTED, "You should implement method #{methodName}")
 
-  @unauthorizedOperation: (methodName, details) ->
-    @exception(@Type.UNAUTHORIZED_OPERATION, "#{methodName} is not allowed : #{details}")
+  illegalArgument: (argumentValue, methodName) ->
+    @error(@Type.ILLEGAL_ARGUMENT, "#{argumentValue} is not a valid value for method #{methodName}")
+
+  unsupportedOperation: (methodName) ->
+    @error(@Type.UNSUPPORTED_OPERATION, methodName)
+
+  unsupportedOperation: (methodName, reason) ->
+    @error(@Type.UNSUPPORTED_OPERATION, "#{methodName} is not supported : #{reason}")
+
+  wrongType: (expected, actual) ->
+    @error(@Type.WRONG_TYPE, "Expected type #{expected}, got #{actual}")

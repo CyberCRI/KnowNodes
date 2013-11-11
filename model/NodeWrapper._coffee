@@ -1,79 +1,32 @@
-Neo4j = require 'neo4j'
-DBConf = require '../config/DB.conf'
+GraphDB = require '../DB/GraphDB'
 Error = require '../error/Error'
+NodeWrappers = require '../data/NodeWrappers'
+NodeConverter = require './conversion/json/NodeConverter'
 
 module.exports = class NodeWrapper
 
-  ###
-        CLASS METHODS
-  ###
+  @getter = (props) =>
+    @::__defineGetter__ name, getter for name, getter of props
 
-  @DB: new Neo4j.GraphDatabase(DBConf.getDBURL('neo4j'))
+  @setter = (props) =>
+    @::__defineSetter__ name, setter for name, setter of props
 
-  @getDB: -> @DB
+  @getter id: ->
+    @getProperty('KN_ID')
 
-  @getNodeType: ->
-    throw Error.notImplemented('NodeWrapper.getNodeType()')
+  @getter creationDate: ->
+    @getProperty('__CreatedOn__')
 
-  @getValidator: ->
-    throw Error.notImplemented('NodeWrapper.getValidator()')
-
-  @wrap: (node) ->
-    throw Error.notImplemented('NodeWrapper.wrap()')
-
-  @create: (data, _) ->
-    data.KN_ID = @GUID()
-    data.nodeType = @getNodeType()
-    data.__CreatedOn__ = Date.now()
-    created = @wrap(@DB.createNode(data))
-    created.save _
-    return created
-
-  @find: (id, _) ->
-    @findByProperty('KN_ID', id, _)
-
-  @findByTextProperty: (key, value, _) ->
-    @findByProperty(key, value.toLowerCase(), _)
-
-  @findByProperty: (key, value, _) ->
-    node = @DB.getIndexedNode(@getNodeType(), key, value, _)
-    if not node?
-      throw Error.entityNotFound(@getNodeType(), key, value)
-    else
-      @wrap node
-
-  @listAll: (_) ->
-    query = [
-      'START everyNode = node(*)',
-      'WHERE everyNode.nodeType ?= {nodeType}',
-      'RETURN everyNode'
-    ].join('\n');
-    params = {nodeType: @getNodeType()}
-    nodes = @DB.query(query, params, _)
-    nodeWrappers = []
-    for result in nodes
-      wrapped = @wrap(result.everyNode)
-      nodeWrappers.push(wrapped)
-    nodeWrappers
-
-  # Generates a new Globally Unique ID
-  @GUID: () ->
-    # TODO Guarantee Uniqueness
-    "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace /[xy]/g, (c) ->
-      r = Math.random() * 16 | 0
-      v = (if c is "x" then r else (r & 0x3 | 0x8))
-      v.toString 16
-
-  ###
-        INSTANCE METHODS
-  ###
+  @getter nodeType: ->
+    @getProperty('nodeType')
 
   constructor: (@node) ->
     if not @node?
       throw Error.illegalArgument(@node, 'NodeWrapper.constructor()')
 
-  getId: ->
-    @node.data['KN_ID']
+  getDB: -> GraphDB.get()
+
+  getId: -> @node.data['KN_ID'] # Old getter, consider removal
 
   save: (_) ->
     @validate()
@@ -92,6 +45,19 @@ module.exports = class NodeWrapper
   delete: (_) ->
     @node.delete _
 
+  forceDelete: (_) ->
+    query = """
+      START node=node(#{@node.id})
+      MATCH node-[rel]-()
+      DELETE node, rel
+    """
+    @getDB().query(query, _)
+
+  hasJsonConverter: -> true
+
+  toJSON: (_) ->
+    @getJsonConverter().toJSON(@, _)
+
   index: (_) ->
     @indexProperty('KN_ID', _)
     @indexProperty('__CreatedOn__', _)
@@ -106,16 +72,22 @@ module.exports = class NodeWrapper
     if value?
       @node.index(@getNodeType(), key, value.toLowerCase(), _)
 
+  getProperty: (key) ->
+    return @node.data[key]
+
+  setProperty: (key, value) ->
+    @node.data[key] = value
+
   getRelationshipWith: (target, relationshipType, _) ->
     query = [
-      "START source = node({sourceId}), target = node({targetId})",
+      "START user = node({sourceId}), target = node({targetId})",
       "MATCH user -[relationship:#{relationshipType}]- target",
       "RETURN relationship"
     ].join('\n');
     params =
       sourceId: @node.id
       targetId: target.node.id
-    result = NodeWrapper.DB.query(query, params, _)[0]
+    result = @getDB().query(query, params, _)[0]
     if result?
       result.relationship
 
@@ -127,12 +99,19 @@ module.exports = class NodeWrapper
     if rel?
       rel.del(_)
 
-    ###
-          METHODS TO IMPLEMENT
-    ###
+  checkNodeType: (expectedType) ->
+    if @getNodeType() is not expectedType
+      throw Error.wrongType(expectedType, @getNodeType())
 
   getNodeType: ->
     @node.data['nodeType']
+
+  ###
+        METHODS TO IMPLEMENT
+  ###
+
+  getJsonConverter: ->
+    NodeConverter
 
   validate: ->
     throw Error.notImplemented('NodeWrapper.getValidator()')

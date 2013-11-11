@@ -10,6 +10,22 @@ angular.module('KnowNodesApp.directives', [])
         };
     })
 
+    .directive('tripletList', function () {
+        return {
+            restrict: "A",
+            templateUrl: 'partials/directiveTemplates/tripletList',
+            replace: true
+        };
+    })
+
+    .directive('infoLine', function () {
+        return {
+            restrict: "A",
+            templateUrl: 'partials/directiveTemplates/infoLine',
+            replace: true,
+            controller: InfoLineCtrl
+        };
+    })
     .directive('concept', function () {
         return {
             restrict: 'EAC',
@@ -160,9 +176,6 @@ angular.module('KnowNodesApp.directives', [])
         return {
             restrict: 'AC',
             transclude: true,
-            scope: {
-                'href': '@'
-            },
             link: function (scope) {
                 scope.location = function (href) {
                     return href.substr(1) === $location.url().substr(1);
@@ -174,6 +187,17 @@ angular.module('KnowNodesApp.directives', [])
 
                 scope.userDisplayName = function () {
                     return $rootScope.userDisplayName;
+                };
+                scope.userKN_ID = function () {
+                    if (!$rootScope.user) {
+                        return ""
+                    }
+                    else {
+                        return $rootScope.user.KN_ID;
+                    }
+                };
+                scope.loggedUser = function () {
+                    return $rootScope.user;
                 };
             },
             templateUrl: 'partials/directiveTemplates/topBarLogin',
@@ -265,7 +289,7 @@ angular.module('KnowNodesApp.directives', [])
 
     .directive('tripletInput', ['$http', function ($http) {
         return {
-            restrict: 'E',
+            restrict: 'A',
             templateUrl: 'partials/directiveTemplates/tripletInput',
             controller: TripletInputCtrl,
             replace: true
@@ -342,10 +366,31 @@ angular.module('KnowNodesApp.directives', [])
             //update();
         }
     })
+
+    .directive('notifications', function() {
+        return {
+            restrict: 'A',
+            transclude: true,
+            templateUrl: 'partials/directiveTemplates/notifications',
+            replace: true,
+            controller: NotificationsCtrl
+        };
+    })
+
+    .directive('notificationsDropdown', function() {
+        return {
+            restrict: 'A',
+            transclude: true,
+            templateUrl: 'partials/directiveTemplates/notificationsDropdown',
+            replace: true,
+            controller: NotificationsCtrl
+        };
+    })
+
     .directive('searchBox', ['$http', function ($http) {
         return {
             restrict: 'EA',
-            template: '<input ui-select2="searchBoxOptions" ng-model="selectedResult" data-placeholder="Find or create a resource..." multiple type="hidden" />',
+            template: '<input ui-select2="searchBoxOptions" ng-model="selectedResult" data-placeholder="Find or create a peer..." multiple type="hidden" />',
             scope: {},
             controller: SearchBoxCtrl,
             replace: true,

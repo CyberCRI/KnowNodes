@@ -1,10 +1,10 @@
 Controller = require '../Controller'
 Resource = require '../../model/Resource'
 Connection = require '../../model/Connection'
+User = require '../../model/User'
+bcrypt = require 'bcrypt'
 
 module.exports = class AdminController extends Controller
-
-  constructor: (@request) ->
 
   indexAllResources: (_) ->
     resources = Resource.listAll(_)
@@ -15,3 +15,5 @@ module.exports = class AdminController extends Controller
     connections = Connection.listAll(_)
     for connection in connections
       connection.index _
+
+  ##indexAllUsers

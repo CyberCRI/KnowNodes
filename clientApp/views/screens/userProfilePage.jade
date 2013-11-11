@@ -1,0 +1,17 @@
+div.container-fluid
+  div.topbar-gap &nbsp
+  div.row-fluid
+    div.span9.offset3(style="margin:0px;")
+      div(triplet-input).input-interface
+
+    div.location-info.span9.offset3
+      accordion
+        accordion-group(heading="{{knownodeList[0].connection.creator.firstName}} {{knownodeList[0].connection.creator.lastName}}", is-open='true')
+          div.knownode-body
+            div.help-hover(title="Total votes user have received from his connections") {{loggedUser().karma}} Connection points
+    div.span21.offset3.sort-div
+      span.btn.btn-link.sort-header sort:
+      div.btn-group(data-toggle="buttons-radio")
+        button.btn.btn-link.active(type="button", ng-click="orderProp='-(upvotes - downvotes)'") Popular
+        button.btn.btn-link(type="button", ng-click="orderProp='-connection.__CreatedOn__'") New
+  div(triplet-list)

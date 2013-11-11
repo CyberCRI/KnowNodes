@@ -1,6 +1,6 @@
 'use strict';
 
-function TopBarCtrl($scope, $location, resource) {
+function TopBarCtrl($rootScope, $scope, $location, resource, userService) {
 
     $scope.$on('$routeChangeSuccess', function (event, current, previous) {
         var path = $location.path().split('/')[1];
@@ -8,6 +8,13 @@ function TopBarCtrl($scope, $location, resource) {
         $scope.resourceButton = (current.$route.controller.name === "MapCtrl");
 
         $scope.resourceId = current.params.id;
+
+        // Load Karma if necessary
+        if ($rootScope.user != null && $rootScope.user.karma == null) {
+            userService.getKarma($rootScope.user).success(function (response) {
+                $rootScope.user.karma = response.karma;
+            });
+        }
     });
 
     $scope.$on('searchResultSelected', function (event, result) {
@@ -34,6 +41,28 @@ function TopBarCtrl($scope, $location, resource) {
     });
 }
 
+function NotificationsCtrl($scope, notification) {
+
+    notification.getNotifications(function(result) {
+        $scope.notifications = result;
+        var isReadCount = _.countBy(result, function(notification) {
+            return notification.alreadyRead;
+        });
+        $scope.unreadCount = isReadCount.false;
+    });
+
+    $scope.getStyle = function(isRead) {
+        if (isRead)
+            return 'background-color:lightgrey';
+        else
+            return '';
+    };
+
+    $scope.markAllAsRead = function() {
+        $scope.unreadCount = 0;
+        notification.markAllAsRead();
+    }
+}
 
 function CreateResourceModalCtrl($scope, dialog, resource) {
 
@@ -72,82 +101,53 @@ function ChatCtrl($scope, $timeout, $rootScope, angularFireCollection) {
     };
 }
 
+function LoginCtrl($scope, $location, $rootScope, $window, loginModal, userService) {
 
-function AddUserCtrl($scope, $http, $location) {
+    $scope.loginForm = {};
     $scope.userForm = {};
+    $scope.newUser;
     $scope.submitUser = function (userForm) {
-        $http.post('/users', userForm).
+        userService.create(userForm).
             success(function (data, status, headers, config) {
-                $location.path('/');
+                $scope.loginForm.username = userForm.email;
+                $scope.loginForm.password = userForm.password;
+                $scope.newUser = true;
+                return $scope.performLogin();
             });
     };
-}
-
-
-function LoginCtrl($scope, $http, $location, $rootScope, $window, loginModal) {
-    $scope.loginForm = {};
 
     $scope.performLogin = function () {
-        $http.post('/login', $scope.loginForm).
-            success(function (data, status, headers, config) {
+        console.log("login:", $scope.loginForm);
+        userService.login($scope.loginForm).
+            then(function (data, status, headers, config) {
                 if (data === 'ERROR') {
                     return $scope.loginerror = true;
                 }
                 $rootScope.user = data;
-                $window.history.back();
+                if ($scope.newUser === true) {
+                    $location.path('/');
+                } else {
+                    $window.history.back();
+                }
             });
     };
 
-    $scope.closeLoginModal = function(){
+    $scope.closeLoginModal = function () {
         loginModal.close();
     };
 
 }
 
 
-function LogoutCtrl($http, $location, $rootScope) {
-    $http.post('/logout').
+function LogoutCtrl($location, $rootScope, userService) {
+    userService.logout().
         success(function (data) {
             if (data.success === 'Logout') {
                 $rootScope.user = null;
                 $rootScope.userDisplayName = null;
-                $location.path('/login');
+                $location.path('/');
             }
         });
-}
-
-
-function ConceptListCtrl($scope, $http, $routeParams, userService) {
-
-    $scope.isUserLoggedIn = userService.isUserLoggedIn();
-    var showtoggle2 = false;
-    $scope.plusToggle = function (classToToggle) {
-        if (showtoggle2) {
-            showtoggle2 = false;
-        } else {
-            showtoggle2 = classToToggle;
-        }
-        return showtoggle2;
-    };
-
-    angular.forEach($scope.edges, function (value, id) {
-        if ($routeParams.id === value.source1.id) {
-            $scope.subtitletest = value.source1.title;
-        }
-        if ($routeParams.id === value.source2.id) {
-            $scope.subtitletest = value.source2.title;
-        }
-    });
-
-    $http.get('/concepts').success(function (data, status, headers, config) {
-        if (data.error) {
-            alert(data.error);
-            return;
-        }
-        $scope.conceptList = data.success;
-    });
-
-    $scope.orderProp = "date";
 }
 
 
@@ -172,9 +172,13 @@ function MapCtrl($scope, $routeParams) {
 
 
 function TripletListCtrl($scope, $routeParams, $location, userService, resource, wikipedia, wikinode) {
+    $scope.goToUrl = function (something) {
+        $location.path(something);
+};
 
-    // First, check whether the resource is a KN Resource or a Wikipedia Article
-    if ($routeParams.id != null) {
+    $scope.orderProp = "-(upvotes-downvotes)";
+        // First, check whether the resource is a KN Resource or a Wikipedia Article
+        if ($routeParams.id != null) {
         // KN Resource
         resource.get($routeParams.id).then(function (resource) {
             $scope.concept = resource;
@@ -217,39 +221,24 @@ function TripletListCtrl($scope, $routeParams, $location, userService, resource,
     $scope.currentKnownode = {};
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
 
-    $scope.checkOwnership = function (userId) {
-        if (userService.isUserLoggedIn()) {
-            return userId === userService.getConnectedUser().id;
-        }
-        return false;
-    }
     $scope.$broadcast('rootNodeExists', {rootNodeExists: true});
 
-    $scope.deleteArticle = function (id, index) {
-        if (confirm("Are you sure you want to delete this post?")) {
-            resource.delete(id)
-                .success(function () {
-                    $scope.knownodeList.splice(index, 1);
-                })
-        }
+}
+
+
+function IndexCtrl($scope, userService, $location, triplets) {
+
+    $scope.goToUrl = function (something) {
+        $location.path(something);
     };
 
-    $scope.isOwner = function (id) {
-        if (userService.isUserLoggedIn()) {
-            return userService.getConnectedUser().id === id;
-        }
-        return false;
-    }
-
-    $scope.start = +new Date();
-
+    $scope.isUserLoggedIn = userService.isUserLoggedIn();
+    $scope.knownodeList = {};
+    $scope.orderProp = "-(upvotes - downvotes)";
+    triplets.hottest().success(function (data, status, headers, config) {
+        $scope.knownodeList = data;
+    });
 }
-
-
-function IndexCtrl($scope, $http, $location) {
-
-}
-
 
 function DeleteUserCtrl($scope, $http, $location, $routeParams) {
     $http.get('/users/' + $routeParams.id).
@@ -270,13 +259,13 @@ function DeleteUserCtrl($scope, $http, $location, $routeParams) {
 }
 
 
-function commentCtrl($scope, $http, $routeParams, userService, broadcastService) {
+function commentCtrl($scope, $routeParams, broadcastService, comment) {
     var objectId = $routeParams.id;
     $scope.comments = [];
 
-    $http.get('/comments/:' + objectId)
+    comment.findByConnectionId(objectId)
         .success(function (data, status, headers, config) {
-            $scope.comments = data.success;
+            $scope.comments = data;
         });
 
     $scope.addComment = function () {
@@ -289,7 +278,7 @@ function commentCtrl($scope, $http, $routeParams, userService, broadcastService)
 }
 
 
-function addCommentCtrl($scope, $http, $routeParams, userService, broadcastService) {
+function addCommentCtrl($scope, $routeParams, userService, broadcastService, comment) {
     var objectId = $routeParams.id;
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
 
@@ -304,8 +293,8 @@ function addCommentCtrl($scope, $http, $routeParams, userService, broadcastServi
 
         $scope.form.originalObject.id = originalObjectId || $scope.form.originalObject.id;
 
-        $http.post('/comments', $scope.form).
-            success(function (data, status, headers, config) {
+        comment.create($scope.form.comment.bodyText, $scope.form.originalObject.id)
+            .success(function (data, status, headers, config) {
                 if (data.success) {
                     var comment = data.success;
                     comment.user = userService.getConnectedUser();
@@ -326,61 +315,20 @@ function StaticPageCtrl($scope) {
 }
 
 
-function ConnectionPageCtrl($scope, $http, $routeParams, userService, PassKnownode) {
-    var currentKnownode = PassKnownode.showCurrent();
-    if (currentKnownode) {
-        $scope.knownode = currentKnownode;
-    }
-    console.log($scope.knownode);
+function ConnectionPageCtrl($scope, $routeParams, userService, triplet) {
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
-    $scope.checkOwnership = function (userId) {
-        if (userService.isUserLoggedIn()) {
-            return userId === userService.getConnectedUser().id;
-        }
-        return false;
-    };
-    $scope.deleteNode = function (id, index) {
-        if (confirm("Are you sure you want to delete this post?")) {
-            alert('Not Implemented')
-//            $http.delete('/knownodes/:' + id).
-//                success(function () {
-//                    $scope.knownodeList.splice(index, 1);
-//                });
-        }
-    };
-
-    $scope.isOwner = function (id) {
-        if (userService.isUserLoggedIn()) {
-            return userService.getConnectedUser().id === id;
-        }
-        return false;
-    };
-
-    var edgeId = $scope.edgeId = $routeParams.id;
-    $http.get('/edges/:' + edgeId).success(function (data, status, headers, config) {
-        $scope.knownode = data.success;
-        $scope.knownode = $scope.knownode[0];
-    });
-}
-ConnectionPageCtrl.$inject = ['$scope', '$http', '$routeParams', 'userService', 'PassKnownode'];
-
-
-function WikipediaArticleCtrl($scope, $routeParams, wikipedia) {
-
-    var articleTitle = $routeParams.title;
-
-    wikipedia.getArticle(articleTitle).then(function (article) {
-        $scope.article = article;
+    $scope.knownodeList = {};
+    triplet.findByConnectionId($routeParams.id).success(function (data) {
+        $scope.knownodeList = [data];
     });
 
 }
 
-
-function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, connection) {
+function TripletInputCtrl($scope, $rootScope, $route, wikinode, resource, connection) {
 
     $scope.reversedDirection = false;
 
-    $scope.$watch('concept', function(newValue) {
+    $scope.$watch('concept', function (newValue) {
         if ($scope.startResource == null)
             $scope.startResource = newValue;
     });
@@ -390,7 +338,7 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
         $scope[result.resourceName] = result.resource;
     });
 
-    $scope.swapResources = function() {
+    $scope.swapResources = function () {
         $scope.reversedDirection = !$scope.reversedDirection;
         var start = $scope.startResource;
         var end = $scope.endResource;
@@ -398,7 +346,7 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
         $scope.endResource = start;
     }
 
-    $scope.bgColor = 'auto-generated';
+    $scope.bgColor = 'explain';
 
     $scope.isFormValid = function () {
         return $scope.startResource != null && $scope.endResource != null
@@ -407,10 +355,11 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
     };
 
     $scope.connectionTitle = '';
-    $scope.connectionType = 'Choose link type';
+
     $scope.dropText = 'Drop files here...';
     $scope.errorMessage = null;
     $scope.reversedDirection = false;
+    $scope.connectionType = 'explain';
     $scope.categoryClick = function (category) {
         $scope.bgColor = category;
         $scope.connectionType = category;
@@ -429,24 +378,40 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
         $scope.submitted = true;
         // TODO Handle case where connection direction is reversed
         // TODO Cleanup
-        if ($scope.startResource.type === 'Wikipedia Article' && $scope.endResource.type === 'Wikipedia Article') {
-            // Get both wikinodes and create connection
-            $q.all([wikinode.getOrCreate($scope.startResource.title),
-                    wikinode.getOrCreate($scope.endResource.title)])
-                .then(function (createdResources) {
-                    $scope.startResource = createdResources[0];
-                    $scope.endResource = createdResources[1];
-                    createConnection();
-                });
-        } else if ($scope.startResource.type === 'Wikipedia Article') {
+        formatStartResource();
+    };
+
+    function formatStartResource() {
+        if ($scope.startResource.type === 'Wikipedia Article') {
             // Get source wikinode and create connection
             wikinode.getOrCreate($scope.startResource.title).success(function (createdStartResource) {
                 $scope.startResource = createdStartResource;
-                createConnection();
+                formatEndResource();
             });
-        } else if ($scope.endResource.type === 'Wikipedia Article') {
+        } else if ($scope.startResource.type === 'Link to Resource') {
+            // create url resource and create connection
+            delete $scope.startResource.type; // type is used only client-side, should not be persisted
+            resource.create($scope.startResource).then(function (createdStartResource) {
+                $scope.startResource = createdStartResource;
+                formatEndResource();
+
+            });
+        } else {
+            formatEndResource();
+        }
+    };
+
+    function formatEndResource() {
+        if ($scope.endResource.type === 'Wikipedia Article') {
             // Get target wikinode and create connection
             wikinode.getOrCreate($scope.endResource.title).success(function (createdEndResource) {
+                $scope.endResource = createdEndResource;
+                createConnection();
+            });
+        } else if ($scope.endResource.type === 'Link to Resource') {
+            // create url resource and create connection
+            delete $scope.endResource.type; // type is used only client-side, should not be persisted
+            resource.create($scope.endResource).then(function (createdEndResource) {
                 $scope.endResource = createdEndResource;
                 createConnection();
             });
@@ -459,7 +424,7 @@ function TripletInputCtrl($scope, $rootScope, $q, $route, wikinode, resource, co
 
         var startResourceId = $scope.startResource.KN_ID;
         var endResourceId = $scope.endResource.KN_ID;
-
+        console.log("startID: ", startResourceId, "endId: ", endResourceId);
         connection.create(startResourceId, $scope.connectionTitle, $scope.connectionType, endResourceId)
             .success(function (data, status) {
                 $route.reload();
@@ -484,13 +449,11 @@ function ResourceInputCtrl($scope) {
         $scope.$emit('resourceSelected', {resourceName: $scope.resourceName, resource: $scope.resource});
     }
 
-    $scope.clear = function() {
+    $scope.clear = function () {
         $scope.resource = null;
         emit();
     };
 }
-ResourceInputCtrl.$inject = ['$scope'];
-
 
 function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, scrape) {
 
@@ -498,7 +461,7 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
 
     var lastQuery = "";
     $scope.searchBoxOptions = {
-        width:"off",
+        width: "off",
         dropdownAutoWidth: true,
         minimumInputLength: 3,
         query: function (query) {
@@ -516,10 +479,10 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
                             if (status == 404) {
                                 scrape.url(query.term)
                                     .success(function (data) {
-                                        console.log("scrapeUrl result", data);
                                         query.callback({ results: [
                                             { title: data.title, body: data.body, image: data.image, url: query.term, type: 'Link to Resource', id: "scrape" }
-                                        ]});})
+                                        ]});
+                                    })
                                     .error(function () {
                                         console.log("Cannot scrape URL")
                                         query.callback({ results: [
@@ -537,17 +500,31 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
                         var addResource = true;
                         // First item is the create resource option
                         for (i = 0; i < results.resources.length; i++) {
-                            suggestions.results.push({id: results.resources[i].KN_ID, text: results.resources[i].title});
+                            suggestions.results.push({
+                                id: results.resources[i].KN_ID,
+                                text: results.resources[i].title,
+                                type: 'Knownodes resource',
+                                snippet: results.resources[i].bodyText
+                            });
                             if (query.term.toLowerCase() == results.resources[i].title.toLowerCase()) {
                                 addResource = false;
                             }
                             ;
                         }
                         for (i = 0; i < results.wikipediaArticles.length; i++) {
-                            suggestions.results.push({id: results.wikipediaArticles[i].title, text: results.wikipediaArticles[i].title, type: 'Wikipedia Article'});
+                            suggestions.results.push({
+                                id: results.wikipediaArticles[i].title,
+                                text: results.wikipediaArticles[i].title,
+                                type: 'Wikipedia Article',
+                                snippet: results.wikipediaArticles[i].snippet
+                            });
                         }
                         if (addResource == true) {
-                            suggestions.results.unshift({id: 'create_data_option_id', title: query.term, text: 'Create Resource : ' + query.term, type: 'Create Resource'});
+                            suggestions.results.unshift({
+                                id: 'create_data_option_id',
+                                title: query.term,
+                                text: 'Create Resource : ' + query.term,
+                                type: 'Create Resource'});
                         }
                         query.callback(suggestions);
                     });
@@ -557,6 +534,15 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
         },
 
         formatResult: function (node) {
+            $(function() { $('.tip').tooltip(); });
+
+            function strip(html)
+            {
+                var tmp = document.createElement("DIV");
+                tmp.innerHTML = html;
+                return tmp.textContent || tmp.innerText || "";
+            }
+
             var markup = "<table class='suggestion'><tr>";
 
             if (node.type === 'Create Resource') {
@@ -568,19 +554,27 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
                 }
                 else if (node.body === undefined && node.image === undefined) {
                 }
-                else if (node.image === undefined) {
-                    markup += "<div class='suggestion-body create-resource scrap-body'><p class='scrap-body-text'>" + node.body + "</p></div></td>";
+                else if (node.image === null) {
+                    markup += "<div class='suggestion-body create-resource scrap-body tip'>" + node.body + "</p></div></td>";
                 }
                 else {
-                    markup += "<div class='suggestion-body create-resource scrap-body'><p class='scrap-body-text'>" + node.body + "</p><img onerror='this.style.display = \"none\"' class='scrap-body-img' src=" + node.image + "></img></div></td>";
+                    markup += "<div class='suggestion-body create-resource scrap-body'>" + node.body + "</p><img onerror='this.style.display = \"none\"' class='scrap-body-img' src=" + node.image + "></img></div></td>";
                 }
-            } else {
-                markup += "<td class='suggestion-info'><div class='suggestion-title'>" + node.text + "</div></td>";
+            } else if(node.snippet === undefined){
+                markup += "<td class='suggestion-info'><div class='suggestion-title' data-placement='right'>" + node.text+ "</div></td>";
+            }
+            else {
+                markup += "<td class='suggestion-info'><div class='suggestion-title tip' data-toggle='tooltip' data-placement='right' data-original-title='" + strip(node.snippet) + "'>" + node.text+ "</div></td>";
             }
             if (node.type === 'Wikipedia Article') {
-                markup += "<td class='suggestion-image'><img src='img/wikipedia-icon.png'/></td>";
+                markup += "<td class='suggestion-image'><img src='img/wikipedia-icon.png' style='height:1.5em; max-width:none; position: absolute; right: 5px;'/></td>";
             }
+            if (node.type === 'Knownodes resource') {
+                markup += "<td class='suggestion-image'><img src='img/knownodes-logo.png' style='height:1.5em; max-width:none; position: absolute; right: 5px;'/></td>";
+            }
+
             markup += "</tr></table>"
+
             return markup;
         }
     };
@@ -593,7 +587,7 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
                     resourceModal.open(result.title).then(function (createdResource) {
                         createdResource.type = 'Resource';
                         $scope.$emit('searchResultSelected', createdResource);
-                    });
+                      });
                     break;
                 case 'Link to Resource':
                     $scope.$emit('searchResultSelected', {
@@ -635,7 +629,11 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
 }
 
 
-function ConnectionCtrl($scope) {
+function ConnectionCtrl($scope, $location) {
+
+    $scope.goToUrl = function (something) {
+        $location.path(something);
+    };
     //define a way for a node to know color based on connectionType
     $scope.BgColorClass = 'explain';
     $scope.colorSwitcher = function () {
@@ -665,72 +663,123 @@ function VoteCtrl($scope, $http, loginModal) {
 
     $scope.upActive = false;
     $scope.downActive = false;
-    $scope.openLoginModal = function(){
-        loginModal.open();
-    };
+    //$scope.openLoginModal = function(){
+    //    loginModal.open();
+    //};
 
-    $scope.closeLoginModal = function(){
-        loginModal.close();
-    };
+    //$scope.closeLoginModal = function(){
+    //    loginModal.close();
+    //};
 
-    $scope.showPrompt = function() {
+    $scope.showPrompt = function () {
         $scope.prompt = true;
     };
 
-    if ($scope.triplet.upvoted != null) {
+    if ($scope.triplet.userUpvoted) {
         $scope.upVoteClass = "active";
         $scope.upActive = true;
+        $scope.triplet.upvotes += 1;
     } else {
         $scope.upVoteClass = "";
     }
 
-
-    if ($scope.triplet.downvoted != null) {
+    if ($scope.triplet.userDownvoted) {
         $scope.downVoteClass = "active";
         $scope.downActive = true;
+        $scope.triplet.downvotes += 1;
     } else {
         $scope.downVoteClass = "";
     }
 
-    $scope.vote = function(voteType) {
+    $scope.vote = function (voteType) {
 
-        if(voteType === "up") {
+        if (voteType === "up") {
             $scope.upActive = !$scope.upActive;
-            if($scope.upActive == true) {
+            if ($scope.upActive === true) {
                 $scope.downActive = false;
-                $http.post('/vote/voteUp/',{connectionId:$scope.triplet.connection.KN_ID});
-                console.log("voteUp")
+                console.log("up+vote:",$scope.triplet.connection.KN_ID);
+                $http.post('/vote/voteUp/', {connectionId: $scope.triplet.connection.KN_ID});
+                $scope.triplet.upvotes += 1;
             }
-            if($scope.upActive === false) {
+            if ($scope.upActive === false) {
                 $scope.downActive = false;
                 $scope.upVoteClass = "";
-                $http.post('/vote/cancelVote/',{connectionId:$scope.triplet.connection.KN_ID});
-                console.log("voteUpCancelled")
+                console.log("cancel+vote:",$scope.triplet.connection.KN_ID);
+                $http.post('/vote/cancelVote/', {connectionId: $scope.triplet.connection.KN_ID});
+                $scope.triplet.upvotes -= 1;
             }
         }
-        if(voteType == "down") {
+        if (voteType === "down") {
             $scope.downActive = !$scope.downActive;
-            if($scope.downActive === true) {
+            if ($scope.downActive === true) {
                 $scope.upActive = false;
-                $http.post('/vote/voteDown/',{connectionId:$scope.triplet.connection.KN_ID});
-                console.log("voteDown")
+                $http.post('/vote/voteDown/', {connectionId: $scope.triplet.connection.KN_ID});
+                $scope.triplet.downvotes += 1;
             }
-            if($scope.downActive === false) {
+            if ($scope.downActive === false) {
                 $scope.upActive = false;
                 $scope.downVoteClass = "";
-                $http.post('/vote/cancelVote/',{connectionId:$scope.triplet.connection.KN_ID});
-                console.log("voteDownCancelled")
+                $http.post('/vote/cancelVote/', {connectionId: $scope.triplet.connection.KN_ID});
+                $scope.triplet.downvotes -= 1;
             }
         }
 
-        if($scope.upActive === true) {
+        if ($scope.upActive === true) {
             $scope.upVoteClass = "active";
             $scope.downVoteClass = "";
-        } else if ($scope.downActive === true){
+        } else if ($scope.downActive === true) {
             $scope.downVoteClass = "active";
             $scope.upVoteClass = "";
         }
 
 
     };
+}
+
+function UserProfilePageCtrl($scope, $location, $routeParams, userService, triplet) {
+
+    $scope.knownodeList = {};
+    $scope.isUserLoggedIn = userService.isUserLoggedIn();
+
+    triplet.findByUserId($routeParams.id).success( function(data) {
+        $scope.knownodeList = data;
+    });
+
+    $scope.goToUrl = function (something) {
+        $location.path(something);
+    };
+
+    $scope.orderProp = "-(upvotes - downvotes)";
+}
+
+function InfoLineCtrl($scope, userService, $http) {
+
+    $scope.checkOwnership = function(ownerId){
+        if (userService.isUserLoggedIn()) {
+            return ownerId === userService.getConnectedUser().KN_ID;
+        }
+        return false;
+    }
+    $scope.deleteConnection = function (id, index) {
+        console.log(index);
+        if (confirm("Are you sure you want to delete this connection? " + $scope.triplet.startResource.title +" "+ $scope.triplet.connection.title +" "+ $scope.triplet.endResource.title)) {
+            $http.delete('/connections/'+ $scope.triplet.connection.KN_ID).success(function (data, status, headers, config) {
+                console.log(data);
+                alert("the connection has been successfully deleted");
+                if (data == "forceDelete") {
+                    alert("the connection has been successfully deleted");
+                    console.log($scope.knownodeList);
+                    console.log(index);
+                    $scope.knownodeList.splice(index, 1);
+                    console.log($scope.knownodeList);
+                    $scope.$apply();
+                } else if (data === "disown") {
+                    alert("Connection is now disowned. It isn't completely deleted, since stuff has already been connected or commented on it");
+                    $scope.knownodeList[index].connection.creator.firstName = "DELETED";
+                    $scope.triplet.connection.creator.lastName = "";
+                }
+
+                });
+        }
+    }
 }

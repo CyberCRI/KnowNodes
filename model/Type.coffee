@@ -1,9 +1,12 @@
 
-module.exports = class Type
+module.exports =
 
-  @RESOURCE: 'kn_Post'
-  @CONNECTION: 'kn_Edge'
-  @USER: 'kn_User'
+  RESOURCE: 'kn_Post'
+  CONNECTION: 'kn_Edge'
+  USER: 'kn_User'
+  COMMENT: 'kn_Comment'
+
+  TRIPLET: 'Triplet'
 
   # Resource Types
-  @WIKIPEDIA_ARTICLE: 'Wikipedia Article'
+  WIKIPEDIA_ARTICLE: 'Wikipedia Article'

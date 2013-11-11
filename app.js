@@ -2,18 +2,23 @@
  * Module dependencies.
  */
 var express = require('express')
-  , controller = require('./controllers')
-  , adminController = require('./controllers/admin/index')
-  , voteController = require('./controllers/vote/index')
+    , controller = require('./controllers')
+    , adminController = require('./controllers/admin/index')
+    , voteController = require('./controllers/vote/index')
+    , GexfController = require('./controllers/gexf/index')
+    , AuthController = require('./controllers/auth/AuthController')
+    , UserConverter = require('./model/conversion/json/UserConverter')
 
     , Resource = require('express-resource-new')
-  //, Resource = require('express-resource')
-  , http = require('http')
-  , passport = require('passport')
-  , passportConfig = require('./config/passport.conf')
-  , path = require('path')
-  , MongoStore = require('connect-mongo')(express)
-  , ConfigSettings = require('./config/settings')
+    //, Resource = require('express-resource')
+    , http = require('http')
+    , passport = require('passport')
+    , passportConfig = require('./config/passport.conf')
+    , path = require('path')
+    , MongoStore = require('connect-mongo')(express)
+    , ConfigSettings = require('./config/settings')
+    , mongoose = require('mongoose')
+    , DBConf = require('./config/DB.conf.js')
 
 // passport: Login initialization
 passportConfig.initializePassport();
@@ -21,23 +26,8 @@ passportConfig.initializePassport();
 var app = express();
 var settings = ConfigSettings.getSettings();
 
-function errorHandler(err, req, res, next) {
-    res.status(500);
-    res.json(err);
-    //res.render('error', { error: err });
-}
-
-function clientErrorHandler(err, req, res, next) {
-    if (req.xhr) {
-        res.send(500, { error: 'Something blew up!' });
-    } else {
-        next(err);
-    }
-}
-
-
 // configuration
-app.configure(function(){
+app.configure(function () {
     app.set('port', process.env.PORT || 3000);
     app.set('views', path.join(__dirname, 'clientApp/views'));
     app.set('view engine', 'jade');
@@ -65,87 +55,83 @@ app.configure(function(){
     app.use('/js', express.static(path.join(__dirname, 'clientApp/js')));
     app.use('/css', express.static(path.join(__dirname, 'clientApp/css')));
     app.use('/img', express.static(path.join(__dirname, 'clientApp/img')));
+    app.use('/json', express.static(path.join(__dirname, 'clientApp/json')));
     app.use(app.router);
 });
 
 /*
-app.configure('development', function(){
-  app.use(errorHandler);
+ app.configure('development', function(){
+ app.use(errorHandler);
+ });
+
+ app.configure('production', function(){
+ app.use(clientErrorHandler);
+ });
+ */
+
+// NEW API
+
+app.resource('users', function () {
+    this.member.get('findByEmail');
+    this.member.get('karma');
+    this.member.get('triplets');
 });
 
-app.configure('production', function(){
-    app.use(clientErrorHandler);
-});
-*/
-
-// routing
-app.resource('resources', function() {
+app.resource('resources', function () {
     this.member.get('searchByKeyword');
     this.member.get('triplets');
     this.collection.post('findByUrl');
 });
 
-app.resource('wiki');
-app.resource('connections', function() {
-    this.collection.post('latestTriplets');
-    this.collection.post('hottestTriplets');
+app.resource('connections', function () {
+    this.member.get('triplet');
+    this.member.get('comments');
 });
-app.post('/vote/voteUp',voteController.voteUp );
-app.post('/vote/voteDown',voteController.voteDown );
-app.post('/vote/cancelVote',voteController.cancelVote );
 
+app.resource('triplets', function () {
+    this.collection.post('latest');
+    this.collection.post('hottest');
+});
+
+app.resource('comments');
+
+app.resource('notifications', function () {
+    this.collection.post('markAllAsRead');
+});
+
+app.resource('wiki');
+
+app.post('/vote/voteUp', voteController.voteUp);
+app.post('/vote/voteDown', voteController.voteDown);
+app.post('/vote/cancelVote', voteController.cancelVote);
 
 app.resource('scrape');
 
 app.post('/admin/indexAllResources', adminController.indexAllResources);
 app.post('/admin/indexAllConnections', adminController.indexAllConnections);
+//app.post('/admin/indexAllUsers', adminController.indexAllUsers);
 
-app.resource('users');
-app.resource('edges');
-app.resource('comments', function () {
-    this.member.get('getRelatedComments');
-});
-app.resource('concepts', function () {
-    //this.collection.get('getRelatedKnownodes');
-    this.member.get('getRelatedKnownodes');
-    this.member.get('getRelatedComments');
-    this.resource('knownodes', function() {
-    });
-});
-app.resource('knownodes', function () {
-    this.member.get('getRelatedKnownodes');
-    this.member.get('getRelatedComments');
-    this.member.get('getNodesByKeyword');
 
-    this.collection.post('getResourceByUrl');
-    this.collection.post('wikinodeIfExists');
-    this.collection.post('wikinode');
-    this.collection.post('scrapeUrl');
+app.get('/gexf/triplet/:connectionId', GexfController.exportTriplet);
+app.get('/gexf/userTriplets/:userId', GexfController.exportUserTriplets);
+app.get('/gexf/resourceTriplets/:resourceId', GexfController.exportResourceTriplets);
 
-    this.resource('knownodes', { id: 'related' });
-    this.resource('files');
-    this.resource('comments');
-});
+// AUTH
+
+app.post('/auth/local', AuthController.loginLocal);
+
+// OLD API
+
 app.resource('files', { name: 'knownodeFiles', id: 'files'});
-//app.get('/concepts/:cid/knownodes/:kid', require('./routes/API.concept').load, require('./routes/API.knownode').load);
 
-app.post('/logout', function(req, res){
+app.resource('concepts', function () {
+    this.member.get('getRelatedKnownodes');
+});
+app.resource('knownodes');
+
+app.post('/auth/logout', function (req, res) {
     req.logout();
     res.json({ success: "Logout" });
-});
-
-app.post('/login', function (req, res, next) {
-    passport.authenticate('local', function (err, user, info) {
-        if (err) { return next(err); }
-        if (!user) {
-            //req.flash('error', info.message);
-            //return res.redirect('/login')
-            return res.send('ERROR');
-        }
-        req.logIn(user, function (err) {
-            return err ? next(err) : res.send(user);
-        });
-    })(req, res, next);
 });
 
 app.get('/auth/facebook',
@@ -175,21 +161,20 @@ app.get('/auth/google/callback',
         res.redirect('/');
     });
 
-// routing fallback - MUST (!!) be the last line of all routing
 app.get('/', controller.index);
 app.get('/partials/:dir/:name', controller.partialsDir);
 app.get('/partials/:name', controller.partials);
 app.get('/screens/:name', controller.screens);
 
+// routing fallback - MUST (!!) be the last line of all routing
 app.get('*', controller.index);
 
-/*
-app.get('/', function(request, response) {
-    response.redirect('/knownodes');
+mongoose.connect(DBConf.getDBURL('mongoDB').url);
+mongoose.connection.once('open', function () {
+    console.log('mongoose : connected to MongoDB')
+    // Start Web Server
+    http.createServer(app).listen(app.get('port'), function () {
+        console.log("Express server listening on port " + app.get('port'));
+    });
 });
-*/
 
-// let's do it!
-http.createServer(app).listen(app.get('port'), function () {
-    console.log("Express server listening on port " + app.get('port'));
-});
