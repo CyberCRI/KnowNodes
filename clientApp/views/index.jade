@@ -18,6 +18,12 @@ block content
     script(src='js/filters.js')
     script(src='js/directives.js')
     script(src='js/lib/moment/moment.js')
+    script
+      var TogetherJSConfig_dontShowClicks=true;
+      var TogetherJSConfig_disableWebRTC=true;
+      var TogetherJSConfig_autoStart = true;
+      var TogetherJSConfig_suppressJoinConfirmation=true;
+
     script(src="https://togetherjs.com/togetherjs-min.js")
     script
         // That was my only method to connect the user from the server session into the client.
