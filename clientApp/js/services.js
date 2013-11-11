@@ -34,6 +34,7 @@ angular.module('KnowNodesApp.services', [])
             },
 
             logout: function () {
+                $rootScope.user = {};
                 return $http.post('/auth/logout');
             },
 

@@ -32,7 +32,7 @@ module.exports = class NodeWrappers
   @findByProperty: (key, value, _) ->
     node = @DB.getIndexedNode(@getNodeType(), key, value, _)
     if not node?
-      throw Error.entityNotFound(@getNodeType(), key, value)
+      throw Error.notFound(@getNodeType(), key, value)
     else
       @wrap node
 
