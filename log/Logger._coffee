@@ -1,14 +1,14 @@
 LogDB = require '../DB/LogDB'
 Loggly = require 'loggly'
 LogglyConf = require '../config/loggly.conf'
+
 module.exports = class Logger
 
   constructor: (source) ->
     @source = source
     # TODO Remove magic number
     @currentStage = 3
-
-    @logglyLogger = Loggly.createClient LogglyConfig.getLogglyConf()
+    @logglyLogger = Loggly.createClient LogglyConf.getLogglyConf()
 
   log: (level, content) ->
     message = "#{level}: #{@source} - #{content}"
