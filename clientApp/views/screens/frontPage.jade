@@ -21,6 +21,8 @@ div.container-fluid
         img.intro-img(src="/img/fg-frontpage.png")
         h4 Your connection becomes a part of an open and collective P2P Science Alliance database.
   div.row-fluid
+    div.span9.offset3
+      div(triplet-input).input-interface
     div.location-info.span9.offset3
       accordion
         accordion-group(heading="P2P Science Alliance helps you connect with other researchers and share your collaborator networks. You can: ", is-open='true')
@@ -44,8 +46,7 @@ div.container-fluid
               strong Self-organize
               span &nbsp;with other collaborators and networks to do projects together
 
-    div.span9.offset3
-      div(triplet-input).input-interface
+
 
   div.span21.offset3.sort-div(style="margin-left:0px")
     span.btn.btn-link.sort-header sort:

@@ -101,7 +101,6 @@ div.input-indicator{
   margin-top:5px !important;
   margin-bottom:15px;
   z-index:1;
-  max-width:22em;
 }
 
 a.tutorial-toggle {
@@ -112,4 +111,29 @@ a.tutorial-toggle {
   }
   cursor:pointer;
   margin-left: (8 * @spacing);
+}
+
+.popover {
+  max-width: none;
+  padding:0px;
+  padding-bottom: 15px;
+  max-width: none;
+  background-color: @light-beige;
+  border-color: white;
+  padding-bottom: 15px;
+  border-width: 1px;
+}
+.popover-content {
+  background-color: white;
+  padding: 9px 14px;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: rgba(0, 0, 0, 0.25);
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+}
+.popover.top .arrow {
+  top: 38px;
+  bottom: none;
 }
