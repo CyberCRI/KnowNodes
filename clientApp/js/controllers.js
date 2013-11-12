@@ -154,26 +154,26 @@ function TripletListCtrl($scope, $routeParams, $location, userService, resource,
         $location.path(something);
 };
 
-    $scope.orderProp = "-(upvotes-downvotes)";
+    $scope.orderProp = "-connection.__CreatedOn__";
         // First, check whether the resource is a KN Resource or a Wikipedia Article
-        if ($routeParams.id != null) {
-        // KN Resource
-        resource.get($routeParams.id).then(function (resource) {
-            $scope.concept = resource;
+    if ($routeParams.id != null) {
+    // KN Resource
+    resource.get($routeParams.id).then(function (resource) {
+        $scope.concept = resource;
 
-            $scope.rootNodeExists = true;
-            if ($scope.concept.url != null && $scope.concept.url.match(/youtube.com/ig)) {
-                var search = $scope.concept.url.split('?')[1];
-                var video_id = search.split('v=')[1];
-                var ampersandPosition = video_id.indexOf('&');
-                if (ampersandPosition != -1) {
-                    video_id = video_id.substring(0, ampersandPosition);
-                }
-                $scope.videoLink = video_id;
+        $scope.rootNodeExists = true;
+        if ($scope.concept.url != null && $scope.concept.url.match(/youtube.com/ig)) {
+            var search = $scope.concept.url.split('?')[1];
+            var video_id = search.split('v=')[1];
+            var ampersandPosition = video_id.indexOf('&');
+            if (ampersandPosition != -1) {
+                video_id = video_id.substring(0, ampersandPosition);
             }
+            $scope.videoLink = video_id;
+        }
 
-            $scope.knownodeList = resource.relations;
-        });
+        $scope.knownodeList = resource.relations;
+    });
     } else if ($routeParams.title != null) {
         // Check if a Wikinode exists for this Wikipedia article
         wikinode.get($routeParams.title)
