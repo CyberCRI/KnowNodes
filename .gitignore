@@ -16,7 +16,8 @@ model/conversion/**/*.js
 data/*.js
 dao/*.js
 error/*.js
-
+!kraken-buttons.css
+!social-sharing.css
 DB/GraphDB.js
 !chardinjs.css
 clientApp/css/colorschema.css

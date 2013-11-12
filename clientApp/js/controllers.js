@@ -730,7 +730,7 @@ function UserProfilePageCtrl($scope, $location, $routeParams, userService, tripl
     $scope.orderProp = "-(upvotes - downvotes)";
 }
 
-function InfoLineCtrl($scope, userService, $http) {
+function InfoLineCtrl($scope, userService, $http, shareModal) {
 
     $scope.checkOwnership = function(ownerId){
         if (userService.isUserLoggedIn()) {
@@ -738,6 +738,12 @@ function InfoLineCtrl($scope, userService, $http) {
         }
         return false;
     }
+
+    $scope.openShareModal = function() {
+        $scope.sharedConnectionTitle = $scope.triplet.startResource.title +" "+ $scope.triplet.connection.title +" "+ $scope.triplet.endResource.title;
+        shareModal.open();
+    }
+
     $scope.deleteConnection = function (id, index) {
         console.log(index);
         if (confirm("Are you sure you want to delete this connection? " + $scope.triplet.startResource.title +" "+ $scope.triplet.connection.title +" "+ $scope.triplet.endResource.title)) {

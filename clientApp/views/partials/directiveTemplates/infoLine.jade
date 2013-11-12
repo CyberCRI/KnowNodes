@@ -8,6 +8,8 @@ p.info-line
   a.pull-right.info-comment(ng-href="/connection/{{triplet.connection.KN_ID}}", ng-switch on="triplet.commentCount")
     span.info-comment-exist(ng-switch-default) {{triplet.commentCount}} comments
     span(ng-switch-when="0") comment
+  span.pull-right.info-comment &nbsp;&nbsp;&nbsp;
+  a.pull-right.info-comment(ng-click="openShareModal()") share
   span.pull-right(ng-show='checkOwnership(triplet.connection.creator.KN_ID)')
     button.btn.btn-link.btn-trash(type="button", title="Delete this connection", ng-click="deleteConnection(triplet.connection.id, $index)")
       i.icon-trash
