@@ -1,11 +1,13 @@
 .modal-header
-    h3 Add new Resource
+    h3 Add new Peer
 
 .modal-body
     p
-        label(for='title') Title:
+        label(for='title') Name and Surname:
         input(ng-model='resourceToCreate.title', ng-maxlength='350', name='title', required, autofocus, style="width:100%;").input_xxlarge
-        span {{(350 -(resourceToCreate.title.length))}}
+        br
+
+    // span {{(350 -(resourceToCreate.title.length))}}
     //  p
         label(for='url') URL:
         input(class="input-xxlarge", placeholder="Add URL here", ng-model='resourceToCreate.url', name='url', style="width:100%;")

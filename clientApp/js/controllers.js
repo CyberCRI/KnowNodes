@@ -501,7 +501,7 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
                             suggestions.results.unshift({
                                 id: 'create_data_option_id',
                                 title: query.term,
-                                text: 'Create Resource : ' + query.term,
+                                text: 'Add new Peer : ' + query.term,
                                 type: 'Create Resource'});
                         }
                         query.callback(suggestions);
@@ -526,7 +526,7 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
             if (node.type === 'Create Resource') {
                 markup += "<td class='suggestion-info'><div class='suggestion-title create-resource'>" + node.text + "</div></td>";
             } else if (node.type === "Link to Resource") {
-                markup += "<td class='suggestion-info'><div class='suggestion-title create-resource'>Create Resource: " + node.title + "</div>";
+                markup += "<td class='suggestion-info'><div class='suggestion-title create-resource'>Create Peer: " + node.title + "</div>";
                 if (node.body === undefined && node.image != null) {
                     markup += "<div class='suggestion-body create-resource scrap-body'><p class='scrap-body-text'></p><img onerror='this.style.display = \"none\"' class='scrap-body-img' src=" + node.image + "></img></div></td>";
                 }
@@ -727,7 +727,7 @@ function UserProfilePageCtrl($scope, $location, $routeParams, userService, tripl
         $location.path(something);
     };
 
-    $scope.orderProp = "-(upvotes - downvotes)";
+    $scope.orderProp = "-connection.__CreatedOn__";
 }
 
 function InfoLineCtrl($scope, userService, $http, shareModal) {
