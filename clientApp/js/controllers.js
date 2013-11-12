@@ -90,14 +90,12 @@ function LoginCtrl($scope, $location, $rootScope, $window, loginModal, userServi
                 $scope.loginForm = {};
                 $scope.loginForm.email = userForm.email;
                 $scope.loginForm.password = userForm.password;
-                console.log('loginform', $scope.loginForm);
                 $scope.newUser = true;
                 $scope.performLogin();
             });
     };
 
     $scope.performLogin = function () {
-        console.log("login:", $scope.loginForm);
         userService.login($scope.loginForm).
             then(function (data, status, headers, config) {
                 if (data === 'ERROR') {
