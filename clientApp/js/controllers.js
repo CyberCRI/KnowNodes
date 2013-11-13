@@ -79,6 +79,16 @@ function CreateResourceModalCtrl($scope, dialog, resource) {
     };
 }
 
+function ShareConnectionModalCtrl($scope, dialog) {
+
+    $scope.title = {title: dialog.options.title};
+    $scope.connectionURL = {url:dialog.options.url};
+    $scope.close = function () {
+        dialog.close();
+    };
+
+}
+
 function LoginCtrl($scope, $location, $rootScope, $window, loginModal, userService) {
 
     $scope.loginForm = {};
@@ -212,7 +222,7 @@ function IndexCtrl($scope, userService, $location, triplets) {
 
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
     $scope.knownodeList = {};
-    $scope.orderProp = "-(upvotes - downvotes)";
+    $scope.orderProp = "-connection.__CreatedOn__";
     triplets.hottest().success(function (data, status, headers, config) {
         $scope.knownodeList = data;
     });
@@ -740,8 +750,12 @@ function InfoLineCtrl($scope, userService, $http, shareModal) {
     }
 
     $scope.openShareModal = function() {
-        $scope.sharedConnectionTitle = $scope.triplet.startResource.title +" "+ $scope.triplet.connection.title +" "+ $scope.triplet.endResource.title;
-        shareModal.open();
+        $scope.sharedConnection = {};
+        $scope.sharedConnection.title = $scope.triplet.startResource.title +" "+ $scope.triplet.connection.title +" "+ $scope.triplet.endResource.title;
+        $scope.sharedConnection.KN_ID = $scope.triplet.connection.KN_ID;
+        console.log("kn_id", $scope.triplet.connection.KN_ID);
+        shareModal.open($scope.sharedConnection);
+
     }
 
     $scope.deleteConnection = function (id, index) {
