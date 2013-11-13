@@ -4,7 +4,7 @@ module.exports =
     connectionCreator = connection.getCreator _
     gexf =
       _name: 'edge'
-      _attrs: { id: connection.id, source: connection.startNodeId, target: connection.endNodeId }
+      _attrs: { id: connection.id, source: connection.startResourceId, target: connection.endResourceId }
       _content: [
         {
           _name: 'attvalues'
