@@ -9,6 +9,10 @@ div.container-fluid
         accordion-group(heading="{{knownodeList[0].connection.creator.firstName}} {{knownodeList[0].connection.creator.lastName}}", is-open='true')
           div.knownode-body
             div.help-hover(title="Total votes user have received from his connections") {{loggedUser().karma}} Connection points
+          br
+          p You are seeing all the P2P alliances this user has added.
+                  a(href="/gexf/userTriplets/{{resourceId}}")  Export the Graph
+                  br
     div.span21.offset3.sort-div
       span.btn.btn-link.sort-header sort:
       div.btn-group(data-toggle="buttons-radio")
