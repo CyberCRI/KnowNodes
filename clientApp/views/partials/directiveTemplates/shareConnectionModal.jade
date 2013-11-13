@@ -2,12 +2,10 @@
   h3 Share the alliance
 
 .modal-body
-  p {{sharedConnectionTitle}}
+  p {{title.title.title}}
 
 .modal-footer
-  a.btnk.btn-tweet(target="_blank", ng-href="https://twitter.com/intent/tweet?&url=www.knownodes.com&via=@garbash") Twitter
-  a.btnk.btn-facebook(target="_blank", href="http://www.facebook.com/sharer/sharer.php?u=YOUR-URL") Facebook
-  a.btnk.btn-google(target="_blank", href="https://plus.google.com/share?url=YOUR-URL") Google+
-  a.btnk.btn-linkedin(target="_blank", href="http://www.linkedin.com/shareArticle?mini=true&url=YOUR-URL&title=YOUR-TITLE&summary=YOUR-SUMMARY&source=YOUR-URL") LinkedIn
-  a.btnk.btn-pinterest(target="_blank", href="http://pinterest.com/pin/create/button/?url=YOUR-URL&description=YOUR-DESCRIPTION&media=YOUR-IMAGE-SRC") Pinterest
-  a.btnk.btn-github(href="#") GitHub
+  a.btnk.btn-tweet(target="_blank", ng-href="https://twitter.com/intent/tweet?text={{title.title.title}}&url=http://www.libreop.us/connection/{{title.title.KN_ID}}&via=p2pScienceAlliance") Twitter
+  a.btnk.btn-facebook(target="_blank", href="http://www.facebook.com/sharer/sharer.php?u=http://www.libreop.us/connection/{{title.title.KN_ID}}") Facebook
+  a.btnk.btn-google(target="_blank", href="https://plus.google.com/share?url=http://www.libreop.us/connection/{{title.title.KN_ID}}") Google+
+  a.btnk.btn-linkedin(target="_blank", href="http://www.linkedin.com/shareArticle?mini=true&url=http://www.libreop.us/connection/{{title.title.KN_ID}}&title={{title.title.title}}&source=http://www.knownodes.com/article/{{title.title.KN_ID}}") LinkedIn

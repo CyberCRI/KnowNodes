@@ -304,26 +304,16 @@ angular.module('KnowNodesApp.services', [])
     .factory('shareModal', ['$dialog', function ($dialog) {
         return {
 
-            open: function () {
+            open: function (sharedConnection) {
                 var options = {
                     backdrop: true,
                     dialogFade: true,
                     backdropFade: true,
                     templateUrl: 'partials/directiveTemplates/shareConnectionModal',
-                    controller: 'InfoLineCtrl'
+                    controller: 'ShareConnectionModalCtrl',
+                    title: sharedConnection
                 };
                 return $dialog.dialog(options).open();
-            },
-            close: function () {
-                var options = {
-                    backdrop: true,
-                    dialogFade: true,
-                    backdropFade: true,
-                    templateUrl: 'partials/directiveTemplates/shareConnectionModal',
-                    controller: 'InfoLineCtrl'
-                };
-                console.log("close");
-                return $dialog.dialog(options).close();
             }
 
         };
