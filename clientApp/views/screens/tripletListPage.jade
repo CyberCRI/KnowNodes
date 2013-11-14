@@ -16,6 +16,10 @@ div.container-fluid
                         p(ng-show="concept.fileName") Download:
                             a(class="btn-info",href="/knownodeFiles/:{{concept.fileId}}", target="_blank", ng-show="concept.fileName") &nbsp;{{concept.fileName}}&nbsp;
                         div(ng-bind-html-unsafe="concept.bodyText")
+                        br
+                        p You are viewing all connections for this resource.
+                            a(href="/gexf/resourceTriplets/{{resourceId}}")  Export the Graph
+                        br
         div.span21.offset3.sort-div
             span.btn.btn-link.sort-header sort:
             div.btn-group(data-toggle="buttons-radio")
