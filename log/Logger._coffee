@@ -8,7 +8,7 @@ module.exports = class Logger
     @source = source
     # TODO Remove magic number
     @currentStage = 3
-    conf = LogglyConf.getLogglyConf()
+    conf = LogglyConf.getLogglyConfig()
     @logglyLogger = Loggly.createClient conf
 
   log: (level, content) ->
