@@ -426,7 +426,13 @@ function TripletInputCtrl($scope, $rootScope, $route, wikinode, resource, connec
         console.log("startID: ", startResourceId, "endId: ", endResourceId);
         connection.create(startResourceId, $scope.connectionTitle, $scope.connectionType, endResourceId)
             .success(function (data, status) {
-                $route.reload();
+
+               // When a user adds a new connection, they get redirected to their user page to see most recent ones
+                window.location = '/user/' + $rootScope.user.KN_ID + '/' + $scope.startResource.KN_ID;
+
+               // If you want that instead the resource page reloads, use this:
+               // $route.reload();
+
             })
             .error(function (data, status) {
                 console.log('Connection creation failed with error : ' + status);
@@ -735,7 +741,7 @@ function VoteCtrl($scope, $http, loginModal) {
     };
 }
 
-function UserProfilePageCtrl($scope, $location, $routeParams, userService, triplet) {
+function UserProfilePageCtrl($scope, $location, $routeParams, resource, userService, triplet) {
 
     $scope.knownodeList = {};
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
@@ -748,7 +754,21 @@ function UserProfilePageCtrl($scope, $location, $routeParams, userService, tripl
         $location.path(something);
     };
 
-    $scope.orderProp = "-(upvotes - downvotes)";
+    // Default sorting order for User's connections: can be Most Popular -(upvotes - downvotes) or Most Recent -connection.__CreatedOn__
+
+    $scope.orderProp = "-connection.__CreatedOn__";
+
+
+    // Load the resource from which the User came to their Profile page as the StartResource for the Triplet
+
+    if ($routeParams.rid) {
+    // First, check whether the resource is a KN Resource or a Wikipedia Article
+    // KN Resource
+        resource.get($routeParams.rid).then(function (resource) {
+            $scope.startResource = resource;
+        });
+    }
+
 }
 
 function InfoLineCtrl($scope, userService, $http) {
