@@ -314,11 +314,20 @@ function ConnectionPageCtrl($scope, $routeParams, userService, triplet) {
 
 function TripletInputCtrl($scope, $rootScope, $route, wikinode, resource, connection) {
 
+    $scope.tutorialText = {};
+    $scope.tutorialText.startResource = 'Here you enter your name, or the name of a peer. Yep.';
+    $scope.tutorialText.connection = 'Here you describe the outcome of the collaboration between the two peers.';
+    $scope.tutorialText.endResource = 'Here you enter the name of the other peer for the collaboration.';
+
     $scope.reversedDirection = false;
 
     $scope.$watch('concept', function (newValue) {
         if ($scope.startResource == null)
             $scope.startResource = newValue;
+            console.log("startResource:",$scope.startResource);
+            $scope.tutorialText.startResource = "This is the peer " + $scope.startResource.title;
+            $scope.tutorialText.connection = "Here you describe the outcome of the collaboration between "+ $scope.startResource.title+" and the second peer.";
+            $scope.tutorialText.endResource = "Here you enter the name of a peer to collaborate with " + $scope.startResource.title;
     });
 
     $scope.$on('resourceSelected', function (event, result) {

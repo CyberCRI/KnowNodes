@@ -1,12 +1,12 @@
 div
   div.popover.top.input-indicator
     div.popover-content(style="text-align:center") Create a new P2P alliance.
-      a.tutorial-toggle(onclick="$('body').chardinJs('toggle')") Help
+      a.tutorial-toggle(onclick="$('body').chardinJs('toggle')") Click here for help
     div.arrow
     div.input-triplet
-      div(data-intro='This is the peer "{{knownodeList[0].startResource.title}}". Yep.', data-position="right",resource-input, resource="startResource")
+      div(data-intro='{{tutorialText.startResource}}', data-position="right",resource-input, resource="startResource")
       div(connection-input)
-      div(data-intro="Using this box you can paste a link, write a thought or search for something to connect to '{{knownodeList[0].startResource.title}}'", data-position="right", resource-input, resource="endResource")
+      div(data-intro="{{tutorialText.endResource}}", data-position="right", resource-input, resource="endResource")
       div.text-center.input-link-type
         p.text-center.input-link-type-text What kind of collaboration is it?
 
