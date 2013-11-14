@@ -175,7 +175,13 @@ function TripletListCtrl($scope, $routeParams, $location, userService, resource,
         $location.path(something);
 };
 
-    $scope.orderProp = "-(upvotes-downvotes)";
+    // Sort triplets by default the most recent ones at the top
+
+    $scope.orderProp = "-connection.__CreatedOn__";
+
+    // $scope.orderProp = "-(upvotes-downvotes)";
+
+
         // First, check whether the resource is a KN Resource or a Wikipedia Article
         if ($routeParams.id != null) {
         // KN Resource
