@@ -9,10 +9,7 @@ module.exports =
         {
           _name: 'attvalues'
           _content: [
-            {
-              _name: 'attvalue'
-              _attrs: { for: 'bodyText', value: resource.text }
-            }
+
             {
               _name: 'attvalue'
               _attrs: { for: 'title', value: resource.title }
