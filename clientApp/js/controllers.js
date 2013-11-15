@@ -66,6 +66,7 @@ function NotificationsCtrl($scope, notification) {
 
 function CreateResourceModalCtrl($scope, dialog, resource) {
 
+
     $scope.resourceToCreate = {title: dialog.options.title};
 
     $scope.close = function () {
@@ -73,6 +74,8 @@ function CreateResourceModalCtrl($scope, dialog, resource) {
     };
 
     $scope.submit = function () {
+        $scope.submitted = true;
+
         resource.create($scope.resourceToCreate).then(function (createdResource) {
             dialog.close(createdResource);
         });
