@@ -279,6 +279,7 @@ function addCommentCtrl($scope, $routeParams, userService, broadcastService, com
     $scope.form.originalObject.id = objectId;
 
     $scope.submitComment = function (originalObjectId) {
+        $scope.commentSubmitted = true;
         $scope.submitMade = false;
         $scope.submitNotMade = false;
 
