@@ -4,7 +4,7 @@ div.container-fluid(ng-controller="LoginCtrl")
     div.span24
     div.span6
       h2 Login
-      form(ng-submit='performLogin()')
+      form(name="loginForm", ng-submit='performLogin()')
         div(class="text-error", ng-show='loginerror')
           p Something with the username or password you provided isn't working. Try again, or contact us at knownodes@gmail.com
 
@@ -20,7 +20,7 @@ div.container-fluid(ng-controller="LoginCtrl")
       h2 or
     div.span8
       h2 Create a new account
-      form(name="loginForm", ng-submit='submitUser(user)')
+      form(name="registerForm", ng-submit='submitUser(user)')
         p
           label(for='email') Your eMail:
           input(type='email', ng-model='user.email', name='email', required)
@@ -34,4 +34,4 @@ div.container-fluid(ng-controller="LoginCtrl")
           label(for='lastName') Last Name:
           input(ng-model='user.lastName', type='text', name='lastName', required)
         p
-          button(type='submit', class='btn btn-primary', ng-disabled="loginForm.$invalid") Add Me!
+          button(type='submit', class='btn btn-primary', ng-disabled="registerForm.$invalid") Add Me!
