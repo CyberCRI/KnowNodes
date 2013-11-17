@@ -9,51 +9,54 @@ div.container-fluid
 
             p The p2p science alliance is a way to share collaborations in open science. Collaboration can be around a tool or research project, an ongoing discussion, or anything that involves individuals working together towards a common purpose.
 
-            p When we openly share our collaborations we create a basic framework to work with others. We transcend disciplinary frontiers, geographical borders, and profit-oriented social network recommendation algorithms. We help you find the right people to work on what you find important, be up-to-date with innovations in open-science and have a place to interact with your peers.
+            p By sharing your collaboration, it's easier to find peers to collaborate with, be up-to-date with innovations in open science and have a place to interact with your peers.
 
             br
 
-            h3 How do I Start:
-
-            p Add the potential and ongoing collaborations you know of into the system.
-
-            br
-
-            h3 Step 1: Add Your Peer
+            h3 Step 1: Add Yourself as a Peer
 
             p Add your name into the system, so that others can find you.
-            | Do it now:
+
+            div(resource-input, resource="startResource")
 
             br
             br
 
-            h3 Step 2: Enter an ongoing P2P Alliance
+            h3 Step 2: Enter an ongoing collaboration
 
-            p Think of at least two ongoing peer to peer collaborations you find inspiring. Those can be in relation to you, but don’t have to. Add those people into the system and describe the result of their collaboration.
-            | Do it here:
+            p Think of a person you currently collaborate with and add his name in the third, bottom box. Describe the potential result of the collaboration.
+
+            p(triplet-input)
 
             br
             br
 
             h3 Step 3: Enter a potential P2P Alliance
-            p Know somebody you’d like to collaborate with? Know two people that should meet and talk? Add their names into the system and describe a potential result from their collaboration.
-            | Do it here:
-
+            p Know somebody you’d like to collaborate with? Have an idea about two people that should meet and talk? Add their names into the system and describe a potential result from their collaboration.
+            p Use the input box above for this.
             br
             br
 
-            h3 Step 4: Browse existing Alliances
+            h3 Step 4: Basic features: Searching and browsing collaborations
 
-            p Browse through the existing alliances on the website,
+            p You can browse through the existing alliances on the website:
+
+            p * The home page will show you the most recent and most popular collaborations.
+            p * To know the collaborations of a specific person, just click on their name.
+
             figure.label.inside.bottom(data-label="List")
                 img(src="/img/browse-list.png")
-
             br
+            p * You can press the "map" button to see a visualization of the network.(Doesn't work on front page... yet)
             br
-
-            p comment, share, vote and chat:
             figure.label.inside.bottom(data-label="Map")
-                img(src="/img/browse-map.png")
+              img(src="/img/browse-map.png")
+            br
+            br
+
+            p You can comment, share, vote and chat(using the blue button on the right) about any collaboration
+            figure.label.inside.bottom(data-label="interaction")
+              img(src="/img/tutorial-interaction.png")
 
             br
             br
@@ -81,7 +84,8 @@ div.container-fluid
             figure.label.inside.bottom(data-label="Simultaneuos Work")
                 img(src="/img/timelinepic1.png")
 
-
+            h3 Thanks you for reading all the way through.
+              a(ng-href="/") You are welcome to create, explore and suggest some more collaborations.
             br
             br
             br
