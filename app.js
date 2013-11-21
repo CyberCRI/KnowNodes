@@ -113,8 +113,8 @@ app.post('/admin/indexAllConnections', adminController.indexAllConnections);
 
 
 app.get('/gexf/triplet/:connectionId', GexfController.exportTriplet);
-app.get('/gexf/userTriplets/:userId', GexfController.exportUserTriplets);
-app.get('/gexf/resourceTriplets/:resourceId', GexfController.exportResourceTriplets);
+app.get('/gexf/userTriplets/:userId.gexf', GexfController.exportUserTriplets);
+app.get('/gexf/resourceTriplets/:resourceId.gexf', GexfController.exportResourceTriplets);
 
 // AUTH
 

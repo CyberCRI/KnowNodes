@@ -10,7 +10,7 @@ div.container-fluid
           div.knownode-body
             div.help-hover(title="Total votes user have received from his connections") {{loggedUser().karma}} Connection points
             br
-            button(type="button", onclick="window.open('/gexf/userTriplets/{{resourceId}}', '_blank');") Export Graph
+            button(type="button", onclick="window.open('/gexf/userTriplets/{{resourceId}}.gexf', '_blank');") Export Graph
             br
     div.span21.offset3.sort-div
       span.btn.btn-link.sort-header sort:

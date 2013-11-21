@@ -17,7 +17,7 @@ div.container-fluid
                             a(class="btn-info",href="/knownodeFiles/:{{concept.fileId}}", target="_blank", ng-show="concept.fileName") &nbsp;{{concept.fileName}}&nbsp;
                         div(ng-bind-html-unsafe="concept.bodyText")
                         br
-                        button(type="button", onclick="window.open('/gexf/resourceTriplets/{{resourceId}}', '_blank');") Export Graph
+                        button(type="button", onclick="window.open('/gexf/resourceTriplets/{{resourceId}}.gexf', '_blank');") Export Graph
                         br
         div.span21.offset3.sort-div
             span.btn.btn-link.sort-header sort:
