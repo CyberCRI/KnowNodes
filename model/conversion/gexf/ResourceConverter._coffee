@@ -1,10 +1,13 @@
+escape = require('escape-html')
+
+
 module.exports =
 
   toGEXF: (resource, _) ->
     resourceCreator = resource.getCreator _
     gexf =
       _name: 'node'
-      _attrs: { id: resource.id, label: resource.title.replace(/"/g,"'") }
+      _attrs: { id: resource.id, label: escape(resource.title) }
       _content: [
         {
           _name: 'attvalues'
@@ -12,8 +15,12 @@ module.exports =
 
             {
               _name: 'attvalue'
-              _attrs: { for: 'title', value: resource.title.replace(/"/g,"'") }
+              _attrs: { for: 'title', value: escape(resource.title) }
             }
+            {
+              _name: 'attvalue'
+              _attrs: { for: 'bodyText', value: escape(resource.text) }
+             }
             {
               _name: 'attvalue'
               _attrs: { for: 'KN_ID', value: resource.id }

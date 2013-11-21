@@ -1,5 +1,6 @@
-module.exports =
+escape = require('escape-html')
 
+module.exports =
 
 
 
@@ -15,7 +16,7 @@ module.exports =
           _content: [
             {
               _name: 'attvalue'
-              _attrs: { for: 'title', value: connection.title.replace(/"/g,"'") }
+              _attrs: { for: 'title', value: escape(connection.title) }
             }
             {
               _name: 'attvalue'
