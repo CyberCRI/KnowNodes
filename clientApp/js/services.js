@@ -62,6 +62,24 @@ angular.module('KnowNodesApp.services', [])
         return PassKnownodeService;
     })
 
+    .factory('shareModal', ['$dialog', function ($dialog) {
+        return {
+
+            open: function (sharedConnection) {
+                var options = {
+                    backdrop: true,
+                    dialogFade: true,
+                    backdropFade: true,
+                    templateUrl: 'partials/directiveTemplates/shareConnectionModal',
+                    controller: 'ShareConnectionModalCtrl',
+                    title: sharedConnection
+                };
+                return $dialog.dialog(options).open();
+            }
+
+        };
+    }])
+
     .factory('broadcastService', function ($rootScope) {
         var serviceReturned = {};
 

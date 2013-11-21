@@ -755,7 +755,16 @@ function UserProfilePageCtrl($scope, $location, $routeParams, resource, userServ
 
 }
 
-function InfoLineCtrl($scope, userService, $http) {
+function InfoLineCtrl($scope, userService, $http, shareModal) {
+
+    $scope.openShareModal = function() {
+         $scope.sharedConnection = {};
+         $scope.sharedConnection.title = $scope.triplet.startResource.title +" "+ $scope.triplet.connection.title +" "+ $scope.triplet.endResource.title;
+         $scope.sharedConnection.KN_ID = $scope.triplet.connection.KN_ID;
+         console.log("kn_id", $scope.triplet.connection.KN_ID);
+         shareModal.open($scope.sharedConnection);
+    }
+
 
     $scope.checkOwnership = function(ownerId){
         if (userService.isUserLoggedIn()) {
@@ -785,4 +794,14 @@ function InfoLineCtrl($scope, userService, $http) {
                 });
         }
     }
+}
+
+function ShareConnectionModalCtrl($scope, dialog) {
+
+    $scope.title = {title: dialog.options.title};
+    $scope.connectionURL = {url:dialog.options.url};
+    $scope.close = function () {
+         dialog.close();
+    };
+
 }

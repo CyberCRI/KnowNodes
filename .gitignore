@@ -43,3 +43,5 @@ config/*.*
 */.DS_Store
 .DS_Store
 .DS_Store?
+!kraken-buttons.css
+!social-sharing.css
