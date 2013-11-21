@@ -19,6 +19,12 @@ block content
     script(src='js/directives.js')
     script(src='js/lib/moment/moment.js')
     script
+      var TogetherJSConfig_dontShowClicks=true;
+      var TogetherJSConfig_disableWebRTC=true;
+
+    script(src="https://togetherjs.com/togetherjs-min.js")
+
+    script
         // That was my only method to connect the user from the server session into the client.
         //it's ugly, I know.
         // it could be better if we create a specific service in the server that returns the connected user and the client asks it upon login.
@@ -34,8 +40,6 @@ block content
     script(src="js/lib/ui-bootstrap/ui-bootstrap-0.2.0.js")
     script(src="js/lib/tiny_mce/jquery.tinymce.js")
     script(src="js/lib/tiny_mce/tiny_mce_src.js")
-    script(src="https://cdn.firebase.com/v0/firebase.js")
-    script(src="js/lib/firebase/angularFire.js")
     script(src="js/lib/select2/select2.js")
     script(src="js/lib/angular-ui/select2.js")
     script(src="js/lib/chardin/chardin.js")
@@ -49,4 +53,5 @@ block content
 
       ga('create', 'UA-42832228-1', 'knownodes.com');
       ga('send', 'pageview');
+
 
