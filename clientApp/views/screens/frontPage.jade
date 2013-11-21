@@ -21,6 +21,9 @@ div.container-fluid
         img.intro-img(src="/img/fg-frontpage.png")
         h4 Your connection becomes a part of an open and collective knowledge network.
   div.row-fluid
+    div.span9.offset3
+      div(triplet-input).input-interface
+
     div.location-info.span9.offset3
       accordion
         accordion-group(heading="Below is a list of top connections other people have created. You can: ", is-open='true')
@@ -43,9 +46,6 @@ div.container-fluid
             p
               strong Learn
               span &nbsp;unexpected new things
-
-    div.span9.offset3
-      div(triplet-input).input-interface
 
   div.span21.offset3.sort-div(style="margin-left:0px")
     span.btn.btn-link.sort-header sort:
