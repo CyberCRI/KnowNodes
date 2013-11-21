@@ -19,7 +19,7 @@ module.exports =
       loggedUser = {node: {id: 0}}
 
     query = """
-            START connectionCreator=node({userNodeId}), user=node(#{loggedUser.node.id})
+            START connectionCreator=node(#{user.node.id}), user=node(#{loggedUser.node.id})
             MATCH (connection) -[:CREATED_BY]- (connectionCreator),
               (startResource) -[:RELATED_TO]-> (connection) -[:RELATED_TO]-> (endResource),
               (startResource) -[:CREATED_BY]- (startResourceCreator),
@@ -32,6 +32,7 @@ module.exports =
               (startResourceConnections)-[?:RELATED_TO]-(startResource),
               (endResourceConnections)-[?:RELATED_TO]-(endResource)
             WHERE NOT(HAS(connection.status))
+            AND connection.nodeType! = 'kn_Edge'
             RETURN connection, startResource, endResource, startResourceCreator, endResourceCreator,
               count(distinct connectionComments) AS commentCount,
               count(distinct upvotes) AS upvoteCount,
@@ -41,12 +42,10 @@ module.exports =
               count(distinct hasVotedUp) AS userVotedUp,
               count(distinct hasVotedDown) AS userVotedDown
             """
-    params =
-      userNodeId: user.node.id
 
     connectionCreator = user
 
-    results = GraphDB.get().query(query, params, _)
+    results = GraphDB.get().query(query, null, _)
     triplets = []
     for row in results
       data = @extractData(row)

@@ -1,7 +1,11 @@
 module.exports =
 
+
+
+
   toGEXF: (connection, _) ->
     connectionCreator = connection.getCreator _
+
     gexf =
       _name: 'edge'
       _attrs: { id: connection.id, source: connection.startResourceId, target: connection.endResourceId }
