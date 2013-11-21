@@ -4,7 +4,7 @@ module.exports =
     resourceCreator = resource.getCreator _
     gexf =
       _name: 'node'
-      _attrs: { id: resource.id, label: resource.title }
+      _attrs: { id: resource.id, label: resource.title.replace(/"/g,"'") }
       _content: [
         {
           _name: 'attvalues'
@@ -12,7 +12,7 @@ module.exports =
 
             {
               _name: 'attvalue'
-              _attrs: { for: 'title', value: resource.title }
+              _attrs: { for: 'title', value: resource.title.replace(/"/g,"'") }
             }
             {
               _name: 'attvalue'

@@ -11,7 +11,7 @@ module.exports =
           _content: [
             {
               _name: 'attvalue'
-              _attrs: { for: 'title', value: connection.title }
+              _attrs: { for: 'title', value: connection.title.replace(/"/g,"'") }
             }
             {
               _name: 'attvalue'
