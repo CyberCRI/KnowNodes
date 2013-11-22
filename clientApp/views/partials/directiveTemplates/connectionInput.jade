@@ -1,11 +1,11 @@
-div.l-connection(ng-class="bgColor", data-intro='Here you explain how "{{knownodeList[0].startResource.title}}" is related to a second resource.', data-position="right")
-    div.connection-title.connection-input-title
-        textarea.connection-input-text.simplebox(style="height:24px;", ng-model='connectionTitle', auto-grow, maxlength=200, name='title', required, autofocus, type="text", placeholder="Describe the relationship", data-intro="When writing the description, remember it should make sense to others. Do your best to be neutral and descriptive, avoid jargon. Good luck!", data-position="bottom")
-            p.btn.btn-link.counter {{(200 -(connectionTitle.length)) }} left
-    div.connection-change-direction(ng-model='connectionType', name="connectionType")
-      a.btn.reverse-direction(ng-hide="reversedDirection", ng-click="swapResources()", title="reverse connection direction")
-        i.icon-arrow-up
-        i.icon-arrow-down
-      a.btn.reverse-direction(ng-show="reversedDirection", ng-click="swapResources()", title="reverse connection direction")
-        i.icon-arrow-down
-        i.icon-arrow-up
+div.l-connection(ng-class="bgColor", data-intro='{{tutorialText.connection}}', data-position="right")
+  div.connection-title.connection-input-title
+    textarea.connection-input-text.simplebox(style="height:24px;", ng-model='connectionTitle', auto-grow, maxlength=200, name='title', required, autofocus, type="text", placeholder="Describe the relationship", data-intro="When writing the description, remember it should make sense to others. Do your best to be neutral and descriptive, avoid jargon. Good luck!", data-position="bottom")
+      p.btn.btn-link.counter {{(200 -(connectionTitle.length)) }} left
+  div.connection-change-direction(ng-model='connectionType', name="connectionType")
+    a.btn.reverse-direction(ng-hide="reversedDirection", ng-click="swapResources()", title="reverse connection direction")
+      i.icon-arrow-up
+      i.icon-arrow-down
+    a.btn.reverse-direction(ng-show="reversedDirection", ng-click="swapResources()", title="reverse connection direction")
+      i.icon-arrow-down
+      i.icon-arrow-up

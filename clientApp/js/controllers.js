@@ -309,11 +309,20 @@ function ConnectionPageCtrl($scope, $routeParams, userService, triplet) {
 
 function TripletInputCtrl($scope, $rootScope, $route, wikinode, resource, connection) {
 
+    $scope.tutorialText = {};
+    $scope.tutorialText.startResource = 'Put here any web resource or insight you wish to connect.';
+    $scope.tutorialText.connection = 'Here you describe how the first resource is connected to the second resource.';
+    $scope.tutorialText.endResource = 'Here you enter the other resource you wish to connect.';
+
     $scope.reversedDirection = false;
 
     $scope.$watch('concept', function (newValue) {
         if ($scope.startResource == null)
             $scope.startResource = newValue;
+            $scope.tutorialText.startResource = "This is the resource " + $scope.startResource.title;
+            $scope.tutorialText.connection = "Here you describe how "+ $scope.startResource.title+" is connected to the second resource.";
+            $scope.tutorialText.endResource = "Here you enter the name of the resource to connect with " + $scope.startResource.title;
+
     });
 
     $scope.$on('resourceSelected', function (event, result) {
