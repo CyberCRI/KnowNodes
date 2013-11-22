@@ -102,7 +102,7 @@ function LoginCtrl($scope, $location, $rootScope, $window, loginModal, userServi
                 }
                 $rootScope.user = data;
                 if ($scope.newUser === true) {
-                    $location.path('/');
+                    $location.path('/newUserGuide');
                 } else {
                     $window.history.back();
                 }
