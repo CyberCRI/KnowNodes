@@ -73,6 +73,7 @@ function CreateResourceModalCtrl($scope, dialog, resource) {
     };
 
     $scope.submit = function () {
+        $scope.submitted = true;
         resource.create($scope.resourceToCreate).then(function (createdResource) {
             dialog.close(createdResource);
         });
@@ -271,6 +272,7 @@ function addCommentCtrl($scope, $routeParams, userService, broadcastService, com
     $scope.form.originalObject.id = objectId;
 
     $scope.submitComment = function (originalObjectId) {
+        $scope.commentSubmitted = true;
         $scope.submitMade = false;
         $scope.submitNotMade = false;
 
