@@ -50,6 +50,10 @@ var KnowNodesAppModule = angular.module('KnowNodesApp', ['angulartics', 'angular
                 templateUrl: 'screens/map',
                 controller: MapCtrl
             }).
+            when('/graph/:id', {
+                templateUrl: 'screens/graph',
+                controller: GraphCtrl
+            }).
             when('/concept/:id', {
                 templateUrl: 'screens/tripletListPage',
                 controller: TripletListCtrl
