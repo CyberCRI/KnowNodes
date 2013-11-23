@@ -149,20 +149,58 @@ function MapCtrl($scope, $routeParams) {
 
 function GraphCtrl($scope, $routeParams) {
     $(document).ready(function () {
-        var css = jQuery("<link>");
-        css.attr({
-            rel: "stylesheet",
-            type: "text/css",
-            href: "http://fonts.googleapis.com/css?family=Roboto"
+
+        // Instanciate sigma.js and customize it :
+        var sigInst = sigma.init(document.getElementById('sigma-example')).drawingProperties({
+            defaultLabelColor: '#fff'
         });
-        $("head").append(css);
 
-        function navigationListener(resourceId) {
-            $scope.$emit("mapNavigated", resourceId);
-        };
+        // Generate a random graph with :
+        //   . N nodes
+        //   . E edges
+        //   . C clusters
+        //   . d the proportion of edges that connect two nodes
+        //     from the same cluster
+        var i, N = 500, E = 3000, C = 5, d = 0.5, clusters = [];
+        for(i = 0; i < C; i++){
+            clusters.push({
+                'id': i,
+                'nodes': [],
+                'color': 'rgb('+Math.round(Math.random()*256)+','+
+                    Math.round(Math.random()*256)+','+
+                    Math.round(Math.random()*256)+')'
+            });
+        }
 
-        Renderer.init("viewport", $routeParams.id, navigationListener);
-        PanelsHandler.initPanels();
+        for(i = 0; i < N; i++){
+            var cluster = clusters[(Math.random()*C)|0];
+            sigInst.addNode('n'+i,{
+                'x': Math.random(),
+                'y': Math.random(),
+                'size': 0.5+4.5*Math.random(),
+                'color': cluster['color'],
+                'cluster': cluster['id']
+            });
+            cluster.nodes.push('n'+i);
+        }
+
+        for(i = 0; i < E; i++){
+            if(Math.random() < 1-d){
+                sigInst.addEdge(i,'n'+(Math.random()*N|0),'n'+(Math.random()*N|0));
+            }else{
+                var cluster = clusters[(Math.random()*C)|0], n = cluster.nodes.length;
+                sigInst.addEdge(i,cluster.nodes[Math.random()*n|0],cluster.nodes[Math.random()*n|0]);
+            }
+        }
+
+        // Start the ForceAtlas2 algorithm
+        // (requires "sigma.forceatlas2.js" to be included)
+
+        sigInst.startForceAtlas2();
+
+        var isRunning = true;
+
+
     });
 }
 
