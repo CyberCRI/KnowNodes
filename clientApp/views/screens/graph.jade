@@ -1,22 +1,18 @@
 link(rel='stylesheet', href='/css/viewportStyle.css')
 link(rel='stylesheet', href='/css/layout-default-latest.css')
 
-script(type="text/javascript", src="js/lib/arbor/arbor.js")
-script(type="text/javascript", src="js/lib/arbor/arbor-tween.js")
-script(type="text/javascript", src="js/lib/kinetic/kinetic-v4.5.4.js")
+link(rel='stylesheet', href='js/lib/sigma/sigma.css')
+
+script(type="text/javascript", src="js/lib/sigma/sigma.min.js")
+script(type="text/javascript", src="js/lib/sigma/sigma.parseGexf.js")
+script(type="text/javascript", src="js/lib/sigma/sigma.forceatlas2.js")
 script(type="text/javascript", src="js/lib/jquery-plugins/jquery-ui-1.10.3.custom.js")
 script(type="text/javascript", src="js/lib/jquery-plugins/jquery.layout-latest.js")
 script(type="text/javascript", src="js/lib/jquery-plugins/jquery.mousewheel.js")
-script(type="text/javascript", src="js/visualizer.js")
-script(type="text/javascript", src="js/visualizerPanels.js")
 
 div.topbar-gap &nbsp
-#mapLayoutContainer.map
-    #viewport.ui-layout-center
-    #leftTab.ui-layout-west
-        h2
-            a#node-link(href='') KnowNode
+#sigma-example-parent.sigma-parent
+    #sigma-example.sigma-expand
 
-        p#node-content Please click on a KnowNode to begin
-        h2
-            a#n
+
+script(type="text/javascript", src="js/lib/sigma/sigma-load3.js")
