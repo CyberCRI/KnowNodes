@@ -147,6 +147,25 @@ function MapCtrl($scope, $routeParams) {
     });
 }
 
+function GraphCtrl($scope, $routeParams) {
+    $(document).ready(function () {
+        var css = jQuery("<link>");
+        css.attr({
+            rel: "stylesheet",
+            type: "text/css",
+            href: "http://fonts.googleapis.com/css?family=Roboto"
+        });
+        $("head").append(css);
+
+        function navigationListener(resourceId) {
+            $scope.$emit("mapNavigated", resourceId);
+        };
+
+        Renderer.init("viewport", $routeParams.id, navigationListener);
+        PanelsHandler.initPanels();
+    });
+}
+
 
 function TripletListCtrl($scope, $routeParams, $location, userService, resource, wikipedia, wikinode) {
     $scope.goToUrl = function (something) {
