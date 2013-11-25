@@ -39,5 +39,5 @@
 
 .modal-footer
     button.btn.btn-warning(ng-click="close()") Close
-    button.btn.btn-primary(ng-click="submit()") Submit
+    button.btn.btn-primary(ng-click="submit()", ng-disabled="submitted") Submit
     span(ng-show="submitErrorMessage") {{submitErrorMessage}}
