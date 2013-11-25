@@ -88,7 +88,7 @@ function LoginCtrl($scope, $location, $rootScope, $window, loginModal, userServi
     $scope.submitUser = function (userForm) {
         userService.create(userForm).
             success(function (data, status, headers, config) {
-                $scope.loginForm.username = userForm.email;
+                $scope.loginForm.email = userForm.email;
                 $scope.loginForm.password = userForm.password;
                 $scope.newUser = true;
                 return $scope.performLogin();

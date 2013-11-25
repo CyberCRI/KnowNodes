@@ -14,7 +14,7 @@ module.exports = class Users extends NodeWrappers
   @wrap: (node) -> new User(node)
 
   @create: (data, _) ->
-    hashedPassword = bcrypt.hashSync(data.password, 4)
+    hashedPassword = bcrypt.hashSync(data.password)
     data.password = hashedPassword
     super(data, _)
 
