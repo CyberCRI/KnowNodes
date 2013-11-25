@@ -7,7 +7,7 @@ bcrypt = require('bcrypt-nodejs')
 Users = require('../data/Users')
 
 basicURL = 'http://www.knownodes.com/'
-# basicURL = 'http://localhost:3000/'
+#basicURL = 'http://localhost:3000/'
 
 
 findByEmail = (email, fn) ->
@@ -58,7 +58,7 @@ module.exports =
 
       process.nextTick ->
         profile.identifier = identifier
-        if profile.emails and profilecallback.emails.length > 0
+        if profile.emails and profile.emails.length > 0
           return findByEmail(profile.emails[0].value, (err, user) ->
             if err
               return DB.User.create(
