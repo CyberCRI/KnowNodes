@@ -3,7 +3,7 @@ User = require './../model/User'
 Type = require './../model/Type'
 UserValidator = require './../model/validation/UserValidator'
 cache = require 'memory-cache'
-bcrypt = require 'bcrypt'
+bcrypt = require 'bcrypt-nodejs'
 
 module.exports = class Users extends NodeWrappers
 

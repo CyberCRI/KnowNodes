@@ -1,9 +1,9 @@
 div(ng-show='isUserLoggedIn || true ', ng-controller='addCommentCtrl')
   h4 Comment on this
   div(class="alert alert-error", ng-show="isError")
-  form(ng-submit='submitComment({{comment.parentKNID}})', ng-init="scope = { isDisabled: false }")
+  form(ng-submit='submitComment({{comment.parentKNID}})')
     p
       label(for='bodyText') Comment:
       textarea(ng-model='form.comment.bodyText', name='bodyText', required, style='width:350px; height:150px')
     p
-      button(type='submit', class='btn btn-primary', ng-disabled="form.comment.$invalid || {{scope.isDisabled}}") Submit comment
+      button(type='submit', class='btn btn-primary', ng-disabled="form.comment.$invalid || commentSubmitted") Submit comment

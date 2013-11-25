@@ -73,6 +73,7 @@ function CreateResourceModalCtrl($scope, dialog, resource) {
     };
 
     $scope.submit = function () {
+        $scope.submitted = true;
         resource.create($scope.resourceToCreate).then(function (createdResource) {
             dialog.close(createdResource);
         });
@@ -102,7 +103,7 @@ function LoginCtrl($scope, $location, $rootScope, $window, loginModal, userServi
                 }
                 $rootScope.user = data;
                 if ($scope.newUser === true) {
-                    $location.path('/');
+                    $location.path('/newUserGuide');
                 } else {
                     $window.history.back();
                 }
@@ -302,6 +303,7 @@ function addCommentCtrl($scope, $routeParams, userService, broadcastService, com
     $scope.form.originalObject.id = objectId;
 
     $scope.submitComment = function (originalObjectId) {
+        $scope.commentSubmitted = true;
         $scope.submitMade = false;
         $scope.submitNotMade = false;
 
@@ -340,11 +342,20 @@ function ConnectionPageCtrl($scope, $routeParams, userService, triplet) {
 
 function TripletInputCtrl($scope, $rootScope, $route, wikinode, resource, connection) {
 
+    $scope.tutorialText = {};
+    $scope.tutorialText.startResource = 'Put here any web resource or insight you wish to connect.';
+    $scope.tutorialText.connection = 'Here you describe how the first resource is connected to the second resource.';
+    $scope.tutorialText.endResource = 'Here you enter the other resource you wish to connect.';
+
     $scope.reversedDirection = false;
 
     $scope.$watch('concept', function (newValue) {
         if ($scope.startResource == null)
             $scope.startResource = newValue;
+            $scope.tutorialText.startResource = "This is the resource " + $scope.startResource.title;
+            $scope.tutorialText.connection = "Here you describe how "+ $scope.startResource.title+" is connected to the second resource.";
+            $scope.tutorialText.endResource = "Here you enter the name of the resource to connect with " + $scope.startResource.title;
+
     });
 
     $scope.$on('resourceSelected', function (event, result) {

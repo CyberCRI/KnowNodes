@@ -13,7 +13,7 @@ var express = require('express')
     //, Resource = require('express-resource')
     , http = require('http')
     , passport = require('passport')
-    , passportConfig = require('./config/passport.conf')
+    , authSetup = require('./auth/setup')
     , path = require('path')
     , MongoStore = require('connect-mongo')(express)
     , ConfigSettings = require('./config/settings')
@@ -21,7 +21,7 @@ var express = require('express')
     , DBConf = require('./config/DB.conf.js')
 
 // passport: Login initialization
-passportConfig.initializePassport();
+authSetup.initialize();
 
 var app = express();
 var settings = ConfigSettings.getSettings();

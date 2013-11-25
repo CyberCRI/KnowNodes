@@ -1,13 +1,11 @@
 passport = require('passport')
-passportConfig = require('../../config/passport.conf')
 
 module.exports =
-
 
   loginLocal: (request, response, next) ->
     passport.authenticate("local", (err, user, info) ->
       if err
-        throw error
+        response.json(500, err)
       else if user
         # User credentials match
         request.logIn user, (err) ->
@@ -25,6 +23,4 @@ module.exports =
           message:
             status: "error"
             message: "incorrect username/password ?"
-
-
     ) request, response, next

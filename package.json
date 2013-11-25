@@ -35,7 +35,7 @@
         "less": "1.4.0",
         "validator": "latest",
         "node-uuid": "latest",
-        "bcrypt": "latest",
+        "bcrypt-nodejs": "latest",
         "escape-html": "latest",
         "jstoxml": "latest"
     },

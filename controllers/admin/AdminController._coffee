@@ -2,7 +2,6 @@ Controller = require '../Controller'
 Resource = require '../../model/Resource'
 Connection = require '../../model/Connection'
 User = require '../../model/User'
-bcrypt = require 'bcrypt'
 
 module.exports = class AdminController extends Controller
 
