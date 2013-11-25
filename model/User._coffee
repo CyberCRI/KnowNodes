@@ -3,7 +3,6 @@ Type = require './Type'
 UserValidator = require './validation/UserValidator'
 UserConverter = require './conversion/json/UserConverter'
 cache = require 'memory-cache'
-bcrypt = require 'bcrypt'
 Error = require '../error/Error'
 
 module.exports = class User extends NodeWrapper
