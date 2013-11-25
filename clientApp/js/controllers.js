@@ -43,22 +43,22 @@ function TopBarCtrl($rootScope, $scope, $location, resource, userService) {
 
 function NotificationsCtrl($scope, notification) {
 
-    notification.getNotifications(function(result) {
+    notification.getNotifications(function (result) {
         $scope.notifications = result;
-        var isReadCount = _.countBy(result, function(notification) {
+        var isReadCount = _.countBy(result, function (notification) {
             return notification.alreadyRead;
         });
         $scope.unreadCount = isReadCount.false;
     });
 
-    $scope.getStyle = function(isRead) {
+    $scope.getStyle = function (isRead) {
         if (isRead)
             return 'background-color:lightgrey';
         else
             return '';
     };
 
-    $scope.markAllAsRead = function() {
+    $scope.markAllAsRead = function () {
         $scope.unreadCount = 0;
         notification.markAllAsRead();
     }
@@ -73,7 +73,6 @@ function CreateResourceModalCtrl($scope, dialog, resource) {
     };
 
     $scope.submit = function () {
-        $scope.submitted = true;
         resource.create($scope.resourceToCreate).then(function (createdResource) {
             dialog.close(createdResource);
         });
@@ -103,7 +102,7 @@ function LoginCtrl($scope, $location, $rootScope, $window, loginModal, userServi
                 }
                 $rootScope.user = data;
                 if ($scope.newUser === true) {
-                    $location.path('/newUserGuide');
+                    $location.path('/');
                 } else {
                     $window.history.back();
                 }
@@ -148,8 +147,9 @@ function MapCtrl($scope, $routeParams) {
     });
 }
 
-function GraphCtrl($scope, $routeParams) {
-    $(document).ready(function () {
+function GraphCtrl($scope) {
+
+    $scope.$on('$viewContentLoaded', function() {
 
         var sigInst = sigma.init(document.getElementById('sigma-example')).drawingProperties({
             defaultLabelColor: '#fff',
@@ -174,16 +174,15 @@ function GraphCtrl($scope, $routeParams) {
 
         // Draw the graph :
         sigInst.draw();
-
-
     });
+
 }
 
 
 function TripletListCtrl($scope, $routeParams, $location, userService, resource, wikipedia, wikinode) {
     $scope.goToUrl = function (something) {
         $location.path(something);
-};
+    };
 
     // Sort triplets by default the most recent ones at the top
 
@@ -192,8 +191,8 @@ function TripletListCtrl($scope, $routeParams, $location, userService, resource,
     // $scope.orderProp = "-(upvotes-downvotes)";
 
 
-        // First, check whether the resource is a KN Resource or a Wikipedia Article
-        if ($routeParams.id != null) {
+    // First, check whether the resource is a KN Resource or a Wikipedia Article
+    if ($routeParams.id != null) {
         // KN Resource
         resource.get($routeParams.id).then(function (resource) {
             $scope.concept = resource;
@@ -303,7 +302,6 @@ function addCommentCtrl($scope, $routeParams, userService, broadcastService, com
     $scope.form.originalObject.id = objectId;
 
     $scope.submitComment = function (originalObjectId) {
-        $scope.commentSubmitted = true;
         $scope.submitMade = false;
         $scope.submitNotMade = false;
 
@@ -342,20 +340,11 @@ function ConnectionPageCtrl($scope, $routeParams, userService, triplet) {
 
 function TripletInputCtrl($scope, $rootScope, $route, wikinode, resource, connection) {
 
-    $scope.tutorialText = {};
-    $scope.tutorialText.startResource = 'Put here any web resource or insight you wish to connect.';
-    $scope.tutorialText.connection = 'Here you describe how the first resource is connected to the second resource.';
-    $scope.tutorialText.endResource = 'Here you enter the other resource you wish to connect.';
-
     $scope.reversedDirection = false;
 
     $scope.$watch('concept', function (newValue) {
         if ($scope.startResource == null)
             $scope.startResource = newValue;
-            $scope.tutorialText.startResource = "This is the resource " + $scope.startResource.title;
-            $scope.tutorialText.connection = "Here you describe how "+ $scope.startResource.title+" is connected to the second resource.";
-            $scope.tutorialText.endResource = "Here you enter the name of the resource to connect with " + $scope.startResource.title;
-
     });
 
     $scope.$on('resourceSelected', function (event, result) {
@@ -453,11 +442,11 @@ function TripletInputCtrl($scope, $rootScope, $route, wikinode, resource, connec
         connection.create(startResourceId, $scope.connectionTitle, $scope.connectionType, endResourceId)
             .success(function (data, status) {
 
-               // When a user adds a new connection, they get redirected to their user page to see most recent ones
+                // When a user adds a new connection, they get redirected to their user page to see most recent ones
                 window.location = '/user/' + $rootScope.user.KN_ID + '/' + $scope.startResource.KN_ID;
 
-               // If you want that instead the resource page reloads, use this:
-               // $route.reload();
+                // If you want that instead the resource page reloads, use this:
+                // $route.reload();
 
             })
             .error(function (data, status) {
@@ -565,10 +554,11 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
         },
 
         formatResult: function (node) {
-            $(function() { $('.tip').tooltip(); });
+            $(function () {
+                $('.tip').tooltip();
+            });
 
-            function strip(html)
-            {
+            function strip(html) {
                 var tmp = document.createElement("DIV");
                 tmp.innerHTML = html;
                 return tmp.textContent || tmp.innerText || "";
@@ -591,11 +581,11 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
                 else {
                     markup += "<div class='suggestion-body create-resource scrap-body'>" + node.body + "</p><img onerror='this.style.display = \"none\"' class='scrap-body-img' src=" + node.image + "></img></div></td>";
                 }
-            } else if(node.snippet === undefined){
-                markup += "<td class='suggestion-info'><div class='suggestion-title' data-placement='right'>" + node.text+ "</div></td>";
+            } else if (node.snippet === undefined) {
+                markup += "<td class='suggestion-info'><div class='suggestion-title' data-placement='right'>" + node.text + "</div></td>";
             }
             else {
-                markup += "<td class='suggestion-info'><div class='suggestion-title tip' data-toggle='tooltip' data-placement='right' data-original-title='" + strip(node.snippet) + "'>" + node.text+ "</div></td>";
+                markup += "<td class='suggestion-info'><div class='suggestion-title tip' data-toggle='tooltip' data-placement='right' data-original-title='" + strip(node.snippet) + "'>" + node.text + "</div></td>";
             }
             if (node.type === 'Wikipedia Article') {
                 markup += "<td class='suggestion-image'><img src='img/wikipedia-icon.png' style='height:1.5em; max-width:none; position: absolute; right: 5px;'/></td>";
@@ -618,7 +608,7 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
                     resourceModal.open(result.title).then(function (createdResource) {
                         createdResource.type = 'Resource';
                         $scope.$emit('searchResultSelected', createdResource);
-                      });
+                    });
                     break;
                 case 'Link to Resource':
                     $scope.$emit('searchResultSelected', {
@@ -728,14 +718,14 @@ function VoteCtrl($scope, $http, loginModal) {
             $scope.upActive = !$scope.upActive;
             if ($scope.upActive === true) {
                 $scope.downActive = false;
-                console.log("up+vote:",$scope.triplet.connection.KN_ID);
+                console.log("up+vote:", $scope.triplet.connection.KN_ID);
                 $http.post('/vote/voteUp/', {connectionId: $scope.triplet.connection.KN_ID});
                 $scope.triplet.upvotes += 1;
             }
             if ($scope.upActive === false) {
                 $scope.downActive = false;
                 $scope.upVoteClass = "";
-                console.log("cancel+vote:",$scope.triplet.connection.KN_ID);
+                console.log("cancel+vote:", $scope.triplet.connection.KN_ID);
                 $http.post('/vote/cancelVote/', {connectionId: $scope.triplet.connection.KN_ID});
                 $scope.triplet.upvotes -= 1;
             }
@@ -772,7 +762,7 @@ function UserProfilePageCtrl($scope, $location, $routeParams, resource, userServ
     $scope.knownodeList = {};
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
 
-    triplet.findByUserId($routeParams.id).success( function(data) {
+    triplet.findByUserId($routeParams.id).success(function (data) {
         $scope.knownodeList = data;
     });
 
@@ -788,8 +778,8 @@ function UserProfilePageCtrl($scope, $location, $routeParams, resource, userServ
     // Load the resource from which the User came to their Profile page as the StartResource for the Triplet
 
     if ($routeParams.rid) {
-    // First, check whether the resource is a KN Resource or a Wikipedia Article
-    // KN Resource
+        // First, check whether the resource is a KN Resource or a Wikipedia Article
+        // KN Resource
         resource.get($routeParams.rid).then(function (resource) {
             $scope.startResource = resource;
         });
@@ -799,16 +789,16 @@ function UserProfilePageCtrl($scope, $location, $routeParams, resource, userServ
 
 function InfoLineCtrl($scope, userService, $http, shareModal) {
 
-    $scope.openShareModal = function() {
-         $scope.sharedConnection = {};
-         $scope.sharedConnection.title = $scope.triplet.startResource.title +" "+ $scope.triplet.connection.title +" "+ $scope.triplet.endResource.title;
-         $scope.sharedConnection.KN_ID = $scope.triplet.connection.KN_ID;
-         console.log("kn_id", $scope.triplet.connection.KN_ID);
-         shareModal.open($scope.sharedConnection);
+    $scope.openShareModal = function () {
+        $scope.sharedConnection = {};
+        $scope.sharedConnection.title = $scope.triplet.startResource.title + " " + $scope.triplet.connection.title + " " + $scope.triplet.endResource.title;
+        $scope.sharedConnection.KN_ID = $scope.triplet.connection.KN_ID;
+        console.log("kn_id", $scope.triplet.connection.KN_ID);
+        shareModal.open($scope.sharedConnection);
     }
 
 
-    $scope.checkOwnership = function(ownerId){
+    $scope.checkOwnership = function (ownerId) {
         if (userService.isUserLoggedIn()) {
             return ownerId === userService.getConnectedUser().KN_ID;
         }
@@ -816,8 +806,8 @@ function InfoLineCtrl($scope, userService, $http, shareModal) {
     }
     $scope.deleteConnection = function (id, index) {
         console.log(index);
-        if (confirm("Are you sure you want to delete this connection? " + $scope.triplet.startResource.title +" "+ $scope.triplet.connection.title +" "+ $scope.triplet.endResource.title)) {
-            $http.delete('/connections/'+ $scope.triplet.connection.KN_ID).success(function (data, status, headers, config) {
+        if (confirm("Are you sure you want to delete this connection? " + $scope.triplet.startResource.title + " " + $scope.triplet.connection.title + " " + $scope.triplet.endResource.title)) {
+            $http.delete('/connections/' + $scope.triplet.connection.KN_ID).success(function (data, status, headers, config) {
                 console.log(data);
                 alert("the connection has been successfully deleted");
                 if (data == "forceDelete") {
@@ -833,7 +823,7 @@ function InfoLineCtrl($scope, userService, $http, shareModal) {
                     $scope.triplet.connection.creator.lastName = "";
                 }
 
-                });
+            });
         }
     }
 }
@@ -841,9 +831,9 @@ function InfoLineCtrl($scope, userService, $http, shareModal) {
 function ShareConnectionModalCtrl($scope, dialog) {
 
     $scope.title = {title: dialog.options.title};
-    $scope.connectionURL = {url:dialog.options.url};
+    $scope.connectionURL = {url: dialog.options.url};
     $scope.close = function () {
-         dialog.close();
+        dialog.close();
     };
 
 }
