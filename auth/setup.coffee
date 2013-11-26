@@ -6,8 +6,8 @@ GoogleStrategy = require('passport-google').Strategy
 bcrypt = require('bcrypt-nodejs')
 Users = require('../data/Users')
 
-#basicURL = 'http://www.knownodes.com/'
-basicURL = 'http://localhost:3000/'
+basicURL = 'http://www.knownodes.com/'
+#basicURL = 'http://localhost:3000/'
 
 
 findByEmail = (email, fn) ->
