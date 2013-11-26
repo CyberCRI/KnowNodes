@@ -6,8 +6,8 @@ GoogleStrategy = require('passport-google').Strategy
 bcrypt = require('bcrypt-nodejs')
 Users = require('../data/Users')
 
-basicURL = 'http://www.knownodes.com/'
-#basicURL = 'http://localhost:3000/'
+#basicURL = 'http://www.knownodes.com/'
+basicURL = 'http://localhost:3000/'
 
 
 findByEmail = (email, fn) ->
@@ -18,6 +18,7 @@ findByEmail = (email, fn) ->
     else
       fn(null, result)
   Users.findByEmail(email, callback);
+
 
 module.exports =
 
@@ -38,6 +39,7 @@ module.exports =
     callback = (email, password, done) ->
         findByEmail email, (err, user) ->
           if err
+            throw err
             done err
           else unless user
             done null, false
