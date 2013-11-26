@@ -5,7 +5,7 @@ GoogleStrategy = require('passport-google').Strategy
 
 bcrypt = require('bcrypt-nodejs')
 Users = require('../data/Users')
-Logger = require '../../log/Logger'
+Logger = require '../log/Logger'
 
 basicURL = 'http://www.knownodes.com/'
 #basicURL = 'http://localhost:3000/'
