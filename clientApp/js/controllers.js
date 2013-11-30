@@ -74,10 +74,15 @@ function CreateResourceModalCtrl($scope, dialog, resource) {
 
     $scope.submit = function () {
         $scope.submitted = true;
+        $scope.resourceToCreate.title = capitaliseFirstLetter($scope.resourceToCreate.title);
         resource.create($scope.resourceToCreate).then(function (createdResource) {
             dialog.close(createdResource);
         });
     };
+    function capitaliseFirstLetter(string)
+    {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
 }
 
 function LoginCtrl($scope, $location, $rootScope, $window, loginModal, userService) {
@@ -376,6 +381,8 @@ function TripletInputCtrl($scope, $rootScope, $route, wikinode, resource, connec
     };
 
     function formatStartResource() {
+
+
         if ($scope.startResource.type === 'Wikipedia Article') {
             // Get source wikinode and create connection
             wikinode.getOrCreate($scope.startResource.title).success(function (createdStartResource) {
@@ -396,6 +403,7 @@ function TripletInputCtrl($scope, $rootScope, $route, wikinode, resource, connec
     };
 
     function formatEndResource() {
+
         if ($scope.endResource.type === 'Wikipedia Article') {
             // Get target wikinode and create connection
             wikinode.getOrCreate($scope.endResource.title).success(function (createdEndResource) {
@@ -408,6 +416,7 @@ function TripletInputCtrl($scope, $rootScope, $route, wikinode, resource, connec
             resource.create($scope.endResource).then(function (createdEndResource) {
                 $scope.endResource = createdEndResource;
                 createConnection();
+
             });
         } else {
             createConnection();
@@ -434,6 +443,7 @@ function TripletInputCtrl($scope, $rootScope, $route, wikinode, resource, connec
                 console.log('Error message : ' + data.message);
             });
     };
+
 }
 
 
