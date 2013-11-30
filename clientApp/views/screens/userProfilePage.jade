@@ -8,7 +8,7 @@ div.container-fluid
       accordion
         accordion-group(heading="{{knownodeList[0].connection.creator.firstName}} {{knownodeList[0].connection.creator.lastName}}", is-open='true')
           div.knownode-body
-            div.help-hover(title="Total votes user have received from his connections") {{loggedUser().karma}} Connection points
+            div.help-hover(title="Total votes user have received from his connections") {{userKarma}} Connection points
             br
             button(type="button", onclick="window.open('/gexf/userTriplets/{{resourceId}}.gexf', '_blank');") Export Graph
             br

@@ -11,7 +11,7 @@ function TopBarCtrl($rootScope, $scope, $location, resource, userService) {
 
         // Load Karma if necessary
         if ($rootScope.user != null && $rootScope.user.karma == null) {
-            userService.getKarma($rootScope.user).success(function (response) {
+            userService.getLoggedUserKarma($rootScope.user).success(function (response) {
                 $rootScope.user.karma = response.karma;
             });
         }
@@ -756,6 +756,9 @@ function UserProfilePageCtrl($scope, $location, $routeParams, resource, userServ
 
     triplet.findByUserId($routeParams.id).success( function(data) {
         $scope.knownodeList = data;
+        userService.getUserKarma($scope.knownodeList[0].connection.creator.KN_ID).success(function (response) {
+            $scope.userKarma = response.karma;
+        });
     });
 
     $scope.goToUrl = function (something) {
@@ -765,8 +768,6 @@ function UserProfilePageCtrl($scope, $location, $routeParams, resource, userServ
     // Default sorting order for User's connections: can be Most Popular -(upvotes - downvotes) or Most Recent -connection.__CreatedOn__
 
     $scope.orderProp = "-connection.__CreatedOn__";
-
-
     // Load the resource from which the User came to their Profile page as the StartResource for the Triplet
 
     if ($routeParams.rid) {
