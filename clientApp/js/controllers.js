@@ -285,17 +285,15 @@ function addCommentCtrl($scope, $routeParams, userService, broadcastService, com
 
         comment.create($scope.form.comment.bodyText, $scope.form.originalObject.id)
             .success(function (data, status, headers, config) {
-                if (data.success) {
-                    var comment = data.success;
+                    var comment = data;
                     comment.user = userService.getConnectedUser();
                     broadcastService.prepForBroadcast(comment);
                     $scope.submitMade = true;
-                } else {
-                    console.log(data.error);
+                    $scope.form.comment.bodyText = "";
+                }).error(function (data, status, headers, config) {
+                    console.log("error", data.error);
                     $scope.submitNotMade = false;
                     $scope.error = data.error;
-
-                }
             });
     };
 }
@@ -324,8 +322,9 @@ function TripletInputCtrl($scope, $rootScope, $route, wikinode, resource, connec
     $scope.reversedDirection = false;
 
     $scope.$watch('concept', function (newValue) {
-        if ($scope.startResource == null)
-            $scope.startResource = newValue;
+            if(!newValue) return;
+            $scope.startResource = $scope.startResource || newValue;
+            $scope.tutorialText = $scope.tutorialText || {};
             $scope.tutorialText.startResource = "This is the resource " + $scope.startResource.title;
             $scope.tutorialText.connection = "Here you describe how "+ $scope.startResource.title+" is connected to the second resource.";
             $scope.tutorialText.endResource = "Here you enter the name of the resource to connect with " + $scope.startResource.title;
