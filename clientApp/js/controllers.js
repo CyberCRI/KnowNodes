@@ -443,6 +443,10 @@ function TripletInputCtrl($scope, $rootScope, $route, wikinode, resource, connec
             });
     };
 
+    $scope.activeSwitch = function(item) {
+        return item === "active-input" ? 'active-input' : undefined;
+    };
+
 }
 
 
