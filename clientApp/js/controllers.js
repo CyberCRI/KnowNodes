@@ -170,7 +170,7 @@ function GraphCtrl($scope) {
 
         // Parse a GEXF encoded file to fill the graph
         // (requires "sigma.parseGexf.js" to be included)
-        sigInst.parseGexf('/gexf/resourceTriplets/32cdc873-b987-45e0-a6a4-c3b3d71fdb5d.gexf');
+        sigInst.parseGexf('/gexf/userTriplets/69bd8aaa-cb59-4143-9e71-455a98c244c0.gexf');
 
         // Draw the graph :
 
