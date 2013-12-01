@@ -170,10 +170,13 @@ function GraphCtrl($scope) {
 
         // Parse a GEXF encoded file to fill the graph
         // (requires "sigma.parseGexf.js" to be included)
-        sigInst.parseGexf('/gexf/resourceTriplets/aa1a2a78-b129-436c-8683-b4dd630f0566.gexf');
+        sigInst.parseGexf('/gexf/resourceTriplets/32cdc873-b987-45e0-a6a4-c3b3d71fdb5d.gexf');
 
         // Draw the graph :
+
         sigInst.draw();
+        requestAnimationFrame(sigInst.resize.bind());
+
     });
 
 }

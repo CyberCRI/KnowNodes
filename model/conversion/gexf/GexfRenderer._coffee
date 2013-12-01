@@ -15,8 +15,13 @@ module.exports =
   render: (resources, connections, _) ->
 
     nodes = []
+    nodeslog = []
+
     for resource in resources
-      nodes.push ResourceConverter.toGEXF(resource, _)
+      included = resource.id in nodeslog
+      if included is false
+        nodes.push ResourceConverter.toGEXF(resource, _)
+        nodeslog.push resource.id
 
     edges = []
     for connection in connections
