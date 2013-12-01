@@ -169,28 +169,56 @@ function GraphCtrl($scope) {
                 container: 'sigma-example'
             });
 
-            // Query the DB mockup:
-            DBMockup.loadNeighborhood(start, function(graph) {
-                // Read the graph:
-                sigmaInstance.graph.read(graph);
+            // Out function to initialize sigma on a new neighborhood:
+            function refreshGraph(centerNodeId) {
+                DBMockup.loadNeighborhood(centerNodeId, function(graph) {
+                    // First, let's stop the ForceAtlas2 algorithm:
+                    sigmaInstance.stopForceAtlas2();
 
-                // Randomize the positions of the nodes and
-                // initialize their size:
-                var i,
-                    nodes = sigmaInstance.graph.nodes(),
-                    len = nodes.length;
+                    // Restart the camera:
+                    sigmaInstance.cameras[0].goTo({
+                        x: 0,
+                        y: 0,
+                        angle: 0,
+                        ratio: 1
+                    });
 
-                for (i = 0; i < len; i++) {
-                    nodes[i].x = Math.random();
-                    nodes[i].y = Math.random();
-                    nodes[i].size = 1;
-                }
+                    // Empty the graph:
+                    sigmaInstance.graph.clear();
 
-                // Refresh the display:
-                sigmaInstance.refresh();
+                    // Read the graph:
+                    sigmaInstance.graph.read(graph);
+
+                    // Randomize the positions of the nodes and
+                    // initialize their size:
+                    var i,
+                        nodes = sigmaInstance.graph.nodes(),
+                        len = nodes.length;
+
+                    for (i = 0; i < len; i++) {
+                        nodes[i].x = Math.random();
+                        nodes[i].y = Math.random();
+                        nodes[i].size = sigmaInstance.graph.degree(nodes[i].id);
+                        nodes[i].color = nodes[i].center ? '#333' : '#666';
+                    }
+
+                    // Refresh the display:
+                    sigmaInstance.refresh();
+
+                    // Start the ForceAtlas2 algorithm:
+                    sigmaInstance.startForceAtlas2();
+                });
+            }
+
+            // Let's now bind this new function to the "clickNode" event:
+            sigmaInstance.bind('clickNode', function(event) {
+                if (!event.data.node.center)
+                    refreshGraph(event.data.node.id);
             });
-        });
 
+            // And finally, let's initialize the first graph:
+            refreshGraph(start);
+        });
 
     });
 
