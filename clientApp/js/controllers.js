@@ -350,10 +350,6 @@ function TripletInputCtrl($scope, $rootScope, $route, wikinode, resource, connec
     $scope.reversedDirection = false;
 
     $scope.$watch('concept', function (newValue) {
-<<<<<<< HEAD
-        if ($scope.startResource == null)
-            $scope.startResource = newValue;
-=======
             if(!newValue) return;
             $scope.startResource = $scope.startResource || newValue;
             $scope.tutorialText = $scope.tutorialText || {};
@@ -361,7 +357,6 @@ function TripletInputCtrl($scope, $rootScope, $route, wikinode, resource, connec
             $scope.tutorialText.connection = "Here you describe how "+ $scope.startResource.title+" is connected to the second resource.";
             $scope.tutorialText.endResource = "Here you enter the name of the resource to connect with " + $scope.startResource.title;
 
->>>>>>> master
     });
 
     $scope.$on('resourceSelected', function (event, result) {
