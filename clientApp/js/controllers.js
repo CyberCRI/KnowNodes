@@ -157,31 +157,40 @@ function GraphCtrl($scope) {
 
     $scope.$on('$viewContentLoaded', function() {
 
-        var sigInst = sigma.init(document.getElementById('sigma-example')).drawingProperties({
-            defaultLabelColor: '#fff',
-            defaultLabelSize: 14,
-            defaultLabelBGColor: '#fff',
-            defaultLabelHoverColor: '#000',
-            labelThreshold: 6,
-            defaultEdgeType: 'curve'
-        }).graphProperties({
-                minNodeSize: 0.5,
-                maxNodeSize: 5,
-                minEdgeSize: 1,
-                maxEdgeSize: 1,
-                sideMargin: 50
-            }).mouseProperties({
-                maxRatio: 32
+
+
+        // Initialize the mockup with our graph:
+        DBMockup.init('/json/cpan.json');
+        var start = '136';
+
+        DBMockup.onready(function() {
+            // Instanciate sigma:
+            var sigmaInstance = new sigma({
+                container: 'sigma-example'
             });
 
-        // Parse a GEXF encoded file to fill the graph
-        // (requires "sigma.parseGexf.js" to be included)
-        sigInst.parseGexf('/gexf/resourceTriplets/0f2a4a82-445f-4100-8bb8-a554cfe3bf07.gexf');
+            // Query the DB mockup:
+            DBMockup.loadNeighborhood(start, function(graph) {
+                // Read the graph:
+                sigmaInstance.graph.read(graph);
 
-        // Draw the graph :
+                // Randomize the positions of the nodes and
+                // initialize their size:
+                var i,
+                    nodes = sigmaInstance.graph.nodes(),
+                    len = nodes.length;
 
-        sigInst.draw();
-        requestAnimationFrame(sigInst.resize.bind(sigInst));
+                for (i = 0; i < len; i++) {
+                    nodes[i].x = Math.random();
+                    nodes[i].y = Math.random();
+                    nodes[i].size = 1;
+                }
+
+                // Refresh the display:
+                sigmaInstance.refresh();
+            });
+        });
+
 
     });
 
