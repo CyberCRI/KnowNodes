@@ -207,6 +207,10 @@ function GraphCtrl($scope) {
 
                     // Start the ForceAtlas2 algorithm:
                     sigmaInstance.startForceAtlas2();
+                    setTimeout(function() {
+                        sigmaInstance.stopForceAtlas2();
+                    },5000);
+
                 });
             }
 
