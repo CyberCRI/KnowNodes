@@ -1,16 +1,20 @@
 passport = require('passport')
+Logger = require '../../log/Logger'
+
+logger = new Logger('Callback')
 
 module.exports =
 
   loginLocal: (request, response, next) ->
     passport.authenticate("local", (err, user, info) ->
       if err
+        logger.error(err)
         response.json(500, err)
       else if user
         # User credentials match
         request.logIn user, (err) ->
           if err
-            throw error
+            logger.error(err)
           else
             user.toJSON (err, json) ->
               response.json "200",

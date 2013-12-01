@@ -5,10 +5,12 @@ GoogleStrategy = require('passport-google').Strategy
 
 bcrypt = require('bcrypt-nodejs')
 Users = require('../data/Users')
+Logger = require '../log/Logger'
 
 basicURL = 'http://www.knownodes.com/'
 #basicURL = 'http://localhost:3000/'
 
+logger = new Logger('Callback')
 
 findByEmail = (email, fn) ->
   callback = (error, result) ->
@@ -18,6 +20,7 @@ findByEmail = (email, fn) ->
     else
       fn(null, result)
   Users.findByEmail(email, callback);
+
 
 module.exports =
 
@@ -38,6 +41,7 @@ module.exports =
     callback = (email, password, done) ->
         findByEmail email, (err, user) ->
           if err
+            throw err
             done err
           else unless user
             done null, false
@@ -61,15 +65,17 @@ module.exports =
         if profile.emails and profile.emails.length > 0
           return findByEmail(profile.emails[0].value, (err, user) ->
             if err
-              return DB.User.create(
-                email: user.emails[0].value
-                firstName: user.name.givenName
-                lastName: user.name.familyName
+              # User not found ?
+              logger.error(err)
+              return Users.create(
+                email: profile.emails[0].value
+                firstName: profile.name.givenName
+                lastName: profile.name.familyName
                 origin: "google"
               , done)
-            profile = user
-            profile.identifier = identifier
-            done null, user
+            else
+              # User found, login
+              done null, user
           )
         done null, profile
     )

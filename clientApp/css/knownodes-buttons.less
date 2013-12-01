@@ -20,8 +20,10 @@
 
   &:active {
     position: relative;
-    top: 4px;
+    top: 2px;
     text-decoration: none;
+    text-shadow: none;
+    color:black;
 
   }
 }
@@ -45,7 +47,7 @@
 .button:active {
   position: relative;
   box-shadow: none;
-  top: 4px;
+  top: 2px;
 }
 /* BUTTON COLORS */
 
@@ -57,15 +59,13 @@
   color: @inspire-content;
   border-radius: 0;
   &:hover{
-    color: @inspire-content;
-
+    color: black;
     box-shadow: 0 2px 0 @inspire-shadow;
     text-decoration: none;
     background: @inspire-color;
   }
 
   &:active {
-
     color: @inspire-content;
 
     box-shadow: none;
@@ -91,6 +91,7 @@
   &:hover{
     box-shadow: none;
     text-decoration: none;
+    color: black;
     background: @inspire-color;
     top: 4px;
   }
@@ -175,6 +176,7 @@
   border-radius: 0px 4px 4px 0px;
 
   &:hover{
+    color: black;
     box-shadow: 0 2px 0 @critique-shadow;
     text-decoration: none;
     background: @critique-color;
@@ -428,11 +430,18 @@
 
 }
 
-.btn.active {
-  color:@active-red;
-  background-color:transparent;
+.btn.active-red {
+  color: @active-red;
+}
+
+.btn.active-input.active-red {
+  color: black;
+  top: 2px;
   box-shadow:none;
   -webkit-box-shadow:none;
+  &:hover{
+    top: 2px;
+  }
 }
 
 .button-notification {

@@ -11,7 +11,7 @@ function TopBarCtrl($rootScope, $scope, $location, resource, userService) {
 
         // Load Karma if necessary
         if ($rootScope.user != null && $rootScope.user.karma == null) {
-            userService.getKarma($rootScope.user).success(function (response) {
+            userService.getLoggedUserKarma($rootScope.user).success(function (response) {
                 $rootScope.user.karma = response.karma;
             });
         }
@@ -73,10 +73,16 @@ function CreateResourceModalCtrl($scope, dialog, resource) {
     };
 
     $scope.submit = function () {
+        $scope.submitted = true;
+        $scope.resourceToCreate.title = capitaliseFirstLetter($scope.resourceToCreate.title);
         resource.create($scope.resourceToCreate).then(function (createdResource) {
             dialog.close(createdResource);
         });
     };
+    function capitaliseFirstLetter(string)
+    {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
 }
 
 function LoginCtrl($scope, $location, $rootScope, $window, loginModal, userService) {
@@ -87,7 +93,7 @@ function LoginCtrl($scope, $location, $rootScope, $window, loginModal, userServi
     $scope.submitUser = function (userForm) {
         userService.create(userForm).
             success(function (data, status, headers, config) {
-                $scope.loginForm.username = userForm.email;
+                $scope.loginForm.email = userForm.email;
                 $scope.loginForm.password = userForm.password;
                 $scope.newUser = true;
                 return $scope.performLogin();
@@ -312,17 +318,15 @@ function addCommentCtrl($scope, $routeParams, userService, broadcastService, com
 
         comment.create($scope.form.comment.bodyText, $scope.form.originalObject.id)
             .success(function (data, status, headers, config) {
-                if (data.success) {
-                    var comment = data.success;
+                    var comment = data;
                     comment.user = userService.getConnectedUser();
                     broadcastService.prepForBroadcast(comment);
                     $scope.submitMade = true;
-                } else {
-                    console.log(data.error);
+                    $scope.form.comment.bodyText = "";
+                }).error(function (data, status, headers, config) {
+                    console.log("error", data.error);
                     $scope.submitNotMade = false;
                     $scope.error = data.error;
-
-                }
             });
     };
 }
@@ -346,8 +350,18 @@ function TripletInputCtrl($scope, $rootScope, $route, wikinode, resource, connec
     $scope.reversedDirection = false;
 
     $scope.$watch('concept', function (newValue) {
+<<<<<<< HEAD
         if ($scope.startResource == null)
             $scope.startResource = newValue;
+=======
+            if(!newValue) return;
+            $scope.startResource = $scope.startResource || newValue;
+            $scope.tutorialText = $scope.tutorialText || {};
+            $scope.tutorialText.startResource = "This is the resource " + $scope.startResource.title;
+            $scope.tutorialText.connection = "Here you describe how "+ $scope.startResource.title+" is connected to the second resource.";
+            $scope.tutorialText.endResource = "Here you enter the name of the resource to connect with " + $scope.startResource.title;
+
+>>>>>>> master
     });
 
     $scope.$on('resourceSelected', function (event, result) {
@@ -399,6 +413,8 @@ function TripletInputCtrl($scope, $rootScope, $route, wikinode, resource, connec
     };
 
     function formatStartResource() {
+
+
         if ($scope.startResource.type === 'Wikipedia Article') {
             // Get source wikinode and create connection
             wikinode.getOrCreate($scope.startResource.title).success(function (createdStartResource) {
@@ -419,6 +435,7 @@ function TripletInputCtrl($scope, $rootScope, $route, wikinode, resource, connec
     };
 
     function formatEndResource() {
+
         if ($scope.endResource.type === 'Wikipedia Article') {
             // Get target wikinode and create connection
             wikinode.getOrCreate($scope.endResource.title).success(function (createdEndResource) {
@@ -431,6 +448,7 @@ function TripletInputCtrl($scope, $rootScope, $route, wikinode, resource, connec
             resource.create($scope.endResource).then(function (createdEndResource) {
                 $scope.endResource = createdEndResource;
                 createConnection();
+
             });
         } else {
             createConnection();
@@ -457,6 +475,11 @@ function TripletInputCtrl($scope, $rootScope, $route, wikinode, resource, connec
                 console.log('Error message : ' + data.message);
             });
     };
+
+    $scope.activeSwitch = function(item) {
+        return item === "active-input" ? 'active-input' : undefined;
+    };
+
 }
 
 
@@ -767,6 +790,9 @@ function UserProfilePageCtrl($scope, $location, $routeParams, resource, userServ
 
     triplet.findByUserId($routeParams.id).success(function (data) {
         $scope.knownodeList = data;
+        userService.getUserKarma($scope.knownodeList[0].connection.creator.KN_ID).success(function (response) {
+            $scope.userKarma = response.karma;
+        });
     });
 
     $scope.goToUrl = function (something) {
@@ -776,8 +802,6 @@ function UserProfilePageCtrl($scope, $location, $routeParams, resource, userServ
     // Default sorting order for User's connections: can be Most Popular -(upvotes - downvotes) or Most Recent -connection.__CreatedOn__
 
     $scope.orderProp = "-connection.__CreatedOn__";
-
-
     // Load the resource from which the User came to their Profile page as the StartResource for the Triplet
 
     if ($routeParams.rid) {
