@@ -160,8 +160,13 @@ function GraphCtrl($scope) {
 
 
         // Initialize the mockup with our graph:
-        DBMockup.init('/json/cpan.json');
-        var start = '136';
+        DBMockup.init('/json/allnodes.json');
+        var start = '78352ced-98d4-4175-b90b-edd9f9f8a243';
+
+        // Use this for a simple data structure
+        //DBMockup.init('/json/cpan.json');
+        //var start = '136';
+
 
         DBMockup.onready(function() {
             // Instanciate sigma:
