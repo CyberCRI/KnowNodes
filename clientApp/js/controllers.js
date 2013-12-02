@@ -177,9 +177,11 @@ function GraphCtrl($scope,$routeParams) {
         // Parse a GEXF encoded file to fill the graph
         // (requires "sigma.parseGexf.js" to be included)
 
-
+        if ($routeParams.userid) {
+            sigInst.parseGexf('/gexf/userTriplets/' + $routeParams.id + '.gexf');
+        }  else {
         sigInst.parseGexf('/gexf/resourceTriplets/' + $routeParams.id + '.gexf');
-
+        }
         // Draw the graph :
 
         sigInst.startForceAtlas2();

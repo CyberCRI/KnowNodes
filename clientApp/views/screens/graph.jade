@@ -8,8 +8,18 @@ script(type="text/javascript", src="js/lib/jquery-plugins/jquery.layout-latest.j
 script(type="text/javascript", src="js/lib/jquery-plugins/jquery.mousewheel.js")
 
 div.topbar-gap &nbsp
-#viewport.ui-layout-center
-    #sigma-example-parent.sigma-parent
-        #sigma-example.sigma-expand
-        p HEY ARE YOU HERE
+#mapLayoutContainer.map
+    #viewport.ui-layout-center
+        #sigma-example-parent.sigma-parent
+            #sigma-example.sigma-expand
+
+    #leftTab.ui-layout-west
+        p Title
+        h2
+            a#node-link(href='') KnowNode
+
+        p#node-content Please click on a KnowNode to begin
+        h2
+            a#node-end(href='') &nbsp;
+
 
