@@ -1,18 +1,15 @@
 Controller = require '../Controller'
-Resource = require '../../model/Resource'
-Connection = require '../../model/Connection'
-User = require '../../model/User'
+Resources = require '../../data/Resources'
+Connections = require '../../data/Connections'
 
 module.exports = class AdminController extends Controller
 
   indexAllResources: (_) ->
-    resources = Resource.listAll(_)
+    resources = Resources.listAll(_)
     for resource in resources
       resource.index _
 
   indexAllConnections: (_) ->
-    connections = Connection.listAll(_)
+    connections = Connections.listAll(_)
     for connection in connections
       connection.index _
-
-  ##indexAllUsers
