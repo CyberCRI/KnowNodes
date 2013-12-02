@@ -165,7 +165,7 @@ function GraphCtrl($scope) {
             labelThreshold: 6,
             defaultEdgeType: 'curve'
         }).graphProperties({
-                minNodeSize: 0.5,
+                minNodeSize: 3,
                 maxNodeSize: 5,
                 minEdgeSize: 1,
                 maxEdgeSize: 1,
@@ -176,7 +176,7 @@ function GraphCtrl($scope) {
 
         // Parse a GEXF encoded file to fill the graph
         // (requires "sigma.parseGexf.js" to be included)
-        sigInst.parseGexf('/gexf/resourceTriplets/0f2a4a82-445f-4100-8bb8-a554cfe3bf07.gexf');
+        sigInst.parseGexf('/gexf/userTriplets/43ba90bf-9ae4-4cbf-8dc4-4ac82cc9bd77.gexf');
 
         // Draw the graph :
 
