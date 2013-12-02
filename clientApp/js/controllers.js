@@ -158,17 +158,17 @@ function GraphCtrl($scope) {
     $scope.$on('$viewContentLoaded', function() {
 
         var sigInst = sigma.init(document.getElementById('sigma-example')).drawingProperties({
-            defaultLabelColor: '#fff',
-            defaultLabelSize: 14,
+            defaultLabelColor: '#333',
+            defaultLabelSize: 16,
             defaultLabelBGColor: '#fff',
-            defaultLabelHoverColor: '#000',
+            defaultLabelHoverColor: '#777',
             labelThreshold: 6,
             defaultEdgeType: 'curve'
         }).graphProperties({
-                minNodeSize: 3,
-                maxNodeSize: 5,
-                minEdgeSize: 1,
-                maxEdgeSize: 1,
+                minNodeSize: 15,
+                maxNodeSize: 15,
+                minEdgeSize: 5,
+                maxEdgeSize: 5,
                 sideMargin: 50
             }).mouseProperties({
                 maxRatio: 32
@@ -180,8 +180,14 @@ function GraphCtrl($scope) {
 
         // Draw the graph :
 
-        sigInst.draw();
+        sigInst.startForceAtlas2();
+        setTimeout(function() {
+            sigInst.stopForceAtlas2();
+        },3000);
+
+        // sigInst.draw();
         requestAnimationFrame(sigInst.resize.bind(sigInst));
+        sigInst.startForceAtlas2();
 
     });
 
