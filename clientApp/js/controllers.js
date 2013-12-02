@@ -153,7 +153,7 @@ function MapCtrl($scope, $routeParams) {
     });
 }
 
-function GraphCtrl($scope) {
+function GraphCtrl($scope,$routeParams) {
 
     $scope.$on('$viewContentLoaded', function() {
 
@@ -176,7 +176,9 @@ function GraphCtrl($scope) {
 
         // Parse a GEXF encoded file to fill the graph
         // (requires "sigma.parseGexf.js" to be included)
-        sigInst.parseGexf('/gexf/userTriplets/43ba90bf-9ae4-4cbf-8dc4-4ac82cc9bd77.gexf');
+
+
+        sigInst.parseGexf('/gexf/resourceTriplets/' + $routeParams.id + '.gexf');
 
         // Draw the graph :
 
