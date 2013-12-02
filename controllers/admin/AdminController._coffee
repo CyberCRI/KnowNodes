@@ -1,6 +1,7 @@
 Controller = require '../Controller'
 Resources = require '../../data/Resources'
 Connections = require '../../data/Connections'
+Users = require '../../data/Users'
 
 module.exports = class AdminController extends Controller
 
