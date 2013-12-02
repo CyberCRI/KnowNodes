@@ -212,6 +212,24 @@ function GraphCtrl($scope,$routeParams) {
         requestAnimationFrame(sigInst.resize.bind(sigInst));
 
 
+        sigInst.bind('downnodes',function(event){
+            var node;
+            sigInst.iterNodes(function(n){
+                node = n;
+            },[event.content[0]]);
+
+            var url = (((node || {}).attr || {}).attributes || []).reduce(function(s, o) {
+                if ((o || {}).attr === 'id')
+                    return o.val;
+                else
+                    return s;
+            }, null);
+
+            if (url)
+                window.location = '/graph/' + url;
+        });
+
+
     });
 
 }

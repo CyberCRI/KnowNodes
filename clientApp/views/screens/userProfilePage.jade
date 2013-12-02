@@ -11,6 +11,7 @@ div.container-fluid
             div.help-hover(title="Total votes user have received from his connections") {{userKarma}} Connection points
             br
             button(type="button", onclick="window.open('/gexf/userTriplets/{{resourceId}}.gexf', '_blank');") Export Graph
+            button(type="button", onclick="window.open('/graph/{{resourceId}}/user', '_top');") View Graph
             br
     div.span21.offset3.sort-div
       span.btn.btn-link.sort-header sort:
