@@ -177,21 +177,40 @@ function GraphCtrl($scope,$routeParams) {
         // Parse a GEXF encoded file to fill the graph
         // (requires "sigma.parseGexf.js" to be included)
 
+        // If we want to see user's triplets, we request it using path /graph/ID/user
+        // Normal concepts are requested using /graph/ID only
+
+        // Here we check if it's a request for a user graph (does it have /user appendix):
+
         if ($routeParams.userid) {
+
+            // Then get the GEXF file for Sigma that shows user's triplets
             sigInst.parseGexf('/gexf/userTriplets/' + $routeParams.id + '.gexf');
-        }  else {
-        sigInst.parseGexf('/gexf/resourceTriplets/' + $routeParams.id + '.gexf');
         }
-        // Draw the graph :
+
+        else {
+
+            // Then get the GEXF file that shows all triplets connected to the resource
+            sigInst.parseGexf('/gexf/resourceTriplets/' + $routeParams.id + '.gexf');
+
+        }
+
+        // Draw the graph, using ForceAtlas layout, which stops after 3 seconds
 
         sigInst.startForceAtlas2();
+
         setTimeout(function() {
             sigInst.stopForceAtlas2();
         },3000);
 
+        // if no ForceAtlas, launch using
         // sigInst.draw();
+
+
+        // Fixes bug where Angular doesn't let Sigma expand its DIV
+
         requestAnimationFrame(sigInst.resize.bind(sigInst));
-        sigInst.startForceAtlas2();
+
 
     });
 
