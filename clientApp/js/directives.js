@@ -386,7 +386,15 @@ angular.module('KnowNodesApp.directives', [])
             controller: NotificationsCtrl
         };
     })
-
+    .directive('parallelConnections', function() {
+        return {
+            restrict: 'A',
+            transclude: true,
+            templateUrl: 'partials/directiveTemplates/parallelConnections',
+            replace: true,
+            controller: ConnectionCtrl
+        };
+    })
     .directive('searchBox', ['$http', function ($http) {
         return {
             restrict: 'EA',

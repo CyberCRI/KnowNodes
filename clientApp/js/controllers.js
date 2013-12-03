@@ -644,6 +644,11 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
 
 function ConnectionCtrl($scope, $location) {
 
+    $scope.parallels = [
+        "The first choice!",
+        "And another choice for you."
+    ];
+
     $scope.goToUrl = function (something) {
         $location.path(something);
     };
