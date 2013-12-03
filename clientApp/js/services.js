@@ -302,7 +302,6 @@ angular.module('KnowNodesApp.services', [])
                 };
                 return $http.post('/connections', request);
             }
-
         };
     }])
 

@@ -1,0 +1,3 @@
+ul.dropdown-menu.parallel-menu
+  li(ng-repeat="connection in connections")
+    a(ng-class="colorSwitcher()") {{triplet.connection.upvotes - triplet.connection.downvotes}} {{triplet.connection.title}} {{connection}}
