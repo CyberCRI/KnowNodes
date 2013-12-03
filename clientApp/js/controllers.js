@@ -644,6 +644,14 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
 
 function ConnectionCtrl($scope, $location) {
 
+    $scope.updateConnection = function (hoveredConnection){
+
+    }
+
+    $scope.setConnection = function (hoveredConnection){
+
+    }
+
     $scope.parallels = [
         "The first choice!",
         "And another choice for you."
