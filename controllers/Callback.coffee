@@ -44,7 +44,11 @@ module.exports =
         else if result.hasJsonConverter?()
           result.toJSON( (error, json) -> response.json(json) )
         else if result.constructor is Array
-          ArrayConverter.toJSON(result, (error, convertedArray) -> response.json(convertedArray) )
+          ArrayConverter.toJSON result, (error, convertedArray) ->
+            if error
+              getLogger().error(error)
+            else
+              response.json(convertedArray)
         else if result._name is 'gexf'
           xml = jstoxml.toXML(result, { header: true, indent: '  ' })
           response.send(xml)

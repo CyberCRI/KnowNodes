@@ -1,6 +1,8 @@
 OwnedEntityController = require '../OwnedEntityController'
 Resources = require '../../data/Resources'
 Triplets = require '../../data/Triplets'
+aggregator = require '../../data/TripletAggregator'
+jsonConverter = require '../../model/conversion/json/AggregatedTripletConverter'
 
 module.exports = class ResourceController extends OwnedEntityController
 
@@ -19,3 +21,9 @@ module.exports = class ResourceController extends OwnedEntityController
 
   findTripletsByResourceId: (_) ->
     Triplets.findByResourceId(@getId(), @getLoggedUserIfExists(_), _)
+
+  findAggregatedTripletsByResourceId: (_) ->
+    triplets = Triplets.findByResourceId(@getId(), @getLoggedUserIfExists(_), _)
+    aggregated = aggregator.aggregate triplets
+    json = jsonConverter.convertArray(aggregated, _)
+    json

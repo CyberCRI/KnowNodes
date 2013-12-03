@@ -20,3 +20,6 @@ module.exports =
 
   triplets: (request, response) ->
     new ResourceController(request).findTripletsByResourceId(Callback.bind(response))
+
+  aggregatedTriplets: (request, response) ->
+    new ResourceController(request).findAggregatedTripletsByResourceId(Callback.bind(response))

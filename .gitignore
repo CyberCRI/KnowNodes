@@ -18,6 +18,8 @@ data/*.js
 dao/*.js
 error/*.js
 
+test/data/*.js
+
 DB/GraphDB.js
 
 clientApp/css/colorschema.css

@@ -80,6 +80,7 @@ app.resource('users', function () {
 app.resource('resources', function () {
     this.member.get('searchByKeyword');
     this.member.get('triplets');
+    this.member.get('aggregatedTriplets');
     this.collection.post('findByUrl');
 });
 
