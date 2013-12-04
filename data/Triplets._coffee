@@ -287,22 +287,24 @@ module.exports =
     else
       userNodeId = 0
 
+    outgoingRelation =  '(resource) -[:RELATED_TO]-> (connection) -[:RELATED_TO]-> (otherResource)'
+    incomingRelation =  '(resource) <-[:RELATED_TO]- (connection) <-[:RELATED_TO]- (otherResource)'
 
-    outgoingRelation =         '(resource) -[:RELATED_TO]-> (connection) -[:RELATED_TO]-> (otherResource)'
-    incomingRelation =         '(resource) <-[:RELATED_TO]- (connection) <-[:RELATED_TO]- (otherResource)'
-    outgoingOutgoingRelation = '(originRs) -[:RELATED_TO]-> () -[:RELATED_TO]-> (resource) -[:RELATED_TO]-> (connection) -[:RELATED_TO]-> (otherResource)'
-    outgoingIncomingRelation = '(originRs) -[:RELATED_TO]-> () -[:RELATED_TO]-> (resource) <-[:RELATED_TO]- (connection) <-[:RELATED_TO]- (otherResource)'
-    incomingIncomingRelation = '(originRs) <-[:RELATED_TO]- () <-[:RELATED_TO]- (resource) <-[:RELATED_TO]- (connection) <-[:RELATED_TO]- (otherResource)'
-    incomingOutgoingRelation = '(originRs) <-[:RELATED_TO]- () <-[:RELATED_TO]- (resource) -[:RELATED_TO]-> (connection) -[:RELATED_TO]-> (otherResource)'
+    make2dot0Relation = (direction) ->  "(originRs) -[:RELATED_TO]- () -[:RELATED_TO]- #{direction}"
 
+    outgoing2dot0Relation = make2dot0Relation(outgoingRelation)
+    incoming2dot0Relation = make2dot0Relation(incomingRelation)
 
-    #resource = node(#{resourceId})
-    #START resource = node({resourceNodeId}), user = node(#{userNodeId})
+    #make2dot5Relation = (direction) ->  "(originRs) -[:RELATED_TO]- () -[:RELATED_TO]- () -[:RELATED_TO]- () -[:RELATED_TO]- #{direction} -[:RELATED_TO]- () -[:RELATED_TO]- () -[:RELATED_TO]- () -[:RELATED_TO]- (originRs)"
+    make2dot5Relation = (direction) -> "originRs -[:RELATED_TO*4]- #{direction} -[:RELATED_TO*4]- originRs"
 
-    query1 = (relation) -> """
-                           START resource = node({resourceNodeId}), user = node(#{userNodeId})
+    incoming2dot5Relation = make2dot5Relation(incomingRelation)
+    outgoing2dot5Relation = make2dot5Relation(outgoingRelation)
+
+    baseQuery = (origin, relation) ->"""
+                           START #{origin} = node({resourceNodeId}), user = node(#{userNodeId})
                            MATCH #{relation},
-                           (resource) -[:CREATED_BY]- (resourceCreator),
+                           (#{origin}) -[:CREATED_BY]- (resourceCreator),
                            (otherResource) -[:CREATED_BY]- (otherResourceCreator),
                            (otherResource) -[?:RELATED_TO]- (otherResourceConnections),
                            (connection) -[?:VOTED_UP]- (upvotes),
@@ -320,53 +322,40 @@ module.exports =
                            count(distinct hasVotedDown) AS userVotedDown
                            """
 
-    query2 = (relation) -> """
-                           START originRs = node({resourceNodeId}), user = node(#{userNodeId})
-                           MATCH #{relation},
-                           (resource) -[:CREATED_BY]- (resourceCreator),
-                           (otherResource) -[:CREATED_BY]- (otherResourceCreator),
-                           (otherResource) -[?:RELATED_TO]- (otherResourceConnections),
-                           (connection) -[?:VOTED_UP]- (upvotes),
-                           (connection) -[?:VOTED_DOWN]- (downvotes),
-                           (connection) -[:CREATED_BY]- (connectionCreator),
-                           (user) -[hasVotedUp?:VOTED_UP]-> (connection),
-                           (user) -[hasVotedDown?:VOTED_DOWN]-> (connection),
-                           (connection) -[?:COMMENT_OF]- (comments)
-                           RETURN connection, connectionCreator, resource, resourceCreator, otherResource, otherResourceCreator,
-                           count(distinct comments) AS commentCount,
-                           count(distinct otherResourceConnections) AS otherResourceConnectionCount,
-                           count(distinct upvotes) AS upVoteCount,
-                           count(distinct downvotes) AS downVoteCount,
-                           count(distinct hasVotedUp) AS userVotedUp,
-                           count(distinct hasVotedDown) AS userVotedDown
-                           """
+    query1 = (relation) -> baseQuery("resource", relation)
+
+    query2 = (relation) -> baseQuery("originRs", relation)
 
     console.log("query strings defined")
 
-    outgoingQuery =         query1(outgoingRelation)
-    incomingQuery =         query1(incomingRelation)
-    outgoingOutgoingQuery = query2(outgoingOutgoingRelation)
-    outgoingIncomingQuery = query2(outgoingIncomingRelation)
-    incomingIncomingQuery = query2(incomingIncomingRelation)
-    incomingOutgoingQuery = query2(incomingOutgoingRelation)
+    outgoingQuery =      query1(outgoingRelation)
+    incomingQuery =      query1(incomingRelation)
+    outgoing2dot0Query = query2(outgoing2dot0Relation)
+    incoming2dot0Query = query2(incoming2dot0Relation)
+    outgoing2dot5Query = query2(outgoing2dot5Relation)
+    incoming2dot5Query = query2(incoming2dot5Relation)
 
     console.log("queries defined")
 
     resource = Resources.find(resourceId, _)
     params =
       resourceNodeId: resource.node.id
-    outgoingResults =         GraphDB.get().query(outgoingQuery, params, _)
-    incomingResults =         GraphDB.get().query(incomingQuery, params, _)
-    outgoingOutgoingResults = GraphDB.get().query(outgoingOutgoingQuery, params, _)
-    outgoingIncomingResults = GraphDB.get().query(outgoingIncomingQuery, params, _)
-    incomingIncomingResults = GraphDB.get().query(incomingIncomingQuery, params, _)
-    incomingOutgoingResults = GraphDB.get().query(incomingOutgoingQuery, params, _)
+    outgoingResults =      GraphDB.get().query(outgoingQuery, params, _)
+    incomingResults =      GraphDB.get().query(incomingQuery, params, _)
+    outgoing2dot0Results = GraphDB.get().query(outgoing2dot0Query, params, _)
+    incoming2dot0Results = GraphDB.get().query(incoming2dot0Query, params, _)
+    outgoing2dot5Results = GraphDB.get().query(outgoing2dot5Query, params, _)
+    incoming2dot5Results = GraphDB.get().query(incoming2dot5Query, params, _)
+    console.log("outgoing2dot5Results=")
+    console.log(outgoing2dot5Results)
+    console.log("incoming2dot5Results=")
+    console.log(incoming2dot5Results)
     resourceConnectionCount = outgoingResults.length
-    + incomingResults.length
-    + outgoingOutgoingResults.length
-    + outgoingIncomingResults.length
-    + incomingIncomingResults.length
-    + incomingOutgoingResults.length
+    + incomingResults.length      \
+    + outgoing2dot0Results.length \
+    + incoming2dot0Results.length \
+    + outgoing2dot5Results.length \
+    + incoming2dot5Results.length
 
     console.log("params defined")
 
@@ -398,10 +387,10 @@ module.exports =
 
     pushOutgoingTriplets(outgoingResults)
     console.log("pushOutgoingTriplets(outgoingResults)")
-    pushOutgoingTriplets(outgoingOutgoingResults)
-    console.log("pushOutgoingTriplets(outgoingOutgoingResults)")
-    pushOutgoingTriplets(incomingOutgoingResults)
-    console.log("pushOutgoingTriplets(incomingOutgoingResults)")
+    pushOutgoingTriplets(outgoing2dot0Results)
+    console.log("pushOutgoingTriplets(outgoing2dot0Results)")
+    pushOutgoingTriplets(outgoing2dot5Results)
+    console.log("pushOutgoingTriplets(outgoing2dot5Results)")
 
     pushIncomingTriplets = (set) ->
       for row in set
@@ -415,9 +404,9 @@ module.exports =
 
     pushIncomingTriplets(incomingResults)
     console.log("pushIncomingTriplets(incomingResults)")
-    pushIncomingTriplets(outgoingIncomingResults)
-    console.log("pushIncomingTriplets(outgoingIncomingResults)")
-    pushIncomingTriplets(incomingIncomingResults)
-    console.log("pushIncomingTriplets(incomingIncomingResults)")
+    pushIncomingTriplets(incoming2dot0Results)
+    console.log("pushIncomingTriplets(incoming2dot0Results)")
+    pushIncomingTriplets(incoming2dot5Results)
+    console.log("pushIncomingTriplets(incoming2dot5Results)")
 
     triplets
