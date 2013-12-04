@@ -69,7 +69,7 @@ module.exports =
     data
 
 
-  findByResourceId2: (resourceId, user, _) ->
+  findByResourceId: (resourceId, user, _) ->
     if user?
       userNodeId = user.node.id
     else
@@ -281,7 +281,7 @@ module.exports =
       triplets.push triplet
     triplets
 
-  findByResourceId: (resourceId, user, _) ->
+  findByResourceId2dot5: (resourceId, user, _) ->
     if user?
       userNodeId = user.node.id
     else
