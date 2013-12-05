@@ -287,55 +287,74 @@ module.exports =
     else
       userNodeId = 0
 
+    # Pattern that matches 1st degree resources.
+    # Orientation is saved for future developments, for instance, when orientation will be shown
+    # with arrows. Right now, the data is here but it is not used.
     outgoingRelation =  '(resource) -[:RELATED_TO]-> (connection) -[:RELATED_TO]-> (otherResource)'
     incomingRelation =  '(resource) <-[:RELATED_TO]- (connection) <-[:RELATED_TO]- (otherResource)'
 
+    # Function that produces a pattern that matches 2nd degree resources,
+    # if an oriented relation such as above 'outgoingRelation'/'incomingRelation' is given as parameter.
     make2dot0Relation = (direction) ->  "(originRs) -[:RELATED_TO]- () -[:RELATED_TO]- #{direction}"
 
+    # Patterns that match 2nd degree resources, with orientation.
     outgoing2dot0Relation = make2dot0Relation(outgoingRelation)
     incoming2dot0Relation = make2dot0Relation(incomingRelation)
 
-    #make2dot5Relation = (direction) ->  "(originRs) -[:RELATED_TO]- () -[:RELATED_TO]- () -[:RELATED_TO]- () -[:RELATED_TO]- #{direction} -[:RELATED_TO]- () -[:RELATED_TO]- () -[:RELATED_TO]- () -[:RELATED_TO]- (originRs)"
+    # Function that produces a pattern that matches connections between 2nd degree resources,
+    # if an oriented relation such as above 'outgoingRelation'/'incomingRelation' is given as parameter.
     make2dot5Relation = (direction) -> "originRs -[:RELATED_TO*4]- #{direction} -[:RELATED_TO*4]- originRs"
 
+    # Patterns that match relationships between 2nd degree resources, with orientation.
     incoming2dot5Relation = make2dot5Relation(incomingRelation)
     outgoing2dot5Relation = make2dot5Relation(outgoingRelation)
 
-    baseQuery = (origin, relation) ->"""
-                           START #{origin} = node({resourceNodeId}), user = node(#{userNodeId})
-                           MATCH #{relation},
-                           (#{origin}) -[:CREATED_BY]- (resourceCreator),
-                           (otherResource) -[:CREATED_BY]- (otherResourceCreator),
-                           (otherResource) -[?:RELATED_TO]- (otherResourceConnections),
-                           (connection) -[?:VOTED_UP]- (upvotes),
-                           (connection) -[?:VOTED_DOWN]- (downvotes),
-                           (connection) -[:CREATED_BY]- (connectionCreator),
-                           (user) -[hasVotedUp?:VOTED_UP]-> (connection),
-                           (user) -[hasVotedDown?:VOTED_DOWN]-> (connection),
-                           (connection) -[?:COMMENT_OF]- (comments)
-                           RETURN connection, connectionCreator, resource, resourceCreator, otherResource, otherResourceCreator,
-                           count(distinct comments) AS commentCount,
-                           count(distinct otherResourceConnections) AS otherResourceConnectionCount,
-                           count(distinct upvotes) AS upVoteCount,
-                           count(distinct downvotes) AS downVoteCount,
-                           count(distinct hasVotedUp) AS userVotedUp,
-                           count(distinct hasVotedDown) AS userVotedDown
-                           """
+    # Base Cypher query, to fetch needed information.
+    # parameter 'origin': the starting resource. Must take parameter 'relation' into account.
+    # parameter 'relation': the relationship pattern that will be matched. Must take parameter 'origin' into account.
+    # parameter 'limit': the maximum amount of results returned.
+    baseQuery = (origin, relation, limit) ->  """
+                                              START #{origin} = node({resourceNodeId}), user = node(#{userNodeId})
+                                              MATCH #{relation},
+                                              (resource) -[:CREATED_BY]- (resourceCreator),
+                                              (otherResource) -[:CREATED_BY]- (otherResourceCreator),
+                                              (otherResource) -[?:RELATED_TO]- (otherResourceConnections),
+                                              (connection) -[?:VOTED_UP]- (upvotes),
+                                              (connection) -[?:VOTED_DOWN]- (downvotes),
+                                              (connection) -[:CREATED_BY]- (connectionCreator),
+                                              (user) -[hasVotedUp?:VOTED_UP]-> (connection),
+                                              (user) -[hasVotedDown?:VOTED_DOWN]-> (connection),
+                                              (connection) -[?:COMMENT_OF]- (comments)
+                                              RETURN distinct connection, connectionCreator, resource, resourceCreator, otherResource, otherResourceCreator,
+                                              count(distinct comments) AS commentCount,
+                                              count(distinct otherResourceConnections) AS otherResourceConnectionCount,
+                                              count(distinct upvotes) AS upVoteCount,
+                                              count(distinct downvotes) AS downVoteCount,
+                                              count(distinct hasVotedUp) AS userVotedUp,
+                                              count(distinct hasVotedDown) AS userVotedDown
+                                              LIMIT #{limit}
+                                              """
 
-    query1 = (relation) -> baseQuery("resource", relation)
+                                              #TODO
+                                              #ORDER BY userVotedUp or other relevance criterium
 
-    query2 = (relation) -> baseQuery("originRs", relation)
+    # Function that returns a Cypher query to get 1st degree resources.
+    query1 = (relation) -> baseQuery("resource", relation, "8")
 
-    console.log("query strings defined")
+    # Function that returns a Cypher query to get 2nd degree resources or connections between 2nd degree resources.
+    query2 = (relation) -> baseQuery("originRs", relation, "4")
 
+    # 1st degree resources: graph 1.0
     outgoingQuery =      query1(outgoingRelation)
     incomingQuery =      query1(incomingRelation)
+
+    # 2nd degree resources: graph 2.0
     outgoing2dot0Query = query2(outgoing2dot0Relation)
     incoming2dot0Query = query2(incoming2dot0Relation)
+
+    # connections berween 2nd degree resources: graph 2.5
     outgoing2dot5Query = query2(outgoing2dot5Relation)
     incoming2dot5Query = query2(incoming2dot5Relation)
-
-    console.log("queries defined")
 
     resource = Resources.find(resourceId, _)
     params =
@@ -346,18 +365,13 @@ module.exports =
     incoming2dot0Results = GraphDB.get().query(incoming2dot0Query, params, _)
     outgoing2dot5Results = GraphDB.get().query(outgoing2dot5Query, params, _)
     incoming2dot5Results = GraphDB.get().query(incoming2dot5Query, params, _)
-    console.log("outgoing2dot5Results=")
-    console.log(outgoing2dot5Results)
-    console.log("incoming2dot5Results=")
-    console.log(incoming2dot5Results)
+
     resourceConnectionCount = outgoingResults.length
     + incomingResults.length      \
     + outgoing2dot0Results.length \
     + incoming2dot0Results.length \
     + outgoing2dot5Results.length \
     + incoming2dot5Results.length
-
-    console.log("params defined")
 
     triplets = []
 
@@ -373,8 +387,6 @@ module.exports =
       connection = new Connection(row.connection, row.connectionCreator)
       new Triplet(connection, startResource, endResource, data)
 
-    console.log("makeTriplet defined")
-
     pushOutgoingTriplets = (set) ->
       for row in set
         startResource = new Resource(row.resource, row.resourceCreator)
@@ -383,14 +395,9 @@ module.exports =
         endResourceConnectionCount = row.otherResourceConnectionCount
         triplets.push makeTriplet(row, startResource, endResource, startResourceConnectionCount, endResourceConnectionCount)
 
-    console.log("pushOutgoingTriplets defined")
-
     pushOutgoingTriplets(outgoingResults)
-    console.log("pushOutgoingTriplets(outgoingResults)")
     pushOutgoingTriplets(outgoing2dot0Results)
-    console.log("pushOutgoingTriplets(outgoing2dot0Results)")
     pushOutgoingTriplets(outgoing2dot5Results)
-    console.log("pushOutgoingTriplets(outgoing2dot5Results)")
 
     pushIncomingTriplets = (set) ->
       for row in set
@@ -400,13 +407,8 @@ module.exports =
         endResourceConnectionCount = resourceConnectionCount
         triplets.push makeTriplet(row, startResource, endResource, startResourceConnectionCount, endResourceConnectionCount)
 
-    console.log("pushIncomingTriplets defined")
-
     pushIncomingTriplets(incomingResults)
-    console.log("pushIncomingTriplets(incomingResults)")
     pushIncomingTriplets(incoming2dot0Results)
-    console.log("pushIncomingTriplets(incoming2dot0Results)")
     pushIncomingTriplets(incoming2dot5Results)
-    console.log("pushIncomingTriplets(incoming2dot5Results)")
 
     triplets
