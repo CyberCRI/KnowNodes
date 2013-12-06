@@ -1,6 +1,7 @@
 Controller = require '../Controller'
 Resources = require '../../data/Resources'
 Connections = require '../../data/Connections'
+Users = require '../../data/Users'
 
 module.exports = class AdminController extends Controller
 
@@ -13,3 +14,8 @@ module.exports = class AdminController extends Controller
     connections = Connections.listAll(_)
     for connection in connections
       connection.index _
+
+  indexAllUsers: (_) ->
+    users = Users.listAll(_)
+    for user in users
+      user.index _

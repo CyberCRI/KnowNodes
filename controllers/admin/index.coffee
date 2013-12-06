@@ -8,3 +8,6 @@ module.exports =
 
   indexAllConnections: (request, response) ->
     new AdminController(request).indexAllConnections(Callback.bind(response))
+
+  indexAllUsers: (request, response) ->
+    new AdminController(request).indexAllUsers(Callback.bind(response))

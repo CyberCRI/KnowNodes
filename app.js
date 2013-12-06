@@ -109,7 +109,7 @@ app.resource('scrape');
 
 app.post('/admin/indexAllResources', adminController.indexAllResources);
 app.post('/admin/indexAllConnections', adminController.indexAllConnections);
-//app.post('/admin/indexAllUsers', adminController.indexAllUsers);
+app.post('/admin/indexAllUsers', adminController.indexAllUsers);
 
 
 app.get('/gexf/triplet/:connectionId', GexfController.exportTriplet);
