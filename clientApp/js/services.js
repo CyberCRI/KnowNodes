@@ -162,7 +162,7 @@ angular.module('KnowNodesApp.services', [])
         }
 
         var getConnections = function (id) {
-            return $http.get('/resources/' + id + '/triplets');
+            return $http.get('/resources/' + id + '/aggregatedTriplets');
         }
 
         // TODO Use this to remove duplicates between KN and Wikipedia results

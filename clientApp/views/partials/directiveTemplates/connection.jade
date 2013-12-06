@@ -1,8 +1,9 @@
 div
-  div.l-connection(ng-class="colorSwitcher()", ng-click="goToUrl('/connection/' + triplet.connection.KN_ID)")
-    div.connection-title
-      div(vote)
-      a(ng-href="/connection/{{triplet.connection.KN_ID}}") {{triplet.connection.title}}
-    span.dropdown.parallel-button
-      a.dropdown-toggle(title="Click to show parallel connections", ng-show="triplet.connection") {{triple.connection.length}} ||
-      div(parallel-connections)
+  div(ng-repeat="connection in triplet.connections | orderBy: orderProp", ng-show="$first ")
+    div.l-connection(ng-class="colorSwitcher()", ng-click="goToUrl('/connection/' + connection.KN_ID)")
+      div.connection-title
+        div(vote)
+        a(ng-href="/connection/{{connection.KN_ID}}") {{connection.title}}
+      span.dropdown.parallel-button
+        a.dropdown-toggle(title="Click to show parallel connections", ng-show="connection") {{connection.length}} ||
+        div(parallel-connections)
