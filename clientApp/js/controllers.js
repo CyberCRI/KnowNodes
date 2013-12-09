@@ -157,34 +157,31 @@ function MapCtrl($scope, $routeParams) {
 function TripletListCtrl($scope, $routeParams, $location, userService, resource, wikipedia, wikinode) {
     $scope.goToUrl = function (something) {
         $location.path(something);
-};
+    };
 
     // Sort triplets by default the most recent ones at the top
-
     $scope.orderProp = "-connection.__CreatedOn__";
-
     // $scope.orderProp = "-(upvotes-downvotes)";
 
-
         // First, check whether the resource is a KN Resource or a Wikipedia Article
-        if ($routeParams.id != null) {
-        // KN Resource
-        resource.get($routeParams.id).then(function (resource) {
-            $scope.concept = resource;
+    if ($routeParams.id != null) {
+    // KN Resource
+    resource.get($routeParams.id).then(function (resource) {
+        $scope.concept = resource;
 
-            $scope.rootNodeExists = true;
-            if ($scope.concept.url != null && $scope.concept.url.match(/youtube.com/ig)) {
-                var search = $scope.concept.url.split('?')[1];
-                var video_id = search.split('v=')[1];
-                var ampersandPosition = video_id.indexOf('&');
-                if (ampersandPosition != -1) {
-                    video_id = video_id.substring(0, ampersandPosition);
-                }
-                $scope.videoLink = video_id;
+        $scope.rootNodeExists = true;
+        if ($scope.concept.url != null && $scope.concept.url.match(/youtube.com/ig)) {
+            var search = $scope.concept.url.split('?')[1];
+            var video_id = search.split('v=')[1];
+            var ampersandPosition = video_id.indexOf('&');
+            if (ampersandPosition != -1) {
+                video_id = video_id.substring(0, ampersandPosition);
             }
+            $scope.videoLink = video_id;
+        }
 
-            $scope.knownodeList = resource.relations;
-        });
+        $scope.knownodeList = resource.relations;
+    });
     } else if ($routeParams.title != null) {
         // Check if a Wikinode exists for this Wikipedia article
         wikinode.get($routeParams.title)
@@ -210,9 +207,7 @@ function TripletListCtrl($scope, $routeParams, $location, userService, resource,
     $scope.currentKnownode = {};
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
 
-    $scope.$broadcast('rootNodeExists', {rootNodeExists: true});
-
-}
+    $scope.$broadcast('rootNodeExists', {rootNodeExists: true});}
 
 
 function IndexCtrl($scope, userService, $location, triplets) {
@@ -644,9 +639,18 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
 
 function ConnectionCtrl($scope, $location) {
 
-    $scope.parallels = [
-        "The first choice!",
-        "And another choice for you."
+    $scope.updateConnection = function (hoveredConnection){
+
+    }
+
+    $scope.setConnection = function (hoveredConnection){
+
+    }
+
+    $scope.connections = [
+        "parallel connection!",
+        "another parallel connection.",
+        "yep, a parallel connection."
     ];
 
     $scope.goToUrl = function (something) {

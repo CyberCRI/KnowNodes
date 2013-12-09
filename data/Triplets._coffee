@@ -214,8 +214,6 @@ module.exports =
             LIMIT 100
           """
 
-    console.log cypherQuery
-
     results = GraphDB.get().query(cypherQuery, null, _)
     triplets = []
     for row in results
