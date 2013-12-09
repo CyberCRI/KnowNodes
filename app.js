@@ -75,6 +75,7 @@ app.resource('users', function () {
     this.member.get('findByEmail');
     this.member.get('karma');
     this.member.get('triplets');
+    this.member.get('aggregatedTriplets');
 });
 
 app.resource('resources', function () {
@@ -92,6 +93,8 @@ app.resource('connections', function () {
 app.resource('triplets', function () {
     this.collection.post('latest');
     this.collection.post('hottest');
+    this.collection.post('aggregatedLatest');
+    this.collection.post('aggregatedHottest');
 });
 
 app.resource('comments');

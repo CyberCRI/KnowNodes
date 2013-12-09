@@ -1,5 +1,7 @@
 Controller = require '../Controller'
 Triplets = require '../../data/Triplets'
+aggregator = require '../../data/TripletAggregator'
+jsonConverter = require '../../model/conversion/json/AggregatedTripletConverter'
 
 module.exports = class TripletController extends Controller
 
@@ -11,3 +13,11 @@ module.exports = class TripletController extends Controller
 
   hottest: (_) ->
     @dataService.hottest(@getLoggedUserIfExists(_), _)
+
+  aggregatedLatest: (_) ->
+    triplets = @latest _
+    aggregator.aggregateAndConvert triplets, _
+
+  aggregatedHottest: (_) ->
+    triplets = @hottest _
+    aggregator.aggregateAndConvert triplets, _

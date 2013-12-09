@@ -1,3 +1,5 @@
+jsonConverter = require '../model/conversion/json/AggregatedTripletConverter'
+
 makeHash = (triplet) ->
   startId = triplet.startResource.id
   endId = triplet.endResource.id
@@ -43,3 +45,7 @@ module.exports =
           aggregates.push aggregated
 
       aggregates
+
+  aggregateAndConvert: (triplets, _) ->
+    aggregated = @aggregate triplets
+    jsonConverter.convertArray(aggregated, _)

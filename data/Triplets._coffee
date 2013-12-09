@@ -204,7 +204,7 @@ module.exports =
               (user) -[hasVotedDown?:VOTED_DOWN] - (connection),
               (startResourceConnections)-[?:RELATED_TO]-(startResource),
               (endResourceConnections)-[?:RELATED_TO]-(endResource)
-            RETURN upvote, downvote, connection, startResource, endResource, startResourceCreator, endResourceCreator, connectionCreator,
+            RETURN hasVotedUp, hasVotedDown, connection, startResource, endResource, startResourceCreator, endResourceCreator, connectionCreator,
               count(connectionComments) AS connectionCommentsCount,
               count(startResourceConnections) AS startResourceConnectionCount,
               count(endResourceConnections) AS endResourceConnectionCount,
@@ -213,6 +213,8 @@ module.exports =
             ORDER BY connection.__CreatedOn__ DESC
             LIMIT 100
           """
+
+    console.log cypherQuery
 
     results = GraphDB.get().query(cypherQuery, null, _)
     triplets = []

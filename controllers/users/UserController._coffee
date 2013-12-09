@@ -1,6 +1,8 @@
 Controller = require '../Controller'
 Triplets = require '../../data/Triplets'
 Users = require '../../data/Users'
+aggregator = require '../../data/TripletAggregator'
+jsonConverter = require '../../model/conversion/json/AggregatedTripletConverter'
 
 module.exports = class UserController extends Controller
 
@@ -26,3 +28,7 @@ module.exports = class UserController extends Controller
     userId = @getId()
     loggedUserId = @getLoggedUserIdIfExists()
     Triplets.findByUserId(userId, loggedUserId, _)
+
+  aggregatedTriplets: (_) ->
+    triplets = @triplets _
+    aggregator.aggregateAndConvert triplets, _

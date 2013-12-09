@@ -17,3 +17,6 @@ module.exports =
 
   triplets: (request, response) ->
     new UserController(request).triplets(Callback.bind(response))
+
+  aggregatedTriplets: (request, response) ->
+    new UserController(request).aggregatedTriplets(Callback.bind(response))
