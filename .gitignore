@@ -47,3 +47,5 @@ config/*.*
 !social-sharing.css
 
 auth/setup.js
+
+test/data/TripletAggregatorSpec.js
