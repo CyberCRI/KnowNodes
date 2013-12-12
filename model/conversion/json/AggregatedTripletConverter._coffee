@@ -10,10 +10,17 @@ toJSON = (triplet, _) ->
 module.exports =
 
   convertArray: (triplets, _) ->
+    elementArray = []
     jsonArray = []
-    for triplet in triplets
-      json =
+    i = 0
+    while i < triplets.length
+      triplet = triplets[i]
+      json = toJSON(triplet, _)
+      jsonArray[i] = json
+      element =
+        jsonArrayIndex: i
         hasJsonConverter: (_) -> true
-        toJSON: (_) -> toJSON(triplet, _)
-      jsonArray.push json
-    jsonArray
+        toJSON: (_) -> jsonArray[@jsonArrayIndex]
+      elementArray[i] = element
+      i++
+    elementArray
