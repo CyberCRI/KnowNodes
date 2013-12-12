@@ -647,12 +647,6 @@ function ConnectionCtrl($scope, $location) {
 
     }
 
-    $scope.connections = [
-        "parallel connection!",
-        "another parallel connection.",
-        "yep, a parallel connection."
-    ];
-
     $scope.goToUrl = function (something) {
         $location.path(something);
     };

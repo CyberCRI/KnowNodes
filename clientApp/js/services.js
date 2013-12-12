@@ -490,11 +490,11 @@ angular.module('KnowNodesApp.services', [])
         return {
 
             latest: function () {
-                return $http.post('/triplets/latest');
+                return $http.post('/triplets/aggregatedLatest');
             },
 
             hottest: function () {
-                return $http.post('/triplets/hottest');
+                return $http.post('/triplets/aggregatedHottest');
             }
         };
     }])
