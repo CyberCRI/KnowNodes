@@ -165,7 +165,7 @@ function GraphCtrl($scope,$routeParams) {
             labelThreshold: 6,
             defaultEdgeType: 'curve'
         }).graphProperties({
-                minNodeSize: 15,
+                minNodeSize: 5,
                 maxNodeSize: 15,
                 minEdgeSize: 5,
                 maxEdgeSize: 5,
@@ -211,6 +211,11 @@ function GraphCtrl($scope,$routeParams) {
 
         requestAnimationFrame(sigInst.resize.bind(sigInst));
 
+        sigInst.iterNodes(function(node) {
+            if (node['attr']['id'] == $routeParams.id)  {
+                 node.color = '#fc0';
+            }
+        }).draw();
 
         sigInst.bind('downnodes',function(event){
             var node;
