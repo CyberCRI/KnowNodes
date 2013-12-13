@@ -212,9 +212,9 @@ function GraphCtrl($scope,$routeParams) {
         requestAnimationFrame(sigInst.resize.bind(sigInst));
 
         sigInst.iterNodes(function(node) {
-            if (node['attr']['id'] == $routeParams.id)  {
-                 node.color = '#fc0';
-            }
+
+            node.size = node.degree;
+
         }).draw();
 
         sigInst.bind('downnodes',function(event){
