@@ -158,16 +158,16 @@ function GraphCtrl($scope,$routeParams) {
     $scope.$on('$viewContentLoaded', function() {
 
         var sigInst = sigma.init(document.getElementById('sigma-example')).drawingProperties({
-            defaultLabelColor: '#333',
+            defaultLabelColor: '#000',
             defaultLabelSize: 16,
             defaultLabelBGColor: '#fff',
-            defaultLabelHoverColor: '#777',
-            labelThreshold: 6,
+            defaultLabelHoverColor: '#333',
+            labelThreshold: 8,
             defaultEdgeType: 'curve'
         }).graphProperties({
-                minNodeSize: 5,
-                maxNodeSize: 15,
-                minEdgeSize: 5,
+                minNodeSize: 3,
+                maxNodeSize: 20,
+                minEdgeSize: 1,
                 maxEdgeSize: 5,
                 sideMargin: 50
             }).mouseProperties({
@@ -214,6 +214,7 @@ function GraphCtrl($scope,$routeParams) {
         sigInst.iterNodes(function(node) {
 
             node.size = node.degree;
+            node.color = '#bbb'
 
         }).draw();
 
