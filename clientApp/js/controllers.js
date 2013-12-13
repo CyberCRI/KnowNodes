@@ -154,6 +154,13 @@ function MapCtrl($scope, $routeParams) {
 }
 
 function GraphCtrl($scope,$routeParams,$location, userService, resource, wikipedia, wikinode) {
+    if ($routeParams.userid) {
+
+
+    }
+
+    else {
+
     $scope.goToUrl = function (something) {
         $location.path(something);
     };
@@ -210,7 +217,7 @@ function GraphCtrl($scope,$routeParams,$location, userService, resource, wikiped
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
 
     $scope.$broadcast('rootNodeExists', {rootNodeExists: true});
-
+    }
     $scope.$on('$viewContentLoaded', function() {
 
         var sigInst = sigma.init(document.getElementById('sigma-example')).drawingProperties({
