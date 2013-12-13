@@ -17,5 +17,5 @@ module.exports = class GexfController extends Controller
 
   exportResourceTriplets: (_) ->
     resourceId = @request.params.resourceId
-    triplets = Triplets.findByResourceId2dot5(resourceId, @getLoggedUserIfExists(_), _)
+    triplets = Triplets.findByResourceIdFast(resourceId, @getLoggedUserIfExists(_), _)
     GexfRenderer.renderTriplets(triplets, _)

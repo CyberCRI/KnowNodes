@@ -25,8 +25,9 @@ module.exports =
     addedConnectionIds = []
     for connection in connections
       unless connection.id in addedConnectionIds
-        edges.push ConnectionConverter.toGEXF(connection, _)
-        addedConnectionIds.push connection.id
+        if connection.startResourceId in addedResourceIds
+          edges.push ConnectionConverter.toGEXF(connection, _)
+          addedConnectionIds.push connection.id
 
     gexf =
       _name: 'gexf'
