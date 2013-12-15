@@ -248,7 +248,9 @@ function GraphCtrl($scope,$routeParams,$location, userService, resource, wikiped
 
         // Draw the graph, using ForceAtlas layout, which stops after 3 seconds
 
+        setTimeout (function () {
         sigInst.startForceAtlas2();
+        },0,false);
 
         setTimeout(function() {
             sigInst.stopForceAtlas2();
