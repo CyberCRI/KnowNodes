@@ -10,6 +10,8 @@ function TopBarCtrl($rootScope, $scope, $location, resource, userService) {
 
         $scope.resourceId = current.params.id;
 
+        $scope.currentpath = path;    // checking if we're on the path == graph
+
         // Load Karma if necessary
         if ($rootScope.user != null && $rootScope.user.karma == null) {
             userService.getLoggedUserKarma($rootScope.user).success(function (response) {
@@ -31,7 +33,12 @@ function TopBarCtrl($rootScope, $scope, $location, resource, userService) {
                 $location.path('/wikipedia/' + result.id);
                 break;
             case 'Resource':
-                $location.path('/resource/' + result.KN_ID);
+                if ($scope.currentpath == 'graph') {
+                    $location.path('/graph/' + result.KN_ID);
+                }
+                else {
+                    $location.path('/resource/' + result.KN_ID);
+                }
                 break;
         }
     });
@@ -250,7 +257,7 @@ function GraphCtrl($scope,$routeParams,$location, userService, resource, wikiped
 
         setTimeout (function () {
         sigInst.startForceAtlas2();
-        },0,false);
+        },1000,false);
 
         setTimeout(function() {
             sigInst.stopForceAtlas2();
