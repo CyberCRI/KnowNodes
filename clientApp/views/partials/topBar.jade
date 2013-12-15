@@ -4,6 +4,7 @@ div.topbar
   span.topbar-search(search-box)
   span
       a.button-a.button-dark(href="/graph/{{resourceId}}", ng-show="mapButton", target="_self") Graph mode
+      a.button-a.button-dark(href="/graph/{{resourceId}}/user", ng-show="usermapButton", target="_self") Graph mode
       a.button-a.button-dark(ng-href="/article/{{resourceId}}", ng-show="resourceButton") List mode
       span(notifications)
       span.topbar-login(top-bar-login)
