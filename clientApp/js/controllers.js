@@ -204,6 +204,18 @@ function GraphCtrl($scope,$routeParams,$location, userService, resource, wikiped
     $scope.$broadcast('rootNodeExists', {rootNodeExists: true});
 
 
+    if ($routeParams.userid) {
+
+        var $gexftoopen = '/gexf/userTriplets/' + $routeParams.id + '.gexf';
+
+    }
+    else {
+
+        var $gexftoopen = '/gexf/resourceTriplets/' + $routeParams.id + '.gexf';
+    }
+
+    $scope.gexftoopen = $gexftoopen;
+
     $scope.$on('$viewContentLoaded', function() {
 
         var sigInst = sigma.init(document.getElementById('sigma-example')).drawingProperties({
@@ -229,20 +241,10 @@ function GraphCtrl($scope,$routeParams,$location, userService, resource, wikiped
         // If we want to see user's triplets, we request it using path /graph/ID/user
         // Normal concepts are requested using /graph/ID only
 
-        // Here we check if it's a request for a user graph (does it have /user appendix):
 
-        if ($routeParams.userid) {
+            sigInst.parseGexf($gexftoopen);
 
-            // Then get the GEXF file for Sigma that shows user's triplets
-            sigInst.parseGexf('/gexf/userTriplets/' + $routeParams.id + '.gexf');
-        }
 
-        else {
-
-            // Then get the GEXF file that shows all triplets connected to the resource
-            sigInst.parseGexf('/gexf/resourceTriplets/' + $routeParams.id + '.gexf');
-
-        }
 
         // Draw the graph, using ForceAtlas layout, which stops after 3 seconds
 
