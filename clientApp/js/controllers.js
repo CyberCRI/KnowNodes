@@ -5,7 +5,7 @@ function TopBarCtrl($rootScope, $scope, $location, resource, userService) {
     $scope.$on('$routeChangeSuccess', function (event, current, previous) {
         var path = $location.path().split('/')[1];
         $scope.mapButton = (path === 'concept' || path === 'article' || path === 'resource');
-        $scope.resourceButton = (current.$route.controller.name === "MapCtrl");
+        $scope.resourceButton = (current.$route.controller.name === "GraphCtrl");
 
         $scope.resourceId = current.params.id;
 
