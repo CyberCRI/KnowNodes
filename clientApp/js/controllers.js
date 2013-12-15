@@ -269,17 +269,17 @@ function GraphCtrl($scope,$routeParams,$location, userService, resource, wikiped
         // if no ForceAtlas, launch using
         // sigInst.draw();
 
-
-        // Fixes bug where Angular doesn't let Sigma expand its DIV
-
-        requestAnimationFrame(sigInst.resize.bind(sigInst));
-
         sigInst.iterNodes(function(node) {
 
             node.size = node.degree;
             node.color = '#bbb'
 
         }).draw();
+        // Fixes bug where Angular doesn't let Sigma expand its DIV
+
+        requestAnimationFrame(sigInst.resize.bind(sigInst));
+
+
 
         sigInst.bind('downnodes',function(event){
             var node;
@@ -461,7 +461,7 @@ function ConnectionPageCtrl($scope, $routeParams, userService, triplet) {
 
 }
 
-function TripletInputCtrl($scope, $rootScope, $route, wikinode, resource, connection) {
+function TripletInputCtrl($scope, $rootScope, $route, $location, wikinode, resource, connection) {
 
     $scope.reversedDirection = false;
 
@@ -573,12 +573,20 @@ function TripletInputCtrl($scope, $rootScope, $route, wikinode, resource, connec
         console.log("startID: ", startResourceId, "endId: ", endResourceId);
         connection.create(startResourceId, $scope.connectionTitle, $scope.connectionType, endResourceId)
             .success(function (data, status) {
+                var path = $location.path().split('/')[1];
+                if (path === "graph") {
+                    // Are we on the graph view page? If yes, reload the graph (cant use route.reload because of Angular conflict
+                    window.location = '/graph/' + $scope.startResource.KN_ID;
+                }
+                else {
+                    // When a user adds a new connection, they get redirected to their user page to see most recent ones
+                    window.location = '/user/' + $rootScope.user.KN_ID + '/' + $scope.startResource.KN_ID;
 
-                // When a user adds a new connection, they get redirected to their user page to see most recent ones
-                window.location = '/user/' + $rootScope.user.KN_ID + '/' + $scope.startResource.KN_ID;
+                    // If you want that instead the resource page reloads, use this:
+                    // The below directive calls for an Angular reload and it might not work well for Sigma graph view
+                    // $route.reload();
+                }
 
-                // If you want that instead the resource page reloads, use this:
-                // $route.reload();
 
             })
             .error(function (data, status) {
