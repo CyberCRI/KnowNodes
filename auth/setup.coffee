@@ -10,12 +10,12 @@ Logger = require '../log/Logger'
 basicURL = 'http://www.knownodes.com/'
 #basicURL = 'http://localhost:3000/'
 
-logger = new Logger('Callback')
+logger = new Logger('auth/setup')
 
 findByEmail = (email, fn) ->
   callback = (error, result) ->
     if error
-      throw error
+      logger.error(error)
       fn(error)
     else
       fn(null, result)
@@ -41,7 +41,7 @@ module.exports =
     callback = (email, password, done) ->
         findByEmail email, (err, user) ->
           if err
-            throw err
+            logger.error(err)
             done err
           else unless user
             done null, false
