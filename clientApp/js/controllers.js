@@ -198,6 +198,8 @@ function GraphCtrl($scope,$routeParams,$location, userService, resource, wikiped
             }
 
             $scope.knownodeList = resource.relations;
+
+            console.log($scope.knownodeList);
             }
 
 
