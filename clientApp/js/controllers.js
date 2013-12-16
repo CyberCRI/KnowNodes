@@ -278,7 +278,7 @@ function GraphCtrl($scope,$routeParams,$location, userService, resource, wikiped
 
             if (nodeid == $routeParams.id) {
                 node.color = '#777';
-                node.size = node.degree + 5;
+                node.size = node.degree + 3;
             }
             else {
                 node.color = '#bbb';
