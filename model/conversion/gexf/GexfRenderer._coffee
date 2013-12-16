@@ -45,10 +45,7 @@ module.exports =
               _name: 'attributes'
               _attrs:  {class: 'node', mode: 'static'}
               _content: [
-                {
-                  _name: 'attribute'
-                  _attrs: {id: 'bodyText', title: 'bodyText', type: 'string'}
-                }
+
                 {
                   _name: 'attribute'
                   _attrs: {id: 'title', title: 'title', type: 'string'}
@@ -59,27 +56,7 @@ module.exports =
                 }
                 {
                   _name: 'attribute'
-                  _attrs: {id: '__CreatedOn__', title: '__CreatedOn__', type: 'long'}
-                }
-                {
-                  _name: 'attribute'
-                  _attrs: {id: 'nodeType', title: 'nodeType', type: 'string'}
-                }
-                {
-                  _name: 'attribute'
                   _attrs: {id: 'id', title: 'id', type: 'string'}
-                }
-                {
-                  _name: 'attribute'
-                  _attrs: {id: 'creatorID', title: 'creatorID', type: 'string'}
-                }
-                {
-                  _name: 'attribute'
-                  _attrs: {id: 'creatorName', title: 'creatorName', type: 'string'}
-                }
-                {
-                  _name: 'attribute'
-                  _attrs: {id: 'connectionCount', title: 'connectionCount', type: 'integer'}
                 }
               ]
             }
@@ -93,35 +70,11 @@ module.exports =
                 }
                 {
                   _name: 'attribute'
-                  _attrs: {id: 'connectionType', title: 'connectionType', type: 'string'}
-                }
-                {
-                  _name: 'attribute'
                   _attrs: {id: 'KN_ID', title: 'KN_ID', type: 'string'}
                 }
                 {
                   _name: 'attribute'
-                  _attrs: {id: '__CreatedOn__', title: '__CreatedOn__', type: 'long'}
-                }
-                {
-                  _name: 'attribute'
-                  _attrs: {id: 'nodeType', title: 'nodeType', type: 'string'}
-                }
-                {
-                  _name: 'attribute'
                   _attrs: {id: 'id', title: 'id', type: 'string'}
-                }
-                {
-                  _name: 'attribute'
-                  _attrs: {id: 'creatorID', title: 'creatorID', type: 'string'}
-                }
-                {
-                  _name: 'attribute'
-                  _attrs: {id: 'creatorName', title: 'creatorName', type: 'string'}
-                }
-                {
-                  _name: 'attribute'
-                  _attrs: {id: 'commentCount', title: 'commentCount', type: 'integer'}
                 }
               ]
             }
