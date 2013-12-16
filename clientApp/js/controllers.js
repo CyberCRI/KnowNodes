@@ -269,9 +269,23 @@ function GraphCtrl($scope,$routeParams,$location, userService, resource, wikiped
         // sigInst.draw();
 
         sigInst.iterNodes(function(node) {
+            var nodeid = (((node || {}).attr || {}).attributes || []).reduce(function(s, o) {
+                if ((o || {}).attr === 'id')
+                    return o.val;
+                else
+                    return s;
+            }, null);
 
-            node.size = node.degree;
-            node.color = '#bbb'
+            if (nodeid == $routeParams.id) {
+                node.color = '#777';
+                node.size = node.degree + 3;
+            }
+            else {
+                node.color = '#bbb';
+                node.size = node.degree;
+            }
+
+
 
         }).draw();
         // Fixes bug where Angular doesn't let Sigma expand its DIV
