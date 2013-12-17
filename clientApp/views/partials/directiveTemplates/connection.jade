@@ -4,6 +4,6 @@ div
       div.connection-title
         div(vote)
         a(ng-href="/connection/{{connection.KN_ID}}") {{connection.title}}
-      span.dropdown.parallel-button
-        a.dropdown-toggle(title="Click to show parallel connections", ng-show="connection") {{connection.length}} ||
+      span.dropdown.parallel-button(ng-show="triplet.connections[1]")
+        a.dropdown-toggle(title="Click to show parallel connections", ng-show="connection") {{triplet.connections.length}} ||
         div(parallel-connections)

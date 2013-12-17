@@ -653,7 +653,30 @@ function ConnectionCtrl($scope, $location) {
     //define a way for a node to know color based on connectionType
     $scope.BgColorClass = 'explain';
     $scope.colorSwitcher = function () {
-        switch ($scope.triplet.connection.connectionType) {
+        switch ($scope.triplet.connections[0].connectionType) {
+            case "explain":
+                return 'explain';
+                break;
+            case "question":
+                return 'critique';
+                break;
+            case "critique":
+                return 'critique';
+                break;
+            case "inspire":
+                return 'inspire';
+                break;
+            case "Wikipedia Link":
+                return 'auto-generated';
+                break;
+            default:
+                return 'explain';
+        }
+    };
+
+    $scope.parallelColorSwitcher = function (connectionType) {
+        console.log("colorSwitcher", connectionType);
+        switch (connectionType) {
             case "explain":
                 return 'explain';
                 break;

@@ -3,11 +3,10 @@ p.info-line
   a(ng-href="/user/{{triplet.connection.creator.KN_ID}}")
     em.info-name {{triplet.connection.creator.firstName}} {{triplet.connection.creator.lastName}}
 
-
-
   a.pull-right.info-comment(ng-href="/connection/{{triplet.connection.KN_ID}}", ng-switch on="triplet.commentCount")
     span.info-comment-exist(ng-switch-default) {{triplet.commentCount}} comments
     span(ng-switch-when="0") comment
+
   a.pull-right.info-comment.share-button(ng-click="openShareModal()")
     span share
 
