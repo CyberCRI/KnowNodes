@@ -5,9 +5,12 @@ function TopBarCtrl($rootScope, $scope, $location, resource, userService) {
     $scope.$on('$routeChangeSuccess', function (event, current, previous) {
         var path = $location.path().split('/')[1];
         $scope.mapButton = (path === 'concept' || path === 'article' || path === 'resource');
-        $scope.resourceButton = (current.$route.controller.name === "MapCtrl");
+        $scope.usermapButton = (path === 'user');
+        $scope.resourceButton = (current.$route.controller.name === "GraphCtrl");
 
         $scope.resourceId = current.params.id;
+
+        $scope.currentpath = path;    // checking if we're on the path == graph
 
         // Load Karma if necessary
         if ($rootScope.user != null && $rootScope.user.karma == null) {
@@ -30,7 +33,12 @@ function TopBarCtrl($rootScope, $scope, $location, resource, userService) {
                 $location.path('/wikipedia/' + result.id);
                 break;
             case 'Resource':
-                $location.path('/resource/' + result.KN_ID);
+                if ($scope.currentpath == 'graph') {
+                    $location.path('/graph/' + result.KN_ID);
+                }
+                else {
+                    $location.path('/resource/' + result.KN_ID);
+                }
                 break;
         }
     });
@@ -43,22 +51,22 @@ function TopBarCtrl($rootScope, $scope, $location, resource, userService) {
 
 function NotificationsCtrl($scope, notification) {
 
-    notification.getNotifications(function(result) {
+    notification.getNotifications(function (result) {
         $scope.notifications = result;
-        var isReadCount = _.countBy(result, function(notification) {
+        var isReadCount = _.countBy(result, function (notification) {
             return notification.alreadyRead;
         });
         $scope.unreadCount = isReadCount.false;
     });
 
-    $scope.getStyle = function(isRead) {
+    $scope.getStyle = function (isRead) {
         if (isRead)
             return 'background-color:lightgrey';
         else
             return '';
     };
 
-    $scope.markAllAsRead = function() {
+    $scope.markAllAsRead = function () {
         $scope.unreadCount = 0;
         notification.markAllAsRead();
     }
@@ -108,7 +116,7 @@ function LoginCtrl($scope, $location, $rootScope, $window, loginModal, userServi
                 }
                 $rootScope.user = data;
                 if ($scope.newUser === true) {
-                    $location.path('/newUserGuide');
+                    $location.path('/');
                 } else {
                     $window.history.back();
                 }
@@ -153,11 +161,12 @@ function MapCtrl($scope, $routeParams) {
     });
 }
 
+function GraphCtrl($scope,$routeParams,$location, userService, resource, wikipedia, wikinode) {
 
-function TripletListCtrl($scope, $routeParams, $location, userService, resource, wikipedia, wikinode) {
+
     $scope.goToUrl = function (something) {
         $location.path(something);
-};
+    };
 
     // Sort triplets by default the most recent ones at the top
 
@@ -166,8 +175,162 @@ function TripletListCtrl($scope, $routeParams, $location, userService, resource,
     // $scope.orderProp = "-(upvotes-downvotes)";
 
 
-        // First, check whether the resource is a KN Resource or a Wikipedia Article
-        if ($routeParams.id != null) {
+    // First, check whether the resource is a KN Resource or a Wikipedia Article
+    if ($routeParams.id != null) {
+        // KN Resource
+        resource.get($routeParams.id).then(function (resource) {
+
+            $scope.concept = resource;
+
+            if ($scope.concept.nodeType == 'kn_Post') {
+
+
+            $scope.rootNodeExists = true;
+
+            if ($scope.concept.url != null && $scope.concept.url.match(/youtube.com/ig)) {
+                var search = $scope.concept.url.split('?')[1];
+                var video_id = search.split('v=')[1];
+                var ampersandPosition = video_id.indexOf('&');
+                if (ampersandPosition != -1) {
+                    video_id = video_id.substring(0, ampersandPosition);
+                }
+                $scope.videoLink = video_id;
+            }
+
+            $scope.knownodeList = resource.relations;
+
+            console.log($scope.knownodeList);
+            }
+
+
+        });
+    }
+
+    $scope.addNode = false;
+    $scope.currentKnownode = {};
+    $scope.isUserLoggedIn = userService.isUserLoggedIn();
+
+    $scope.$broadcast('rootNodeExists', {rootNodeExists: true});
+
+
+    if ($routeParams.userid) {
+
+        var $gexftoopen = '/gexf/userTriplets/' + $routeParams.id + '.gexf';
+
+    }
+    else {
+
+        var $gexftoopen = '/gexf/resourceTriplets/' + $routeParams.id + '.gexf';
+    }
+
+    $scope.gexftoopen = $gexftoopen;
+
+    $scope.$on('$viewContentLoaded', function() {
+
+        var sigInst = sigma.init(document.getElementById('sigma-example')).drawingProperties({
+            defaultLabelColor: '#000',
+            defaultLabelSize: 16,
+            defaultLabelBGColor: '#fff',
+            defaultLabelHoverColor: '#333',
+            labelThreshold: 8,
+            defaultEdgeType: 'curve'
+        }).graphProperties({
+                minNodeSize: 3,
+                maxNodeSize: 20,
+                minEdgeSize: 1,
+                maxEdgeSize: 5,
+                sideMargin: 10
+            }).mouseProperties({
+                maxRatio: 32
+            });
+
+        // Parse a GEXF encoded file to fill the graph
+        // (requires "sigma.parseGexf.js" to be included)
+
+        // If we want to see user's triplets, we request it using path /graph/ID/user
+        // Normal concepts are requested using /graph/ID only
+
+
+            sigInst.parseGexf($gexftoopen);
+
+
+
+        // Draw the graph, using ForceAtlas layout, which stops after 3 seconds
+
+        setTimeout (function () {
+        sigInst.startForceAtlas2();
+        },1000,false);
+
+        setTimeout(function() {
+            sigInst.stopForceAtlas2();
+        },3000);
+
+        // if no ForceAtlas, launch using
+        // sigInst.draw();
+
+        sigInst.iterNodes(function(node) {
+            var nodeid = (((node || {}).attr || {}).attributes || []).reduce(function(s, o) {
+                if ((o || {}).attr === 'id')
+                    return o.val;
+                else
+                    return s;
+            }, null);
+
+            if (nodeid == $routeParams.id) {
+                node.color = '#777';
+                node.size = node.degree + 3;
+            }
+            else {
+                node.color = '#bbb';
+                node.size = node.degree;
+            }
+
+
+
+        }).draw();
+        // Fixes bug where Angular doesn't let Sigma expand its DIV
+
+        requestAnimationFrame(sigInst.resize.bind(sigInst));
+
+
+
+        sigInst.bind('downnodes',function(event){
+            var node;
+            sigInst.iterNodes(function(n){
+                node = n;
+            },[event.content[0]]);
+
+            var url = (((node || {}).attr || {}).attributes || []).reduce(function(s, o) {
+                if ((o || {}).attr === 'id')
+                    return o.val;
+                else
+                    return s;
+            }, null);
+
+            if (url)
+                window.location = '/graph/' + url;
+        });
+
+
+    });
+
+}
+
+
+function TripletListCtrl($scope, $routeParams, $location, userService, resource, wikipedia, wikinode) {
+    $scope.goToUrl = function (something) {
+        $location.path(something);
+    };
+
+    // Sort triplets by default the most recent ones at the top
+
+    $scope.orderProp = "-connection.__CreatedOn__";
+
+    // $scope.orderProp = "-(upvotes-downvotes)";
+
+
+    // First, check whether the resource is a KN Resource or a Wikipedia Article
+    if ($routeParams.id != null) {
         // KN Resource
         resource.get($routeParams.id).then(function (resource) {
             $scope.concept = resource;
@@ -277,7 +440,6 @@ function addCommentCtrl($scope, $routeParams, userService, broadcastService, com
     $scope.form.originalObject.id = objectId;
 
     $scope.submitComment = function (originalObjectId) {
-        $scope.commentSubmitted = true;
         $scope.submitMade = false;
         $scope.submitNotMade = false;
 
@@ -312,12 +474,7 @@ function ConnectionPageCtrl($scope, $routeParams, userService, triplet) {
 
 }
 
-function TripletInputCtrl($scope, $rootScope, $route, wikinode, resource, connection) {
-
-    $scope.tutorialText = {};
-    $scope.tutorialText.startResource = 'Put here any web resource or insight you wish to connect.';
-    $scope.tutorialText.connection = 'Here you describe how the first resource is connected to the second resource.';
-    $scope.tutorialText.endResource = 'Here you enter the other resource you wish to connect.';
+function TripletInputCtrl($scope, $rootScope, $route, $location, wikinode, resource, connection) {
 
     $scope.reversedDirection = false;
 
@@ -429,12 +586,20 @@ function TripletInputCtrl($scope, $rootScope, $route, wikinode, resource, connec
         console.log("startID: ", startResourceId, "endId: ", endResourceId);
         connection.create(startResourceId, $scope.connectionTitle, $scope.connectionType, endResourceId)
             .success(function (data, status) {
+                var path = $location.path().split('/')[1];
+                if (path === "graph") {
+                    // Are we on the graph view page? If yes, reload the graph (cant use route.reload because of Angular conflict
+                    window.location = '/graph/' + $scope.startResource.KN_ID;
+                }
+                else {
+                    // When a user adds a new connection, they get redirected to their user page to see most recent ones
+                    window.location = '/user/' + $rootScope.user.KN_ID + '/' + $scope.startResource.KN_ID;
 
-               // When a user adds a new connection, they get redirected to their user page to see most recent ones
-                window.location = '/user/' + $rootScope.user.KN_ID + '/' + $scope.startResource.KN_ID;
+                    // If you want that instead the resource page reloads, use this:
+                    // The below directive calls for an Angular reload and it might not work well for Sigma graph view
+                    // $route.reload();
+                }
 
-               // If you want that instead the resource page reloads, use this:
-               // $route.reload();
 
             })
             .error(function (data, status) {
@@ -547,10 +712,11 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
         },
 
         formatResult: function (node) {
-            $(function() { $('.tip').tooltip(); });
+            $(function () {
+                $('.tip').tooltip();
+            });
 
-            function strip(html)
-            {
+            function strip(html) {
                 var tmp = document.createElement("DIV");
                 tmp.innerHTML = html;
                 return tmp.textContent || tmp.innerText || "";
@@ -573,11 +739,11 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
                 else {
                     markup += "<div class='suggestion-body create-resource scrap-body'>" + node.body + "</p><img onerror='this.style.display = \"none\"' class='scrap-body-img' src=" + node.image + "></img></div></td>";
                 }
-            } else if(node.snippet === undefined){
-                markup += "<td class='suggestion-info'><div class='suggestion-title' data-placement='right'>" + node.text+ "</div></td>";
+            } else if (node.snippet === undefined) {
+                markup += "<td class='suggestion-info'><div class='suggestion-title' data-placement='right'>" + node.text + "</div></td>";
             }
             else {
-                markup += "<td class='suggestion-info'><div class='suggestion-title tip' data-toggle='tooltip' data-placement='right' data-original-title='" + strip(node.snippet) + "'>" + node.text+ "</div></td>";
+                markup += "<td class='suggestion-info'><div class='suggestion-title tip' data-toggle='tooltip' data-placement='right' data-original-title='" + strip(node.snippet) + "'>" + node.text + "</div></td>";
             }
             if (node.type === 'Wikipedia Article') {
                 markup += "<td class='suggestion-image'><img src='img/wikipedia-icon.png' style='height:1.5em; max-width:none; position: absolute; right: 5px;'/></td>";
@@ -600,7 +766,7 @@ function SearchBoxCtrl($scope, $timeout, hybridSearch, resource, resourceModal, 
                     resourceModal.open(result.title).then(function (createdResource) {
                         createdResource.type = 'Resource';
                         $scope.$emit('searchResultSelected', createdResource);
-                      });
+                    });
                     break;
                 case 'Link to Resource':
                     $scope.$emit('searchResultSelected', {
@@ -710,14 +876,14 @@ function VoteCtrl($scope, $http, loginModal) {
             $scope.upActive = !$scope.upActive;
             if ($scope.upActive === true) {
                 $scope.downActive = false;
-                console.log("up+vote:",$scope.triplet.connection.KN_ID);
+                console.log("up+vote:", $scope.triplet.connection.KN_ID);
                 $http.post('/vote/voteUp/', {connectionId: $scope.triplet.connection.KN_ID});
                 $scope.triplet.upvotes += 1;
             }
             if ($scope.upActive === false) {
                 $scope.downActive = false;
                 $scope.upVoteClass = "";
-                console.log("cancel+vote:",$scope.triplet.connection.KN_ID);
+                console.log("cancel+vote:", $scope.triplet.connection.KN_ID);
                 $http.post('/vote/cancelVote/', {connectionId: $scope.triplet.connection.KN_ID});
                 $scope.triplet.upvotes -= 1;
             }
@@ -754,7 +920,7 @@ function UserProfilePageCtrl($scope, $location, $routeParams, resource, userServ
     $scope.knownodeList = {};
     $scope.isUserLoggedIn = userService.isUserLoggedIn();
 
-    triplet.findByUserId($routeParams.id).success( function(data) {
+    triplet.findByUserId($routeParams.id).success(function (data) {
         $scope.knownodeList = data;
         userService.getUserKarma($scope.knownodeList[0].connection.creator.KN_ID).success(function (response) {
             $scope.userKarma = response.karma;
@@ -771,8 +937,8 @@ function UserProfilePageCtrl($scope, $location, $routeParams, resource, userServ
     // Load the resource from which the User came to their Profile page as the StartResource for the Triplet
 
     if ($routeParams.rid) {
-    // First, check whether the resource is a KN Resource or a Wikipedia Article
-    // KN Resource
+        // First, check whether the resource is a KN Resource or a Wikipedia Article
+        // KN Resource
         resource.get($routeParams.rid).then(function (resource) {
             $scope.startResource = resource;
         });
@@ -782,16 +948,16 @@ function UserProfilePageCtrl($scope, $location, $routeParams, resource, userServ
 
 function InfoLineCtrl($scope, userService, $http, shareModal) {
 
-    $scope.openShareModal = function() {
-         $scope.sharedConnection = {};
-         $scope.sharedConnection.title = $scope.triplet.startResource.title +" "+ $scope.triplet.connection.title +" "+ $scope.triplet.endResource.title;
-         $scope.sharedConnection.KN_ID = $scope.triplet.connection.KN_ID;
-         console.log("kn_id", $scope.triplet.connection.KN_ID);
-         shareModal.open($scope.sharedConnection);
+    $scope.openShareModal = function () {
+        $scope.sharedConnection = {};
+        $scope.sharedConnection.title = $scope.triplet.startResource.title + " " + $scope.triplet.connection.title + " " + $scope.triplet.endResource.title;
+        $scope.sharedConnection.KN_ID = $scope.triplet.connection.KN_ID;
+        console.log("kn_id", $scope.triplet.connection.KN_ID);
+        shareModal.open($scope.sharedConnection);
     }
 
 
-    $scope.checkOwnership = function(ownerId){
+    $scope.checkOwnership = function (ownerId) {
         if (userService.isUserLoggedIn()) {
             return ownerId === userService.getConnectedUser().KN_ID;
         }
@@ -799,8 +965,8 @@ function InfoLineCtrl($scope, userService, $http, shareModal) {
     }
     $scope.deleteConnection = function (id, index) {
         console.log(index);
-        if (confirm("Are you sure you want to delete this connection? " + $scope.triplet.startResource.title +" "+ $scope.triplet.connection.title +" "+ $scope.triplet.endResource.title)) {
-            $http.delete('/connections/'+ $scope.triplet.connection.KN_ID).success(function (data, status, headers, config) {
+        if (confirm("Are you sure you want to delete this connection? " + $scope.triplet.startResource.title + " " + $scope.triplet.connection.title + " " + $scope.triplet.endResource.title)) {
+            $http.delete('/connections/' + $scope.triplet.connection.KN_ID).success(function (data, status, headers, config) {
                 console.log(data);
                 alert("the connection has been successfully deleted");
                 if (data == "forceDelete") {
@@ -816,7 +982,7 @@ function InfoLineCtrl($scope, userService, $http, shareModal) {
                     $scope.triplet.connection.creator.lastName = "";
                 }
 
-                });
+            });
         }
     }
 }
@@ -824,9 +990,9 @@ function InfoLineCtrl($scope, userService, $http, shareModal) {
 function ShareConnectionModalCtrl($scope, dialog) {
 
     $scope.title = {title: dialog.options.title};
-    $scope.connectionURL = {url:dialog.options.url};
+    $scope.connectionURL = {url: dialog.options.url};
     $scope.close = function () {
-         dialog.close();
+        dialog.close();
     };
 
 }

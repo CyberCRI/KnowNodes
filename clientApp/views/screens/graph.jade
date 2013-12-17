@@ -1,9 +1,28 @@
+link(rel='stylesheet', href='js/lib/sigma/sigma.css')
+
+script(type="text/javascript", src="js/lib/sigma/sigma.min.js")
+script(type="text/javascript", src="js/lib/sigma/sigma.parseGexf.js")
+script(type="text/javascript", src="js/lib/sigma/sigma.forceatlas2.js")
+script(type="text/javascript", src="js/lib/jquery-plugins/jquery-ui-1.10.3.custom.js")
+script(type="text/javascript", src="js/lib/jquery-plugins/jquery.layout-latest.js")
+script(type="text/javascript", src="js/lib/jquery-plugins/jquery.mousewheel.js")
+
 div.container-fluid
     div.topbar-gap &nbsp
+    br
+
+    #sigma-example-parent.sigma-parent
+        #sigma-example.sigma-expand
+
+        br
+
+    div.row-fluid &nbsp
+        br
+    br &nbsp
+
     div.row-fluid
         div.span9.offset3(style="margin:0px;")
             div(triplet-input).input-interface
-
         div.location-info.span9.offset3
             accordion
                 accordion-group(heading="{{concept.title}}", is-open='true')
@@ -12,15 +31,16 @@ div.container-fluid
                             a(ng-href="{{concept.url}}") {{concept.url}}
                         p.bold(ng-show="concept.wikipediaLinks && !concept.url")
                             a(ng-href="http://en.wikipedia.org/wiki/{{concept.title}}", target="_blank") http://en.wikipedia.org/wiki/{{concept.title}}
-
                         p(ng-show="concept.fileName") Download:
                             a(class="btn-info",href="/knownodeFiles/:{{concept.fileId}}", target="_blank", ng-show="concept.fileName") &nbsp;{{concept.fileName}}&nbsp;
                         div(ng-bind-html-unsafe="concept.bodyText")
                         br
+                        button(type="button", onclick="window.open('{{gexftoopen}}', '_blank');") Export Graph
+                        br
+
         div.span21.offset3.sort-div
             span.btn.btn-link.sort-header sort:
             div.btn-group(data-toggle="buttons-radio")
                 button.btn.btn-link(type="button", ng-click="orderProp='-(upvotes - downvotes)'") Popular
                 button.btn.btn-link.active-red(type="button", ng-click="orderProp='-connection.__CreatedOn__'") New
-                //button.btn.btn-link(type="button", ng-click="orderProp='votes'") Popular
     div(triplet-list)
