@@ -13,29 +13,28 @@
         label(for='bodyText') Text body (abstract, summery or additional information): &nbsp;(optional)
         textarea(ui-tinymce, class="input-xxlarge", placeholder="Abstract or summery of the resource", ng-model='resourceToCreate.bodyText', name='bodyText', rows='5', style='width:100%')
 
-    //  HIDE FOR NOW
-        p
-            label(for='articleFile') PDF File:
-            input(nclass="input-xxlarge", placeholder="Attach a file", g-model='file', name='file', type='file', ng-model-instant, multiple, onchange="angular.element(this).scope().setFiles(this)")
+    p
+        label(for='articleFile') PDF File:
+        input(nclass="input-xxlarge", placeholder="Attach a file", g-model='file', name='file', type='file', ng-model-instant, multiple, onchange="angular.element(this).scope().setFiles(this)")
 
-        div(id="dropbox", class="dropbox", ng-class="dropClass")
-                span
-                    p {{dropText}}
-            span.label.label-info .PDF Files - up to 16Mb
-            div(ng-show="files.length")
-            div(ng-repeat="file in files.slice(0)")
-                span
-                    p {{file.webkitRelativePath || file.name}}
-                span(ng-switch="file.size > 1024*1024")
-                span(ng-switch-when="true")
-                    p {{file.size / 1024 / 1024 | number:2}} MB
-                span(ng-switch-default)
-                    p {{file.size / 1024 | number:2}} kB
-            div(ng-show="progressVisible")
-                div(class="percent")
-                    p {{progress}}%
-                div(class="progress-bar")
-                    div(class="uploaded", ng-style="{'width': progress+'%'}")
+    div(id="dropbox", class="dropbox", ng-class="dropClass")
+            span
+                p {{dropText}}
+        span.label.label-info .PDF Files - up to 16Mb
+        div(ng-show="files.length")
+        div(ng-repeat="file in files.slice(0)")
+            span
+                p {{file.webkitRelativePath || file.name}}
+            span(ng-switch="file.size > 1024*1024")
+              span(ng-switch-when="true")
+                  p {{file.size / 1024 / 1024 | number:2}} MB
+              span(ng-switch-default)
+                  p {{file.size / 1024 | number:2}} kB
+        div(ng-show="progressVisible")
+            div(class="percent")
+                p {{progress}}%
+            div(class="progress-bar")
+                div(class="uploaded", ng-style="{'width': progress+'%'}")
 
 .modal-footer
     button.btn.btn-warning(ng-click="close()") Close
