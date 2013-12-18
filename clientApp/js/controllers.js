@@ -34,7 +34,7 @@ function TopBarCtrl($rootScope, $scope, $location, resource, userService) {
                 break;
             case 'Resource':
                 if ($scope.currentpath == 'graph') {
-                    $location.path('/graph/' + result.KN_ID);
+                    window.open('/graph/' + result.KN_ID,'_self');
                 }
                 else {
                     $location.path('/resource/' + result.KN_ID);
