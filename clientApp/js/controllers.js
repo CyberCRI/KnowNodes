@@ -81,16 +81,95 @@ function CreateResourceModalCtrl($scope, dialog, resource) {
     };
 
     $scope.submit = function () {
-        $scope.submitted = true;
-        $scope.resourceToCreate.title = capitaliseFirstLetter($scope.resourceToCreate.title);
-        resource.create($scope.resourceToCreate).then(function (createdResource) {
-            dialog.close(createdResource);
-        });
+        if ($scope.files && $scope.files.length > 0) {
+            uploadFile();
+        } else {
+            submitForm();
+        }
+
     };
     function capitaliseFirstLetter(string)
     {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
+
+    $scope.setFiles = function (element) {
+        $scope.$apply(function (scope) {
+            console.log('files:', element.files);
+            // Turn the FileList object into an Array
+            scope.files = [];
+            for (var i = 0; i < element.files.length; i++) {
+                scope.files.push(element.files[i]);
+            }
+            scope.progressVisible = false;
+        });
+    };
+
+    var uploadFile = function () {
+        var i, fd = new FormData();
+        for (i in $scope.files) {
+            fd.append("uploadedFile", $scope.files[i]);
+        }
+        var xhr = new XMLHttpRequest()
+        xhr.upload.addEventListener("progress", uploadProgress, false);
+        xhr.addEventListener("load", uploadComplete, false);
+        xhr.addEventListener("error", uploadFailed, false);
+        xhr.addEventListener("abort", uploadCanceled, false);
+        //fd.append($scope.form)
+        xhr.open("POST", "/knownodeFiles");
+        $scope.progressVisible = true;
+        xhr.send(fd);
+    }
+
+    function uploadProgress(evt) {
+        $scope.$apply(function () {
+            if (evt.lengthComputable) {
+                $scope.progress = Math.round(evt.loaded * 100 / evt.total);
+            } else {
+                $scope.progress = 'unable to compute';
+            }
+        })
+    }
+
+    function uploadComplete(evt) {
+        /* This event is raised when the server send back a response */
+        var response = JSON.parse(evt.target.responseText);
+        if (response.error) {
+            $scope.errorMessage = response.error.stack;
+            return;
+        }
+        if (JSON.parse(evt.target.responseText).success) {
+            var fileData = JSON.parse(evt.target.responseText).success;
+            $scope.form.knownodeForm.fileId = fileData.files[0]._id;
+            $scope.form.knownodeForm.fileName = fileData.files[0].filename;
+            $scope.form.knownodeForm.fileData = JSON.stringify(fileData);
+            submitForm();
+        }
+        else {
+            $scope.error = JSON.parse(evt.target.responseText).error;
+        }
+        //$location.path('/AddEdge');
+    }
+
+    function uploadFailed(evt) {
+        $scope.errorMessage = "There was an error attempting to upload the file.";
+    }
+
+    function uploadCanceled(evt) {
+        $scope.$apply(function () {
+            $scope.progressVisible = false;
+        });
+        $scope.errorMessage = "The upload has been canceled by the user or the browser dropped the connection.";
+    }
+
+    function submitForm() {
+        $scope.submitted = true;
+        $scope.resourceToCreate.title = capitaliseFirstLetter($scope.resourceToCreate.title);
+        resource.create($scope.resourceToCreate).then(function (createdResource) {
+            dialog.close(createdResource);
+        });
+    }
+
 }
 
 function LoginCtrl($scope, $location, $rootScope, $window, loginModal, userService) {
