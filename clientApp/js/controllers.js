@@ -225,7 +225,9 @@ function GraphCtrl($scope,$routeParams,$location, userService, resource, wikiped
 
     $scope.gexftoopen = $gexftoopen;
 
-    $scope.$on('$viewContentLoaded', function() {
+    $scope.$evalAsync(function() {
+
+        // Initialize sigma and basic settings
 
         var sigInst = sigma.init(document.getElementById('sigma-example')).drawingProperties({
             defaultLabelColor: '#000',
@@ -244,22 +246,19 @@ function GraphCtrl($scope,$routeParams,$location, userService, resource, wikiped
                 maxRatio: 32
             });
 
-        // Parse a GEXF encoded file to fill the graph
-        // (requires "sigma.parseGexf.js" to be included)
 
-        // If we want to see user's triplets, we request it using path /graph/ID/user
-        // Normal concepts are requested using /graph/ID only
+        // Fix window resize bug
 
+        requestAnimationFrame(sigInst.resize.bind(sigInst));
 
-            sigInst.parseGexf($gexftoopen);
+        // Parse GEPHI file
 
+        sigInst.parseGexf($gexftoopen);
 
 
         // Draw the graph, using ForceAtlas layout, which stops after 3 seconds
 
-        setTimeout (function () {
         sigInst.startForceAtlas2();
-        },1000,false);
 
         setTimeout(function() {
             sigInst.stopForceAtlas2();
@@ -267,6 +266,9 @@ function GraphCtrl($scope,$routeParams,$location, userService, resource, wikiped
 
         // if no ForceAtlas, launch using
         // sigInst.draw();
+
+
+        // Range nodes by size, color all nodes gray and the central one black
 
         sigInst.iterNodes(function(node) {
             var nodeid = (((node || {}).attr || {}).attributes || []).reduce(function(s, o) {
@@ -288,11 +290,13 @@ function GraphCtrl($scope,$routeParams,$location, userService, resource, wikiped
 
 
         }).draw();
+
         // Fixes bug where Angular doesn't let Sigma expand its DIV
 
         requestAnimationFrame(sigInst.resize.bind(sigInst));
 
 
+        // What happens when a user clicks on a node
 
         sigInst.bind('downnodes',function(event){
             var node;
