@@ -1,0 +1,52 @@
+ //        mysql url : 'us-cdbr-east-03.cleardb.com',
+var DBDetails = {
+    production:
+    {
+        neo4j: {
+            protocol: 'http',
+            url: 'localhost',
+            port: 20665,
+            additionalQuery: ''
+            // If you are using localhost there is no need for password/username
+            //username: 'neo4jusername',
+            //password: 'neo4jpassword',
+        },
+        mongoDB : {
+            protocol: 'mongodb',
+            url: 'example.com',
+            port: 45637,
+            username: 'mongo_username',
+            password: 'mong_password',
+            additionalQuery: 'you_might_need_this',
+            name: 'postDB'
+        },
+        mysql: {
+            protocol: 'mysql',
+            url : 'mysql.example.com',
+            host: 'mysql.example.com',
+            port: 5527,
+            username: 'mysqlusername',
+            password: 'mysqlpassword',
+            additionalQuery: 'you_might_need_this',
+            database: 'knownodes'
+        }
+    },
+    development: {
+        // same as production only for development
+    },
+};
+
+exports.getDBURL = function(db){
+    var curDB = DBDetails[process.env.NODE_ENV][db];
+    return {
+        url: curDB.protocol + '://' + curDB.username + ':' + curDB.password + '@' + curDB.url + ':' + curDB.port +
+            '/' + curDB.additionalQuery,
+        port: curDB.port,
+        dbName: curDB.name
+    };
+};
+
+exports.getDBDetails = function(db) {
+    var curDB = DBDetails[process.env.NODE_ENV][db]
+    return curDB;
+}

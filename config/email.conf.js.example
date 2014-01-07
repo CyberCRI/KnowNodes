@@ -1,0 +1,13 @@
+var emailConf = {
+    smtp : {
+        service: "Gmail",
+        auth: {
+            user: "this-isnt-working-yet@gmail.com",
+            pass: "half-working"
+        }
+    }
+}
+
+exports.getEmailConfiguration = function() {
+    return emailConf;
+}

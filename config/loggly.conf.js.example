@@ -1,0 +1,21 @@
+logglyConfig = {
+    production: {
+        auth: {
+            username: "mylogglyusername",
+            password: "mylogglypassword"
+        },
+        subdomain: "knownodes"
+    },
+    development: {
+        auth: {
+            username: "mylogglyusername",
+            password: "mylogglypassword"
+        },
+        subdomain: "knownodes"
+    },
+};
+
+exports.getLogglyConfig = function() {
+    return logglyConfig[process.env.NODE_ENV];
+
+};

@@ -1,0 +1,10 @@
+settings = {
+    cookie_secret: 'mycookiesecret',
+    session_db_url: 'mongodb://myusername:mypassword@ds123456.mongolab.com:49347/myapp',
+    session_db: 'myapp',
+    url_scraper: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+}
+
+exports.getSettings = function() {
+    return settings;
+}
