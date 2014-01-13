@@ -1,7 +1,8 @@
 KnowNodes
 =========
 
-A place to create and explore interesting connections between things.
+Wordpress for knowledge graphs.
+An open, customisable middleware for groups of people to organise their knowledge and actions. 
 
 Check out the current prototype
 www.knownodes.com
