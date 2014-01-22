@@ -390,7 +390,7 @@ angular.module('KnowNodesApp.directives', [])
     .directive('searchBox', ['$http', function ($http) {
         return {
             restrict: 'EA',
-            template: '<input ui-select2="searchBoxOptions" ng-model="selectedResult" data-placeholder="Find or create a resource..." multiple type="hidden" />',
+            template: '<input ui-select2="searchBoxOptions" ng-model="selectedResult" data-placeholder="Find or create an object or location..." multiple type="hidden" />',
             scope: {},
             controller: SearchBoxCtrl,
             replace: true,

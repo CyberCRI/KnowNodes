@@ -1,6 +1,6 @@
 div
   div.popover.top.input-indicator
-    div.popover-content(style="text-align:center") Create a connection.
+    div.popover-content(style="text-align:center") Add a new object here.
       a.tutorial-toggle(onclick="$('body').chardinJs('toggle')") Click here for help
     div.arrow
     div.input-triplet
@@ -8,7 +8,7 @@ div
       div(connection-input)
       div(data-intro="{{tutorialText.endResource}}", data-position="right", resource-input, resource="endResource")
       div.text-center.input-link-type
-        p.text-center.input-link-type-text Why did you make this connection?
+        p.text-center.input-link-type-text Mark where the?
 
         div.btn-group.input-link-type-buttons(data-toggle="buttons-radio")
           button.btn.button-base.button-explain(type="button", ng-click="categoryClick('explain')", ng-class="activeSwitch('active-input')") Potential
